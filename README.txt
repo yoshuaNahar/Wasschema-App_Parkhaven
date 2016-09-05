@@ -1,4 +1,4 @@
-## Laundry Schedule for Parkhaven
+##Laundry Schedule for Parkhaven
 
 A hobby project to get a better understanding in JavaEE.
 

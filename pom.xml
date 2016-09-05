@@ -18,7 +18,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- Neccesary -->
+		<!-- Needed -->
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
@@ -45,7 +45,7 @@
 			<version>6.0.3</version>
 		</dependency>
 
-		<!-- Core Servlet -->
+		<!-- Core -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -74,6 +74,20 @@
 
 	<build>
 		<finalName>WasSchema</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://95.85.35.169:8008/manager/text</url>
+					<server>digitalOcean</server>
+					<path>/WasSchema</path>
+					<update>true</update>
+				</configuration>
+			</plugin>
+		</plugins>
 	</build>
 
 	<properties>
