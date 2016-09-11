@@ -2,17 +2,17 @@ package nl.parkhaven.service;
 
 
 import nl.parkhaven.dao.AppointmentDAO;
-import nl.parkhaven.entity.AppointmentPlacer;
+import nl.parkhaven.entity.Appointment;
 
 public class AppointmentService {
 
 	private AppointmentDAO appointmentDAO = new AppointmentDAO();
 
-	private AppointmentPlacer ap;
+	private Appointment ap;
 
 	private String appointmentErrorMessage;
 
-	public AppointmentService(AppointmentPlacer ap) {
+	public AppointmentService(Appointment ap) {
 		this.ap = ap;
 	}
 

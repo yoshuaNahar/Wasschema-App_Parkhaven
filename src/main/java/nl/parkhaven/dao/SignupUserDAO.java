@@ -13,7 +13,7 @@ import nl.parkhaven.entity.User;
 public class SignupUserDAO extends JavathlonJdbcTemplate<User> {
 
 	String getAllMembersSql = "SELECT email, firstname, lastname, huisnummer, registrationDate FROM demo.kees";
-	String insertMemberSql = "INSERT INTO kees(email, firstname, lastname, password, huisnummer, registrationDate) VALUES ( :email , :firstname , :lastname , :password , :huisnummer , :registrationDate );";
+	String insertMemberSql = "INSERT INTO parkhaven(voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, registrationDate) VALUES ( :email , :firstname , :lastname , :password , :huisnummer , :registrationDate );";
 
 	public List<User> getAllMembers() {
 		List<User> allMembers = this.getList(getAllMembersSql, new SqlParameterValues(), new UserInfoRowMapper());
@@ -37,25 +37,4 @@ public class SignupUserDAO extends JavathlonJdbcTemplate<User> {
 		User member = this.queryForObject(sql, new SqlParameterValues().addValue("email", email), new UserInfoRowMapper());
 		return member;
 	}
-
-	// Debug Code!
-	/*
-	public static void main (String args[]){
-		RegisterMember member = new RegisterMember();
-		RegisterMemberDAO memberDao = new RegisterMemberDAO();
-		try {
-			//member = memberDao.getMemberByUserName("talhaocakci");
-			member.setFirstname("george");
-			member.setLastname("lucas");
-			member.setPassword("glucas");
-			member.setEmail("glucass@hotmail.com");
-			member.setHuisnummer("251");
-			memberDao.insertMember(member);	
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		System.out.println(member.getFirstname()+ " " + member.getLastname());
-	}
-	*/
 }

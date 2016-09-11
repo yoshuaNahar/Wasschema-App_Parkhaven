@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.parkhaven.dao.ShowDataDAO;
-import nl.parkhaven.entity.AppointmentPlacer;
+import nl.parkhaven.entity.Appointment;
 import nl.parkhaven.entity.User;
 import nl.parkhaven.pojo.DatePlacer;
 import nl.parkhaven.service.AppointmentService;
@@ -84,7 +84,7 @@ public class FrontControllerServlet extends HttpServlet {
 				signinService.signinMember();
 				if(signinService.correctCredentials())
 					//request.getSession().setAttribute("member", memberService.getLogedinUser());
-					request.getSession().setAttribute("userHuisnummer", signinService.getLogedinUser().getHuisnummer());
+					request.getSession().setAttribute("userHuisnummer", signinService.getSignedinUser().getHuisnummer());
 				else
 					request.setAttribute("errorMessage", signinService.getSigninErrorMessage());
 			}
@@ -104,7 +104,7 @@ public class FrontControllerServlet extends HttpServlet {
 		String machine = request.getParameter("machine");
 		String userHuisnummer = (String) request.getSession().getAttribute("userHuisnummer");
 
-		AppointmentPlacer ap = new AppointmentPlacer();
+		Appointment ap = new Appointment();
 		ap.setDay(day);
 		ap.setTime(time);
 		ap.setMachinenummer(machine);

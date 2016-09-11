@@ -42,6 +42,7 @@ public class SqlBindingUtil {
 		return parameters;
 	}
 
+	@SuppressWarnings("unused")
 	public static String convertToStandartBindings(String sql) {
 		StringBuffer buffer = new StringBuffer();
 		char[] statement = sql.toCharArray();

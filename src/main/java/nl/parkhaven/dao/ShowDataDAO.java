@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import nl.parkhaven.util.DBConnectionUtil;
+import nl.parkhaven.util.Database;
 
 public class ShowDataDAO {
 
@@ -28,7 +28,7 @@ public class ShowDataDAO {
 		ResultSet rs2 = null;
 
 		try {
-			con = DBConnectionUtil.getConnection();
+			con = Database.getConnection();
 
 			showDataStmt1 = con.createStatement();
 			rs1 = showDataStmt1.executeQuery(SHOW_HUISNUMMERS_MACHINE1_SQL);

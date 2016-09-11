@@ -7,6 +7,7 @@ import nl.parkhaven.dao.dbUtil.SqlRowMapper;
 import nl.parkhaven.entity.User;
 
 public class UserInfoRowMapper implements SqlRowMapper<User> {
+
 	public User mapSqlToObject(ResultSet resultSet) throws SQLException {
 		User member = new User();
 		member.setEmail(resultSet.getString(1));

@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 
 import com.mysql.cj.api.jdbc.Statement;
 
-import nl.parkhaven.util.DBConnectionUtil;
+import nl.parkhaven.util.Database;
 
 public abstract class JavathlonJdbcTemplate<T> {
 
@@ -27,7 +27,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 
 			sql = SqlBindingUtil.convertToStandartBindings(sql);
 
-			connection = DBConnectionUtil.getConnection();
+			connection = Database.getConnection();
 
 			preparedStatement = connection.prepareStatement(sql);
 
@@ -47,7 +47,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 
 	private void putBindingsToPreparedStatement(PreparedStatement ps, SqlParameterValues values,
 			HashMap<String, Integer> sqlBindings) throws Exception {
-		for(Entry<String, Object> entry : values.getValues().entrySet()) {
+		for (Entry<String, Object> entry : values.getValues().entrySet()) {
 			Object bindingValue = entry.getValue();
 			String bindingKey = entry.getKey();
 			Integer bindingOrder = null;
@@ -69,7 +69,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 		}
 	}
 
-	public T queryForObject(String sql, SqlParameterValues values, SqlRowMapper<T> mapper) throws Exception {
+	protected T queryForObject(String sql, SqlParameterValues values, SqlRowMapper<T> mapper) throws Exception {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -78,7 +78,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 
 		sql = SqlBindingUtil.convertToStandartBindings(sql);
 
-		connection = DBConnectionUtil.getConnection();
+		connection = Database.getConnection();
 
 		preparedStatement = connection.prepareStatement(sql);
 
@@ -91,7 +91,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 		return objectList != null && objectList.size() > 0 ? objectList.get(0) : null;
 	}
 
-	public void update(String sql, SqlParameterValues values) throws Exception {
+	protected void update(String sql, SqlParameterValues values) throws Exception {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -99,7 +99,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 
 		sql = SqlBindingUtil.convertToStandartBindings(sql);
 
-		connection = DBConnectionUtil.getConnection();
+		connection = Database.getConnection();
 
 		preparedStatement = connection.prepareStatement(sql);
 
@@ -116,7 +116,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 
 		sql = SqlBindingUtil.convertToStandartBindings(sql);
 
-		connection = DBConnectionUtil.getConnection();
+		connection = Database.getConnection();
 
 		preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -155,7 +155,7 @@ public abstract class JavathlonJdbcTemplate<T> {
 		return item;
 	}
 
-	protected List<T> convertResultSetToObjectList(SqlRowMapper<T> mapper, ResultSet resultSet) {
+	private List<T> convertResultSetToObjectList(SqlRowMapper<T> mapper, ResultSet resultSet) {
 		List<T> resultList = new ArrayList<T>();
 
 		if (mapper == null) {
@@ -175,15 +175,16 @@ public abstract class JavathlonJdbcTemplate<T> {
 		return resultList;
 	}
 
-	protected void releaseResources(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet) throws SQLException {
-		if(connection != null) {
-			if(!connection.getAutoCommit())
+	private void releaseResources(Connection connection, PreparedStatement preparedStatement, ResultSet resultSet)
+			throws SQLException {
+		if (resultSet != null)
+			resultSet.close();
+		if (preparedStatement != null)
+			preparedStatement.close();
+		if (connection != null) {
+			if (!connection.getAutoCommit())
 				connection.commit();
 			connection.close();
 		}
-		if(preparedStatement != null)
-			preparedStatement.close();
-		if(resultSet != null)
-			resultSet.close();
 	}
 }

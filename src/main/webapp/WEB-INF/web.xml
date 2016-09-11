@@ -13,11 +13,11 @@
 	<servlet>
 		<display-name>InitializerServlet</display-name>
 		<servlet-name>InitializerServlet</servlet-name>
-		<servlet-class>com.kvd.util.InitializerServlet</servlet-class>
+		<servlet-class>nl.parkhaven.util.InitializeDbServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>InitializerServlet</servlet-name>
-		<url-pattern>/validate</url-pattern>
+		<url-pattern>/initialize</url-pattern>
 	</servlet-mapping>
 </web-app>

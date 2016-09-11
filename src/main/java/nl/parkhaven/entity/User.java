@@ -2,11 +2,12 @@ package nl.parkhaven.entity;
 
 public class User {
 
-	private String email;
 	private String firstname;
 	private String lastname;
-	private String password;
 	private String huisnummer;
+	private String email;
+	private String password;
+	private String mobielnummer; // Not implemented yet
 
 	public String getEmail() {
 		return email;
@@ -37,5 +38,11 @@ public class User {
 	}
 	public void setHuisnummer(String huisnummer) {
 		this.huisnummer = huisnummer;
+	}
+	public String getMobielnummer() {
+		return mobielnummer;
+	}
+	public void setMobielnummer(String mobielnummer) {
+		this.mobielnummer = mobielnummer;
 	}
 }

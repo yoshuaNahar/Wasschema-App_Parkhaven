@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 
 @WebServlet("/InitializerServlet")
-public class InitializerServlet extends HttpServlet {
+public class InitializeDbServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     @Override
@@ -17,7 +17,7 @@ public class InitializerServlet extends HttpServlet {
     	super.init(config);
 
     	try {
-    		DBConnectionUtil.getConnection();
+    		Database.getConnection();
     	} catch(SQLException | PropertyVetoException e) {
     		e.printStackTrace();
     	}

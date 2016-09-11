@@ -3,9 +3,9 @@ package nl.parkhaven.dao;
 import nl.parkhaven.dao.dbUtil.JavathlonJdbcTemplate;
 import nl.parkhaven.dao.dbUtil.SqlParameterValues;
 import nl.parkhaven.dao.rowmappers.UserAppointmentDetailRowMapper;
-import nl.parkhaven.entity.AppointmentPlacer;
+import nl.parkhaven.entity.Appointment;
 
-public class AppointmentDAO extends JavathlonJdbcTemplate<AppointmentPlacer> {
+public class AppointmentDAO extends JavathlonJdbcTemplate<Appointment> {
 
 	private String checkIfFreeSQL = "SELECT huisnummer FROM calender WHERE calenderID = :calenderID AND machine = :machine";
 	private String enterValueSQL = "UPDATE calender SET huisnummer = :huisnummer WHERE calenderID = :calenderID AND machine = :machine";
@@ -14,7 +14,7 @@ public class AppointmentDAO extends JavathlonJdbcTemplate<AppointmentPlacer> {
 		SqlParameterValues values = new SqlParameterValues();
 		values.addValue("calenderID", row);
 		values.addValue("machine", machinenummer);
-		AppointmentPlacer member = this.queryForObject(checkIfFreeSQL, values, new UserAppointmentDetailRowMapper());
+		Appointment member = queryForObject(checkIfFreeSQL, values, new UserAppointmentDetailRowMapper());
 		if(member.getHuisnummer() == 0)
 			return true;
 		else 
