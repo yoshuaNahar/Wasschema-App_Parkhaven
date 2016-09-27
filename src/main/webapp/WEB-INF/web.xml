@@ -11,13 +11,13 @@
 	</welcome-file-list>
 
 	<servlet>
-		<display-name>InitializerServlet</display-name>
-		<servlet-name>InitializerServlet</servlet-name>
-		<servlet-class>nl.parkhaven.util.InitializeDbServlet</servlet-class>
+		<display-name>InitializeDbServlet</display-name>
+		<servlet-name>InitializeDbServlet</servlet-name>
+		<servlet-class>nl.parkhaven.model.util.InitializeDbServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>InitializerServlet</servlet-name>
-		<url-pattern>/initialize</url-pattern>
+		<servlet-name>InitializeDbServlet</servlet-name>
+		<url-pattern>/InitializeDb</url-pattern>
 	</servlet-mapping>
 </web-app>
