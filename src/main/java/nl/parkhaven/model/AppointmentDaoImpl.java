@@ -3,25 +3,14 @@ package nl.parkhaven.model;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import nl.parkhaven.model.abstraction.AppointmentDao;
 import nl.parkhaven.model.abstraction.CommonDao;
 import nl.parkhaven.model.entity.Appointment;
 import nl.parkhaven.model.util.Database;
 
-public class AppointmentDaoImpl extends CommonDao implements AppointmentDao {
+public class AppointmentDaoImpl extends CommonDao<Appointment> implements AppointmentDao {
 
-	/*
-	 * One DAO class per Entity and Table DAO needs to perform CRUD actions For
-	 * Sprint 2: - Get all Dates
-	 */
-
-	// private static final Logger logger =
-	// LogManager.getLogger(UserDaoImpl.class);
-	private static final Logger logger = LogManager.getLogger(AppointmentDaoImpl.class);
+//	private static final Logger logger = LogManager.getLogger(AppointmentDaoImpl.class);
 
 	@Override
 	public int[] getAllData(String wasmachine_id) {
@@ -39,17 +28,36 @@ public class AppointmentDaoImpl extends CommonDao implements AppointmentDao {
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		} finally {
-			releaseResources(conn, preStmt, rs);
+			releaseResources();
 		}
 
 		return huisnummers;
 	}
 
 	@Override
-	public boolean addDate(Appointment appointment) {
-		String checkTimeAvailableSQL = "SELECT huisnummer FROM wasschema WHERE tijd_id = ? AND wasmachine_id = ?;";
+	public void create(Appointment appointment) {
 		String addAppointmentSQL = "UPDATE wasschema SET huisnummer = ? WHERE tijd_id = ? AND wasmachine_id = ?";
-		boolean appointmentMade = false;
+
+		try {
+			preStmt = conn.prepareStatement(addAppointmentSQL);
+			preStmt.setInt(1, appointment.getHuisnummer());
+			preStmt.setInt(2, appointment.calculateRowNumber());
+			preStmt.setString(3, appointment.getMachinenummer());
+			int rowsUpdated = preStmt.executeUpdate();
+			if (rowsUpdated != 1) {
+				throw new SQLException("More than 1 row was updated!");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			releaseResources();
+		}
+	}
+
+	@Override
+	public Appointment read(Appointment appointment) {
+		String checkTimeAvailableSQL = "SELECT huisnummer FROM wasschema WHERE tijd_id = ? AND wasmachine_id = ?;";
+		Appointment appointmentPlaced = new Appointment();
 
 		try {
 			conn = Database.getConnection();
@@ -58,34 +66,21 @@ public class AppointmentDaoImpl extends CommonDao implements AppointmentDao {
 			preStmt.setString(2, appointment.getMachinenummer());
 			rs = preStmt.executeQuery();
 			rs.next();
-			int dateTaken = rs.getInt(1);
-			if (dateTaken == 0) {
-				preStmt = conn.prepareStatement(addAppointmentSQL);
-				preStmt.setInt(1, appointment.getHuisnummer());
-				preStmt.setInt(2, appointment.calculateRowNumber());
-				preStmt.setString(3, appointment.getMachinenummer());
-				int rowsUpdated = preStmt.executeUpdate();
-				if (rowsUpdated != 1) {
-					throw new SQLException("More than 1 row was updated!");
-				}
-				appointmentMade = true;
-			}
+			appointmentPlaced.setHuisnummer(Integer.toString(rs.getInt(0)));
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		} finally {
-			releaseResources(conn, preStmt, rs);
+			releaseResources();
 		}
 
-		return appointmentMade;
+		return appointment;
 	}
 
 	@Override
-	public Appointment updateDate() {
-		return null;
+	public void update(Appointment e) {
 	}
 
 	@Override
-	public Appointment removeDate() {
-		return null;
+	public void delete(Appointment e) {
 	}
 }

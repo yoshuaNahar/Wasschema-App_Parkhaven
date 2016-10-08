@@ -11,7 +11,7 @@ public class TestRunner {
 
 	public static void main(String[] args) {
 		Result result = JUnitCore.runClasses(AllUserDaoTests.class, AllAppointmentDaoTests.class);
-
+		
 		System.out.println(
 				"Tests run: " + result.getRunCount() + ", Failures: " + result.getFailureCount() + ", Skipped: "
 						+ result.getIgnoreCount() + ", Time elapsed (in milliseconds): " + result.getRunTime() + "\n");

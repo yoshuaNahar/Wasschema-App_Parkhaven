@@ -7,13 +7,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import nl.parkhaven.model.AppointmentDaoImpl;
-import nl.parkhaven.model.abstraction.AppointmentDao;
+import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.Appointment;
 
 @Ignore("Data Creating Test")
 public class AppointmentDaoAddDateTest {
 
-	private AppointmentDao appointmentDao;
+	private CrudDao<Appointment> appointmentDao;
 	private Appointment badAppointment;
 	private Appointment goodAppointment;
 	private Appointment badAppointmentAfterGoodAppointment;
@@ -43,15 +43,30 @@ public class AppointmentDaoAddDateTest {
 
 	@Test
 	public void testingAddDate() {
-		boolean appointmentMade = false;
+		boolean appointmentMade;
 
-		appointmentMade = appointmentDao.addDate(badAppointment);
+		if (appointmentDao.read(badAppointment).getHuisnummer() != 0) {
+			appointmentDao.create(badAppointment);
+			appointmentMade = true;
+		} else {
+			appointmentMade = false;
+		}
 		Assert.assertFalse("Is the appointment made for specific time and wasmachine?", appointmentMade);
-		
-		appointmentMade = appointmentDao.addDate(goodAppointment);
+
+		if (appointmentDao.read(goodAppointment).getHuisnummer() != 0) {
+			appointmentDao.create(goodAppointment);
+			appointmentMade = true;
+		} else {
+			appointmentMade = false;
+		}
 		Assert.assertTrue("Is the appointment made for specific time and wasmachine?", appointmentMade);
 
-		appointmentMade = appointmentDao.addDate(badAppointmentAfterGoodAppointment);
+		if (appointmentDao.read(badAppointmentAfterGoodAppointment).getHuisnummer() != 0) {
+			appointmentDao.create(badAppointmentAfterGoodAppointment);
+			appointmentMade = true;
+		} else {
+			appointmentMade = false;
+		}
 		Assert.assertFalse("Is the appointment made for specific time and wasmachine?", appointmentMade);
 	}
 	

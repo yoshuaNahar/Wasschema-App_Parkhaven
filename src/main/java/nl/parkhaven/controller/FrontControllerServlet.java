@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import nl.parkhaven.controller.service.AppointmentService;
-import nl.parkhaven.controller.service.SigninUserService;
-import nl.parkhaven.controller.service.SignupUserService;
+import nl.parkhaven.controller.service.SigninService;
+import nl.parkhaven.controller.service.SignupService;
 import nl.parkhaven.model.AppointmentDaoImpl;
 import nl.parkhaven.model.abstraction.AppointmentDao;
 import nl.parkhaven.model.entity.Appointment;
@@ -48,16 +48,15 @@ public class FrontControllerServlet extends HttpServlet {
 		String signinForm = request.getParameter("register");
 
 		if (loginForm != null) {
-			login(request, response);
+			signin(request, response);
 		} else if (appointmentForm != null) {
 			appointment(request, response);
 		} else if (signinForm != null) {
-			signin(request, response);
+			signup(request, response);
 		}
 	}
 
-	private void login(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
@@ -70,19 +69,14 @@ public class FrontControllerServlet extends HttpServlet {
 		// request.setAttribute("huisnummer2",
 		// showData.getHuisnummersMachine2());
 
-		SigninUserService signinService = new SigninUserService(user);
-		if (signinService.validEntry()) {
-			signinService.signinMember();
-			if (signinService.correctCredentials()) {
-				// request.getSession().setAttribute("member",
-				// signinService.getSignedinUser());
-				request.getSession().setAttribute("userHuisnummer", signinService.getSignedinUser().getHuisnummer());
-			} else {
-				request.setAttribute("errorMessage", signinService.getSigninErrorMessage());
-			}
+		SigninService signinService = new SigninService();
+		signinService.signin(user);
+		if (signinService.errorOccured()) {
+			request.setAttribute("errorMessage", signinService.getErrorMessage());
 		} else {
-			request.setAttribute("errorMessage", signinService.getSigninErrorMessage());
+			request.getSession().setAttribute("userHuisnummer", signinService.getSignedinUser().getHuisnummer());
 		}
+
 		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
@@ -99,14 +93,12 @@ public class FrontControllerServlet extends HttpServlet {
 		appointment.setMachinenummer(machine);
 		appointment.setHuisnummer(userHuisnummer);
 
-		AppointmentService appointmentService = new AppointmentService(appointment);
-		if (appointmentService.validEntry()) {
-			if (!appointmentService.datePlaced()) {
-				request.setAttribute("errorMessage", appointmentService.getErrorMessage());
-			}
-		} else {
+		AppointmentService appointmentService = new AppointmentService();
+		appointmentService.addAppointment(appointment);
+		if (appointmentService.errorOccured()) {
 			request.setAttribute("errorMessage", appointmentService.getErrorMessage());
 		}
+
 		AppointmentDao showData = new AppointmentDaoImpl();
 		request.setAttribute("huisnummer1", showData.getAllData("A1"));
 		// request.setAttribute("huisnummer2",
@@ -115,8 +107,7 @@ public class FrontControllerServlet extends HttpServlet {
 		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
-	private void signin(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String firstname = request.getParameter("firstname");
 		String lastname = request.getParameter("lastname");
@@ -136,15 +127,16 @@ public class FrontControllerServlet extends HttpServlet {
 		// request.setAttribute("huisnummer2",
 		// showData.getHuisnummersMachine2());
 
-		SignupUserService signupService = new SignupUserService(user, code);
-		if (signupService.validEntry()) {
-			signupService.addMember();
-			if (!signupService.correctCredentials()) {
-				request.setAttribute("errorMessage", signupService.getSigninErrorMessage());
-			}
+		SignupService signupService = new SignupService();
+		signupService.signup(user, code);
+		if (signupService.errorOccured()) {
+			request.setAttribute("errorMessage", signupService.getErrorMessage());
 		} else {
-			request.setAttribute("errorMessage", signupService.getSigninErrorMessage());
+			SigninService signinService = new SigninService();
+			signinService.signin(user);
+			request.getSession().setAttribute("userHuisnummer", signinService.getSignedinUser().getHuisnummer());
 		}
+
 		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 }

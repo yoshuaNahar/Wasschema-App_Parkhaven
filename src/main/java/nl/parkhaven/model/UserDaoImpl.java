@@ -3,18 +3,14 @@ package nl.parkhaven.model;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import nl.parkhaven.model.abstraction.CommonDao;
-import nl.parkhaven.model.abstraction.UserDao;
 import nl.parkhaven.model.entity.User;
 import nl.parkhaven.model.util.Database;
 
-public final class UserDaoImpl extends CommonDao implements UserDao {
+public final class UserDaoImpl extends CommonDao<User> {
 
 	String getAllMembersSql = "SELECT email, firstname, lastname, huisnummer, registrationDate FROM demo.kees";
 
@@ -30,7 +26,7 @@ public final class UserDaoImpl extends CommonDao implements UserDao {
 	private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
 	@Override
-	public User signin(User user) {
+	public User read(User user) {
 		String signinSQL = "SELECT voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
 		User signedinUser = new User();
 
@@ -55,15 +51,16 @@ public final class UserDaoImpl extends CommonDao implements UserDao {
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		} finally {
-			releaseResources(conn, preStmt, rs);
+			releaseResources();
 		}
 
 		return signedinUser;
 	}
 
 	@Override
-	public User signup(User user) {
-		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, registratieDatum) VALUES (?, ? ,? ,? ,? ,?, ?);";
+	public void create(User user) {
+		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer) VALUES (?, ? ,? ,? ,? ,?);";
+// Original		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, registratieDatum) VALUES (?, ? ,? ,? ,? ,?, ?);";
 
 		try {
 			conn = Database.getConnection();
@@ -74,7 +71,7 @@ public final class UserDaoImpl extends CommonDao implements UserDao {
 			preStmt.setString(4, user.getEmail());
 			preStmt.setString(5, user.getWachtwoord());
 			preStmt.setString(6, user.getMobielnummer());
-			preStmt.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now()));
+//			preStmt.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now())); // This removed so that the db can enter this value itself!
 			int succes = preStmt.executeUpdate();
 			if (succes != 1) {
 				throw new SQLException();
@@ -83,10 +80,17 @@ public final class UserDaoImpl extends CommonDao implements UserDao {
 			e.printStackTrace();
 			logger.error("More than 1 row was inserted!");
 		} finally {
-			releaseResources(conn, preStmt, rs);
+			releaseResources();
 		}
-
-		return user; // This user will be inserted inside the singin to sign the
+		// This user will be inserted inside the singin to sign the
 		// user in directly!
+	}
+
+	@Override
+	public void update(User e) {
+	}
+
+	@Override
+	public void delete(User e) {
 	}
 }

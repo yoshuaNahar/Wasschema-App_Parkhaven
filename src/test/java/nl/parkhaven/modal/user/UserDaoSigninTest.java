@@ -5,12 +5,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import nl.parkhaven.model.UserDaoImpl;
-import nl.parkhaven.model.abstraction.UserDao;
+import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.User;
 
 public class UserDaoSigninTest {
 
-	private UserDao userDao;
+	private CrudDao<User> userDao;
 	private User correctCredentialsUser;
 	private User[] falseCredentialsUser;
 	private String[] expectedDbValues;
@@ -54,7 +54,7 @@ public class UserDaoSigninTest {
 
 	@Test
 	public void testingSignin() {
-		signedinUser = userDao.signin(correctCredentialsUser);
+		signedinUser = userDao.read(correctCredentialsUser);
 		Assert.assertEquals("Is the firstname correct?", signedinUser.getVoornaam(), expectedDbValues[0]);
 		Assert.assertEquals("Is the surname correct?", signedinUser.getAchternaam(), expectedDbValues[1]);
 		Assert.assertEquals("Is the housenumber correct?", signedinUser.getHuisnummer(), expectedDbValues[2]);
@@ -64,7 +64,7 @@ public class UserDaoSigninTest {
 
 		// False login credentials
 		for (int i = 0; i < falseCredentialsUser.length; i++) {
-			signedinUser = userDao.signin(falseCredentialsUser[i]);
+			signedinUser = userDao.read(falseCredentialsUser[i]);
 			Assert.assertNotEquals("Is the firstname not correct?", signedinUser.getVoornaam(), expectedDbValues[0]);
 			Assert.assertNotEquals("Is the surname not correct?", signedinUser.getAchternaam(), expectedDbValues[1]);
 			Assert.assertNotEquals("Is the housenumber not correct?", signedinUser.getHuisnummer(),

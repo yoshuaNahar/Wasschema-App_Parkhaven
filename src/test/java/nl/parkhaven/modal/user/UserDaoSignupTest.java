@@ -6,12 +6,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import nl.parkhaven.model.UserDaoImpl;
+import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.User;
 
 @Ignore("Data Creating Test")
 public class UserDaoSignupTest {
 
-	private UserDaoImpl userDaoImpl;
+	private CrudDao<User> userDaoImpl;
 
 	private User newUser;
 	private User signedupUser;
@@ -32,8 +33,8 @@ public class UserDaoSignupTest {
 
 	@Test
 	public void testingSignin() {
-		signedupUser = userDaoImpl.signup(newUser);
-		signedinUser = userDaoImpl.signin(signedupUser);
+		userDaoImpl.create(newUser);
+		signedinUser = userDaoImpl.read(newUser);
 		Assert.assertEquals("Is the firstname correct?", signedupUser.getVoornaam(), signedinUser.getVoornaam());
 		Assert.assertEquals("Is the surname correct?", signedupUser.getAchternaam(), signedinUser.getAchternaam());
 		Assert.assertEquals("Is the housenumber correct?", signedupUser.getHuisnummer(), signedinUser.getHuisnummer());

@@ -7,8 +7,7 @@
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>WasSchema Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+	<name>WasSchema Webapp</name>
 
 	<dependencies>
 		<dependency>
@@ -97,6 +96,8 @@
 				<configuration>
 					<url>http://95.85.35.169:8008/manager/text</url>
 					<server>digitalOcean</server>
+					<username></username>
+					<password></password>
 					<path>/WasSchema</path>
 					<update>true</update>
 				</configuration>

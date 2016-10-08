@@ -13,17 +13,19 @@ public class Appointment {
 	}
 
 	public void setDay(String day) {
-		if (day != null && !day.trim().equals(""))
+		if (day != null && !day.trim().equals("")) {
 			this.day = Integer.parseInt(day);
-		else
+		} else {
 			this.day = default_vaule;
+		}
 	}
 
 	public void setTime(String time) {
-		if (time != null && !time.trim().equals(""))
+		if (time != null && !time.trim().equals("")) {
 			this.time = Integer.parseInt(time);
-		else
+		} else {
 			this.time = default_vaule;
+		}
 	}
 
 	public String getMachinenummer() {
@@ -39,9 +41,10 @@ public class Appointment {
 	}
 
 	public void setHuisnummer(String huisnummer) {
-		if (huisnummer != null && !huisnummer.trim().equals(""))
+		if (huisnummer != null && !huisnummer.trim().equals("")) {
 			this.huisnummer = Integer.parseInt(huisnummer);
-		else
+		} else {
 			this.huisnummer = default_vaule;
+		}
 	}
 }
