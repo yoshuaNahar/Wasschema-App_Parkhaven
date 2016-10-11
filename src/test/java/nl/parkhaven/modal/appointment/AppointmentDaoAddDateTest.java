@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import nl.parkhaven.model.AppointmentDaoImpl;
 import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.Appointment;
 
@@ -21,31 +20,31 @@ public class AppointmentDaoAddDateTest {
 	@Before
 	public void setUp() {
 		badAppointment = new Appointment();
-		badAppointment.setHuisnummer("230");
-		badAppointment.setMachinenummer("A1");
+		badAppointment.setGebruiker_id("230");
+		badAppointment.setWasmachine("A1");
 		badAppointment.setTime("1");
 		badAppointment.setDay("0");
 
 		goodAppointment = new Appointment();
-		goodAppointment.setHuisnummer("230");
-		goodAppointment.setMachinenummer("A1");
+		goodAppointment.setGebruiker_id("230");
+		goodAppointment.setWasmachine("A1");
 		goodAppointment.setTime("1");
 		goodAppointment.setDay("1");
 
 		badAppointmentAfterGoodAppointment = new Appointment();
-		badAppointmentAfterGoodAppointment.setHuisnummer("230");
-		badAppointmentAfterGoodAppointment.setMachinenummer("A1");
+		badAppointmentAfterGoodAppointment.setGebruiker_id("230");
+		badAppointmentAfterGoodAppointment.setWasmachine("A1");
 		badAppointmentAfterGoodAppointment.setTime("1");
 		badAppointmentAfterGoodAppointment.setDay("1");
 
-		appointmentDao = new AppointmentDaoImpl();
+//		appointmentDao = new AppointmentDaoImpl();
 	}
 
 	@Test
 	public void testingAddDate() {
 		boolean appointmentMade;
 
-		if (appointmentDao.read(badAppointment).getHuisnummer() != 0) {
+		if (appointmentDao.read(badAppointment).getGebruiker_id() != 0) {
 			appointmentDao.create(badAppointment);
 			appointmentMade = true;
 		} else {
@@ -53,7 +52,7 @@ public class AppointmentDaoAddDateTest {
 		}
 		Assert.assertFalse("Is the appointment made for specific time and wasmachine?", appointmentMade);
 
-		if (appointmentDao.read(goodAppointment).getHuisnummer() != 0) {
+		if (appointmentDao.read(goodAppointment).getGebruiker_id() != 0) {
 			appointmentDao.create(goodAppointment);
 			appointmentMade = true;
 		} else {
@@ -61,7 +60,7 @@ public class AppointmentDaoAddDateTest {
 		}
 		Assert.assertTrue("Is the appointment made for specific time and wasmachine?", appointmentMade);
 
-		if (appointmentDao.read(badAppointmentAfterGoodAppointment).getHuisnummer() != 0) {
+		if (appointmentDao.read(badAppointmentAfterGoodAppointment).getGebruiker_id() != 0) {
 			appointmentDao.create(badAppointmentAfterGoodAppointment);
 			appointmentMade = true;
 		} else {

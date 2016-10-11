@@ -1,6 +1,6 @@
 package nl.parkhaven.mysql;
 
-public class Wasschema {
+class Wasschema {
 
 	private final int _3weken = 273;
 	private final String[] wasmachine = { "C1", "C2", "D1", "D2", "C3", "C4", "D3", "D4" };

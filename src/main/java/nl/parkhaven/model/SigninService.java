@@ -1,10 +1,9 @@
-package nl.parkhaven.controller.service;
+package nl.parkhaven.model;
 
-import nl.parkhaven.model.UserDaoImpl;
 import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.User;
 
-public class SigninService {
+public final class SigninService {
 
 	private CrudDao<User> userDao;
 	private User user;
@@ -34,7 +33,7 @@ public class SigninService {
 
 	private void signinMember() {
 		userDao = new UserDaoImpl();
-		signedinUser = userDao.read(user);
+		userDao.read(user);
 	}
 
 	private void checkMemberSignedin() {

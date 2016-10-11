@@ -1,12 +1,11 @@
-package nl.parkhaven.controller.service;
+package nl.parkhaven.model;
 
-import nl.parkhaven.model.AppointmentDaoImpl;
 import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.Appointment;
 
-public class AppointmentService {
+public final class AppointmentService {
 
-	private CrudDao<Appointment> appointmentDAO;
+	private CrudDao<Appointment> appointmentDao;
 	private Appointment appointment;
 	private String errorMessage;
 
@@ -20,11 +19,11 @@ public class AppointmentService {
 	}
 
 	public boolean errorOccured() {
-		return errorMessage == null ? true : false;
+		return errorMessage == null ? false : true;
 	}
 
 	private boolean entryValid() {
-		if (appointment.getHuisnummer() > 0) {
+		if (appointment.getGebruiker_id() > 0) {
 			return true;
 		} else {
 			errorMessage = "You are not logged in!";
@@ -33,8 +32,8 @@ public class AppointmentService {
 	}
 
 	private boolean dateFree() {
-		appointmentDAO = new AppointmentDaoImpl();
-		if (appointmentDAO.read(appointment).getHuisnummer() != 0) {
+		appointmentDao = new AppointmentDaoImpl();
+		if (appointmentDao.read(appointment).getGebruiker_id() != 0) {
 			return true;
 		} else {
 			errorMessage = "Date already taken!";
@@ -43,7 +42,7 @@ public class AppointmentService {
 	}
 
 	private void placeDate() {
-		appointmentDAO.create(appointment);
+		appointmentDao.update(appointment);
 	}
 
 	public String getErrorMessage() {

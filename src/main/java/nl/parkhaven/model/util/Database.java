@@ -6,11 +6,11 @@ import java.sql.SQLException;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-public class Database {
+public final class Database {
 
 	private static ComboPooledDataSource dataSource;
 
-	private static ComboPooledDataSource getInstance() throws PropertyVetoException {
+	public static void initializeDataSource() throws PropertyVetoException {
 		if (dataSource == null) {
 			dataSource = new ComboPooledDataSource();
 			dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
@@ -20,11 +20,15 @@ public class Database {
 			dataSource.setMinPoolSize(3);
 			dataSource.setMaxPoolSize(20);
 		}
-
-		return dataSource;
 	}
 
-	public static Connection getConnection() throws SQLException, PropertyVetoException {
-		return getInstance().getConnection();
+	public static Connection getConnection() throws SQLException {
+		return dataSource.getConnection();
+	}
+
+	public static void closeDataSource() {
+		if (dataSource != null) {
+			dataSource.close();
+		}
 	}
 }

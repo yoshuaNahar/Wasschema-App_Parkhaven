@@ -1,9 +1,12 @@
 package nl.parkhaven.model.abstraction;
 
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import nl.parkhaven.model.util.Database;
 
 public abstract class CommonDao<E> implements CrudDao<E> {
 
@@ -25,5 +28,12 @@ public abstract class CommonDao<E> implements CrudDao<E> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected Connection getConnection() throws SQLException, PropertyVetoException {
+		if (conn == null) {
+			conn = Database.getConnection();
+		}
+		return conn;
 	}
 }

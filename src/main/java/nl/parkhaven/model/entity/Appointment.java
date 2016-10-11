@@ -4,11 +4,11 @@ public class Appointment {
 
 	private int day;
 	private int time;
-	private String machinenummer;
-	private int huisnummer;
+	private String wasmachine;
+	private int gebruiker_id;
 	private final int default_vaule = 0;
 
-	public int calculateRowNumber() {
+	public int week_dag_tijd_id() {
 		return day + time;
 	}
 
@@ -28,23 +28,27 @@ public class Appointment {
 		}
 	}
 
-	public String getMachinenummer() {
-		return machinenummer;
+	public String getWasmachine() {
+		return wasmachine;
 	}
 
-	public void setMachinenummer(String machinenummer) {
-		this.machinenummer = machinenummer;
+	public void setWasmachine(String machinenummer) {
+		this.wasmachine = machinenummer;
 	}
 
-	public int getHuisnummer() {
-		return huisnummer;
+	public int getGebruiker_id() {
+		return gebruiker_id;
 	}
 
-	public void setHuisnummer(String huisnummer) {
-		if (huisnummer != null && !huisnummer.trim().equals("")) {
-			this.huisnummer = Integer.parseInt(huisnummer);
+	public void setGebruiker_id(String gebruiker_id) {
+		if (gebruiker_id != null && !gebruiker_id.trim().equals("")) {
+			this.gebruiker_id = Integer.parseInt(gebruiker_id);
 		} else {
-			this.huisnummer = default_vaule;
+			this.gebruiker_id = default_vaule;
 		}
+	}
+
+	public void setGebruiker_id(int gebruiker_id) {
+		this.gebruiker_id = gebruiker_id;
 	}
 }

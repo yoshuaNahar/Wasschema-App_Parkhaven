@@ -1,10 +1,9 @@
-package nl.parkhaven.controller.service;
+package nl.parkhaven.model;
 
-import nl.parkhaven.model.UserDaoImpl;
 import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.User;
 
-public class SignupService {
+public final class SignupService {
 
 	private CrudDao<User> userDao;
 	private User user;

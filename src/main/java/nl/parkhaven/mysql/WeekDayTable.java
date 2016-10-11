@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.joda.time.LocalDate;
 
-public class WeekDayTable {
+class WeekDayTable {
 
 	private final String weekArray[] = createWekenArray();
 

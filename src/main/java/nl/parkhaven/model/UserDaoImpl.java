@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import nl.parkhaven.model.abstraction.CommonDao;
 import nl.parkhaven.model.entity.User;
-import nl.parkhaven.model.util.Database;
 
 public final class UserDaoImpl extends CommonDao<User> {
 
@@ -28,22 +27,21 @@ public final class UserDaoImpl extends CommonDao<User> {
 	@Override
 	public User read(User user) {
 		String signinSQL = "SELECT voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
-		User signedinUser = new User();
 
 		try {
-			conn = Database.getConnection();
+			conn = getConnection();
 			preStmt = conn.prepareStatement(signinSQL);
 			preStmt.setString(1, user.getEmail());
 			preStmt.setString(2, user.getWachtwoord());
 			rs = preStmt.executeQuery();
 			rs.next();
 			try {
-				signedinUser.setVoornaam(rs.getString(1));
-				signedinUser.setAchternaam(rs.getString(2));
-				signedinUser.setHuisnummer(rs.getString(3));
-				signedinUser.setEmail(rs.getString(4));
-				signedinUser.setWachtwoord(rs.getString(5));
-				signedinUser.setMobielnummer(rs.getString(6));
+				user.setVoornaam(rs.getString(1));
+				user.setAchternaam(rs.getString(2));
+				user.setHuisnummer(rs.getString(3));
+				user.setEmail(rs.getString(4));
+				user.setWachtwoord(rs.getString(5));
+				user.setMobielnummer(rs.getString(6));
 			} catch (SQLException e) {
 				logger.info("Wrong email or password was used! Email: " + user.getEmail() + " - Password: "
 						+ user.getWachtwoord());
@@ -54,7 +52,7 @@ public final class UserDaoImpl extends CommonDao<User> {
 			releaseResources();
 		}
 
-		return signedinUser;
+		return user;
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public final class UserDaoImpl extends CommonDao<User> {
 // Original		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, registratieDatum) VALUES (?, ? ,? ,? ,? ,?, ?);";
 
 		try {
-			conn = Database.getConnection();
+			conn = getConnection();
 			preStmt = conn.prepareStatement(signupSQL);
 			preStmt.setString(1, user.getVoornaam());
 			preStmt.setString(2, user.getAchternaam());

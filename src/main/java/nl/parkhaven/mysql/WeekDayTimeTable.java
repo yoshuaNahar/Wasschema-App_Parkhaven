@@ -1,6 +1,6 @@
 package nl.parkhaven.mysql;
 
-public class WeekDayTimeTable {
+class WeekDayTimeTable {
 
 	private final int _3weken = 21;
 	private final int _tijdAantal = 13;

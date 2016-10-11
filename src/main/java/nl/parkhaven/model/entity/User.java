@@ -2,12 +2,21 @@ package nl.parkhaven.model.entity;
 
 public class User {
 
+	private int id;
 	private String voornaam;
 	private String achternaam;
 	private String huisnummer;
 	private String email;
 	private String wachtwoord;
 	private String mobielnummer; // Not implemented yet
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getVoornaam() {
 		return voornaam;
