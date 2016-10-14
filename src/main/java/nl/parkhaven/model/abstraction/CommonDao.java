@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import nl.parkhaven.model.util.Database;
+import nl.parkhaven.model.db.Database;
 
-public abstract class CommonDao<E> implements CrudDao<E> {
+public abstract class CommonDao {
 
 	protected Connection conn;
 	protected PreparedStatement preStmt;
@@ -34,6 +34,7 @@ public abstract class CommonDao<E> implements CrudDao<E> {
 		if (conn == null) {
 			conn = Database.getConnection();
 		}
+
 		return conn;
 	}
 }

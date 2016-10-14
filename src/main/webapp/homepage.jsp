@@ -41,7 +41,7 @@
        <div id="navbar" class="navbar-collapse collapse">
 	     <div class="navbar-form navbar-right">
 
-	       <form id="loginForm" name="loginForm" action="index" method="post">
+	       <form id="loginForm" name="loginForm" action="controller" method="post">
              <div class="form-group">            
                <input name="email" type="email" class="form-control" id="exampleInputEmail3" placeholder="Email" required>
                <input name="password" type="password" class="form-control" id="exampleInputPassword3" placeholder="Password" required>
@@ -1697,7 +1697,7 @@
           <h4 class="form-signin-heading">Registreren</h4>
         </div>
 
-        <form name="index" class="form-signin" action="index" method="post">
+        <form name="index" class="form-signin" action="controller" method="post">
           <div class="modal-body">
             <div class="row">
 	  	      <div class="col-xs-9 col-xs-offset-1">
@@ -1739,7 +1739,7 @@
           <h4>Insert Date</h4>
         </div>
 
-        <form name="appointmentForm" class="form-signin" action="index" method="post">
+        <form name="appointmentForm" class="form-signin" action="controller" method="post">
           <div class="modal-body inputSpread">
             <div class="row">
               <div class="col-xs-4"><h5>Dag:</h5></div>

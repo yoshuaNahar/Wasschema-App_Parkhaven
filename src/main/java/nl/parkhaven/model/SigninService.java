@@ -7,7 +7,6 @@ public final class SigninService {
 
 	private CrudDao<User> userDao;
 	private User user;
-	private User signedinUser;
 	private String errorMessage;
 
 	public void signin(User user) {
@@ -19,7 +18,7 @@ public final class SigninService {
 	}
 
 	public boolean errorOccured() {
-		return errorMessage == null ? true : false;
+		return (errorMessage == null) ? false : true;
 	}
 
 	private boolean credentialsValid() {
@@ -33,17 +32,17 @@ public final class SigninService {
 
 	private void signinMember() {
 		userDao = new UserDaoImpl();
-		userDao.read(user);
+		user = userDao.read(user);
 	}
 
 	private void checkMemberSignedin() {
-		if (signedinUser == null) {
+		if (user.getId() == 0) {
 			errorMessage = "Wrong email or Password!";
 		}
 	}
 
 	public User getSignedinUser() {
-		return signedinUser;
+		return user;
 	}
 
 	public String getErrorMessage() {

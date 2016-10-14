@@ -7,26 +7,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import nl.parkhaven.model.abstraction.CommonDao;
+import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.User;
 
-public final class UserDaoImpl extends CommonDao<User> {
-
-	String getAllMembersSql = "SELECT email, firstname, lastname, huisnummer, registrationDate FROM demo.kees";
-
-	/*
-	 * One DAO class per Entity and Table DAO needs to perform CRUD actions
-	 * Create = signup Retrieve = Signin TODO Update = Change
-	 * password/email/huisnummer etc TODO Delete = Admin remove user
-	 * 
-	 * TODO Extra -- Retrieve, based on huisnummer or email or voor/achternaam
-	 * or number of washes per week maybe
-	 */
+final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 
 	private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
 	@Override
 	public User read(User user) {
-		String signinSQL = "SELECT voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
+		String signinSQL = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
 
 		try {
 			conn = getConnection();
@@ -34,15 +24,15 @@ public final class UserDaoImpl extends CommonDao<User> {
 			preStmt.setString(1, user.getEmail());
 			preStmt.setString(2, user.getWachtwoord());
 			rs = preStmt.executeQuery();
-			rs.next();
-			try {
-				user.setVoornaam(rs.getString(1));
-				user.setAchternaam(rs.getString(2));
-				user.setHuisnummer(rs.getString(3));
-				user.setEmail(rs.getString(4));
-				user.setWachtwoord(rs.getString(5));
-				user.setMobielnummer(rs.getString(6));
-			} catch (SQLException e) {
+			if (rs.next()) {
+				user.setId(rs.getInt(1));
+				user.setVoornaam(rs.getString(2));
+				user.setAchternaam(rs.getString(3));
+				user.setHuisnummer(rs.getString(4));
+				user.setEmail(rs.getString(5));
+				user.setWachtwoord(rs.getString(6));
+				user.setMobielnummer(rs.getString(7));
+			} else {
 				logger.info("Wrong email or password was used! Email: " + user.getEmail() + " - Password: "
 						+ user.getWachtwoord());
 			}
@@ -56,9 +46,9 @@ public final class UserDaoImpl extends CommonDao<User> {
 	}
 
 	@Override
-	public void create(User user) {
-		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer) VALUES (?, ? ,? ,? ,? ,?);";
-// Original		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, registratieDatum) VALUES (?, ? ,? ,? ,? ,?, ?);";
+	public boolean create(User user) {
+		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer) VALUES (?, ?, ?, ?, ?, ?);";
+		boolean bool = false;
 
 		try {
 			conn = getConnection();
@@ -69,19 +59,21 @@ public final class UserDaoImpl extends CommonDao<User> {
 			preStmt.setString(4, user.getEmail());
 			preStmt.setString(5, user.getWachtwoord());
 			preStmt.setString(6, user.getMobielnummer());
-//			preStmt.setTimestamp(7, Timestamp.valueOf(LocalDateTime.now())); // This removed so that the db can enter this value itself!
 			int succes = preStmt.executeUpdate();
-			if (succes != 1) {
-				throw new SQLException();
+			if (succes == 1) {
+				bool = true;
+			} else {
+				logger.error("More than 1 row was inserted!");
+				throw new SQLException("More than 1 row was inserted!");
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
-			logger.error("More than 1 row was inserted!");
+			logger.error("Huisnummer already taken!");
 		} finally {
 			releaseResources();
 		}
-		// This user will be inserted inside the singin to sign the
-		// user in directly!
+
+		return bool;
 	}
 
 	@Override

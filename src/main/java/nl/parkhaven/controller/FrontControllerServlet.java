@@ -2,51 +2,53 @@ package nl.parkhaven.controller;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.NavigableMap;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.parkhaven.model.SchemaService;
 import nl.parkhaven.model.AppointmentService;
 import nl.parkhaven.model.SigninService;
 import nl.parkhaven.model.SignupService;
+import nl.parkhaven.model.db.Database;
 import nl.parkhaven.model.entity.Appointment;
 import nl.parkhaven.model.entity.User;
-import nl.parkhaven.model.util.Database;
-import nl.parkhaven.pojos.DatePlacer;
 
-@WebServlet(name = "controller", value = { "/index" }, loadOnStartup = 0)
+@WebServlet(name = "controller", value = { "" }, loadOnStartup = 0)
 public class FrontControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		try {
-			Database.initializeDataSource();
-		} catch (PropertyVetoException e) {
-			e.printStackTrace();
-		}
+	@SuppressWarnings("unused")
+	private int hitCounter;
+
+	public FrontControllerServlet() throws SQLException, PropertyVetoException {
+		Database.getConnection();
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		DatePlacer datePlacer = new DatePlacer();
-		request.setAttribute("getDays", datePlacer);
+//		DatePlacer datePlacer = new DatePlacer();
+//		request.setAttribute("getDays", datePlacer);
 
-		showData(request, response);
-
+		showSchema(request, response);
+		hitCounter++;
 		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		DatePlacer datePlacer = new DatePlacer();
-		request.setAttribute("getDays", datePlacer);
+//		DatePlacer datePlacer = new DatePlacer();
+//		request.setAttribute("getDays", datePlacer);
 
 		String loginForm = request.getParameter("signin");
 		String appointmentForm = request.getParameter("appointment");
@@ -55,17 +57,21 @@ public class FrontControllerServlet extends HttpServlet {
 		if (loginForm != null) {
 			signin(request, response);
 		} else if (appointmentForm != null) {
+			// After each Appointment the schema should be updated!
 			appointment(request, response);
 		} else if (signinForm != null) {
 			signup(request, response);
 		}
+
+		showSchema(request, response);
+		hitCounter++;
+		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
 	@Override
 	public void destroy() {
-		Database.closeDataSource();
+		// save hitCounter on db.
 	}
-
 
 	private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
@@ -82,10 +88,6 @@ public class FrontControllerServlet extends HttpServlet {
 		} else {
 			request.getSession().setAttribute("userHuisnummer", signinService.getSignedinUser().getHuisnummer());
 		}
-
-		showData(request, response);
-
-		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
 	private void appointment(HttpServletRequest request, HttpServletResponse response)
@@ -106,10 +108,6 @@ public class FrontControllerServlet extends HttpServlet {
 		if (appointmentService.errorOccured()) {
 			request.setAttribute("errorMessage", appointmentService.getErrorMessage());
 		}
-
-		showData(request, response);
-
-		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
 	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -136,16 +134,35 @@ public class FrontControllerServlet extends HttpServlet {
 			signinService.signin(user);
 			request.getSession().setAttribute("userHuisnummer", signinService.getSignedinUser().getHuisnummer());
 		}
-
-		showData(request, response);
-
-		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
-	private void showData(HttpServletRequest request, HttpServletResponse response) {
-		// AppointmentDao showData = new AppointmentDaoImpl();
-		// request.setAttribute("huisnummer1", showData.getAllData("A1"));
-		// request.setAttribute("huisnummer2",
-		// showData.getHuisnummersMachine2());
+	private void showSchema(HttpServletRequest request, HttpServletResponse response) {
+		SchemaService schemaService = new SchemaService();
+
+		ArrayList<Time> times = schemaService.getTimes();
+		NavigableMap<Integer, Date> dates = schemaService.getDates();
+
+		String[] huisnummers = schemaService.getData("C1");
+		String[] huisnummers2 = schemaService.getData("C2");
+		String[] huisnummers3 = schemaService.getData("D1");
+		String[] huisnummers4 = schemaService.getData("D2");
+		String[] huisnummers5 = schemaService.getData("C3");
+		String[] huisnummers6 = schemaService.getData("C4");
+		String[] huisnummers7 = schemaService.getData("D4");
+		String[] huisnummers8 = schemaService.getData("D4");
+
+		schemaService.releaseResources();
+
+		request.setAttribute("huisnummer1", huisnummers);
+		request.setAttribute("huisnummer2", huisnummers2);
+		request.setAttribute("huisnummer3", huisnummers3);
+		request.setAttribute("huisnummer4", huisnummers4);
+		request.setAttribute("huisnummer5", huisnummers5);
+		request.setAttribute("huisnummer6", huisnummers6);
+		request.setAttribute("huisnummer7", huisnummers7);
+		request.setAttribute("huisnummer8", huisnummers8);
+
+		request.setAttribute("time", times);
+		request.setAttribute("date", dates);
 	}
 }

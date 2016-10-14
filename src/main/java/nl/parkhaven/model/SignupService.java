@@ -9,14 +9,12 @@ public final class SignupService {
 	private User user;
 	private String code;
 	private String errorMessage;
-	private Long memberId;
 
 	public void signup(User user, String code) {
 		this.user = user;
 		this.code = code;
 		if (credentialsValid()) {
 			add();
-			credentialsMemberSignedup();
 		}
 	}
 
@@ -41,13 +39,8 @@ public final class SignupService {
 
 	private void add() {
 		userDao = new UserDaoImpl();
-		userDao.create(user);
-	}
-
-	// TODO USER WITH THESE CREDENTIAL ALREADY EXISTS!
-	private void credentialsMemberSignedup() {
-		if (memberId == null) {
-			errorMessage = "User with these credentials already exists!";
+		if (userDao.create(user)) {
+			errorMessage = "User with your huisnummer alread exists! (Contact beheerder)";
 		}
 	}
 

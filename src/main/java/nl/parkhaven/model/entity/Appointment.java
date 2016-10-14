@@ -6,25 +6,30 @@ public class Appointment {
 	private int time;
 	private String wasmachine;
 	private int gebruiker_id;
-	private final int default_vaule = 0;
+	private static final int DEFAULT_VALUE = 0;
+	private static final int DAY_MULTIPLIER = 13;
 
 	public int week_dag_tijd_id() {
-		return day + time;
+		if (day == DEFAULT_VALUE || time == DEFAULT_VALUE) {
+			return DEFAULT_VALUE;
+		}
+
+		return (day * DAY_MULTIPLIER) + time;
 	}
 
 	public void setDay(String day) {
-		if (day != null && !day.trim().equals("")) {
+		try {
 			this.day = Integer.parseInt(day);
-		} else {
-			this.day = default_vaule;
+		} catch (NumberFormatException e) {
+			this.day = DEFAULT_VALUE;
 		}
 	}
 
 	public void setTime(String time) {
-		if (time != null && !time.trim().equals("")) {
+		try {
 			this.time = Integer.parseInt(time);
-		} else {
-			this.time = default_vaule;
+		} catch (NumberFormatException e) {
+			this.time = DEFAULT_VALUE;
 		}
 	}
 
@@ -41,10 +46,10 @@ public class Appointment {
 	}
 
 	public void setGebruiker_id(String gebruiker_id) {
-		if (gebruiker_id != null && !gebruiker_id.trim().equals("")) {
+		try {
 			this.gebruiker_id = Integer.parseInt(gebruiker_id);
-		} else {
-			this.gebruiker_id = default_vaule;
+		} catch (NumberFormatException e) {
+			this.gebruiker_id = DEFAULT_VALUE;
 		}
 	}
 

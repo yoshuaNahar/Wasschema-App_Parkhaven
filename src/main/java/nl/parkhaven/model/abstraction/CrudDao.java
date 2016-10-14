@@ -2,7 +2,7 @@ package nl.parkhaven.model.abstraction;
 
 public interface CrudDao<E> {
 
-	void create(E e);
+	boolean create(E e);
 
 	E read(E e);
 

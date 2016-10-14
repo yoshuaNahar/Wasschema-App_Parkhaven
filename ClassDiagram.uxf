@@ -223,23 +223,23 @@ bg=gray</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>322</x>
-      <y>91</y>
+      <y>343</y>
       <w>532</w>
-      <h>462</h>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;.</panel_attributes>
-    <additional_attributes>10.0;370.0;70.0;370.0;70.0;10.0;480.0;10.0;480.0;640.0;740.0;640.0</additional_attributes>
+    <additional_attributes>10.0;10.0;470.0;10.0;470.0;280.0;740.0;280.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>651</x>
+      <x>644</x>
       <y>455</y>
-      <w>448</w>
+      <w>455</w>
       <h>98</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>10.0;10.0;560.0;10.0;560.0;120.0;620.0;120.0</additional_attributes>
+    <additional_attributes>10.0;10.0;570.0;10.0;570.0;120.0;630.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>

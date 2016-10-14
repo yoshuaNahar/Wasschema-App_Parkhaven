@@ -6,39 +6,18 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import nl.parkhaven.model.abstraction.AppointmentDao;
 import nl.parkhaven.model.abstraction.CommonDao;
+import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.Appointment;
 
-final class AppointmentDaoImpl extends CommonDao<Appointment> implements AppointmentDao {
+final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment> {
 
 	private static final Logger logger = LogManager.getLogger(AppointmentDaoImpl.class);
 
 	@Override
-	public int[] getWasschemaData(int startingRange, int endingRange, String wasmachine_id) {
-		String sql = "SELECT gebruiker_id FROM wasschema WHERE (week_dag_tijd_id BETWEEN ? AND ?) AND wasmachine_id = ?;";
-		int huisnummers[] = new int[91];
-
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(sql);
-			preStmt.setInt(1, startingRange);
-			preStmt.setInt(2, endingRange);
-			preStmt.setString(3, wasmachine_id);
-			rs = preStmt.executeQuery();
-			for (int i = 0; rs.next(); i++) {
-				huisnummers[i] = rs.getInt(1);
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		}
-
-		return huisnummers;
-	}
-
-	@Override
-	public void create(Appointment ap) {
+	public boolean create(Appointment ap) {
 		// New record creation is done weekly by a MySQL Event.
+		return false;
 	}
 
 	/*
@@ -46,12 +25,12 @@ final class AppointmentDaoImpl extends CommonDao<Appointment> implements Appoint
 	 */
 	@Override
 	public Appointment read(Appointment ap) {
-		String sql = "SELECT gebruiker_id FROM wasschema WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
+		String checkFreeSQL = "SELECT gebruiker_id FROM wasschema WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
 		Appointment apResult = new Appointment();
 
 		try {
 			conn = getConnection();
-			preStmt = conn.prepareStatement(sql);
+			preStmt = conn.prepareStatement(checkFreeSQL);
 			preStmt.setInt(1, ap.week_dag_tijd_id());
 			preStmt.setString(2, ap.getWasmachine());
 			rs = preStmt.executeQuery();
@@ -69,11 +48,11 @@ final class AppointmentDaoImpl extends CommonDao<Appointment> implements Appoint
 
 	@Override
 	public void update(Appointment ap) {
-		String sql = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = '?';";
+		String addAppointmentSQL = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = '?';";
 
 		try {
 			conn = getConnection();
-			preStmt = conn.prepareStatement(sql);
+			preStmt = conn.prepareStatement(addAppointmentSQL);
 			preStmt.setInt(1, ap.getGebruiker_id());
 			preStmt.setInt(2, ap.week_dag_tijd_id());
 			preStmt.setString(3, ap.getWasmachine());
