@@ -10,7 +10,7 @@ public final class SchemaService {
 	private final SchemaDaoImpl schemaDao;
 	private String[] huisnummers;
 	private ArrayList<Time> times;
-	private NavigableMap<Integer, Date> dates;
+	private NavigableMap<Long, Date> dates;
 	private int timesSize;
 	private int datesId;
 
@@ -33,9 +33,9 @@ public final class SchemaService {
 		return times;
 	}
 
-	public NavigableMap<Integer, Date> getDates() {
+	public NavigableMap<Long, Date> getDates() {
 		dates = schemaDao.getDates();
-		datesId = dates.firstKey() - 1;
+		datesId = (int) (dates.firstKey() - 1);
 
 		return dates;
 	}

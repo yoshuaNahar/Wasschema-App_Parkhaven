@@ -9,7 +9,7 @@ public interface SchemaDao {
 
 	String[] getWasschemaData(int i, int i2, String wasmachine_id);
 
-	NavigableMap<Integer, Date> getDates();
+	NavigableMap<Long, Date> getDates();
 
 	ArrayList<Time> getTimes();
 }

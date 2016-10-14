@@ -131,7 +131,7 @@ public class FrontControllerServlet extends HttpServlet {
 		SchemaService schemaService = new SchemaService();
 
 		ArrayList<Time> times = schemaService.getTimes();
-		NavigableMap<Integer, Date> dates = schemaService.getDates();
+		NavigableMap<Long, Date> dates = schemaService.getDates();
 
 		String[] huisnummers = schemaService.getData("C1");
 		String[] huisnummers2 = schemaService.getData("C2");

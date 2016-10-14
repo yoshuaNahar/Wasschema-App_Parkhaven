@@ -19,16 +19,16 @@ final class SchemaDaoImpl extends CommonDao implements SchemaDao {
 	private static final Logger logger = LogManager.getLogger(SchemaDaoImpl.class);
 
 	@Override
-	public NavigableMap<Integer, Date> getDates() {
+	public NavigableMap<Long, Date> getDates() {
 		String sql = "SELECT id, week_dag FROM week_dag ORDER BY id DESC LIMIT 21;";
-		NavigableMap<Integer, Date> dates = new TreeMap<>();
+		NavigableMap<Long, Date> dates = new TreeMap<>();
 
 		try {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(sql);
 			rs = preStmt.executeQuery();
 			while (rs.next()) {
-				dates.put(rs.getInt(1), rs.getDate(2));
+				dates.put((long) rs.getInt(1), rs.getDate(2));
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
