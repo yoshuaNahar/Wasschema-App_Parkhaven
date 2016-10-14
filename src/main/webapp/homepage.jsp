@@ -103,7 +103,7 @@
                    <div class="panel-body">
                	     <h6>Huisnummer: ${user_huisnummer}</h6>
                	     <h6>Time: ${time[0]}, ${time[12]}</h6>
-               	     <h6>Date: ${date[0]}, ${date[272]}</h6>
+               	     <h6>Date: ${date.get(0)}, ${date.get(272)}</h6>
                	     <h6>Huisnummers: ${huisnummers[0]}</h6>
                      <p>Contact: +31 636493686<br>Email: yosh.nahar@gmail.com</p>
                      <p>Call or Email if unclear. For disussions use the Prikbord on the main site!</p>
