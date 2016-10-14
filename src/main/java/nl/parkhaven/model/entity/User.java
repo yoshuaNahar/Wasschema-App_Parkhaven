@@ -8,7 +8,7 @@ public class User {
 	private String huisnummer;
 	private String email;
 	private String wachtwoord;
-	private String mobielnummer; // Not implemented yet
+	private String mobielnummer;
 
 	public int getId() {
 		return id;

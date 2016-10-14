@@ -13,8 +13,8 @@ class Wasschema {
 
 		for (int i = 0; i < wasmachine.length; i++) {
 			for (int j = 1; j <= _3weken; j++) {
-				System.out
-						.println("INSERT INTO wasschema (`week_dag_tijd_id`, `wasmachine_id`) VALUES (" + j + ", '" + wasmachine[i] + "');");
+				System.out.println("INSERT INTO wasschema (`week_dag_tijd_id`, `wasmachine_id`) VALUES (" + j + ", '"
+						+ wasmachine[i] + "');");
 			}
 		}
 	}

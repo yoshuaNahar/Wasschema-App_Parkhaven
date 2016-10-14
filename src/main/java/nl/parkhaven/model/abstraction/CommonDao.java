@@ -14,7 +14,7 @@ public abstract class CommonDao {
 	protected PreparedStatement preStmt;
 	protected ResultSet rs;
 
-	protected void releaseResources() {
+	public void releaseResources() {
 		try {
 			if (rs != null) {
 				rs.close();

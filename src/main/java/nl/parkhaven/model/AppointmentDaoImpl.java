@@ -20,9 +20,7 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 		return false;
 	}
 
-	/*
-	 * WARNING: Always use this method with update, resources not closed.
-	 */
+	// WARNING: Always use this method with update, resources not closed.
 	@Override
 	public Appointment read(Appointment ap) {
 		String checkFreeSQL = "SELECT gebruiker_id FROM wasschema WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
@@ -72,6 +70,6 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 
 	@Override
 	public void delete(Appointment e) {
-		// Appointment records will not be deleted.
+		// Appointment records deletion will be done in MySQL.
 	}
 }

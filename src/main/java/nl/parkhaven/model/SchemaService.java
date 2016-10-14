@@ -7,7 +7,7 @@ import java.util.NavigableMap;
 
 public final class SchemaService {
 
-	private SchemaDaoImpl schemaDao;
+	private final SchemaDaoImpl schemaDao;
 	private String[] huisnummers;
 	private ArrayList<Time> times;
 	private NavigableMap<Integer, Date> dates;

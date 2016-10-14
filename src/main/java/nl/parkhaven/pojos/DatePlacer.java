@@ -21,29 +21,25 @@ public class DatePlacer {
 	private String[] daysPresent = new String[7];
 	private String Overview;
 
-
 	public DatePlacer() {
 		handleDaysName();
 		Overview = handleDate();
 	}
 
-
 	private String handleDate() {
-		return weekOfYear + " / " + String.format("%02d", dayOfMonth) + "-"
-				+ String.format("%02d", monthOfYear) +
-				" Till " + String.format("%02d", dayOfMonth_Plus7) + "-" +
-				String.format("%02d", monthOfYear_Plus7);
+		return weekOfYear + " / " + String.format("%02d", dayOfMonth) + "-" + String.format("%02d", monthOfYear)
+				+ " Till " + String.format("%02d", dayOfMonth_Plus7) + "-" + String.format("%02d", monthOfYear_Plus7);
 	}
 
 	private void handleDaysName() {
-		final String[] DAYS = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+		final String[] DAYS = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
 		dayOfTheWeek--;
-		for(int i = 0; (dayOfTheWeek + i) < DAYS.length; i++) {
+		for (int i = 0; (dayOfTheWeek + i) < DAYS.length; i++) {
 			daysPresent[i] = DAYS[dayOfTheWeek + i];
-		
-			if((dayOfTheWeek + i) == 6) {
-				for(int ij = 0; ij < dayOfTheWeek; ij++) {
+
+			if ((dayOfTheWeek + i) == 6) {
+				for (int ij = 0; ij < dayOfTheWeek; ij++) {
 					daysPresent[ij + i + 1] = DAYS[ij];
 				}
 			}
@@ -53,6 +49,7 @@ public class DatePlacer {
 	public String[] getDaysPresent() {
 		return daysPresent;
 	}
+
 	public String getOverviewDate() {
 		return Overview;
 	}

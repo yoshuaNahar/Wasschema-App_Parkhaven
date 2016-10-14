@@ -79,7 +79,4 @@ final class SchemaDaoImpl extends CommonDao implements SchemaDao {
 		return huisnummers;
 	}
 
-	public void releaseResources() {
-		super.releaseResources();
-	}
 }

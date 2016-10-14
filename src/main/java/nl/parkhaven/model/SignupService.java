@@ -22,6 +22,10 @@ public final class SignupService {
 		return errorMessage == null ? true : false;
 	}
 
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
 	private boolean credentialsValid() {
 		boolean bool = false;
 		if (user.getEmail() == null || user.getHuisnummer() == null || user.getWachtwoord() == null || code == null) {
@@ -41,10 +45,7 @@ public final class SignupService {
 		userDao = new UserDaoImpl();
 		if (userDao.create(user)) {
 			errorMessage = "User with your huisnummer alread exists! (Contact beheerder)";
+			userDao.releaseResources();
 		}
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
 	}
 }

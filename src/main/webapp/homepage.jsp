@@ -41,7 +41,7 @@
        <div id="navbar" class="navbar-collapse collapse">
 	     <div class="navbar-form navbar-right">
 
-	       <form id="loginForm" name="loginForm" action="controller" method="post">
+	       <form id="loginForm" name="loginForm" action="" method="post">
              <div class="form-group">            
                <input name="email" type="email" class="form-control" id="exampleInputEmail3" placeholder="Email" required>
                <input name="password" type="password" class="form-control" id="exampleInputPassword3" placeholder="Password" required>
@@ -78,7 +78,9 @@
                  </div>
                  <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                    <div class="panel-body">
-                	   ${errorMessage}Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
+                	   ${errorMessage}
+                	   <br>
+                	   Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
                 	   3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
                  	   eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
                  	   assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
@@ -99,9 +101,12 @@
                  </div>
                  <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                    <div class="panel-body">
-               	     <h6>Huisnummer: ${memberHuisnummer}</h6>
+               	     <h6>Huisnummer: ${user_huisnummer}</h6>
+               	     <h6>Time: ${time[0]}, ${time[12]}</h6>
+               	     <h6>Date: ${date[0]}, ${date[272]}</h6>
+               	     <h6>Huisnummers: ${huisnummers[0]}</h6>
                      <p>Contact: +31 636493686<br>Email: yosh.nahar@gmail.com</p>
-                     <p>If there is no emergency just mail me your problem or question. For disussions use the Prikbord on the main site!</p>
+                     <p>Call or Email if unclear. For disussions use the Prikbord on the main site!</p>
                    </div>
                  </div>
                </div>
@@ -123,8 +128,7 @@
                         Free Booze and Hapjes!!!</p>
                      <hr>
                      <h4>Eten Bestellen</h4>
-                     <p>*in t antiliaans* 1 Euro hopi lekkere broodjes!!! <br>
-                        Tijdstip: 12:00 - 21:00 / Huisnummer 441</p>
+                     <p>Supa Cheap - Tijdstip: 12:00 - 21:00 / Huisnummer 441</p>
                    </div>
                  </div>
                </div>
@@ -1697,7 +1701,7 @@
           <h4 class="form-signin-heading">Registreren</h4>
         </div>
 
-        <form name="index" class="form-signin" action="controller" method="post">
+        <form name="index" class="form-signin" action="" method="post">
           <div class="modal-body">
             <div class="row">
 	  	      <div class="col-xs-9 col-xs-offset-1">
@@ -1739,7 +1743,7 @@
           <h4>Insert Date</h4>
         </div>
 
-        <form name="appointmentForm" class="form-signin" action="controller" method="post">
+        <form name="appointmentForm" class="form-signin" action="" method="post">
           <div class="modal-body inputSpread">
             <div class="row">
               <div class="col-xs-4"><h5>Dag:</h5></div>
@@ -1791,7 +1795,7 @@
   			<div class="row">
   		      <div class="col-xs-4"><h5>Huisnummer:</h5></div>
   			  <div class="col-xs-8 .col-xs-offset-4">
-  			    <input value="${memberHuisnummer}" name="huisnummer" type="text" class="form-control pull-right readonly" placeholder="Not Logged In!" required>
+  			    <input value="${user_huisnummer}" name="huisnummer" type="text" class="form-control pull-right readonly" placeholder="Not Logged In!" required>
   		      </div>
   			</div>
         	<input name="appointment" value="1" type="number" style="display: none;">

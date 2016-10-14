@@ -111,6 +111,5 @@
 		<!-- I am getting a web.xml missing, this removes the error, I am using 
 			annotations instead of the web.xml -->
 		<failOnMissingWebXml>false</failOnMissingWebXml>
-
 	</properties>
 </project>

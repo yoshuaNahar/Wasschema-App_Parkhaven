@@ -1,11 +1,10 @@
 package nl.parkhaven.model;
 
-import nl.parkhaven.model.abstraction.CrudDao;
 import nl.parkhaven.model.entity.Appointment;
 
 public final class AppointmentService {
 
-	private CrudDao<Appointment> appointmentDao;
+	private AppointmentDaoImpl appointmentDao;
 	private Appointment appointment;
 	private String errorMessage;
 
@@ -20,6 +19,10 @@ public final class AppointmentService {
 
 	public boolean errorOccured() {
 		return errorMessage == null ? false : true;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
 	}
 
 	private boolean entryValid() {
@@ -37,15 +40,12 @@ public final class AppointmentService {
 			return true;
 		} else {
 			errorMessage = "Date already taken!";
+			appointmentDao.releaseResources();
 			return false;
 		}
 	}
 
 	private void placeDate() {
 		appointmentDao.update(appointment);
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
 	}
 }

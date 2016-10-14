@@ -69,8 +69,6 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 			logger.error("Huisnummer already taken!");
-		} finally {
-			releaseResources();
 		}
 
 		return bool;

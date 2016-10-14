@@ -32,7 +32,7 @@ public final class SigninService {
 
 	private void signinMember() {
 		userDao = new UserDaoImpl();
-		user = userDao.read(user);
+		userDao.read(user);
 	}
 
 	private void checkMemberSignedin() {
