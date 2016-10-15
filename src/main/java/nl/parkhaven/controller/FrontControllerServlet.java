@@ -2,10 +2,8 @@ package nl.parkhaven.controller;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.NavigableMap;
 
 import javax.servlet.ServletException;
@@ -13,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import nl.parkhaven.model.SchemaService;
 import nl.parkhaven.model.AppointmentService;
@@ -55,6 +54,11 @@ public class FrontControllerServlet extends HttpServlet {
 			appointment(request, response);
 		} else if (signinForm != null) {
 			signup(request, response);
+		} else {
+			HttpSession session = request.getSession(false);
+			if (session != null) {
+				session.invalidate();
+			}
 		}
 
 		showSchema(request, response);
@@ -78,7 +82,8 @@ public class FrontControllerServlet extends HttpServlet {
 		if (signinService.errorOccured()) {
 			request.setAttribute("errorMessage", signinService.getErrorMessage());
 		} else {
-			request.getSession().setAttribute("user_huisnummer", signinService.getSignedinUser().getHuisnummer());
+			request.getSession().setAttribute("user_email", signinService.getSignedinUser().getEmail());
+			request.getSession().setAttribute("user_id", signinService.getSignedinUser().getId());
 		}
 	}
 
@@ -87,13 +92,13 @@ public class FrontControllerServlet extends HttpServlet {
 		String day = request.getParameter("day");
 		String time = request.getParameter("time");
 		String machine = request.getParameter("machine");
-		String userHuisnummer = (String) request.getSession().getAttribute("user_huisnummer");
+		Integer userId = (Integer) request.getSession().getAttribute("user_id");
 
 		Appointment appointment = new Appointment();
 		appointment.setDay(day);
 		appointment.setTime(time);
 		appointment.setWasmachine(machine);
-		appointment.setGebruiker_id(userHuisnummer);
+		appointment.setGebruiker_id(userId);
 
 		AppointmentService appointmentService = new AppointmentService();
 		appointmentService.addAppointment(appointment);
@@ -130,8 +135,9 @@ public class FrontControllerServlet extends HttpServlet {
 			throws ServletException, IOException {
 		SchemaService schemaService = new SchemaService();
 
-		ArrayList<Time> times = schemaService.getTimes();
-		NavigableMap<Long, Date> dates = schemaService.getDates();
+		Map<Long, String> times = schemaService.getTimes();
+		NavigableMap<Long, String> dates = schemaService.getDates();
+		Map<Long, String> wasmachines = schemaService.getWasmachines();
 
 		String[] huisnummers = schemaService.getData("C1");
 		String[] huisnummers2 = schemaService.getData("C2");
@@ -144,15 +150,16 @@ public class FrontControllerServlet extends HttpServlet {
 
 		schemaService.releaseResources();
 
-		request.setAttribute("huisnummer1", huisnummers);
-		request.setAttribute("huisnummer2", huisnummers2);
-		request.setAttribute("huisnummer3", huisnummers3);
-		request.setAttribute("huisnummer4", huisnummers4);
-		request.setAttribute("huisnummer5", huisnummers5);
-		request.setAttribute("huisnummer6", huisnummers6);
-		request.setAttribute("huisnummer7", huisnummers7);
-		request.setAttribute("huisnummer8", huisnummers8);
+		request.setAttribute("huis_nummer1", huisnummers);
+		request.setAttribute("huis_nummer2", huisnummers2);
+		request.setAttribute("huis_nummer3", huisnummers3);
+		request.setAttribute("huis_nummer4", huisnummers4);
+		request.setAttribute("huis_nummer5", huisnummers5);
+		request.setAttribute("huis_nummer6", huisnummers6);
+		request.setAttribute("huis_nummer7", huisnummers7);
+		request.setAttribute("huis_nummer8", huisnummers8);
 
+		request.setAttribute("wasmachine", wasmachines);
 		request.setAttribute("time", times);
 		request.setAttribute("date", dates);
 

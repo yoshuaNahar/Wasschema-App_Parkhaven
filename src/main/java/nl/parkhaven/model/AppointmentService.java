@@ -36,7 +36,7 @@ public final class AppointmentService {
 
 	private boolean dateFree() {
 		appointmentDao = new AppointmentDaoImpl();
-		if (appointmentDao.read(appointment).getGebruiker_id() != 0) {
+		if (appointmentDao.read(appointment).getGebruiker_id() == 0) {
 			return true;
 		} else {
 			errorMessage = "Date already taken!";

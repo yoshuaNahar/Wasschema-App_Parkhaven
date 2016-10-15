@@ -1,16 +1,15 @@
 package nl.parkhaven.model;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.util.ArrayList;
+import java.util.Map;
 import java.util.NavigableMap;
 
 public final class SchemaService {
 
 	private final SchemaDaoImpl schemaDao;
 	private String[] huisnummers;
-	private ArrayList<Time> times;
-	private NavigableMap<Long, Date> dates;
+	private Map<Long, String> times;
+	private NavigableMap<Long, String> dates;
+	private Map<Long, String> wasmachines;
 	private int timesSize;
 	private int datesId;
 
@@ -20,20 +19,26 @@ public final class SchemaService {
 
 	public String[] getData(String wasmachine_id) {
 		int firstId = datesId * timesSize + 1;
-		int lastId = (datesId + 20) * timesSize;
+		int lastId = (datesId + 21) * timesSize;
 		huisnummers = schemaDao.getWasschemaData(firstId, lastId, wasmachine_id);
 
 		return huisnummers;
 	}
 
-	public ArrayList<Time> getTimes() {
+	public Map<Long, String> getWasmachines() {
+		wasmachines = schemaDao.getWasmachines();
+
+		return wasmachines;
+	}
+
+	public Map<Long, String> getTimes() {
 		times = schemaDao.getTimes();
 		timesSize = times.size();
 
 		return times;
 	}
 
-	public NavigableMap<Long, Date> getDates() {
+	public NavigableMap<Long, String> getDates() {
 		dates = schemaDao.getDates();
 		datesId = (int) (dates.firstKey() - 1);
 

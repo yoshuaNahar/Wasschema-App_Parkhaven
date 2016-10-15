@@ -10,11 +10,11 @@ public class Appointment {
 	private static final int DAY_MULTIPLIER = 13;
 
 	public int week_dag_tijd_id() {
-		if (day == DEFAULT_VALUE || time == DEFAULT_VALUE) {
+		if (day == DEFAULT_VALUE || time < DEFAULT_VALUE) {
 			return DEFAULT_VALUE;
 		}
 
-		return (day * DAY_MULTIPLIER) + time;
+		return ((day - 1) * DAY_MULTIPLIER) + time + 1;
 	}
 
 	public void setDay(String day) {

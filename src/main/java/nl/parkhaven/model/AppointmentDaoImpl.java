@@ -33,10 +33,11 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 			preStmt.setString(2, ap.getWasmachine());
 			rs = preStmt.executeQuery();
 			if (rs.next()) {
-				apResult.setGebruiker_id(rs.getInt(0));
+				apResult.setGebruiker_id(rs.getInt(1));
 			}
-			logger.info("Appointment read method. Details: " + ap.getGebruiker_id() + " - " + ap.week_dag_tijd_id()
-					+ " - " + ap.getWasmachine() + ". DB Result gebruiker_id:" + apResult.getGebruiker_id());
+			logger.info("Appointment read method. Details: Gebruiker " + ap.getGebruiker_id() + " - Week_dag_tijd_id "
+					+ ap.week_dag_tijd_id() + " - Wasmachine " + ap.getWasmachine() + ". DB Result gebruiker_id: "
+					+ apResult.getGebruiker_id());
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +47,7 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 
 	@Override
 	public void update(Appointment ap) {
-		String addAppointmentSQL = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = '?';";
+		String addAppointmentSQL = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
 
 		try {
 			conn = getConnection();

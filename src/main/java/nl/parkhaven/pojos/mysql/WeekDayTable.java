@@ -1,4 +1,4 @@
-package nl.parkhaven.mysql;
+package nl.parkhaven.pojos.mysql;
 
 import java.util.Date;
 
