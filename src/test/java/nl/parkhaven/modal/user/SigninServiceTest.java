@@ -63,7 +63,7 @@ public final class SigninServiceTest {
 
 		// False login credentials
 		for (int i = 0; i < falseCredentialsUser.length; i++) {
-			signinService.signin(correctCredentialsUser);
+			signinService.signin(falseCredentialsUser[i]);
 			signedinUser = signinService.getSignedinUser();
 			Assert.assertNotEquals("Is the firstname not correct?", signedinUser.getVoornaam(), expectedDbValues[0]);
 			Assert.assertNotEquals("Is the surname not correct?", signedinUser.getAchternaam(), expectedDbValues[1]);
