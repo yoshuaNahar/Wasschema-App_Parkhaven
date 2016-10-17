@@ -17,9 +17,9 @@ import nl.parkhaven.model.SchemaService;
 import nl.parkhaven.model.AppointmentService;
 import nl.parkhaven.model.SigninService;
 import nl.parkhaven.model.SignupService;
-import nl.parkhaven.model.db.Database;
 import nl.parkhaven.model.entity.Appointment;
 import nl.parkhaven.model.entity.User;
+import nl.parkhaven.util.Database;
 
 @WebServlet(name = "controller", value = { "" }, loadOnStartup = 0)
 public class FrontControllerServlet extends HttpServlet {
@@ -82,8 +82,7 @@ public class FrontControllerServlet extends HttpServlet {
 		if (signinService.errorOccured()) {
 			request.setAttribute("errorMessage", signinService.getErrorMessage());
 		} else {
-			request.getSession().setAttribute("user_email", signinService.getSignedinUser().getEmail());
-			request.getSession().setAttribute("user_id", signinService.getSignedinUser().getId());
+			request.getSession().setAttribute("user", signinService.getSignedinUser());
 		}
 	}
 
@@ -92,13 +91,13 @@ public class FrontControllerServlet extends HttpServlet {
 		String day = request.getParameter("day");
 		String time = request.getParameter("time");
 		String machine = request.getParameter("machine");
-		Integer userId = (Integer) request.getSession().getAttribute("user_id");
+		User user = (User) request.getSession().getAttribute("user");
 
 		Appointment appointment = new Appointment();
 		appointment.setDay(day);
 		appointment.setTime(time);
 		appointment.setWasmachine(machine);
-		appointment.setGebruiker_id(userId);
+		appointment.setGebruiker_id(user.getId());
 
 		AppointmentService appointmentService = new AppointmentService();
 		appointmentService.addAppointment(appointment);

@@ -8,7 +8,6 @@ import nl.parkhaven.model.SigninService;
 import nl.parkhaven.model.SignupService;
 import nl.parkhaven.model.entity.User;
 
-// @Ignore("Data Creating Test")
 public final class SignupServiceTest {
 
 	private SignupService signupService;

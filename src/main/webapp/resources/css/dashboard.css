@@ -214,6 +214,12 @@ input {
   width: 80% !important;
   height: 20px !important;
 }
+div[class*="progress-bar"] {
+  box-shadow: none !important;
+}
+div[class*="progress-bar-default"] {
+  background-color: #ecf0f1;
+}
 .progress-bar span {
   text-align: center;
   vertical-align: middle !important;

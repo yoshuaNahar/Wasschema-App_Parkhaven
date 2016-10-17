@@ -35,9 +35,8 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 			if (rs.next()) {
 				apResult.setGebruiker_id(rs.getInt(1));
 			}
-			logger.info("Appointment read method. Details: Gebruiker " + ap.getGebruiker_id() + " - Week_dag_tijd_id "
-					+ ap.week_dag_tijd_id() + " - Wasmachine " + ap.getWasmachine() + ". DB Result gebruiker_id: "
-					+ apResult.getGebruiker_id());
+			logger.info("Appointment read method. Details: Gebruiker " + ap.getGebruiker_id() + " - Week_dag_tijd_id " + ap.week_dag_tijd_id()
+					+ " - Wasmachine " + ap.getWasmachine() + ". DB Result gebruiker_id: " + apResult.getGebruiker_id());
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		}

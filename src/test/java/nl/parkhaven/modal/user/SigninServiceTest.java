@@ -7,7 +7,7 @@ import org.junit.Test;
 import nl.parkhaven.model.SigninService;
 import nl.parkhaven.model.entity.User;
 
-public class SigninServiceTest {
+public final class SigninServiceTest {
 
 	private SigninService signinService;
 	private User correctCredentialsUser;
@@ -20,7 +20,7 @@ public class SigninServiceTest {
 	public void settingUsersCredentials() {
 		correctCredentialsUser = new User();
 		correctCredentialsUser.setEmail("yosh.nahar@gmail.com");
-		correctCredentialsUser.setWachtwoord("compaq");
+		correctCredentialsUser.setWachtwoord("asusx52j");
 
 		User signinUserFalseEmailPassword = new User();
 		signinUserFalseEmailPassword.setEmail("false.email@gmail.com");
@@ -44,9 +44,9 @@ public class SigninServiceTest {
 		expectedDbValues = new String[6];
 		expectedDbValues[0] = "Yoshua";
 		expectedDbValues[1] = "Nahar";
-		expectedDbValues[2] = "230";
+		expectedDbValues[2] = "230A";
 		expectedDbValues[3] = "yosh.nahar@gmail.com";
-		expectedDbValues[4] = "compaq";
+		expectedDbValues[4] = "asusx52j";
 		expectedDbValues[5] = "636493686";
 	}
 

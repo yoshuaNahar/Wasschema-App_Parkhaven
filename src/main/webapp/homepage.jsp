@@ -42,7 +42,7 @@
        <div id="navbar" class="navbar-collapse collapse">
 	     <div class="navbar-form navbar-right">
 
-<c:if test="${empty user_email}">
+<c:if test="${empty sessionScope.user.email}">
 	       <form id="loginForm" name="loginForm" action="" method="post">
              <div class="form-group">            
                <input name="email" type="email" class="form-control" id="exampleInputEmail3" placeholder="Email" required>
@@ -54,8 +54,8 @@
 
            <button id="testingShow" data-toggle="modal" data-target="#myRegisterModel" class="btn btn-default">Sign up</button>
 </c:if>
-<c:if test="${not empty user_email}">
-			<div id="login_information">Logged in as ${user_email}</div>
+<c:if test="${not empty sessionScope.user.email}">
+			<div id="login_information">Logged in as <c:out value="${sessionScope.user.email}" /></div>
    		    <form id="logoutForm" name="logoutButton" class="form-signin" action="" method="post">
                  <button type="submit" class="btn btn-default" >Log Out</button>	
 			</form>
@@ -109,10 +109,9 @@
                  </div>
                  <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                    <div class="panel-body">
-               	     <h6>Huisnummer: ${user_huisnummer}</h6>
+               	     <h6>Huisnummer: ${sessionScope.user.huisnummer}</h6>
                	     <h6>Time: ${time[0]}, ${time[12]}</h6>
                	     <h6>Date: ${date[1]}, ${date[21]}</h6>
-               	     <h6>Huisnummers: ${huisnummers[0]}</h6>
                      <p>Contact: +31 636493686<br>Email: yosh.nahar@gmail.com</p>
                      <p>Call or Email if unclear. For disussions use the Prikbord on the main site!</p>
                    </div>
@@ -171,19 +170,25 @@
                <tr>
                	 <td><c:out value="${time[0]}"></c:out></td>               
                  <c:forEach var="i" begin="0" end="90" step="13" varStatus="loop">
+                 
                  	<td>
-	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
-					   </div>
+	                  <div class="progress">
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
+						<div class="progress-bar progress-bar-warning" style="width:
+						  <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
+	 					  <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
+						  <span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					</div>
+					  </div>
                    	</td>
                  </c:forEach>
                </tr>
@@ -193,11 +198,16 @@
                  <c:forEach var="i" begin="1" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -213,11 +223,16 @@
                  <c:forEach var="i" begin="2" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -233,11 +248,16 @@
                  <c:forEach var="i" begin="3" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -253,11 +273,16 @@
                  <c:forEach var="i" begin="4" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -273,11 +298,16 @@
                  <c:forEach var="i" begin="5" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -293,11 +323,16 @@
                  <c:forEach var="i" begin="6" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -313,11 +348,16 @@
                  <c:forEach var="i" begin="7" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -333,11 +373,16 @@
                  <c:forEach var="i" begin="8" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -353,11 +398,16 @@
                  <c:forEach var="i" begin="9" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -373,11 +423,16 @@
                  <c:forEach var="i" begin="10" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -393,11 +448,16 @@
                  <c:forEach var="i" begin="11" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -413,11 +473,16 @@
                  <c:forEach var="i" begin="12" end="90" step="13" varStatus="loop">
                  	<td>
 	                  <div class="progress">             	
- 						 <div class="progress-bar progress-bar-info" style="width:
-						   <c:if test='${empty huis_nummer1[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer1[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer1[i]}</span>
-	 					 </div>
+	                  	<c:if test='${not empty huis_nummer1[i]}'>
+							<div class="progress-bar progress-bar-info" style="width:50%">
+							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+		 					</div>
+						</c:if>
+    				    <c:if test='${empty huis_nummer1[i]}'>
+    				    	<div class="progress-bar progress-bar-default" style="width:50%">
+		 					</div>
+    				    </c:if>
+
 						 <div class="progress-bar progress-bar-warning" style="width:
 						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
 	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
@@ -535,9 +600,10 @@
   			<div class="row">
   		      <div class="col-xs-4"><h5>Huisnummer:</h5></div>
   			  <div class="col-xs-8 .col-xs-offset-4">
-  			    <input value="${user_huisnummer}" name="huisnummer" type="text" class="form-control pull-right readonly" placeholder="Not Logged In!" required>
+  			    <input value="${sessionScope.user.huisnummer}" name="huisnummer" type="text" class="form-control pull-right readonly" placeholder="Not Logged In!" readonly>
   		      </div>
   			</div>
+		    <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required>		
         	<input name="appointment" value="1" type="number" style="display: none;">
           </div>
           <div class="modal-footer">
@@ -590,13 +656,6 @@
    	if(myVar != "") {
    		alert(myVar);
    	}
-  </script>
-
-<!-- This is for the readOnly and Required Appointment input field, You cant have readOnly and Required for an input field -->
-  <script>
-	$(".readonly").keydown(function(e){
-		e.preventDefault();
-	});
   </script>
 
 </body>

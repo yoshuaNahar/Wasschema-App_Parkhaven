@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import nl.parkhaven.model.db.Database;
+import nl.parkhaven.util.Database;
 
 public abstract class CommonDao {
 

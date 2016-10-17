@@ -1,4 +1,4 @@
-package nl.parkhaven.model.db;
+package nl.parkhaven.util;
 
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
