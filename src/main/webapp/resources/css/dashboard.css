@@ -189,7 +189,7 @@ input {
   background-color: rgb(31, 135, 194); /*Fallback for webbrowsers that dont support RGBa*/
   background-color: rgba(31, 135, 194, 0.8); /*If you enter 1 the p is still showing  display: none;*/
 }
-#registerForm h4 {
+#center_h4 {
   font-size: 26px;
   text-align: center;
   margin-top: 15px;

@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap2.css" />
   <!-- Custom styles -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dashboard.css" />
+  <!-- Stylesheet for Prikbord! -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />
  
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
@@ -110,6 +112,11 @@
                  <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                    <div class="panel-body">
                	     <h6>Huisnummer: ${sessionScope.user.huisnummer}</h6>
+               	     <h6>Hitcounter: ${requestScope.hitcounter}</h6>
+               	     
+               	     <c:set var="can_wash" value="${(sessionScope.wash_counter > 2)? false : true}" scope="session"/>
+					 <h6>Can wash: ${can_wash}</h6>
+               	     <h6>Wash times remaining: ${3 - sessionScope.wash_counter}</h6>
                	     <h6>Time: ${time[0]}, ${time[12]}</h6>
                	     <h6>Date: ${date[1]}, ${date[21]}</h6>
                      <p>Contact: +31 636493686<br>Email: yosh.nahar@gmail.com</p>
@@ -128,14 +135,13 @@
                  </div>
                  <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                    <div class="prikbord panel-body">
-                     <img src="${pageContext.request.contextPath}/resources/img/prikbordnieuw.png" id="prikbordImg"/>
-               	     <h4>KvD-Borrel</h4>
-                     <p>Datum: 4 maart, 19:00 <br>
-                        De dong #420 <br>
-                        Free Booze and Hapjes!!!</p>
-                     <hr>
-                     <h4>Eten Bestellen</h4>
-                     <p>Supa Cheap - Tijdstip: 12:00 - 21:00 / Huisnummer 441</p>
+                     <img src="${pageContext.request.contextPath}/resources/img/prikbordnieuw.png" data-toggle="modal" data-target="#prikbord_modal" id="prikbordImg"/>
+               	     <c:forEach var="message" items="${prikbord_messages}">
+               	     	<h4>${message.titleOutput}</h4>
+               	     	${message.bodyOutput}
+               	     	<c:out value="${message.gebruikerMail}"></c:out>
+               	     	<hr></hr>
+               	     </c:forEach>
                    </div>
                  </div>
                </div>
@@ -510,7 +516,7 @@
 
         <div class="modal-header">
           <button onclick="myFunction()" type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="form-signin-heading">Registreren</h4>
+          <h4 id="center_h4" class="form-signin-heading">Registreren</h4>
         </div>
 
         <form name="index" class="form-signin" action="" method="post">
@@ -617,6 +623,57 @@
   </div>
 
 
+
+  <div class="modal fade" id="prikbord_modal" role="dialog" aria-labelledby="myModalLabel" data-controls-modal="prikbord_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 id="center_h4" class="form-signin-heading">Create Message</h4>
+        </div>
+
+        <form name="prikbordForm" class="form-prikbord" action="" method="post">
+        
+          <div class="modal-body inputSpread">
+            <div class="row">
+              <div class="col-xs-2"><h5>Title: </h5></div>
+              <div class="col-xs-10 .col-xs-offset-2">
+	  		  	  <input type="text" name="title" class="form-control pull-right">
+	  		  </div>
+        	</div>
+        	
+			<br/>
+            
+            <div class="row">
+              <div class="col-xs-2"><h5>Inhoud: </h5></div>
+              <div class="col-xs-10 .col-xs-offset-2">
+					<textarea name="body" rows="10" cols="80" id="MyID"></textarea>
+	  		  </div>
+        	</div>
+        	
+  			<div class="row">
+  		      <div class="col-xs-2"><h5>Sender:</h5></div>
+  			  <div class="col-xs-10 .col-xs-offset-2">
+  			    <input value="${sessionScope.user.email}" name="userEmail" type="text" class="form-control pull-right readonly" placeholder="Not Logged In!" readonly>
+  		      </div>
+  			</div>
+ 
+		    <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required>		
+        	<input name="prikbord" value="1" type="number" style="display: none;">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Accept <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel <span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  
+  
+
   <div id="testingShowDiv"></div>
 
   <!-- Bootstrap core JavaScript -->
@@ -657,6 +714,18 @@
    		alert(myVar);
    	}
   </script>
+<!-- Script for prikbord -->
+<script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+<script>
+var simplemde = new SimpleMDE({
+	    element: document.getElementById("MyID"),
+		placeholder: "NOTE: Write <br/> to continue on the next line, NOT the ENTER key!",
+		spellChecker: false,
+		status: false,
+		styleSelectedText: false,
+		showIcons: ["bold", "italic", "strikethrough", "quote", "unordered-list", "ordered-list"],
+		hideIcons: ["heading", "image", "side-by-side", "fullscreen", "guide", "horizontal-rule"]});
+</script>
 
 </body>
 </html>
