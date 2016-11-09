@@ -3,7 +3,6 @@ package nl.parkhaven.wasschema;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 
@@ -24,6 +23,7 @@ import nl.parkhaven.wasschema.model.user.SigninService;
 import nl.parkhaven.wasschema.model.user.SignupService;
 import nl.parkhaven.wasschema.model.user.User;
 import nl.parkhaven.wasschema.util.Database;
+import nl.parkhaven.wasschema.mail.MailService;
 import nl.parkhaven.wasschema.mail.MailTimer;
 
 @WebServlet(name = "controller", value = { "" }, loadOnStartup = 0)
@@ -35,7 +35,7 @@ public class ControllerServlet extends HttpServlet {
 	private Map<Long, String> times;
 	private NavigableMap<Long, String> dates;
 	private Map<Long, String> wasmachines;
-	private List<PrikbordMessage> prikbordMessages;
+	private Map<Long, PrikbordMessage> prikbordMessages;
 
 	private String[] huisnummers;
 	private String[] huisnummers2;
@@ -54,14 +54,14 @@ public class ControllerServlet extends HttpServlet {
 		dates = schemaService.getDates();
 		wasmachines = schemaService.getWasmachines();
 
-		huisnummers = schemaService.getData("C1");
-		huisnummers2 = schemaService.getData("C2");
-		huisnummers3 = schemaService.getData("D1");
-		huisnummers4 = schemaService.getData("D2");
-		huisnummers5 = schemaService.getData("C3");
-		huisnummers6 = schemaService.getData("C4");
-		huisnummers7 = schemaService.getData("D4");
-		huisnummers8 = schemaService.getData("D4");
+		huisnummers = schemaService.getData(1);
+		huisnummers2 = schemaService.getData(2);
+		huisnummers3 = schemaService.getData(3);
+		huisnummers4 = schemaService.getData(4);
+		huisnummers5 = schemaService.getData(5);
+		huisnummers6 = schemaService.getData(6);
+		huisnummers7 = schemaService.getData(7);
+		huisnummers8 = schemaService.getData(8);
 
 		prikbordMessages = new PrikbordService().getPrikbordMessages();
 
@@ -102,16 +102,27 @@ public class ControllerServlet extends HttpServlet {
 		String appointmentForm = request.getParameter("appointment");
 		String signinForm = request.getParameter("register");
 		String prikbordForm = request.getParameter("prikbord");
+		String removePrikbordMessageForm = request.getParameter("delete_prikbord_message");
+		String removeAppointmentForm = request.getParameter("remove_appointment");
+		String enableMailForm = request.getParameter("mail");
 
 		if (loginForm != null) {
 			signin(request, response);
+			prikbordMessages = new PrikbordService().getPrikbordMessages();
 		} else if (appointmentForm != null) {
 			appointment(request, response);
+			updateSchema(request, response);
+		} else if (removeAppointmentForm != null) {
+			removeAppointment(request, response);
 			updateSchema(request, response);
 		} else if (signinForm != null) {
 			signup(request, response);
 		} else if (prikbordForm != null) {
-			prikbordMessage(request, response);
+			createPrikbordMessage(request, response);
+		} else if (removePrikbordMessageForm != null) {
+			removePrikbordMessage(request, response);
+		} else if (enableMailForm != null) {
+			enableOrDisableMail(request, response);
 		} else {
 			// logout button
 			HttpSession session = request.getSession(false);
@@ -168,8 +179,10 @@ public class ControllerServlet extends HttpServlet {
 			if (appointmentService.errorOccured()) {
 				request.setAttribute("errorMessage", appointmentService.getErrorMessage());
 			} else {
-				DbProcedureCalls mailDao = new DbProcedureCalls();
-				MailTimer.addSchedule(user.getEmail(), mailDao.getDateForEmail(appointment));
+//				if (true) { // IF USER ACCEPTED MAIL											// NOT GONNA IMPLEMENT THIS YET!
+//					MailService mailService = new MailService();
+//					MailTimer.addSchedule(user.getEmail(), appointment, mailService.getDateForEmail(appointment));
+//				}
 				// For washCounter
 				int washCounter = (int) request.getSession().getAttribute("wash_counter");
 				washCounter++;
@@ -177,6 +190,25 @@ public class ControllerServlet extends HttpServlet {
 			}
 		} else {
 			request.setAttribute("errorMessage", "Wash Limit for this week met!");
+		}
+	}
+
+	private void removeAppointment(HttpServletRequest request, HttpServletResponse response) {
+		String day = request.getParameter("day");
+		String time = request.getParameter("time");
+		String machine = request.getParameter("machine");
+		User user = (User) request.getSession().getAttribute("user");
+
+		Appointment appointment = new Appointment();
+		appointment.setDay(day);
+		appointment.setTime(time);
+		appointment.setWasmachine(machine);
+		appointment.setGebruiker_id(user.getId());
+
+		AppointmentService appointmentService = new AppointmentService();
+		appointmentService.removeAppointment(appointment);
+		if (appointmentService.errorOccured()) {
+			request.setAttribute("errorMessage", appointmentService.getErrorMessage());
 		}
 	}
 
@@ -212,19 +244,21 @@ public class ControllerServlet extends HttpServlet {
 		dates = schemaService.getDates();
 		wasmachines = schemaService.getWasmachines();
 
-		huisnummers = schemaService.getData("C1");
-		huisnummers2 = schemaService.getData("C2");
-		huisnummers3 = schemaService.getData("D1");
-		huisnummers4 = schemaService.getData("D2");
-		huisnummers5 = schemaService.getData("C3");
-		huisnummers6 = schemaService.getData("C4");
-		huisnummers7 = schemaService.getData("D4");
-		huisnummers8 = schemaService.getData("D4");
+		huisnummers = schemaService.getData(1);
+		huisnummers2 = schemaService.getData(2);
+		huisnummers3 = schemaService.getData(3);
+		huisnummers4 = schemaService.getData(4);
+		huisnummers5 = schemaService.getData(5);
+		huisnummers6 = schemaService.getData(6);
+		huisnummers7 = schemaService.getData(7);
+		huisnummers8 = schemaService.getData(8);
 
 		schemaService.releaseResources();
 	}
-// 		prikbordMessages = prikbordService.getPrikbordMessages(); // On the admin page, if the admin verified this message! 
-	private void prikbordMessage(HttpServletRequest request, HttpServletResponse response) {
+
+	// prikbordMessages = prikbordService.getPrikbordMessages(); // On the admin
+	// page, if the admin verified this message!
+	private void createPrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
 		String title = request.getParameter("title");
 		String body = request.getParameter("body");
 		String userId = request.getParameter("id");
@@ -240,5 +274,38 @@ public class ControllerServlet extends HttpServlet {
 		if (prikbordService.errorOccured()) {
 			request.setAttribute("errorMessage", prikbordService.getErrorMessage());
 		}
+	}
+
+	private void removePrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
+		String userId = request.getParameter("user_id");
+		String messageId = request.getParameter("message_id");
+
+		PrikbordMessage prikbordMessage = new PrikbordMessage();
+		prikbordMessage.setId(messageId);
+		prikbordMessage.setGebruikerId(userId);
+
+		PrikbordService prikbordService = new PrikbordService();
+		prikbordService.deactivateMessage(prikbordMessage);
+
+		prikbordMessages = new PrikbordService().getPrikbordMessages();
+	}
+
+	private void enableOrDisableMail(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("user");
+
+		if (user == null) {
+			request.setAttribute("errorMessage", "Please log in first!");
+			return;
+		}
+		MailService mailService = new MailService();
+		if (user.isMailEnabled()) {
+			mailService.enableMail(false, user.getId());
+			user.setMailEnabled(false);
+		} else {
+			mailService.enableMail(true, user.getId());
+			user.setMailEnabled(true);
+		}
+
+		request.getSession().setAttribute("user", user);
 	}
 }

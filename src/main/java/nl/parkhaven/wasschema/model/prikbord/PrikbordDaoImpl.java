@@ -2,8 +2,8 @@ package nl.parkhaven.wasschema.model.prikbord;
 
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,15 +17,17 @@ final class PrikbordDaoImpl extends CommonDao implements CrudDao<PrikbordMessage
 
 	@Override
 	public boolean create(PrikbordMessage message) {
-		String sql = "INSERT INTO prikbord_bericht (gebruiker_id, title, body) VALUES (?, ?, ?);";
+		String sql = "INSERT INTO prikbord_bericht (gebruiker_id, title_input, body_input, title_output, body_output) VALUES (?, ?, ?, ?, ?);";
 		boolean bool = false;
 
 		try {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(sql);
 			preStmt.setInt(1, message.getGebruikerId());
-			preStmt.setString(2, message.getTitleOutput());
-			preStmt.setString(3, message.getBodyOutput());
+			preStmt.setString(2, message.getTitleInput());
+			preStmt.setString(3, message.getBodyInput());
+			preStmt.setString(4, message.getTitleOutput());
+			preStmt.setString(5, message.getBodyOutput());
 			int succes = preStmt.executeUpdate();
 			if (succes == 1) {
 				bool = true;
@@ -40,12 +42,9 @@ final class PrikbordDaoImpl extends CommonDao implements CrudDao<PrikbordMessage
 		return bool;
 	}
 
-	public List<PrikbordMessage> getAllMessages() {
-		String sql = "SELECT title, body FROM prikbord_bericht WHERE actief='Y' LIMIT 5;"; // ORDER
-																							// BY
-																							// id
-																							// DESC
-		List<PrikbordMessage> messages = new ArrayList<>();
+	public Map<Long, PrikbordMessage> getAllMessages() {
+		String sql = "SELECT id, gebruiker_id, title_output, body_output FROM prikbord_bericht WHERE actief_gebruiker='Y' AND actief_beheerder='Y' ORDER BY id DESC LIMIT 5;";
+		Map<Long, PrikbordMessage> messages = new HashMap<>();
 
 		try {
 			conn = getConnection();
@@ -53,11 +52,10 @@ final class PrikbordDaoImpl extends CommonDao implements CrudDao<PrikbordMessage
 			rs = preStmt.executeQuery();
 			while (rs.next()) {
 				PrikbordMessage message = new PrikbordMessage();
-				// message.setId(rs.getInt(1)); This should be added, but isnt
-				// yet!
-				message.setTitleOutput(rs.getString(1));
-				message.setBodyOutput(rs.getString(2));
-				messages.add(message);
+				message.setGebruikerId(rs.getInt(2));
+				message.setTitleOutput(rs.getString(3));
+				message.setBodyOutput(rs.getString(4));
+				messages.put(rs.getLong(1), message);
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
@@ -66,17 +64,81 @@ final class PrikbordDaoImpl extends CommonDao implements CrudDao<PrikbordMessage
 		return messages;
 	}
 
+	public Map<Long, PrikbordMessage> getPendingMessagesAdmin() {
+		String sql = "SELECT id, gebruiker_id, title_output, body_output FROM prikbord_bericht WHERE actief_beheerder is NULL;";
+		Map<Long, PrikbordMessage> messages = new HashMap<>();
+
+		try {
+			conn = getConnection();
+			preStmt = conn.prepareStatement(sql);
+			rs = preStmt.executeQuery(sql);
+			while (rs.next()) {
+				PrikbordMessage message = new PrikbordMessage();
+				message.setId(rs.getInt(1));
+				message.setGebruikerId(rs.getInt(2));
+				message.setTitleOutput(rs.getString(3));
+				message.setBodyOutput(rs.getString(4));
+				messages.put((long) rs.getInt(1), message);
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+
+		return messages;		
+	}
+
 	@Override
 	public PrikbordMessage read(PrikbordMessage message) {
 		return null;
 	}
 
+	// Activate message (by admin)
 	@Override
-	public void update(PrikbordMessage e) {
+	public boolean update(PrikbordMessage message) {
+		String sql = "UPDATE prikbord_bericht SET actief_beheerder='Y' WHERE id=?;";
+		boolean bool = false;
+
+		try {
+			conn = getConnection();
+			preStmt = conn.prepareStatement(sql);
+			preStmt.setInt(1, message.getId());
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
+				bool = true;
+			} else {
+				logger.error("More than 1 row was inserted!!!");
+				throw new SQLException("More than 1 rw was inserted!");
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+
+		return bool;
 	}
 
+	// Deactivate message (by user or admin)
 	@Override
-	public void delete(PrikbordMessage e) {
+	public boolean delete(PrikbordMessage message) {
+		String sql = "UPDATE prikbord_bericht SET actief_gebruiker='N' WHERE id=? AND gebruiker_id=?;";
+		boolean bool = false;
+
+		try {
+			conn = getConnection();
+			preStmt = conn.prepareStatement(sql);
+			preStmt.setInt(1, message.getId());
+			preStmt.setInt(2, message.getGebruikerId());
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
+				bool = true;
+			} else {
+				logger.error("More than 1 row was inserted!!!");
+				throw new SQLException("More than 1 rw was inserted!");
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+
+		return bool;
 	}
 
 }

@@ -1,9 +1,7 @@
 package nl.parkhaven.wasschema.model.prikbord;
 
-import java.util.List;
+import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 
@@ -11,18 +9,16 @@ import com.petebevin.markdown.MarkdownProcessor;
 
 public final class PrikbordService {
 
-	private static final Logger logger = LogManager.getLogger(PrikbordService.class);
-
 	private PrikbordDaoImpl prikbordDao;
 	private PrikbordMessage prikbordMessage;
-	private List<PrikbordMessage> prikbordMessages;
+	private Map<Long, PrikbordMessage> prikbordMessages;
 	private String errorMessage;
 
 	public PrikbordService() {
 		prikbordDao = new PrikbordDaoImpl();
 	}
 
-	public List<PrikbordMessage> getPrikbordMessages() {
+	public Map<Long, PrikbordMessage> getPrikbordMessages() {
 		prikbordMessages = prikbordDao.getAllMessages();
 
 		return prikbordMessages;
@@ -33,6 +29,21 @@ public final class PrikbordService {
 		cleanMessage();
 		convertMdToHtml();
 		prikbordDao.create(prikbordMessage);
+	}
+
+	public void deactivateMessage(PrikbordMessage prikbordMessage) {
+		this.prikbordMessage = prikbordMessage;
+		prikbordDao.delete(prikbordMessage);
+	}
+
+	public Map<Long, PrikbordMessage> getPendingMessages() {
+		prikbordMessages = prikbordDao.getPendingMessagesAdmin();
+
+		return prikbordMessages;
+	}
+
+	public void acceptPendingMessage(PrikbordMessage PrikbordMessage) {
+		prikbordDao.update(PrikbordMessage);
 	}
 
 	public boolean errorOccured() {
@@ -50,14 +61,14 @@ public final class PrikbordService {
 		String titleMdClean = Jsoup.clean(titleMd, Whitelist.basic());
 		String bodyMdClean = Jsoup.clean(bodyMd, Whitelist.basic());
 
-		prikbordMessage.setTitleInput(titleMdClean);
-		prikbordMessage.setBodyInput(bodyMdClean);
+		prikbordMessage.setTitleOutput(titleMdClean);
+		prikbordMessage.setBodyOutput(bodyMdClean);
 	}
 
 	private void convertMdToHtml() {
 		MarkdownProcessor mdProcessor = new MarkdownProcessor();
-		String titleHtml = mdProcessor.markdown(prikbordMessage.getTitleInput());
-		String bodyHtml = mdProcessor.markdown(prikbordMessage.getBodyInput());
+		String titleHtml = mdProcessor.markdown(prikbordMessage.getTitleOutput());
+		String bodyHtml = mdProcessor.markdown(prikbordMessage.getBodyOutput());
 
 		prikbordMessage.setTitleOutput(titleHtml);
 		prikbordMessage.setBodyOutput(bodyHtml);

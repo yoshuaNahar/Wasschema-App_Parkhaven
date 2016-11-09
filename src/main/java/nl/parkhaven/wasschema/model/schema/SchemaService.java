@@ -17,7 +17,7 @@ public final class SchemaService {
 		schemaDao = new SchemaDaoImpl();
 	}
 
-	public String[] getData(String wasmachine_id) {
+	public String[] getData(int wasmachine_id) {
 		int firstId = datesId * timesSize + 1;
 		int lastId = (datesId + 21) * timesSize;
 		huisnummers = schemaDao.getWasschemaData(firstId, lastId, wasmachine_id);

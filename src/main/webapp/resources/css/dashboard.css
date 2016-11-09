@@ -43,11 +43,17 @@ td {
 #logoutForm {
   float: right;
 }
-
+#adminForm {
+  float: left;
+  margin-right: 10px;
+}
 /*
  * Sidebar
  */
 
+#mail_checkbox {
+  font-weight: normal;
+}
 /* Hide for mobile, show later */
 .sidebar {
   display: none;
@@ -86,6 +92,17 @@ td {
 }
 
 
+.remove_appointment {
+  float: right;
+  background-color: Transparent;
+  border: none;
+  position: relative;
+  top: 4px;
+  right: 2px;
+}
+.remove_appointment:hover {
+  color: #b7b7b7;
+}
 /*
  * Main content
  */

@@ -14,6 +14,14 @@ public class PrikbordMessage {
 		return id;
 	}
 
+	public void setId(String id) {
+		try {
+			this.id = Integer.parseInt(id);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -24,6 +32,10 @@ public class PrikbordMessage {
 
 	public void setGebruikerId(String gebruikerId) {
 		this.gebruikerId = Integer.parseInt(gebruikerId);
+	}
+
+	public void setGebruikerId(int gebruikerId) {
+		this.gebruikerId = gebruikerId;
 	}
 
 	public String getGebruikerMail() {

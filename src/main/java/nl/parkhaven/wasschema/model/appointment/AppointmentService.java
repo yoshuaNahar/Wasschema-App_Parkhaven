@@ -15,6 +15,13 @@ public final class AppointmentService {
 		}
 	}
 
+	public void removeAppointment(Appointment appointment) {
+		boolean removed = new AppointmentDaoImpl().delete(appointment);
+		if (!removed) {
+			errorMessage = "Wrong information inserted!";
+		}
+	}
+
 	public boolean errorOccured() {
 		return errorMessage == null ? false : true;
 	}

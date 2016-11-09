@@ -6,9 +6,9 @@ public interface CrudDao<E> {
 
 	E read(E e);
 
-	void update(E e);
+	boolean update(E e);
 
-	void delete(E e);
+	boolean delete(E e);
 
 	void releaseResources();
 }

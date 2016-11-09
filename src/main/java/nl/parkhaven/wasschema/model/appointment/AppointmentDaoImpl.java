@@ -19,23 +19,23 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 		return false;
 	}
 
-	// WARNING: Always use this method with update, resources not closed.
 	@Override
 	public Appointment read(Appointment ap) {
-		String checkFreeSQL = "SELECT gebruiker_id FROM wasschema WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
+		String checkFreeAndAtleast5MinPriorSQL = "CALL check_free_and_atleast_5min_prior(?, ?);";
 		Appointment apResult = new Appointment();
 
 		try {
 			conn = getConnection();
-			preStmt = conn.prepareStatement(checkFreeSQL);
+			preStmt = conn.prepareCall(checkFreeAndAtleast5MinPriorSQL);
 			preStmt.setInt(1, ap.week_dag_tijd_id());
-			preStmt.setString(2, ap.getWasmachine());
+			preStmt.setInt(2, ap.getWasmachine());
 			rs = preStmt.executeQuery();
 			if (rs.next()) {
 				apResult.setGebruiker_id(rs.getInt(1));
 			}
-			logger.info("Appointment read method. Details: Gebruiker " + ap.getGebruiker_id() + " - Week_dag_tijd_id " + ap.week_dag_tijd_id()
-					+ " - Wasmachine " + ap.getWasmachine() + ". DB Result gebruiker_id: " + apResult.getGebruiker_id());
+			logger.info("Appointment read method. Details: Gebruiker " + ap.getGebruiker_id() + " - Week_dag_tijd_id "
+					+ ap.week_dag_tijd_id() + " - Wasmachine " + ap.getWasmachine() + ". DB Result gebruiker_id: "
+					+ apResult.getGebruiker_id());
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		}
@@ -44,18 +44,20 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 	}
 
 	@Override
-	public void update(Appointment ap) {
+	public boolean update(Appointment ap) {
 		String addAppointmentSQL = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
+		boolean bool = false;
 
 		try {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(addAppointmentSQL);
 			preStmt.setInt(1, ap.getGebruiker_id());
 			preStmt.setInt(2, ap.week_dag_tijd_id());
-			preStmt.setString(3, ap.getWasmachine());
+			preStmt.setInt(3, ap.getWasmachine());
 			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated > 1) {
-				conn.rollback();
+			if (rowsUpdated == 1) {
+				bool = true;
+			} else {
 				throw new SQLException("More than 1 row was updated!");
 			}
 			logger.info("Appointment made! Details: " + ap.getGebruiker_id() + " - " + ap.week_dag_tijd_id() + " - "
@@ -65,10 +67,36 @@ final class AppointmentDaoImpl extends CommonDao implements CrudDao<Appointment>
 		} finally {
 			releaseResources();
 		}
+
+		return bool;
 	}
 
+	// Set gebruikerId to NULL, records will never be removed!
 	@Override
-	public void delete(Appointment e) {
-		// Appointment records deletion will be done in MySQL.
+	public boolean delete(Appointment ap) {
+		String removeAppointmentSQL = "UPDATE wasschema SET gebruiker_id = NULL WHERE gebruiker_id = ? AND week_dag_tijd_id = ? AND wasmachine_id = ?;";
+		boolean bool = false;
+
+		try {
+			conn = getConnection();
+			preStmt = conn.prepareStatement(removeAppointmentSQL);
+			preStmt.setInt(1, ap.getGebruiker_id());
+			preStmt.setInt(2, ap.week_dag_tijd_id());
+			preStmt.setInt(3, ap.getWasmachine());
+			int rowsUpdated = preStmt.executeUpdate();
+			if (rowsUpdated == 1) {
+				bool = true;
+			} else {
+				throw new SQLException("More than 1 row was updated Or None!");
+			}
+			logger.info("Appointment removed! Details: " + ap.getGebruiker_id() + " - " + ap.week_dag_tijd_id() + " - "
+					+ ap.getWasmachine());
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		} finally {
+			releaseResources();
+		}
+
+		return bool;
 	}
 }

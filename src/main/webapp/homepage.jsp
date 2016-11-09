@@ -58,6 +58,12 @@
 </c:if>
 <c:if test="${not empty sessionScope.user.email}">
 			<div id="login_information">Logged in as <c:out value="${sessionScope.user.email}" /></div>
+			
+						<c:if test="${sessionScope.user.admin}">
+				<form id="adminForm" name="adminButton" class="form-signin" action="admin.010" method="post">
+				                 <button type="submit" class="btn btn-succes" >Admin page</button>	
+			</form>
+						</c:if>
    		    <form id="logoutForm" name="logoutButton" class="form-signin" action="" method="post">
                  <button type="submit" class="btn btn-default" >Log Out</button>	
 			</form>
@@ -88,15 +94,17 @@
                  </div>
                  <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                    <div class="panel-body">
-                	   ${errorMessage}
-                	   <br>
-                	   Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid.
-                	   3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum
-                 	   eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla
-                 	   assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt
-                  	   sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table,
-                   	   raw denim aesthetic synth nesciunt you
-                 	   probably haven't heard of them accusamus labore sustainable VHSx.
+
+				<form id="mailForm" name="mailForm" class="form-signin" action="" method="post">
+					    <label class="form-check-inline">
+							Receive a mail 15 min prior to wash date: <input id="mail_checkbox" name="mail_checkbox" onchange="$('#mailForm').submit();" type="checkbox" class="form-check-input" <c:if test="${sessionScope.user.mailEnabled}">checked</c:if> />
+					    </label>
+					    
+					    <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required>		
+        				<input name="mail" value="1" type="number" style="display: none;">
+				</form>
+					                  	   <br>
+					                  	   Other
                    </div>
                  </div>
            	   </div>
@@ -137,9 +145,13 @@
                    <div class="prikbord panel-body">
                      <img src="${pageContext.request.contextPath}/resources/img/prikbordnieuw.png" data-toggle="modal" data-target="#prikbord_modal" id="prikbordImg"/>
                	     <c:forEach var="message" items="${prikbord_messages}">
-               	     	<h4>${message.titleOutput}</h4>
-               	     	${message.bodyOutput}
-               	     	<c:out value="${message.gebruikerMail}"></c:out>
+               	     	<h4>${message.value.titleOutput}</h4>
+               	     	${message.value.bodyOutput}
+               	     	<c:out value="${message.value.gebruikerMail}"></c:out>
+               	     	
+               	     	<c:if test="${message.value.gebruikerId == sessionScope.user.id}">
+                            <button id="save_message_id" data-title="${message.value.titleOutput}" data-id="${message.key}" type="button" data-toggle="modal" data-target="#delete_message_modal" class="btn btn-default btn-xs" >Remove message</button>
+               	     	</c:if>
                	     	<hr></hr>
                	     </c:forEach>
                    </div>
@@ -156,6 +168,15 @@
        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
        	 <div id="bodyTitle">
            <h2 class="page-header">Overview <small>/ Week ${getDays.overviewDate}</small></h2>
+         </div>
+         <div >
+			<nav aria-label="week_pagination">
+				<ul class="pager">
+					<li><a href="#" class="label"><span class="glyphicon glyphicon-arrow-left"></span> Previous</a></li>
+					<li class="disabled"><a class="label">Current Week</a></li>
+					<li><a href="#" class="label">Next <span class="glyphicon glyphicon-arrow-right"></span></a></li>
+				</ul>
+			</nav>
          </div>
          <div class="table-responsive">
            <table class="table table-striped">
@@ -182,6 +203,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -189,11 +213,18 @@
 		 					</div>
     				    </c:if>
 
-						<div class="progress-bar progress-bar-warning" style="width:
-						  <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					  <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						  <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					</div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					  </div>
                    	</td>
                  </c:forEach>
@@ -207,6 +238,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -214,11 +248,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -232,6 +273,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -239,11 +283,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -257,6 +308,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -264,11 +318,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -282,6 +343,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -289,11 +353,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -307,6 +378,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -314,11 +388,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -332,6 +413,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -339,11 +423,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -357,6 +448,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -364,11 +458,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -382,6 +483,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -389,11 +493,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -407,6 +518,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -414,11 +528,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -432,6 +553,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -439,11 +563,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -457,6 +588,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -464,11 +598,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -482,6 +623,9 @@
 	                  	<c:if test='${not empty huis_nummer1[i]}'>
 							<div class="progress-bar progress-bar-info" style="width:50%">
 							  <span class="coverProgressNumber">${huis_nummer1[i]}</span>
+							  <c:if test="${huis_nummer1[i] eq sessionScope.user.huisnummer}">
+							  <button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  </c:if>
 		 					</div>
 						</c:if>
     				    <c:if test='${empty huis_nummer1[i]}'>
@@ -489,11 +633,18 @@
 		 					</div>
     				    </c:if>
 
-						 <div class="progress-bar progress-bar-warning" style="width:
-						   <c:if test='${empty huis_nummer2[i]}'><c:out value='0%'/></c:if>
-	 					   <c:if test='${not empty huis_nummer2[i]}'><c:out value='50%'/></c:if>">
-						   <span class="coverProgressNumber">${huis_nummer2[i]}</span>
-	 					 </div>
+	 					  <c:if test='${not empty huis_nummer2[i]}'>
+	 					  	<div class="progress-bar progress-bar-warning" style="width:50%">
+	 					  		<span class="coverProgressNumber">${huis_nummer2[i]}</span>
+	 					  		<c:if test="${huis_nummer2[i] eq sessionScope.user.huisnummer}">
+							  		<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="remove_appointment glyphicon glyphicon-trash"></button>
+							  	</c:if>
+	 					  	</div>
+	 					  </c:if>
+						  <c:if test='${empty huis_nummer2[i]}'>
+						  	<div class="progress-bar progress-bar-warning" style="width:0%">
+						  	</div>
+						  </c:if>
 					   </div>
                    	</td>
                  </c:forEach>
@@ -596,7 +747,7 @@
 
 		  	    <select name="machine" class="form-control">
 				  <c:forEach items="${wasmachine}" var="entry">
-				  	<option value="${entry.value}">${entry.value}</option>
+				  	<option value="${entry.key}">${entry.value}</option>
 				  </c:forEach>
 		  	    </select>
 
@@ -621,8 +772,115 @@
       </div>
     </div>
   </div>
+  
+  
 
+<div class="modal fade" id="delete_appointment_modal" role="dialog" aria-labelledby="myModalLabel" data-controls-modal="delete_appointment_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 id="center_h4" class="form-signin-heading">Remove Appointent</h4>
+        </div>
+        
+        <form name="deleteAppointmentForm" class="form-signin" action="" method="post">
+        
+          <div class="modal-body inputSpread">
+          <div class="row">
+        
+  		      <div class="col-xs-12"><h5>Set the correct details of the appointment you want to remove.</h5></div>
+  		      </div>
+  		      
+            <div class="row">
+              <div class="col-xs-4"><h5>Dag:</h5></div>
+              <div class="col-xs-8 .col-xs-offset-4">
+              
+                <select name="day" class="form-control pull-right">
+                  <c:forEach items="${date}" var="entry">
+			 	     <option value="${entry.key}">${entry.value}</option>
+                  </c:forEach>
+				</select>
+	  		  
+	  		  </div>
+        	</div>
 
+  			<div class="row">
+  			  <div class="col-xs-4"><h5>Tijd:</h5></div>
+  			  <div class="col-xs-8 .col-xs-offset-4">
+  			  
+                <select name="time" class="form-control pull-right">
+			  	  <c:forEach items="${time}" var="entry">
+			  	  	<option value="${entry.key}">${entry.value}</option>
+			  	  </c:forEach>
+				</select>
+
+		      </div>
+  			</div>
+  			
+  			<div class="row">
+  		      <div class="col-xs-4"><h5>Wasmachine:</h5></div>
+  			  <div class="col-xs-8 .col-xs-offset-4">
+
+		  	    <select name="machine" class="form-control">
+				  <c:forEach items="${wasmachine}" var="entry">
+				  	<option value="${entry.value}">${entry.value}</option>
+				  </c:forEach>
+		  	    </select>
+
+  		      </div>
+  			</div>
+
+  			<div class="row">
+  		      <div class="col-xs-4"><h5>Huisnummer:</h5></div>
+  			  <div class="col-xs-8 .col-xs-offset-4">
+  			    <input value="${sessionScope.user.huisnummer}" name="huisnummer" type="text" class="form-control pull-right readonly" placeholder="Not Logged In!" readonly>
+  		      </div>
+  			</div>
+		    <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required>		
+        	<input name="remove_appointment" value="1" type="number" style="display: none;">
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Accept <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel <span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+        </form>
+      
+        </div>
+    </div>
+    </div>
+    
+
+<div class="modal fade" id="delete_message_modal" role="dialog" aria-labelledby="myModalLabel" data-controls-modal="delete_message_modal" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 id="center_h4" class="form-signin-heading">Remove Message</h4>
+        </div>
+                        <form name="deleteMessageForm" class="form-prikbord" action="" method="post">
+        
+        <div class="modal-body">
+                    <div class="row">
+        
+  		      <div class="col-xs-12"><h5>Are you sure you want to remove your message with title: <span id="messageTitle"></span></h5>
+		    <input value="${sessionScope.user.id}" name="user_id" type="number" style="display: none;" required>		
+  			    <input id="messageId" name="message_id" value="" required>
+  		      </div>
+  		      </div>
+  			 </div>
+  			         	<input name="delete_prikbord_message" value="1" type="number" style="display: none;">
+  			 
+         <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" >Delete <span class="glyphicon glyphicon-ok"></span></button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel <span class="glyphicon glyphicon-remove"></span></button>
+          </div>
+          </form>
+        </div>
+    </div>
+    </div>
+  
 
   <div class="modal fade" id="prikbord_modal" role="dialog" aria-labelledby="myModalLabel" data-controls-modal="prikbord_modal" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog">
@@ -682,9 +940,25 @@
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 
+<script>
+<!-- Save id for delete message modal -->
+$(document).on("click", "#save_message_id", function () {
+     var myMessageId = $(this).data('id');
+     $("#messageId").val(myMessageId);
+
+     var myMessageTitle = $(this).data('title');
+     document.getElementById("messageTitle").innerHTML = myMessageTitle; 
+});
+</script>
+
   <script>
 	$("[data-toggle=popover]").popover();
 
+	$("#delete_appointment_modal").draggable({
+    	handle: ".modal-content"
+	});
+	
+	
 	$("#myModal").draggable({
     	handle: ".modal-content"
 	});
