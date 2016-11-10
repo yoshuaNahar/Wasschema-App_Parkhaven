@@ -30,4 +30,10 @@ public final class Database {
 
 		return dataSource.getConnection();
 	}
+
+	public static void closeConnection() {
+		if (dataSource != null) {
+			dataSource.close();
+		}
+	}
 }

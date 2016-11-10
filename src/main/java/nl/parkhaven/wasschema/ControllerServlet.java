@@ -85,9 +85,6 @@ public class ControllerServlet extends HttpServlet {
 			request.setAttribute("huis_nummer7", huisnummers7[week_id]);
 			request.setAttribute("huis_nummer8", huisnummers8[week_id]);
 		} else {
-			for (int i = 0; i < 91; i++) {
-				System.out.println(huisnummers[week_id][i]);
-			}
 			request.setAttribute("huis_nummer1", huisnummers[week_id]);
 			request.setAttribute("huis_nummer2", huisnummers2[week_id]);
 			request.setAttribute("huis_nummer3", huisnummers3[week_id]);
@@ -152,6 +149,7 @@ public class ControllerServlet extends HttpServlet {
 
 	@Override
 	public void destroy() {
+		Database.closeConnection();
 		// save hitCounter on txt file.
 	}
 
