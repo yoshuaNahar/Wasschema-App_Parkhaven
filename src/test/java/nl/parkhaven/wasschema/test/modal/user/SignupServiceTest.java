@@ -17,7 +17,7 @@ public final class SignupServiceTest {
 	private User user_NecessaryInfo;
 	private User user_Signedin;
 
-	@Before
+//	@Before
 	public void settingUsersCredentials() {
 		user_AllInfo = new User();
 		user_AllInfo.setVoornaam("test");
@@ -36,7 +36,7 @@ public final class SignupServiceTest {
 		signinService = new SigninService();
 	}
 
-	@Test
+//	@Test
 	public void testingSignup() {
 		// User 1 - newUserAllInfo
 		signupService.signup(user_AllInfo, "3024NH");
