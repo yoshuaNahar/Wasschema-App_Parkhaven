@@ -46,8 +46,17 @@ public class ControllerServlet extends HttpServlet {
 	private String[][] huisnummers7;
 	private String[][] huisnummers8;
 
-	public ControllerServlet() throws SQLException, PropertyVetoException {
-		Database.getConnection();
+	public ControllerServlet() {
+	}
+
+	@Override
+	public void init() {
+		try {
+			Database.getConnection();
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+
 		SchemaService schemaService = new SchemaService();
 
 		times = schemaService.getTimes();
