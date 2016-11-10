@@ -17,6 +17,7 @@ public class AdminControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private Map<Long, PrikbordMessage> prikbordMessages;
+	private String isMessageAccepted;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -27,15 +28,14 @@ public class AdminControllerServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String approveMessage = request.getParameter("approve_prikbord_message");
+		isMessageAccepted = request.getParameter("accept_prikbord_message");
 
-		if (approveMessage != null) {
-			acceptPendindingPrikbordMessage(request, response);
+		if (isMessageAccepted != null) {
+			handlePendindingPrikbordMessage(request, response);
 		}
 
 		doGet(request, response);
 	}
-
 
 	private void showPendingPrikbordMessages(HttpServletRequest request, HttpServletResponse response) {
 		PrikbordService prikbordService = new PrikbordService();
@@ -44,13 +44,18 @@ public class AdminControllerServlet extends HttpServlet {
 		request.setAttribute("prikbord_messages", prikbordMessages);
 	}
 
-	private void acceptPendindingPrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
+	private void handlePendindingPrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
 		String prikbordId = request.getParameter("message_id");
 
 		PrikbordService prikbordService = new PrikbordService();
 		PrikbordMessage message = new PrikbordMessage();
 		message.setId(prikbordId);
 
-		prikbordService.acceptPendingMessage(message);
+		if (isMessageAccepted.equals("true")) {
+			prikbordService.acceptPendingMessage(message);
+		} else {
+			prikbordService.deactivateMessage(message);
+		}
 	}
+
 }

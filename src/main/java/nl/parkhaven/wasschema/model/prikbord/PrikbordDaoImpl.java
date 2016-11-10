@@ -65,26 +65,26 @@ final class PrikbordDaoImpl extends CommonDao implements CrudDao<PrikbordMessage
 	}
 
 	public Map<Long, PrikbordMessage> getPendingMessagesAdmin() {
-		String sql = "SELECT id, gebruiker_id, title_output, body_output FROM prikbord_bericht WHERE actief_beheerder is NULL;";
+		String sql = "SELECT id, gebruiker_id, title_output, body_output FROM prikbord_bericht WHERE actief_beheerder = 'N' AND actief_gebruiker = 'Y';";
 		Map<Long, PrikbordMessage> messages = new HashMap<>();
 
 		try {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(sql);
 			rs = preStmt.executeQuery(sql);
-			while (rs.next()) {
+			for (long l = 0; rs.next(); l++) {
 				PrikbordMessage message = new PrikbordMessage();
 				message.setId(rs.getInt(1));
 				message.setGebruikerId(rs.getInt(2));
 				message.setTitleOutput(rs.getString(3));
 				message.setBodyOutput(rs.getString(4));
-				messages.put((long) rs.getInt(1), message);
+				messages.put(l, message);
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		}
 
-		return messages;		
+		return messages;
 	}
 
 	@Override
@@ -119,14 +119,13 @@ final class PrikbordDaoImpl extends CommonDao implements CrudDao<PrikbordMessage
 	// Deactivate message (by user or admin)
 	@Override
 	public boolean delete(PrikbordMessage message) {
-		String sql = "UPDATE prikbord_bericht SET actief_gebruiker='N' WHERE id=? AND gebruiker_id=?;";
+		String sql = "UPDATE prikbord_bericht SET actief_gebruiker='N' WHERE id=?;";
 		boolean bool = false;
 
 		try {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(sql);
 			preStmt.setInt(1, message.getId());
-			preStmt.setInt(2, message.getGebruikerId());
 			int succes = preStmt.executeUpdate();
 			if (succes == 1) {
 				bool = true;

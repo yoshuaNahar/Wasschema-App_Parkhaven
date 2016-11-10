@@ -15,7 +15,7 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 
 	@Override
 	public User read(User user) {
-		String signinSQL = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, admin, x.receive_mail FROM gebruiker LEFT JOIN gebruiker_instellingen x ON id = x.gebruiker_id WHERE email = ? AND wachtwoord = ?;";
+		String signinSQL = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, admin FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
 
 		try {
 			conn = getConnection();
@@ -32,7 +32,6 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 				user.setWachtwoord(rs.getString(6));
 				user.setMobielnummer(rs.getString(7));
 				user.setAdmin(rs.getString(8).equals("Y"));
-				user.setMailEnabled(rs.getString(9).equals("Y"));
 			} else {
 				logger.info("Wrong email or password was used! Email: " + user.getEmail() + " - Password: "
 						+ user.getWachtwoord());

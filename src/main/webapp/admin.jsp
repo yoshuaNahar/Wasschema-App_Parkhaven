@@ -29,7 +29,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand mainTitle" href="#">Parkhaven - Was
+				<a class="navbar-brand mainTitle" href="/WasSchema/">Parkhaven - Was
 					Schema</a>
 			</div>
 
@@ -76,15 +76,13 @@
 			<c:forEach var="message" items="${prikbord_messages}">
 				<h4>${message.value.titleOutput}</h4>
 				${message.value.bodyOutput}
-				${message.key}
 				<c:out value="${message.value.gebruikerMail}"></c:out>
-				<form name="accept_prikbord_message_form" class="form-signin"
-					action="admin.010" method="post">
-					<input name="message_id" value="${message.key}" style="display: none;" required>
-					<input name="approve_prikbord_message" value="1" type="number" style="display: none;">
-					<button type="submit" class="btn btn-succes btn-xs">Approve Message <span class="glyphicon glyphicon-ok"></span></button>
+				<form name="accept_prikbord_message_form" class="form-signin" action="admin.010" method="post">
+					<input name="message_id" value="${message.value.id}" style="display: none;" required>
+					<button type="submit" name="accept_prikbord_message" value="true" class="btn btn-succes btn-xs">Approve Message <span class="glyphicon glyphicon-ok"></span></button>
+					<button type="submit" name="accept_prikbord_message" value="false" class="btn btn-succes btn-xs">Decline Message <span class="glyphicon glyphicon-remove"></span></button>
 				</form>
-				<hr></hr>				
+				<hr></hr>		
 			</c:forEach>
 		</div>
 	</div>

@@ -23,7 +23,7 @@ public final class DbProcedureCalls extends CommonDao {
 			conn = getConnection();
 			preStmt = conn.prepareCall(sql);
 			preStmt.setInt(1, user.getId());
-			preStmt.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now().plusDays(7))); // Original should remove the plus method!
+			preStmt.setDate(2, java.sql.Date.valueOf(java.time.LocalDate.now()));
 
 			rs = preStmt.executeQuery();
 

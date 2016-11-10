@@ -19,7 +19,7 @@ final class SchemaDaoImpl extends CommonDao implements SchemaDao {
 
 	@Override
 	public NavigableMap<Long, String> getDates() {
-		String sql = "SELECT id, DATE_FORMAT(week_dag, '%a, %d %b') FROM week_dag ORDER BY id DESC LIMIT 21;";
+		String sql = "SELECT id, DATE_FORMAT(week_dag, '%a, %d %b') FROM week_dag ORDER BY id DESC LIMIT 14;";
 		NavigableMap<Long, String> dates = new TreeMap<>();
 
 		try {
@@ -74,10 +74,11 @@ final class SchemaDaoImpl extends CommonDao implements SchemaDao {
 	}
 
 	@Override
-	public String[] getWasschemaData(int startingRange, int endingRange, int wasmachine_id) {
-		String sql = "SELECT a.huisnummer FROM wasschema x LEFT JOIN gebruiker a ON x.gebruiker_id = a.id WHERE (x.week_dag_tijd_id BETWEEN ? AND ?) AND x.wasmachine_id = ?;";
-		int arraySize = endingRange - startingRange + 1;
-		String huisnummers[] = new String[arraySize];
+	public String[][] getWasschemaData(int startingRange, int endingRange, int wasmachine_id) {
+		String sql = "SELECT a.huisnummer, x.week_dag_tijd_id FROM wasschema x LEFT JOIN gebruiker a ON x.gebruiker_id = a.id WHERE (x.week_dag_tijd_id BETWEEN ? AND ?) AND x.wasmachine_id = ? ORDER BY week_dag_tijd_id;";
+		int arraySize = ((endingRange - startingRange) + 1) / 2;
+		System.out.println("arraySize" + arraySize);
+		String huisnummers[][] = new String[2][arraySize];
 
 		try {
 			conn = getConnection();
@@ -86,8 +87,11 @@ final class SchemaDaoImpl extends CommonDao implements SchemaDao {
 			preStmt.setInt(2, endingRange);
 			preStmt.setInt(3, wasmachine_id);
 			rs = preStmt.executeQuery();
-			for (int i = 0; rs.next(); i++) {
-				huisnummers[i] = rs.getString(1);
+			for (int week = 0; week < 2; week++) {
+				for (int index = 0; index < 91 && rs.next(); index++) {
+					huisnummers[week][index] = rs.getString(1);
+					System.out.println(rs.getString(1) + "\t" + rs.getInt(2));
+				}
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();

@@ -6,7 +6,7 @@ import java.util.NavigableMap;
 public final class SchemaService {
 
 	private final SchemaDaoImpl schemaDao;
-	private String[] huisnummers;
+	private String[][] huisnummers;
 	private Map<Long, String> times;
 	private NavigableMap<Long, String> dates;
 	private Map<Long, String> wasmachines;
@@ -17,9 +17,11 @@ public final class SchemaService {
 		schemaDao = new SchemaDaoImpl();
 	}
 
-	public String[] getData(int wasmachine_id) {
+	public String[][] getData(int wasmachine_id) {
 		int firstId = datesId * timesSize + 1;
-		int lastId = (datesId + 21) * timesSize;
+		int lastId = (datesId + 14) * timesSize;
+		
+		System.out.println(firstId + " " + lastId);
 		huisnummers = schemaDao.getWasschemaData(firstId, lastId, wasmachine_id);
 
 		return huisnummers;
@@ -35,6 +37,7 @@ public final class SchemaService {
 		times = schemaDao.getTimes();
 		timesSize = times.size();
 
+		System.out.println(timesSize);
 		return times;
 	}
 
@@ -42,10 +45,18 @@ public final class SchemaService {
 		dates = schemaDao.getDates();
 		datesId = (int) (dates.firstKey() - 1);
 
+		System.out.println(datesId);
 		return dates;
 	}
 
 	public void releaseResources() {
 		schemaDao.releaseResources();
+	}
+
+	public static void main(String[] args) {
+		SchemaService ss = new SchemaService();
+		ss.getTimes();
+		ss.getDates();
+		String[] ar = ss.getData(1)[1];
 	}
 }

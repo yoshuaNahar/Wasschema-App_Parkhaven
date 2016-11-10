@@ -22,9 +22,9 @@ import nl.parkhaven.wasschema.model.schema.SchemaService;
 import nl.parkhaven.wasschema.model.user.SigninService;
 import nl.parkhaven.wasschema.model.user.SignupService;
 import nl.parkhaven.wasschema.model.user.User;
+import nl.parkhaven.wasschema.pojos.DatePlacer;
 import nl.parkhaven.wasschema.util.Database;
 import nl.parkhaven.wasschema.mail.MailService;
-import nl.parkhaven.wasschema.mail.MailTimer;
 
 @WebServlet(name = "controller", value = { "" }, loadOnStartup = 0)
 public class ControllerServlet extends HttpServlet {
@@ -37,14 +37,14 @@ public class ControllerServlet extends HttpServlet {
 	private Map<Long, String> wasmachines;
 	private Map<Long, PrikbordMessage> prikbordMessages;
 
-	private String[] huisnummers;
-	private String[] huisnummers2;
-	private String[] huisnummers3;
-	private String[] huisnummers4;
-	private String[] huisnummers5;
-	private String[] huisnummers6;
-	private String[] huisnummers7;
-	private String[] huisnummers8;
+	private String[][] huisnummers;
+	private String[][] huisnummers2;
+	private String[][] huisnummers3;
+	private String[][] huisnummers4;
+	private String[][] huisnummers5;
+	private String[][] huisnummers6;
+	private String[][] huisnummers7;
+	private String[][] huisnummers8;
 
 	public ControllerServlet() throws SQLException, PropertyVetoException {
 		Database.getConnection();
@@ -71,14 +71,28 @@ public class ControllerServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setAttribute("huis_nummer1", huisnummers);
-		request.setAttribute("huis_nummer2", huisnummers2);
-		request.setAttribute("huis_nummer3", huisnummers3);
-		request.setAttribute("huis_nummer4", huisnummers4);
-		request.setAttribute("huis_nummer5", huisnummers5);
-		request.setAttribute("huis_nummer6", huisnummers6);
-		request.setAttribute("huis_nummer7", huisnummers7);
-		request.setAttribute("huis_nummer8", huisnummers8);
+		String week = request.getParameter("week");
+		String wasruimte = request.getParameter("wasruimte");
+		int week_id = 0;
+
+		if (week != null && week.equals("next")) {
+			week_id = 1;
+		}
+
+		if (wasruimte != null && wasruimte.equals("that")) {
+			request.setAttribute("huis_nummer5", huisnummers5[week_id]);
+			request.setAttribute("huis_nummer6", huisnummers6[week_id]);
+			request.setAttribute("huis_nummer7", huisnummers7[week_id]);
+			request.setAttribute("huis_nummer8", huisnummers8[week_id]);
+		} else {
+			for (int i = 0; i < 91; i++) {
+				System.out.println(huisnummers[week_id][i]);
+			}
+			request.setAttribute("huis_nummer1", huisnummers[week_id]);
+			request.setAttribute("huis_nummer2", huisnummers2[week_id]);
+			request.setAttribute("huis_nummer3", huisnummers3[week_id]);
+			request.setAttribute("huis_nummer4", huisnummers4[week_id]);
+		}
 
 		request.setAttribute("wasmachine", wasmachines);
 		request.setAttribute("time", times);
@@ -89,15 +103,17 @@ public class ControllerServlet extends HttpServlet {
 		hitcounter++;
 		request.setAttribute("hitcounter", hitcounter);
 
+		request.setAttribute("week", week);
+		request.setAttribute("wasruimte", wasruimte);
+
+		request.setAttribute("get_overview", new DatePlacer(week_id).getOverviewDate());
+		
 		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// DatePlacer datePlacer = new DatePlacer();
-		// request.setAttribute("getDays", datePlacer);
-
 		String loginForm = request.getParameter("signin");
 		String appointmentForm = request.getParameter("appointment");
 		String signinForm = request.getParameter("register");
@@ -179,10 +195,12 @@ public class ControllerServlet extends HttpServlet {
 			if (appointmentService.errorOccured()) {
 				request.setAttribute("errorMessage", appointmentService.getErrorMessage());
 			} else {
-//				if (true) { // IF USER ACCEPTED MAIL											// NOT GONNA IMPLEMENT THIS YET!
-//					MailService mailService = new MailService();
-//					MailTimer.addSchedule(user.getEmail(), appointment, mailService.getDateForEmail(appointment));
-//				}
+				// if (true) { // IF USER ACCEPTED MAIL // NOT GONNA IMPLEMENT
+				// THIS YET!
+				// MailService mailService = new MailService();
+				// MailTimer.addSchedule(user.getEmail(), appointment,
+				// mailService.getDateForEmail(appointment));
+				// }
 				// For washCounter
 				int washCounter = (int) request.getSession().getAttribute("wash_counter");
 				washCounter++;

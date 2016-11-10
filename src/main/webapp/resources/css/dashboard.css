@@ -91,6 +91,9 @@ td {
   background-color: #428bca;
 }
 
+table {
+  min-width: 1200px;
+}
 
 .remove_appointment {
   float: right;
@@ -106,12 +109,12 @@ td {
 /*
  * Main content
  */
-#bodyTitle {
+div#overview {
   width: 400px;
   border-bottom: 2px solid #b7b7b7;
   margin-bottom: 20px;
 }
-#bodyTitle h2 {
+#overview h2 {
   margin-bottom: 1px;
 }
 
@@ -271,15 +274,79 @@ background-color: #e74c3c;
 }
 
 
+div#headingOne {
+  padding: 0;
+}
+div#accordion {
+  margin: 5px 0 0;
+}
+img#prikbord_header {
+  width: 100%;
+  height: 100%;
+}
 
-#prikbordImg {
-  width: 100%;
+div#prikbord_body {
+  padding-top: 0;
+  padding-bottom: 0;
 }
-.prikbord h4 {
-  width: 100%;
+
+hr.prikbord_message {
+  margin-top: 5px;
+}
+h4.prikbord_message {
+  margin-top: 10px;
   text-align: center;
-  text-decoration: underline;
 }
+
+nav#week {
+  float: right;
+}
+
+nav#week > ul {
+  margin: 8px 0;
+}
+
+div#wasruimte_all > nav:first-child > ul {
+  margin: 8px 0;
+}
+
+div#wasruimte_all {
+  float: right;
+  position: relative;
+}
+
+nav#under_wasruimte {
+  position: absolute;
+  left: 14px;
+}
+nav#under_wasruimte > ul {
+  margin: -2px 0 0;
+}
+nav#under_other_wasruimte {
+  position: absolute;
+  right: 14px;
+}
+nav#under_other_wasruimte > ul {
+  margin: -2px 0 0;
+}
+
+span.shrink_glyph {
+  font-size: 0.9em;
+}
+
+a#active_week {
+  background-color: #798d8f;
+}
+a#available_week {
+  background-color: #313e4c;
+}
+a#available_week:hover {
+  background-color: #1a242f;
+}
+a#available_week:focus {
+  background-color: #1a242f;
+}
+
 /*
   ************************************ TESTING SHOW DIV **************************************
 #testingShowDiv {
