@@ -15,27 +15,28 @@ public class DatePlacer {
 	}
 
 	private void handleDate(int isCurrentWeek) {
-		LocalDate todayDate;
+		LocalDate date;
 
 		if (isCurrentWeek == 0) {
-			todayDate = new LocalDate(today);
+			date = new LocalDate(today);
 		} else {
-			todayDate = new LocalDate(today).plusDays(7);
+			date = new LocalDate(today).plusDays(7);
 		}
 
-		int dayOfWeek = todayDate.getDayOfWeek();
-		int weekOfYear = todayDate.getWeekOfWeekyear();
-		int monthOfYear = todayDate.getMonthOfYear();
+		int dayOfTheWeek = date.getDayOfWeek();
+		int weekOfTheYear = date.getWeekOfWeekyear();
 
-		LocalDate firstDayOfWeekx = todayDate.minusDays(dayOfWeek - 1);
-		int firstDayOfWeek = firstDayOfWeekx.getDayOfMonth();
+		LocalDate firstDayOfTheWeek = date.minusDays(dayOfTheWeek - 1);
+		int firstDay = firstDayOfTheWeek.getDayOfMonth();
+		int firstDay_MonthOfTheYear = firstDayOfTheWeek.getMonthOfYear();
 
-		LocalDate lastDayOfWeekx = new LocalDate(firstDayOfWeekx).plusDays(7);
-		int lastDayMonthOfYear = lastDayOfWeekx.getMonthOfYear();
-		int lastDayOfWeek = lastDayOfWeekx.getDayOfMonth();
+		LocalDate lastDayOfTheWeek = new LocalDate(firstDayOfTheWeek).plusDays(7);
+		int lastDay = lastDayOfTheWeek.getDayOfMonth();
+		int lastDay_MonthOfTheYear = lastDayOfTheWeek.getMonthOfYear();
 
-		overview = weekOfYear + " / " + String.format("%02d", firstDayOfWeek) + "-" + String.format("%02d", monthOfYear)
-				+ " Till " + String.format("%02d", lastDayOfWeek) + "-" + String.format("%02d", lastDayMonthOfYear);
+		overview = weekOfTheYear + " / " + String.format("%02d", firstDay) + "-"
+				+ String.format("%02d", firstDay_MonthOfTheYear) + " Till " + String.format("%02d", lastDay) + "-"
+				+ String.format("%02d", lastDay_MonthOfTheYear);
 	}
 
 	public String getOverviewDate() {

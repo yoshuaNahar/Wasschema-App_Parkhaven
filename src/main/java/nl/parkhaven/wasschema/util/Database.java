@@ -21,6 +21,9 @@ public final class Database {
 		dataSource.setPassword("geheim");
 		dataSource.setMinPoolSize(3);
 		dataSource.setMaxPoolSize(20);
+		dataSource.setAcquireIncrement(3);
+		dataSource.setMaxConnectionAge(14400); // 4 hours
+		dataSource.setMaxIdleTimeExcessConnections(300);
 	}
 
 	public static Connection getConnection() throws SQLException, PropertyVetoException {
@@ -36,4 +39,5 @@ public final class Database {
 			dataSource.close();
 		}
 	}
+
 }

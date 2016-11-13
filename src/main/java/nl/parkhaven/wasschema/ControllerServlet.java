@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.NavigableMap;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,6 +63,7 @@ public class ControllerServlet extends HttpServlet {
 		times = schemaService.getTimes();
 		dates = schemaService.getDates();
 		wasmachines = schemaService.getWasmachines();
+		prikbordMessages = new PrikbordService().getPrikbordMessages();
 
 		huisnummers = schemaService.getData(1);
 		huisnummers2 = schemaService.getData(2);
@@ -71,8 +73,6 @@ public class ControllerServlet extends HttpServlet {
 		huisnummers6 = schemaService.getData(6);
 		huisnummers7 = schemaService.getData(7);
 		huisnummers8 = schemaService.getData(8);
-
-		prikbordMessages = new PrikbordService().getPrikbordMessages();
 
 		schemaService.releaseResources();
 	}
@@ -100,20 +100,19 @@ public class ControllerServlet extends HttpServlet {
 			request.setAttribute("huis_nummer4", huisnummers4[week_id]);
 		}
 
-		request.setAttribute("wasmachine", wasmachines);
 		request.setAttribute("time", times);
 		request.setAttribute("date", dates);
-
+		request.setAttribute("wasmachine", wasmachines);
 		request.setAttribute("prikbord_messages", prikbordMessages);
-
-		hitcounter++;
-		request.setAttribute("hitcounter", hitcounter);
 
 		request.setAttribute("week", week);
 		request.setAttribute("wasruimte", wasruimte);
 
 		request.setAttribute("get_overview", new DatePlacer(week_id).getOverviewDate());
-		
+
+		hitcounter++;
+		request.setAttribute("hitcounter", hitcounter);
+
 		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
@@ -143,8 +142,6 @@ public class ControllerServlet extends HttpServlet {
 			createPrikbordMessage(request, response);
 		} else if (removePrikbordMessageForm != null) {
 			removePrikbordMessage(request, response);
-		} else if (enableMailForm != null) {
-			enableOrDisableMail(request, response);
 		} else {
 			// logout button
 			HttpSession session = request.getSession(false);
