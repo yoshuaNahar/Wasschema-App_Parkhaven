@@ -2,13 +2,11 @@ package nl.parkhaven.wasschema.model.misc;
 
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
-import java.util.Date;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import nl.parkhaven.wasschema.model.CommonDao;
-import nl.parkhaven.wasschema.model.appointment.Appointment;
 import nl.parkhaven.wasschema.model.user.User;
 
 public final class DbProcedureCalls extends CommonDao {

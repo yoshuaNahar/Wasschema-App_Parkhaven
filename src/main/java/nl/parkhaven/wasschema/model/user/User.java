@@ -8,9 +8,7 @@ public class User {
 	private String huisnummer;
 	private String email;
 	private String wachtwoord;
-	private String mobielnummer;
 	private boolean admin;
-	private boolean mailEnabled;
 
 	public int getId() {
 		return id;
@@ -60,14 +58,6 @@ public class User {
 		this.wachtwoord = wachtwoord;
 	}
 
-	public String getMobielnummer() {
-		return mobielnummer;
-	}
-
-	public void setMobielnummer(String mobielnummer) {
-		this.mobielnummer = mobielnummer;
-	}
-
 	public boolean isAdmin() {
 		return admin;
 	}
@@ -76,11 +66,4 @@ public class User {
 		this.admin = admin;
 	}
 
-	public boolean isMailEnabled() {
-		return mailEnabled;
-	}
-
-	public void setMailEnabled(boolean mailEnabled) {
-		this.mailEnabled = mailEnabled;
-	}
 }

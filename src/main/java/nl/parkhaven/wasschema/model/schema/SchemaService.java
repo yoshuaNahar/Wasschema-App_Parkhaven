@@ -53,10 +53,4 @@ public final class SchemaService {
 		schemaDao.releaseResources();
 	}
 
-	public static void main(String[] args) {
-		SchemaService ss = new SchemaService();
-		ss.getTimes();
-		ss.getDates();
-		String[] ar = ss.getData(1)[1];
-	}
 }

@@ -15,7 +15,7 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 
 	@Override
 	public User read(User user) {
-		String signinSQL = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer, admin FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
+		String signinSQL = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord, admin FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
 
 		try {
 			conn = getConnection();
@@ -30,8 +30,7 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 				user.setHuisnummer(rs.getString(4));
 				user.setEmail(rs.getString(5));
 				user.setWachtwoord(rs.getString(6));
-				user.setMobielnummer(rs.getString(7));
-				user.setAdmin(rs.getString(8).equals("Y"));
+				user.setAdmin(rs.getString(7).equals("Y"));
 			} else {
 				logger.info("Wrong email or password was used! Email: " + user.getEmail() + " - Password: "
 						+ user.getWachtwoord());
@@ -47,7 +46,7 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 
 	@Override
 	public boolean create(User user) {
-		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, mobielnummer) VALUES (?, ?, ?, ?, ?, ?);";
+		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord) VALUES (?, ?, ?, ?, ?);";
 		boolean bool = false;
 
 		try {
@@ -58,7 +57,6 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 			preStmt.setString(3, user.getHuisnummer());
 			preStmt.setString(4, user.getEmail());
 			preStmt.setString(5, user.getWachtwoord());
-			preStmt.setString(6, user.getMobielnummer());
 			int succes = preStmt.executeUpdate();
 			if (succes == 1) {
 				bool = true;
@@ -74,13 +72,32 @@ final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 		return bool;
 	}
 
+	// Not implemented yet. Will be used for changing user settings like email, huisnummer, etc.
 	@Override
 	public boolean update(User e) {
 		return false;
 	}
 
 	@Override
-	public boolean delete(User e) {
-		return false;
+	public boolean delete(User user) {
+		String deactiveUserSQL = "UPDATE gebruiker SET actief = 'N' WHERE id = ?;";
+		boolean bool = false;
+
+		try {
+			conn = getConnection();
+			preStmt = conn.prepareStatement(deactiveUserSQL);
+			preStmt.setInt(1, user.getId());
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
+				bool = true;
+			} else {
+				logger.error("More than 1 row was updated!");
+				throw new SQLException("More than 1 row was updated!");
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+
+		return bool;
 	}
 }

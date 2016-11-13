@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.NavigableMap;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +24,6 @@ import nl.parkhaven.wasschema.model.user.SignupService;
 import nl.parkhaven.wasschema.model.user.User;
 import nl.parkhaven.wasschema.pojos.DatePlacer;
 import nl.parkhaven.wasschema.util.Database;
-import nl.parkhaven.wasschema.mail.MailService;
 
 @WebServlet(name = "controller", value = { "" }, loadOnStartup = 0)
 public class ControllerServlet extends HttpServlet {
@@ -125,7 +123,6 @@ public class ControllerServlet extends HttpServlet {
 		String prikbordForm = request.getParameter("prikbord");
 		String removePrikbordMessageForm = request.getParameter("delete_prikbord_message");
 		String removeAppointmentForm = request.getParameter("remove_appointment");
-		String enableMailForm = request.getParameter("mail");
 
 		if (loginForm != null) {
 			signin(request, response);
@@ -199,13 +196,6 @@ public class ControllerServlet extends HttpServlet {
 			if (appointmentService.errorOccured()) {
 				request.setAttribute("errorMessage", appointmentService.getErrorMessage());
 			} else {
-				// if (true) { // IF USER ACCEPTED MAIL // NOT GONNA IMPLEMENT
-				// THIS YET!
-				// MailService mailService = new MailService();
-				// MailTimer.addSchedule(user.getEmail(), appointment,
-				// mailService.getDateForEmail(appointment));
-				// }
-				// For washCounter
 				int washCounter = (int) request.getSession().getAttribute("wash_counter");
 				washCounter++;
 				request.getSession().setAttribute("wash_counter", washCounter);
@@ -278,8 +268,6 @@ public class ControllerServlet extends HttpServlet {
 		schemaService.releaseResources();
 	}
 
-	// prikbordMessages = prikbordService.getPrikbordMessages(); // On the admin
-	// page, if the admin verified this message!
 	private void createPrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
 		String title = request.getParameter("title");
 		String body = request.getParameter("body");
@@ -309,25 +297,7 @@ public class ControllerServlet extends HttpServlet {
 		PrikbordService prikbordService = new PrikbordService();
 		prikbordService.deactivateMessage(prikbordMessage);
 
-		prikbordMessages = new PrikbordService().getPrikbordMessages();
+		prikbordMessages = prikbordService.getPrikbordMessages();
 	}
 
-	private void enableOrDisableMail(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("user");
-
-		if (user == null) {
-			request.setAttribute("errorMessage", "Please log in first!");
-			return;
-		}
-		MailService mailService = new MailService();
-		if (user.isMailEnabled()) {
-			mailService.enableMail(false, user.getId());
-			user.setMailEnabled(false);
-		} else {
-			mailService.enableMail(true, user.getId());
-			user.setMailEnabled(true);
-		}
-
-		request.getSession().setAttribute("user", user);
-	}
 }
