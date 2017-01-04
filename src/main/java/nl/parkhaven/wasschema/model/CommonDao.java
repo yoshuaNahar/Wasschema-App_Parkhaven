@@ -31,10 +31,7 @@ public abstract class CommonDao {
 	}
 
 	protected Connection getConnection() throws SQLException, PropertyVetoException {
-		if (conn == null) {
-			conn = Database.getConnection();
-		}
-
-		return conn;
+		return conn = Database.getConnection();
 	}
+
 }

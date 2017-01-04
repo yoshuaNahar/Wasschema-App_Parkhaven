@@ -8,6 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>WasSchema Webapp</name>
+
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -31,11 +32,11 @@
 			<artifactId>log4j-core</artifactId>
 			<version>2.6.2</version>
 		</dependency>
-		<!-- Application -->
+		<!-- Sending mail for forgot password feature -->
 		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>2.9.4</version>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
 		</dependency>
 		<!-- Prikbord -->
 		<dependency>
@@ -98,7 +99,8 @@
 
 	<build>
 		<finalName>WasSchema</finalName>
-
+		<!-- Upload on Digital Ocean server -->
+		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
@@ -112,6 +114,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		
 	</build>
 
 	<properties>

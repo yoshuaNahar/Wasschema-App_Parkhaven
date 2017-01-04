@@ -1,6 +1,6 @@
 package nl.parkhaven.wasschema.model;
 
-public interface CrudDao<E> {
+public interface Crud<E> {
 
 	boolean create(E e);
 
@@ -10,5 +10,4 @@ public interface CrudDao<E> {
 
 	boolean delete(E e);
 
-	void releaseResources();
 }

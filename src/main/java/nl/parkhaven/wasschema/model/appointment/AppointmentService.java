@@ -1,6 +1,11 @@
 package nl.parkhaven.wasschema.model.appointment;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public final class AppointmentService {
+
+	private static final Logger logger = LogManager.getLogger(AppointmentService.class);
 
 	private AppointmentDaoImpl appointmentDao;
 	private Appointment appointment;
@@ -18,12 +23,14 @@ public final class AppointmentService {
 	public void removeAppointment(Appointment appointment) {
 		boolean removed = new AppointmentDaoImpl().delete(appointment);
 		if (!removed) {
-			errorMessage = "Wrong information inserted!";
+			errorMessage = "Failed to remove appointment. Check if given info is correct or if appointment isnt within 30 minutes!";
+			logger.warn(
+					"Wrong date Or in the passed (remove appointment). GebruikerId: " + appointment.getGebruiker_id());
 		}
 	}
 
 	public boolean errorOccured() {
-		return errorMessage == null ? false : true;
+		return errorMessage != null;
 	}
 
 	public String getErrorMessage() {
@@ -35,6 +42,7 @@ public final class AppointmentService {
 			return true;
 		} else {
 			errorMessage = "You are not logged in!";
+			logger.warn("= Bypassed Javascript, entering appointment=");
 			return false;
 		}
 	}
@@ -45,6 +53,7 @@ public final class AppointmentService {
 			return true;
 		} else {
 			errorMessage = "Date already taken!";
+			logger.warn("Date taken. GebruikerId: " + appointment.getGebruiker_id());
 			return false;
 		}
 	}
@@ -52,4 +61,5 @@ public final class AppointmentService {
 	private void placeDate() {
 		appointmentDao.update(appointment);
 	}
+
 }
