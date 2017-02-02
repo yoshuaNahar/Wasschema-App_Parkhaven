@@ -2,40 +2,16 @@ package nl.parkhaven.wasschema.model.user;
 
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import nl.parkhaven.wasschema.model.CommonDao;
-import nl.parkhaven.wasschema.model.Crud;
+import nl.parkhaven.wasschema.model.CrudDao;
 
-final class UserDaoImpl extends CommonDao implements Crud<User> {
+final class UserDaoImpl extends CommonDao implements CrudDao<User> {
 
-	@Override
-	public boolean create(User user) {
-		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord) VALUES (?, ?, ?, ?, ?);";
-		boolean bool = false;
-
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(signupSQL);
-			preStmt.setString(1, user.getVoornaam());
-			preStmt.setString(2, user.getAchternaam());
-			preStmt.setString(3, user.getHuisnummer());
-			preStmt.setString(4, user.getEmail());
-			preStmt.setString(5, user.getWachtwoord());
-			preStmt.executeUpdate();
-			bool = true;
-		} catch (SQLException | PropertyVetoException e) {
-			if (e instanceof SQLIntegrityConstraintViolationException) {
-				bool = false;
-			} else {
-				e.printStackTrace();
-			}
-		} finally {
-			releaseResources();
-		}
-
-		return bool;
-	}
+	private static final Logger logger = LogManager.getLogger(UserDaoImpl.class);
 
 	@Override
 	public User read(User user) {
@@ -55,6 +31,9 @@ final class UserDaoImpl extends CommonDao implements Crud<User> {
 				user.setEmail(rs.getString(5));
 				user.setWachtwoord(rs.getString(6));
 				user.setAdmin(rs.getString(7).equals("Y"));
+			} else {
+				logger.info("Wrong email or password was used! Email: " + user.getEmail() + " - Password: "
+						+ user.getWachtwoord());
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
@@ -65,93 +44,60 @@ final class UserDaoImpl extends CommonDao implements Crud<User> {
 		return user;
 	}
 
-	/*
-	 * Three methods for changing user settings. The changeable settings are
-	 * huisnummer, email, password. I created two other methods for email and
-	 * password!
-	 */
 	@Override
-	public boolean update(User user) {
-		String updateHousenumberSQL = "UPDATE gebruiker SET huisnummer = ? WHERE id = ?;";
+	public boolean create(User user) {
+		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord) VALUES (?, ?, ?, ?, ?);";
 		boolean bool = false;
 
 		try {
 			conn = getConnection();
-			preStmt = conn.prepareStatement(updateHousenumberSQL);
-			preStmt.setString(1, user.getHuisnummer());
-			preStmt.setInt(2, user.getId());
-			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated == 1) {
+			preStmt = conn.prepareStatement(signupSQL);
+			preStmt.setString(1, user.getVoornaam());
+			preStmt.setString(2, user.getAchternaam());
+			preStmt.setString(3, user.getHuisnummer());
+			preStmt.setString(4, user.getEmail());
+			preStmt.setString(5, user.getWachtwoord());
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
 				bool = true;
+			} else {
+				logger.error("More than 1 row was inserted!");
+				throw new SQLException("More than 1 row was inserted!");
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
-		} finally {
-			releaseResources();
+			logger.error("Huisnummer already taken!");
 		}
 
 		return bool;
 	}
 
-	public boolean updatePassword(User user) {
-		String updatePasswordSQL = "UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;";
-		boolean bool = false;
-
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(updatePasswordSQL);
-			preStmt.setString(1, user.getWachtwoord());
-			preStmt.setString(2, user.getEmail());
-			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated == 1) {
-				bool = true;
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
-
-		return bool;
+	// Not implemented yet. Will be used for changing user settings like email, huisnummer, etc.
+	@Override
+	public boolean update(User e) {
+		return false;
 	}
 
 	@Override
 	public boolean delete(User user) {
-		// CONCAT with _ because Db columns are unique
-		String deactiveUserSQL = "UPDATE gebruiker SET actief = 'N', email = CONCAT(email, ?), huisnummer = CONCAT(huisnummer, ?) WHERE id = ? AND wachtwoord = ?;";
+		String deactiveUserSQL = "UPDATE gebruiker SET actief = 'N' WHERE id = ?;";
 		boolean bool = false;
 
 		try {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(deactiveUserSQL);
 			preStmt.setInt(1, user.getId());
-			preStmt.setInt(2, user.getId());
-			preStmt.setInt(3, user.getId());
-			preStmt.setString(4, user.getWachtwoord());
-			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated == 1) {
-				deleteAllAppointmentsFromDeletedUser(user);
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
 				bool = true;
+			} else {
+				logger.error("More than 1 row was updated!");
+				throw new SQLException("More than 1 row was updated!");
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
-		} finally {
-			releaseResources();
 		}
 
 		return bool;
 	}
-
-	private void deleteAllAppointmentsFromDeletedUser(User user) {
-		String deleteAppointmentsSQL = "UPDATE wasschema SET gebruiker_id = NULL WHERE gebruiker_id = ?;";
-
-		try {
-			preStmt = conn.prepareStatement(deleteAppointmentsSQL);
-			preStmt.setInt(1, user.getId());
-			preStmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

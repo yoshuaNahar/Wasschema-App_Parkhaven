@@ -5,10 +5,15 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import nl.parkhaven.wasschema.model.CommonDao;
-import nl.parkhaven.wasschema.model.Crud;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-final class PrikbordDaoImpl extends CommonDao implements Crud<PrikbordMessage> {
+import nl.parkhaven.wasschema.model.CommonDao;
+import nl.parkhaven.wasschema.model.CrudDao;
+
+final class PrikbordDaoImpl extends CommonDao implements CrudDao<PrikbordMessage> {
+
+	private static final Logger logger = LogManager.getLogger(PrikbordDaoImpl.class);
 
 	@Override
 	public boolean create(PrikbordMessage message) {
@@ -23,63 +28,15 @@ final class PrikbordDaoImpl extends CommonDao implements Crud<PrikbordMessage> {
 			preStmt.setString(3, message.getBodyInput());
 			preStmt.setString(4, message.getTitleOutput());
 			preStmt.setString(5, message.getBodyOutput());
-			preStmt.executeUpdate();
-			bool = true;
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
+				bool = true;
+			} else {
+				logger.error("More than 1 row was inserted!!!");
+				throw new SQLException("More than 1 rw was inserted!");
+			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
-
-		return bool;
-	}
-
-	@Override
-	public PrikbordMessage read(PrikbordMessage message) {
-		// I return the entire list of messages from the database, not
-		// indiviually.
-		new RuntimeException("Not implemented!");
-		return null;
-	}
-
-	// Activate message (by admin)
-	@Override
-	public boolean update(PrikbordMessage message) {
-		String sql = "UPDATE prikbord_bericht SET actief_beheerder='Y' WHERE id=?;";
-		boolean bool = false;
-
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(sql);
-			preStmt.setInt(1, message.getId());
-			preStmt.executeUpdate();
-			bool = true;
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
-
-		return bool;
-	}
-
-	// Deactivate message (by user or admin)
-	@Override
-	public boolean delete(PrikbordMessage message) {
-		String sql = "UPDATE prikbord_bericht SET actief_gebruiker='N' WHERE id=?;";
-		boolean bool = false;
-
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(sql);
-			preStmt.setInt(1, message.getId());
-			preStmt.executeUpdate();
-			bool = true;
-
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
 		}
 
 		return bool;
@@ -102,8 +59,6 @@ final class PrikbordDaoImpl extends CommonDao implements Crud<PrikbordMessage> {
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
-		} finally {
-			releaseResources();
 		}
 
 		return messages;
@@ -127,11 +82,62 @@ final class PrikbordDaoImpl extends CommonDao implements Crud<PrikbordMessage> {
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
-		} finally {
-			releaseResources();
 		}
 
 		return messages;
+	}
+
+	@Override
+	public PrikbordMessage read(PrikbordMessage message) {
+		return null;
+	}
+
+	// Activate message (by admin)
+	@Override
+	public boolean update(PrikbordMessage message) {
+		String sql = "UPDATE prikbord_bericht SET actief_beheerder='Y' WHERE id=?;";
+		boolean bool = false;
+
+		try {
+			conn = getConnection();
+			preStmt = conn.prepareStatement(sql);
+			preStmt.setInt(1, message.getId());
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
+				bool = true;
+			} else {
+				logger.error("More than 1 row was inserted!!!");
+				throw new SQLException("More than 1 rw was inserted!");
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+
+		return bool;
+	}
+
+	// Deactivate message (by user or admin)
+	@Override
+	public boolean delete(PrikbordMessage message) {
+		String sql = "UPDATE prikbord_bericht SET actief_gebruiker='N' WHERE id=?;";
+		boolean bool = false;
+
+		try {
+			conn = getConnection();
+			preStmt = conn.prepareStatement(sql);
+			preStmt.setInt(1, message.getId());
+			int succes = preStmt.executeUpdate();
+			if (succes == 1) {
+				bool = true;
+			} else {
+				logger.error("More than 1 row was inserted!!!");
+				throw new SQLException("More than 1 rw was inserted!");
+			}
+		} catch (SQLException | PropertyVetoException e) {
+			e.printStackTrace();
+		}
+
+		return bool;
 	}
 
 }

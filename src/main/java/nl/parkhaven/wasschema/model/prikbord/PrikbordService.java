@@ -47,7 +47,7 @@ public final class PrikbordService {
 	}
 
 	public boolean errorOccured() {
-		return errorMessage != null;
+		return errorMessage == null ? false : true;
 	}
 
 	public String getErrorMessage() {

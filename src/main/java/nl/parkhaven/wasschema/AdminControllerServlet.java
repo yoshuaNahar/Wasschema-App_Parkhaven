@@ -14,7 +14,7 @@ import nl.parkhaven.wasschema.model.prikbord.PrikbordService;
 
 @WebServlet("/admin.010")
 public class AdminControllerServlet extends HttpServlet {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 1L;
 
 	private Map<Long, PrikbordMessage> prikbordMessages;
 	private String isMessageAccepted;
