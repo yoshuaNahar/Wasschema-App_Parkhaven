@@ -99,8 +99,8 @@
 
 	<build>
 		<finalName>WasSchema</finalName>
+
 		<!-- Upload on Digital Ocean server -->
-		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
@@ -110,19 +110,20 @@
 					<url>http://95.85.35.169:8008/manager/text</url>
 					<server>digitalOcean</server>
 					<path>/WasSchema</path>
+					<username>admin2</username>
+					<password>geheim4MavenPlugin</password>
 					<update>true</update>
 				</configuration>
 			</plugin>
 		</plugins>
-		
 	</build>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-
 		<!-- I am getting a web.xml missing, this removes the error, I am using 
 			annotations instead of the web.xml -->
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 	</properties>
+
 </project>

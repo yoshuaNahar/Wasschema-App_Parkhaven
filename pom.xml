@@ -99,8 +99,8 @@
 
 	<build>
 		<finalName>WasSchema</finalName>
+
 		<!-- Upload on Digital Ocean server -->
-		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
