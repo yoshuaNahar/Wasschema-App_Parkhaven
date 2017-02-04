@@ -12,7 +12,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import nl.parkhaven.wasschema.model.user.User;
+import nl.parkhaven.wasschema.component.user.User;
 
 public final class MailSender {
 
@@ -57,7 +57,7 @@ public final class MailSender {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
 			message.setSubject("Parkhaven Wasschema - New Password");
 			message.setContent("<body> " + "<h1>Parkhaven Wasschema</h1>" + "<hr></hr>" + "<h2>Your new password is: "
-					+ user.getWachtwoord() + "</h2>" + "<p>Tot ziens!</p>" + "<p>Datum: " + DATEFORMAT.format(now)
+					+ user.getPassword() + "</h2>" + "<p>Tot ziens!</p>" + "<p>Datum: " + DATEFORMAT.format(now)
 					+ "<br>Tijd: " + TIMEFORMAT.format(now) + "<p>========================</p>"
 					+ "<p>Dit is een automatisch gegenereerde email. Reageer aub niet hierop.</p>" + "</body>",
 					"text/html; charset=utf-8");
