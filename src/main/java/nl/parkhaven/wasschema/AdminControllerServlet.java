@@ -9,52 +9,53 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.parkhaven.wasschema.model.prikbord.PrikbordMessage;
-import nl.parkhaven.wasschema.model.prikbord.PrikbordService;
+import nl.parkhaven.wasschema.component.bulletinboard.Message;
+import nl.parkhaven.wasschema.component.bulletinboard.BulletinBoardService;
 
 @WebServlet("/admin.010")
 public class AdminControllerServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	private Map<Long, PrikbordMessage> prikbordMessages;
+	private static final long serialVersionUID = 2L;
+
+	private Map<Long, Message> bulletinBoardMessages;
 	private String isMessageAccepted;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		showPendingPrikbordMessages(request, response);
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		showPendingBulletinBoardMessages(request, response);
 
 		request.getRequestDispatcher("/admin.jsp").forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		isMessageAccepted = request.getParameter("accept_prikbord_message");
 
 		if (isMessageAccepted != null) {
-			handlePendindingPrikbordMessage(request, response);
+			handlePendindingBulletinBoardMessage(request, response);
 		}
 
 		doGet(request, response);
 	}
 
-	private void showPendingPrikbordMessages(HttpServletRequest request, HttpServletResponse response) {
-		PrikbordService prikbordService = new PrikbordService();
+	private void showPendingBulletinBoardMessages(HttpServletRequest request, HttpServletResponse response) {
+		BulletinBoardService bulletinBoardService = new BulletinBoardService();
 
-		prikbordMessages = prikbordService.getPendingMessages();
-		request.setAttribute("prikbord_messages", prikbordMessages);
+		bulletinBoardMessages = bulletinBoardService.getPendingMessages();
+		request.setAttribute("prikbord_messages", bulletinBoardMessages);
 	}
 
-	private void handlePendindingPrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
-		String prikbordId = request.getParameter("message_id");
+	private void handlePendindingBulletinBoardMessage(HttpServletRequest request, HttpServletResponse response) {
+		String bulletinBoardMesssageId = request.getParameter("message_id");
 
-		PrikbordService prikbordService = new PrikbordService();
-		PrikbordMessage message = new PrikbordMessage();
-		message.setId(prikbordId);
+		BulletinBoardService BulletinBoardService = new BulletinBoardService();
+		Message message = new Message();
+		message.setId(bulletinBoardMesssageId);
 
 		if (isMessageAccepted.equals("true")) {
-			prikbordService.acceptPendingMessage(message);
+			BulletinBoardService.acceptPendingMessage(message);
 		} else {
-			prikbordService.deactivateMessage(message);
+			BulletinBoardService.deactivateMessage(message);
 		}
 	}
 

@@ -1,10 +1,7 @@
 package nl.parkhaven.wasschema;
 
-import java.beans.PropertyVetoException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Map;
-import java.util.NavigableMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,138 +10,143 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import nl.parkhaven.wasschema.model.appointment.Appointment;
-import nl.parkhaven.wasschema.model.appointment.AppointmentService;
-import nl.parkhaven.wasschema.model.misc.DbProcedureCalls;
-import nl.parkhaven.wasschema.model.prikbord.PrikbordMessage;
-import nl.parkhaven.wasschema.model.prikbord.PrikbordService;
-import nl.parkhaven.wasschema.model.schema.SchemaService;
-import nl.parkhaven.wasschema.model.user.SigninService;
-import nl.parkhaven.wasschema.model.user.SignupService;
-import nl.parkhaven.wasschema.model.user.User;
-import nl.parkhaven.wasschema.pojos.DatePlacer;
+import nl.parkhaven.wasschema.component.appointment.Appointment;
+import nl.parkhaven.wasschema.component.appointment.AppointmentService;
+import nl.parkhaven.wasschema.component.bulletinboard.Message;
+import nl.parkhaven.wasschema.component.bulletinboard.BulletinBoardService;
+import nl.parkhaven.wasschema.component.misc.MetaDataOperations;
+import nl.parkhaven.wasschema.component.schema.SchemaService;
+import nl.parkhaven.wasschema.component.user.ForgotPasswordService;
+import nl.parkhaven.wasschema.component.user.LoginService;
+import nl.parkhaven.wasschema.component.user.ModifyUserService;
+import nl.parkhaven.wasschema.component.user.SignupService;
+import nl.parkhaven.wasschema.component.user.User;
 import nl.parkhaven.wasschema.util.Database;
+import nl.parkhaven.wasschema.util.DatesStringMaker;
+import nl.parkhaven.wasschema.util.MailSender;
 
 @WebServlet(name = "controller", value = { "" }, loadOnStartup = 0)
 public class ControllerServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
-	private int hitcounter;
+	private int hitCounter;
+	private int totalWashCounter;
 
 	private Map<Long, String> times;
-	private NavigableMap<Long, String> dates;
-	private Map<Long, String> wasmachines;
-	private Map<Long, PrikbordMessage> prikbordMessages;
+	private Map<Long, String> washingmachines;
+	private Map<Long, Message> bulletinBoardMessages;
 
-	private String[][] huisnummers;
-	private String[][] huisnummers2;
-	private String[][] huisnummers3;
-	private String[][] huisnummers4;
-	private String[][] huisnummers5;
-	private String[][] huisnummers6;
-	private String[][] huisnummers7;
-	private String[][] huisnummers8;
+	private Map<Long, String> dates;
 
-	public ControllerServlet() {
-	}
+	private String[][] housenumbersWashmachine1;
+	private String[][] housenumbersWashmachine2;
+	private String[][] housenumbersWashmachine3;
+	private String[][] housenumbersWashmachine4;
+	private String[][] housenumbersWashmachine5;
+	private String[][] housenumbersWashmachine6;
+	private String[][] housenumbersWashmachine7;
+	private String[][] housenumbersWashmachine8;
+
+	private String[] overview;
 
 	@Override
 	public void init() {
-		try {
-			Database.getConnection();
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		}
+		updateSchema();
 
-		SchemaService schemaService = new SchemaService();
+		bulletinBoardMessages = new BulletinBoardService().getMessages();
 
-		times = schemaService.getTimes();
-		dates = schemaService.getDates();
-		wasmachines = schemaService.getWasmachines();
-		prikbordMessages = new PrikbordService().getPrikbordMessages();
-
-		huisnummers = schemaService.getData(1);
-		huisnummers2 = schemaService.getData(2);
-		huisnummers3 = schemaService.getData(3);
-		huisnummers4 = schemaService.getData(4);
-		huisnummers5 = schemaService.getData(5);
-		huisnummers6 = schemaService.getData(6);
-		huisnummers7 = schemaService.getData(7);
-		huisnummers8 = schemaService.getData(8);
-
-		schemaService.releaseResources();
+		DatesStringMaker datesStringMaker = new DatesStringMaker();
+		dates = datesStringMaker.getDates();
+		overview = datesStringMaker.getOverview();
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		String week = request.getParameter("week");
-		String wasruimte = request.getParameter("wasruimte");
+		String washroom = request.getParameter("wasruimte");
 		int week_id = 0;
 
 		if (week != null && week.equals("next")) {
 			week_id = 1;
 		}
 
-		if (wasruimte != null && wasruimte.equals("that")) {
-			request.setAttribute("huis_nummer5", huisnummers5[week_id]);
-			request.setAttribute("huis_nummer6", huisnummers6[week_id]);
-			request.setAttribute("huis_nummer7", huisnummers7[week_id]);
-			request.setAttribute("huis_nummer8", huisnummers8[week_id]);
+		if (washroom != null && washroom.equals("that")) {
+			request.setAttribute("huis_nummer1", housenumbersWashmachine5[week_id]);
+			request.setAttribute("huis_nummer2", housenumbersWashmachine6[week_id]);
+			request.setAttribute("huis_nummer3", housenumbersWashmachine7[week_id]);
+			request.setAttribute("huis_nummer4", housenumbersWashmachine8[week_id]);
 		} else {
-			request.setAttribute("huis_nummer1", huisnummers[week_id]);
-			request.setAttribute("huis_nummer2", huisnummers2[week_id]);
-			request.setAttribute("huis_nummer3", huisnummers3[week_id]);
-			request.setAttribute("huis_nummer4", huisnummers4[week_id]);
+			request.setAttribute("huis_nummer1", housenumbersWashmachine1[week_id]);
+			request.setAttribute("huis_nummer2", housenumbersWashmachine2[week_id]);
+			request.setAttribute("huis_nummer3", housenumbersWashmachine3[week_id]);
+			request.setAttribute("huis_nummer4", housenumbersWashmachine4[week_id]);
 		}
 
 		request.setAttribute("time", times);
 		request.setAttribute("date", dates);
-		request.setAttribute("wasmachine", wasmachines);
-		request.setAttribute("prikbord_messages", prikbordMessages);
+		request.setAttribute("wasmachine", washingmachines);
+		request.setAttribute("prikbord_messages", bulletinBoardMessages);
 
 		request.setAttribute("week", week);
-		request.setAttribute("wasruimte", wasruimte);
+		request.setAttribute("wasruimte", washroom);
 
-		request.setAttribute("get_overview", new DatePlacer(week_id).getOverviewDate());
+		request.setAttribute("get_overview", overview[week_id]);
 
-		hitcounter++;
-		request.setAttribute("hitcounter", hitcounter);
+		hitCounter++;
+		request.setAttribute("hitcounter", hitCounter);
+		request.setAttribute("totalwashcounter", totalWashCounter);
 
 		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String loginForm = request.getParameter("signin");
-		String appointmentForm = request.getParameter("appointment");
-		String signinForm = request.getParameter("register");
-		String prikbordForm = request.getParameter("prikbord");
-		String removePrikbordMessageForm = request.getParameter("delete_prikbord_message");
-		String removeAppointmentForm = request.getParameter("remove_appointment");
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String form = request.getParameter("to_servlet");
+		if (form == null) {
+			form = "";
+		}
 
-		if (loginForm != null) {
-			signin(request, response);
-			prikbordMessages = new PrikbordService().getPrikbordMessages();
-		} else if (appointmentForm != null) {
-			appointment(request, response);
-			updateSchema(request, response);
-		} else if (removeAppointmentForm != null) {
-			removeAppointment(request, response);
-			updateSchema(request, response);
-		} else if (signinForm != null) {
-			signup(request, response);
-		} else if (prikbordForm != null) {
-			createPrikbordMessage(request, response);
-		} else if (removePrikbordMessageForm != null) {
-			removePrikbordMessage(request, response);
-		} else {
-			// logout button
-			HttpSession session = request.getSession(false);
-			if (session != null) {
-				session.invalidate();
-			}
+		// Set a try catch here, and send to doGet(); There will be an error if the user doesn't do anything for longer than 15 min!
+		switch (form) {
+			case "loginForm":
+				login(request, response);
+				setOverviewDateAndDays();
+				break;
+			case "appointmentForm":
+				addAppointment(request, response);
+				updateSchema();
+				break;
+			case "removeAppointmentForm":
+				removeAppointment(request, response);
+				updateSchema();
+				break;
+			case "signupForm":
+				signup(request, response);
+				break;
+			case "createMessageForm":
+				createPrikbordMessage(request, response);
+				break;
+			case "removeMessageForm":
+				removeBulletinBoardMessage(request, response);
+				break;
+			case "forgotPasswordForm":
+				sendNewPassword(request, response);
+				break;
+			case "changeHuisnummerForm":
+				changeUserHouseNumber(request, response);
+				updateSchema();
+				break;
+			case "changePasswordForm":
+				changeUserPassword(request, response);
+				break;
+			case "deleteAccountForm":
+				deleteUserAccount(request, response);
+				updateSchema();
+			default:
+				logout(request);
 		}
 
 		doGet(request, response);
@@ -152,32 +154,55 @@ public class ControllerServlet extends HttpServlet {
 
 	@Override
 	public void destroy() {
-		Database.closeConnection();
-		// save hitCounter on txt file.
+		MetaDataOperations miscDbOperations = new MetaDataOperations();
+		miscDbOperations.insertCounter(hitCounter, "hitcounter");
+		miscDbOperations.insertCounter(totalWashCounter, "washcounter");
+		Database.closeDataSource();
 	}
 
-	private void signin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 
 		User user = new User();
 		user.setEmail(email);
-		user.setWachtwoord(password);
+		user.setPassword(password);
 
-		SigninService signinService = new SigninService();
-		signinService.signin(user);
-		if (signinService.errorOccured()) {
-			request.setAttribute("errorMessage", signinService.getErrorMessage());
+		LoginService loginService = new LoginService(user);
+		loginService.login();
+
+		if (loginService.errorOccured()) {
+			request.setAttribute("errorMessage", loginService.getErrorMessage());
 		} else {
-			DbProcedureCalls washCounterDao = new DbProcedureCalls();
-			request.getSession().setAttribute("wash_counter", washCounterDao.getCounter(user));
-			request.getSession().setAttribute("user", signinService.getSignedinUser());
+			request.getSession().setAttribute("user", loginService.getUser());
+			request.getSession().setAttribute("was_counter", loginService.getWashCounter());
 		}
+
+		bulletinBoardMessages = new BulletinBoardService().getMessages();
 	}
 
-	private void appointment(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		boolean canWash = (Boolean) request.getSession().getAttribute("can_wash");
+	private void setOverviewDateAndDays() {
+		DatesStringMaker datesStringMaker = new DatesStringMaker();
+		dates = datesStringMaker.getDates();
+		overview = datesStringMaker.getOverview();
+	}
+
+	private void addAppointment(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String week = request.getParameter("week");
+		int[] washCounter = (int[]) request.getSession().getAttribute("was_counter");
+
+		boolean canWash = false;
+
+		if (week != null && week.equals("next")) {
+			if (washCounter[1] < 3) {
+				canWash = true;
+			}
+		} else {
+			if (washCounter[0] < 3) {
+				canWash = true;
+			}
+		}
 
 		if (canWash) {
 			String day = request.getParameter("day");
@@ -188,17 +213,22 @@ public class ControllerServlet extends HttpServlet {
 			Appointment appointment = new Appointment();
 			appointment.setDay(day);
 			appointment.setTime(time);
-			appointment.setWasmachine(machine);
-			appointment.setGebruiker_id(user.getId());
+			appointment.setWashingMachine(machine);
+			appointment.setUserId(user.getId());
 
-			AppointmentService appointmentService = new AppointmentService();
-			appointmentService.addAppointment(appointment);
+			AppointmentService appointmentService = new AppointmentService(appointment);
+			appointmentService.addAppointment();
+
 			if (appointmentService.errorOccured()) {
 				request.setAttribute("errorMessage", appointmentService.getErrorMessage());
 			} else {
-				int washCounter = (int) request.getSession().getAttribute("wash_counter");
-				washCounter++;
-				request.getSession().setAttribute("wash_counter", washCounter);
+				if (week != null && week.equals("next")) {
+					washCounter[1]++;
+				} else {
+					washCounter[0]++;
+				}
+				request.getSession().setAttribute("was_counter", washCounter);
+				totalWashCounter++;
 			}
 		} else {
 			request.setAttribute("errorMessage", "Wash Limit for this week met!");
@@ -210,60 +240,69 @@ public class ControllerServlet extends HttpServlet {
 		String time = request.getParameter("time");
 		String machine = request.getParameter("machine");
 		User user = (User) request.getSession().getAttribute("user");
+		int[] washCounter = (int[]) request.getSession().getAttribute("was_counter");
+		String week = request.getParameter("week");
 
 		Appointment appointment = new Appointment();
 		appointment.setDay(day);
 		appointment.setTime(time);
-		appointment.setWasmachine(machine);
-		appointment.setGebruiker_id(user.getId());
+		appointment.setWashingMachine(machine);
+		appointment.setUserId(user.getId());
 
-		AppointmentService appointmentService = new AppointmentService();
-		appointmentService.removeAppointment(appointment);
+		AppointmentService appointmentService = new AppointmentService(appointment);
+		appointmentService.removeAppointment();
+
 		if (appointmentService.errorOccured()) {
 			request.setAttribute("errorMessage", appointmentService.getErrorMessage());
+		} else {
+			if (week != null && week.equals("next")) {
+				washCounter[1]--;
+			} else {
+				washCounter[0]--;
+			}
+			request.getSession().setAttribute("was_counter", washCounter);
 		}
 	}
 
 	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = request.getParameter("email");
-		String firstname = request.getParameter("firstname");
-		String lastname = request.getParameter("lastname");
 		String password = request.getParameter("password");
 		String huisnummer = request.getParameter("huisnummer");
+		String firstName = request.getParameter("firstname");
+		String lastName = request.getParameter("lastname");
 		String code = request.getParameter("sharedcode");
 
 		User user = new User();
 		user.setEmail(email);
-		user.setVoornaam(firstname);
-		user.setAchternaam(lastname);
-		user.setWachtwoord(password);
-		user.setHuisnummer(huisnummer);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setPassword(password);
+		user.setHouseNumber(huisnummer.toUpperCase());
 
-		SignupService signupService = new SignupService();
-		signupService.signup(user, code);
+		SignupService signupService = new SignupService(user, code);
+		signupService.signup();
+
 		if (signupService.errorOccured()) {
 			request.setAttribute("errorMessage", signupService.getErrorMessage());
 		} else {
-			signin(request, response);
+			login(request, response);
 		}
 	}
 
-	private void updateSchema(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private void updateSchema() {
 		SchemaService schemaService = new SchemaService();
 
 		times = schemaService.getTimes();
-		dates = schemaService.getDates();
-		wasmachines = schemaService.getWasmachines();
+		washingmachines = schemaService.getWashingMachines();
 
-		huisnummers = schemaService.getData(1);
-		huisnummers2 = schemaService.getData(2);
-		huisnummers3 = schemaService.getData(3);
-		huisnummers4 = schemaService.getData(4);
-		huisnummers5 = schemaService.getData(5);
-		huisnummers6 = schemaService.getData(6);
-		huisnummers7 = schemaService.getData(7);
-		huisnummers8 = schemaService.getData(8);
+		housenumbersWashmachine1 = schemaService.getData(1);
+		housenumbersWashmachine2 = schemaService.getData(2);
+		housenumbersWashmachine3 = schemaService.getData(3);
+		housenumbersWashmachine4 = schemaService.getData(4);
+		housenumbersWashmachine5 = schemaService.getData(5);
+		housenumbersWashmachine6 = schemaService.getData(6);
+		housenumbersWashmachine7 = schemaService.getData(7);
+		housenumbersWashmachine8 = schemaService.getData(8);
 
 		schemaService.releaseResources();
 	}
@@ -273,31 +312,93 @@ public class ControllerServlet extends HttpServlet {
 		String body = request.getParameter("body");
 		String userId = request.getParameter("id");
 
-		PrikbordMessage prikbordMessage = new PrikbordMessage();
-		prikbordMessage.setTitleInput(title);
-		prikbordMessage.setBodyInput(body);
-		prikbordMessage.setGebruikerId(userId);
+		Message bulletinBoardMessage = new Message();
+		bulletinBoardMessage.setTitleInput(title);
+		bulletinBoardMessage.setBodyInput(body);
+		bulletinBoardMessage.setUserId(userId);
 
-		PrikbordService prikbordService = new PrikbordService();
-		prikbordService.addMessage(prikbordMessage);
-
-		if (prikbordService.errorOccured()) {
-			request.setAttribute("errorMessage", prikbordService.getErrorMessage());
-		}
+		BulletinBoardService bulletinBoardService = new BulletinBoardService();
+		bulletinBoardService.addMessage(bulletinBoardMessage);
 	}
 
-	private void removePrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
+	private void removeBulletinBoardMessage(HttpServletRequest request, HttpServletResponse response) {
 		String userId = request.getParameter("user_id");
 		String messageId = request.getParameter("message_id");
 
-		PrikbordMessage prikbordMessage = new PrikbordMessage();
-		prikbordMessage.setId(messageId);
-		prikbordMessage.setGebruikerId(userId);
+		Message bulletinBoardMessage = new Message();
+		bulletinBoardMessage.setId(messageId);
+		bulletinBoardMessage.setUserId(userId);
 
-		PrikbordService prikbordService = new PrikbordService();
-		prikbordService.deactivateMessage(prikbordMessage);
+		BulletinBoardService bulletinBoardService = new BulletinBoardService();
+		bulletinBoardService.deactivateMessage(bulletinBoardMessage);
 
-		prikbordMessages = prikbordService.getPrikbordMessages();
+		bulletinBoardMessages = bulletinBoardService.getMessages();
+	}
+
+	private void sendNewPassword(HttpServletRequest request, HttpServletResponse response) {
+		String email = request.getParameter("email");
+
+		User user = new User();
+		user.setEmail(email);
+
+		ForgotPasswordService forgotPasswordService = new ForgotPasswordService(user);
+		forgotPasswordService.setRandomPasswordForUser();
+
+		if (forgotPasswordService.errorOccured()) {
+			request.setAttribute("errorMessage", forgotPasswordService.getErrorMessage());
+		} else {
+			MailSender mailSender = new MailSender(user);
+			mailSender.sendMailContainingPassword();
+		}
+	}
+
+	private void changeUserHouseNumber(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("user");
+		String houseNumber = request.getParameter("huisnummer");
+
+		user.setHouseNumber(houseNumber);
+
+		ModifyUserService modifyUserService = new ModifyUserService();
+		modifyUserService.changeHouseNumber(user);
+
+		if (modifyUserService.errorOccured()) {
+			request.setAttribute("errorMessage", modifyUserService.getErrorMessage());
+		} else {
+			logout(request);
+		}
+	}
+
+	private void changeUserPassword(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("user");
+		String password = request.getParameter("password");
+
+		user.setPassword(password);
+
+		ModifyUserService modifyUserService = new ModifyUserService();
+		modifyUserService.changePassword(user);
+
+		if (modifyUserService.errorOccured()) {
+			request.setAttribute("errorMessage", modifyUserService.getErrorMessage());
+		}
+	}
+
+	private void deleteUserAccount(HttpServletRequest request, HttpServletResponse response) {
+		User user = (User) request.getSession().getAttribute("user");
+
+		ModifyUserService modifyUserService = new ModifyUserService();
+		modifyUserService.deleteAccount(user);
+
+		if (modifyUserService.errorOccured()) {
+			request.setAttribute("errorMessage", modifyUserService.getErrorMessage());
+		}
+	}
+
+	private void logout(HttpServletRequest request) {
+		// logout button
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
 	}
 
 }
