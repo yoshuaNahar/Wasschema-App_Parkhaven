@@ -1,9 +1,10 @@
-package nl.parkhaven.wasschema.util;
+package nl.parkhaven.wasschema.mail;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.TimerTask;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,16 +13,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import nl.parkhaven.wasschema.model.user.User;
+import nl.parkhaven.wasschema.model.appointment.Appointment;
+import nl.parkhaven.wasschema.model.misc.DbProcedureCalls;
 
-public final class MailSender {
-
-//	public static void main(String[] args) {
-//		User user = new User();
-//		user.setEmail("yosh.nahar@gmail.com");
-//		user.setWachtwoord("1qwd41S");
-//		new MailSender(user).sendMailContainingPassword();;
-//	}
+final class MailTask extends TimerTask {
 
 	private static final String emailSender = "straalbetaal@gmail.com";
 	private static final String passwordSender = "straalBetaalOP4";
@@ -29,7 +24,8 @@ public final class MailSender {
 	private static final DateFormat DATEFORMAT = new SimpleDateFormat("dd-MM-yyyy");
 	private static final DateFormat TIMEFORMAT = new SimpleDateFormat("HH:mm:ss");
 
-	private final User user;
+	private final String emailReceiver;
+	private final Appointment appointment;
 
 	static {
 		PROPS = System.getProperties();
@@ -41,11 +37,12 @@ public final class MailSender {
 		PROPS.put("mail.smtp.starttls.enable", "true");
 	}
 
-	public MailSender(User user) {
-		this.user = user;
+	MailTask(String emailReceiver, Appointment ap) {
+		this.emailReceiver = emailReceiver;
+		this.appointment = ap;
 	}
 
-	public void sendMailContainingPassword() {
+	void sendMailContainingTransactiebon() {
 		Session session = Session.getDefaultInstance(PROPS);
 		session.setDebug(false);
 
@@ -54,12 +51,12 @@ public final class MailSender {
 		try {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(emailSender));
-			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
-			message.setSubject("Parkhaven Wasschema - New Password");
-			message.setContent("<body> " + "<h1>Parkhaven Wasschema</h1>" + "<hr></hr>" + "<h2>Your new password is: "
-					+ user.getWachtwoord() + "</h2>" + "<p>Tot ziens!</p>" + "<p>Datum: " + DATEFORMAT.format(now)
-					+ "<br>Tijd: " + TIMEFORMAT.format(now) + "<p>========================</p>"
-					+ "<p>Dit is een automatisch gegenereerde email. Reageer aub niet hierop.</p>" + "</body>",
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(emailReceiver));
+			message.setSubject("Parkhaven Wasschema - 15 Minuten");
+			message.setContent("<body> " + "<h1>Parkhaven Wasschema</h1>" + "<hr></hr>"
+					+ "<h2>Over 15 minuten moet u uw was doen!</h2>" + "<p>Tot ziens!</p>" + "<p>Datum: "
+					+ DATEFORMAT.format(now) + "<br>Tijd: " + TIMEFORMAT.format(now) + "<p>========================</p>"
+					+ "<p>Dit is een automatisch gegenereerde email. Reageer aub niet hierop :)</p>" + "</body>",
 					"text/html; charset=utf-8");
 			Transport transport = session.getTransport("smtp");
 			transport.connect("smtp.gmail.com", emailSender, passwordSender);
@@ -69,4 +66,11 @@ public final class MailSender {
 		}
 	}
 
+	@Override
+	public void run() {
+		int gebruikerId = new MailDaoImpl().getGebruikerIdForEmail(appointment);
+		if (gebruikerId == appointment.getGebruiker_id()) {
+			sendMailContainingTransactiebon();
+		}
+	}
 }
