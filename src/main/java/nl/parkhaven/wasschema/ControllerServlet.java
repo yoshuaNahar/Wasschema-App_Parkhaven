@@ -16,16 +16,12 @@ import nl.parkhaven.wasschema.component.bulletinboard.Message;
 import nl.parkhaven.wasschema.component.bulletinboard.BulletinBoardService;
 import nl.parkhaven.wasschema.component.misc.MetaDataOperations;
 import nl.parkhaven.wasschema.component.schema.SchemaService;
-import nl.parkhaven.wasschema.component.user.ForgotPasswordService;
-import nl.parkhaven.wasschema.component.user.LoginService;
 import nl.parkhaven.wasschema.component.user.ModifyUserService;
-import nl.parkhaven.wasschema.component.user.SignupService;
 import nl.parkhaven.wasschema.component.user.User;
 import nl.parkhaven.wasschema.util.Database;
 import nl.parkhaven.wasschema.util.DatesStringMaker;
-import nl.parkhaven.wasschema.util.MailSender;
 
-@WebServlet(name = "controller", value = { "" }, loadOnStartup = 0)
+@WebServlet("/index.010")
 public class ControllerServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -47,6 +43,10 @@ public class ControllerServlet extends HttpServlet {
 	private String[][] housenumbersWashmachine6;
 	private String[][] housenumbersWashmachine7;
 	private String[][] housenumbersWashmachine8;
+	private String[][] housenumbersWashmachine9;
+	private String[][] housenumbersWashmachine10;
+	private String[][] housenumbersWashmachine11;
+	private String[][] housenumbersWashmachine12;
 
 	private String[] overview;
 
@@ -65,23 +65,37 @@ public class ControllerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String week = request.getParameter("week");
-		String washroom = request.getParameter("wasruimte");
+		String laundryRoomRaw = request.getParameter("wasruimte");
+		int laundryRoom;
+
+		try {
+			laundryRoom = Integer.parseInt(laundryRoomRaw);
+		} catch (NumberFormatException e) {
+			laundryRoom = 1;
+			e.printStackTrace();
+		}
+
 		int week_id = 0;
 
 		if (week != null && week.equals("next")) {
 			week_id = 1;
 		}
 
-		if (washroom != null && washroom.equals("that")) {
+		if (laundryRoom == 1) {
+			request.setAttribute("huis_nummer1", housenumbersWashmachine1[week_id]);
+			request.setAttribute("huis_nummer2", housenumbersWashmachine2[week_id]);
+			request.setAttribute("huis_nummer3", housenumbersWashmachine3[week_id]);
+			request.setAttribute("huis_nummer4", housenumbersWashmachine4[week_id]);
+		} else if (laundryRoom == 2){
 			request.setAttribute("huis_nummer1", housenumbersWashmachine5[week_id]);
 			request.setAttribute("huis_nummer2", housenumbersWashmachine6[week_id]);
 			request.setAttribute("huis_nummer3", housenumbersWashmachine7[week_id]);
 			request.setAttribute("huis_nummer4", housenumbersWashmachine8[week_id]);
 		} else {
-			request.setAttribute("huis_nummer1", housenumbersWashmachine1[week_id]);
-			request.setAttribute("huis_nummer2", housenumbersWashmachine2[week_id]);
-			request.setAttribute("huis_nummer3", housenumbersWashmachine3[week_id]);
-			request.setAttribute("huis_nummer4", housenumbersWashmachine4[week_id]);
+			request.setAttribute("huis_nummer1", housenumbersWashmachine9[week_id]);
+			request.setAttribute("huis_nummer2", housenumbersWashmachine10[week_id]);
+			request.setAttribute("huis_nummer3", housenumbersWashmachine11[week_id]);
+			request.setAttribute("huis_nummer4", housenumbersWashmachine12[week_id]);
 		}
 
 		request.setAttribute("time", times);
@@ -90,7 +104,7 @@ public class ControllerServlet extends HttpServlet {
 		request.setAttribute("prikbord_messages", bulletinBoardMessages);
 
 		request.setAttribute("week", week);
-		request.setAttribute("wasruimte", washroom);
+		request.setAttribute("wasruimte", laundryRoom);
 
 		request.setAttribute("get_overview", overview[week_id]);
 
@@ -98,7 +112,7 @@ public class ControllerServlet extends HttpServlet {
 		request.setAttribute("hitcounter", hitCounter);
 		request.setAttribute("totalwashcounter", totalWashCounter);
 
-		request.getRequestDispatcher("/homepage.jsp").forward(request, response);
+		request.getRequestDispatcher("/afterlogin.jsp").forward(request, response);
 	}
 
 	@Override
@@ -111,29 +125,21 @@ public class ControllerServlet extends HttpServlet {
 
 		// Set a try catch here, and send to doGet(); There will be an error if the user doesn't do anything for longer than 15 min!
 		switch (form) {
-			case "loginForm":
-				login(request, response);
-				setOverviewDateAndDays();
-				break;
 			case "appointmentForm":
 				addAppointment(request, response);
 				updateSchema();
+				bulletinBoardMessages = new BulletinBoardService().getMessages(); // This was in the login method before I moved it to the LoginServlet
+				// I don't want to get the bulletinboard each time. (Idealy i should show this after a message is accepted by the admin!
 				break;
 			case "removeAppointmentForm":
 				removeAppointment(request, response);
 				updateSchema();
-				break;
-			case "signupForm":
-				signup(request, response);
 				break;
 			case "createMessageForm":
 				createPrikbordMessage(request, response);
 				break;
 			case "removeMessageForm":
 				removeBulletinBoardMessage(request, response);
-				break;
-			case "forgotPasswordForm":
-				sendNewPassword(request, response);
 				break;
 			case "changeHuisnummerForm":
 				changeUserHouseNumber(request, response);
@@ -146,7 +152,8 @@ public class ControllerServlet extends HttpServlet {
 				deleteUserAccount(request, response);
 				updateSchema();
 			default:
-				logout(request);
+				logout(request, response);
+				return;
 		}
 
 		doGet(request, response);
@@ -160,27 +167,6 @@ public class ControllerServlet extends HttpServlet {
 		Database.closeDataSource();
 	}
 
-	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-
-		User user = new User();
-		user.setEmail(email);
-		user.setPassword(password);
-
-		LoginService loginService = new LoginService(user);
-		loginService.login();
-
-		if (loginService.errorOccured()) {
-			request.setAttribute("errorMessage", loginService.getErrorMessage());
-		} else {
-			request.getSession().setAttribute("user", loginService.getUser());
-			request.getSession().setAttribute("was_counter", loginService.getWashCounter());
-		}
-
-		bulletinBoardMessages = new BulletinBoardService().getMessages();
-	}
-
 	private void setOverviewDateAndDays() {
 		DatesStringMaker datesStringMaker = new DatesStringMaker();
 		dates = datesStringMaker.getDates();
@@ -190,7 +176,7 @@ public class ControllerServlet extends HttpServlet {
 	private void addAppointment(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String week = request.getParameter("week");
-		int[] washCounter = (int[]) request.getSession().getAttribute("was_counter");
+		int[] washCounter = (int[]) request.getSession().getAttribute("wash_counter");
 
 		boolean canWash = false;
 
@@ -227,7 +213,7 @@ public class ControllerServlet extends HttpServlet {
 				} else {
 					washCounter[0]++;
 				}
-				request.getSession().setAttribute("was_counter", washCounter);
+				request.getSession().setAttribute("wash_counter", washCounter);
 				totalWashCounter++;
 			}
 		} else {
@@ -240,7 +226,7 @@ public class ControllerServlet extends HttpServlet {
 		String time = request.getParameter("time");
 		String machine = request.getParameter("machine");
 		User user = (User) request.getSession().getAttribute("user");
-		int[] washCounter = (int[]) request.getSession().getAttribute("was_counter");
+		int[] washCounter = (int[]) request.getSession().getAttribute("wash_counter");
 		String week = request.getParameter("week");
 
 		Appointment appointment = new Appointment();
@@ -260,32 +246,7 @@ public class ControllerServlet extends HttpServlet {
 			} else {
 				washCounter[0]--;
 			}
-			request.getSession().setAttribute("was_counter", washCounter);
-		}
-	}
-
-	private void signup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String huisnummer = request.getParameter("huisnummer");
-		String firstName = request.getParameter("firstname");
-		String lastName = request.getParameter("lastname");
-		String code = request.getParameter("sharedcode");
-
-		User user = new User();
-		user.setEmail(email);
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setPassword(password);
-		user.setHouseNumber(huisnummer.toUpperCase());
-
-		SignupService signupService = new SignupService(user, code);
-		signupService.signup();
-
-		if (signupService.errorOccured()) {
-			request.setAttribute("errorMessage", signupService.getErrorMessage());
-		} else {
-			login(request, response);
+			request.getSession().setAttribute("wash_counter", washCounter);
 		}
 	}
 
@@ -303,6 +264,10 @@ public class ControllerServlet extends HttpServlet {
 		housenumbersWashmachine6 = schemaService.getData(6);
 		housenumbersWashmachine7 = schemaService.getData(7);
 		housenumbersWashmachine8 = schemaService.getData(8);
+		housenumbersWashmachine9 = schemaService.getData(9);
+		housenumbersWashmachine10 = schemaService.getData(10);
+		housenumbersWashmachine11 = schemaService.getData(11);
+		housenumbersWashmachine12 = schemaService.getData(12);
 
 		schemaService.releaseResources();
 	}
@@ -335,24 +300,7 @@ public class ControllerServlet extends HttpServlet {
 		bulletinBoardMessages = bulletinBoardService.getMessages();
 	}
 
-	private void sendNewPassword(HttpServletRequest request, HttpServletResponse response) {
-		String email = request.getParameter("email");
-
-		User user = new User();
-		user.setEmail(email);
-
-		ForgotPasswordService forgotPasswordService = new ForgotPasswordService(user);
-		forgotPasswordService.setRandomPasswordForUser();
-
-		if (forgotPasswordService.errorOccured()) {
-			request.setAttribute("errorMessage", forgotPasswordService.getErrorMessage());
-		} else {
-			MailSender mailSender = new MailSender(user);
-			mailSender.sendMailContainingPassword();
-		}
-	}
-
-	private void changeUserHouseNumber(HttpServletRequest request, HttpServletResponse response) {
+	private void changeUserHouseNumber(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		User user = (User) request.getSession().getAttribute("user");
 		String houseNumber = request.getParameter("huisnummer");
 
@@ -364,7 +312,7 @@ public class ControllerServlet extends HttpServlet {
 		if (modifyUserService.errorOccured()) {
 			request.setAttribute("errorMessage", modifyUserService.getErrorMessage());
 		} else {
-			logout(request);
+			logout(request, response);
 		}
 	}
 
@@ -393,12 +341,13 @@ public class ControllerServlet extends HttpServlet {
 		}
 	}
 
-	private void logout(HttpServletRequest request) {
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// logout button
 		HttpSession session = request.getSession(false);
 		if (session != null) {
 			session.invalidate();
 		}
+		response.sendRedirect("/WasSchema/"); // Go to root (LoginServlet)
 	}
 
 }

@@ -2,6 +2,6 @@
 /target/
 
 # Eclipse files
-/.setttings/
+.settings/
 .classpath
 .project
