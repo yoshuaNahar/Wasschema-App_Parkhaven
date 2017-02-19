@@ -1,5 +1,7 @@
 package nl.parkhaven.wasschema.component.user;
 
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,6 +36,10 @@ public final class ModifyUserService {
 
 	public void deleteAccount(User user) {
 		userDao.delete(user);
+	}
+
+	public Map<Long, User> getAllUsers() {
+		return userDao.selectAllUsers();
 	}
 
 	public boolean errorOccured() {

@@ -70,9 +70,8 @@ public class ControllerServlet extends HttpServlet {
 
 		try {
 			laundryRoom = Integer.parseInt(laundryRoomRaw);
-		} catch (NumberFormatException e) {
-			laundryRoom = 1;
-			e.printStackTrace();
+		} catch (NumberFormatException | NullPointerException e) {
+			laundryRoom = 0;
 		}
 
 		int week_id = 0;
@@ -91,7 +90,7 @@ public class ControllerServlet extends HttpServlet {
 			request.setAttribute("huis_nummer2", housenumbersWashmachine6[week_id]);
 			request.setAttribute("huis_nummer3", housenumbersWashmachine7[week_id]);
 			request.setAttribute("huis_nummer4", housenumbersWashmachine8[week_id]);
-		} else {
+		} else if (laundryRoom == 3){
 			request.setAttribute("huis_nummer1", housenumbersWashmachine9[week_id]);
 			request.setAttribute("huis_nummer2", housenumbersWashmachine10[week_id]);
 			request.setAttribute("huis_nummer3", housenumbersWashmachine11[week_id]);
@@ -177,7 +176,6 @@ public class ControllerServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String week = request.getParameter("week");
 		int[] washCounter = (int[]) request.getSession().getAttribute("wash_counter");
-
 		boolean canWash = false;
 
 		if (week != null && week.equals("next")) {

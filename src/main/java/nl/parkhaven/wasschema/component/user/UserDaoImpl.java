@@ -3,6 +3,8 @@ package nl.parkhaven.wasschema.component.user;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
+import java.util.Map;
 
 import nl.parkhaven.wasschema.component.CommonDao;
 import nl.parkhaven.wasschema.component.Crud;
@@ -11,7 +13,7 @@ final class UserDaoImpl extends CommonDao implements Crud<User> {
 
 	@Override
 	public boolean create(User user) {
-		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord) VALUES (?, ?, ?, ?, ?);";
+		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, sharedpassword_id) VALUES (?, ?, ?, ?, ?, ?);";
 		boolean bool = false;
 		try {
 			conn = getConnection();
@@ -21,6 +23,7 @@ final class UserDaoImpl extends CommonDao implements Crud<User> {
 			preStmt.setString(3, user.getHouseNumber());
 			preStmt.setString(4, user.getEmail());
 			preStmt.setString(5, user.getPassword());
+			preStmt.setInt(6, user.getSharedPassword());
 			preStmt.executeUpdate();
 			bool = true;
 		} catch (SQLException | PropertyVetoException e) {
@@ -91,13 +94,13 @@ final class UserDaoImpl extends CommonDao implements Crud<User> {
 	}
 
 	public boolean updatePassword(User user) {
-		String updatePasswordSQL = "UPDATE gebruiker SET wachtwoord = ? WHERE id = ?;";
+		String updatePasswordSQL = "UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;";
 		boolean bool = false;
 		try {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(updatePasswordSQL);
 			preStmt.setString(1, user.getPassword());
-			preStmt.setInt(2, user.getId());
+			preStmt.setString(2, user.getEmail());
 			int rowsUpdated = preStmt.executeUpdate();
 			if (rowsUpdated == 1) {
 				bool = true;
@@ -133,7 +136,7 @@ final class UserDaoImpl extends CommonDao implements Crud<User> {
 
 	@Override
 	public boolean delete(User user) {
-		// CONCAT with _ because Db columns are unique
+		// CONCAT with userId because Db columns are unique
 		String deactiveUserSQL = "UPDATE gebruiker SET actief = 'N', email = CONCAT(email, ?), huisnummer = CONCAT(huisnummer, ?) WHERE id = ? AND wachtwoord = ?;";
 		boolean bool = false;
 		try {
@@ -164,27 +167,56 @@ final class UserDaoImpl extends CommonDao implements Crud<User> {
 			preStmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			releaseResources();
 		}
 	}
 
 	// Washcounter to check if user didn't wash more than 3 times
 	public int[] getWashCounter(User user) {
-		String sql = "SELECT COUNT(gebruiker_id) FROM wasschema x LEFT JOIN week_dag_tijd a ON x.week_dag_tijd_id = a.id WHERE x.gebruiker_id = ? GROUP BY a.week_id;";
+		String sql = "SELECT COUNT(gebruiker_id) FROM wasschema x LEFT JOIN week_dag_tijd a ON x.week_dag_tijd_id = a.id WHERE x.gebruiker_id = ? AND a.week_id = ?;";
 		int[] wascounter = new int[2];
+		for (int i = 0; i < 2; i++) {
+			try {
+				conn = getConnection();
+				preStmt = conn.prepareStatement(sql);
+				preStmt.setInt(1, user.getId());
+				preStmt.setInt(2, i);
+				rs = preStmt.executeQuery();
+				rs.next();
+				wascounter[i] = rs.getInt(1);
+			} catch (SQLException | PropertyVetoException e) {
+				e.printStackTrace();
+			} finally {
+				releaseResources();
+			}
+		}
+		return wascounter;
+	}
+
+	public Map<Long, User> selectAllUsers() {
+		String selectAllUsers = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord FROM gebruiker WHERE actief = 'Y';";
+		Map<Long, User> users = new HashMap<>();
 		try {
 			conn = getConnection();
-			preStmt = conn.prepareStatement(sql);
-			preStmt.setInt(1, user.getId());
+			preStmt = conn.prepareStatement(selectAllUsers);
 			rs = preStmt.executeQuery();
-			for (int i = 0; rs.next(); i++) {
-				wascounter[i] = rs.getInt(1);
+			while (rs.next()) {
+				User user = new User();
+				user.setId(rs.getInt(1));
+				user.setFirstName(rs.getString(2));
+				user.setLastName(rs.getString(3));
+				user.setHouseNumber(rs.getString(4));
+				user.setEmail(rs.getString(5));
+				user.setPassword(rs.getString(6));
+				users.put((long) user.getId(), user);
 			}
 		} catch (SQLException | PropertyVetoException e) {
 			e.printStackTrace();
 		} finally {
 			releaseResources();
 		}
-		return wascounter;
+		return users;
 	}
 
 	// only to be used in tests to delete dummy accounts

@@ -29,9 +29,9 @@ public class SchemaServiceTest {
 	public void testGetWashingMachines() {
 		testWashTimesCorrect();
 		Map<Long, String> dates = schemaService.getWashingMachines();
-		Assert.assertTrue(dates.size() == 8);
-		Assert.assertEquals("C1", dates.get(1L));
-		Assert.assertEquals("D4", dates.get(8L));
+		Assert.assertTrue(dates.size() == 12);
+		Assert.assertEquals("A1", dates.get(1L));
+		Assert.assertEquals("B4", dates.get(8L));
 	}
 
 	@Test

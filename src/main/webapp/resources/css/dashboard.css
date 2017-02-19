@@ -214,6 +214,10 @@ input {
 	border-bottom: 2px solid #b7b7b7;
 }
 
+.passed_date {
+	background-color: #8a8282 !important;
+}
+
 .center_modal_header {
 	font-size: 22px;
 	text-align: center;
@@ -320,12 +324,15 @@ th {
 	/*Veranderd op line 5180 in bootstrap file*/
 }
 
+#default_blue {
+	background-color: #428bca;
+}
 #green {
 	background-color: #18bc9c;
 }
 
 #yellow {
-	background-color: #ab8e5a; /*#ab8e5a normal = #f39c12*/
+	background-color: #ab8e5a; /* normal = #f39c12*/
 }
 
 #red {

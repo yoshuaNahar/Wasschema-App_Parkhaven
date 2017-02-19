@@ -43,6 +43,7 @@ public final class SignupService {
 		} else {
 			String password = "3024NH";
 			if (code.trim().equalsIgnoreCase(password)) {
+				user.setSharedPassword(1);
 				return true;
 			} else {
 				errorMessage = "Shared password incorrect! It is visible in the laundryroom!";

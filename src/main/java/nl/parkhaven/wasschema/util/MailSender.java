@@ -16,12 +16,13 @@ import nl.parkhaven.wasschema.component.user.User;
 
 public final class MailSender {
 
-//	public static void main(String[] args) {
-//		User user = new User();
-//		user.setEmail("yosh.nahar@gmail.com");
-//		user.setWachtwoord("1qwd41S");
-//		new MailSender(user).sendMailContainingPassword();;
-//	}
+	//	public static void main(String[] args) {
+	//		User user = new User();
+	//		user.setEmail("yosh.nahar@gmail.com");
+	//		ForgotPasswordService forgotPasswordService = new ForgotPasswordService(user);
+	//		forgotPasswordService.setRandomPasswordForUser();
+	//		new MailSender(user).sendMailContainingPassword();;
+	//	}
 
 	private static final String emailSender = "straalbetaal@gmail.com";
 	private static final String passwordSender = "straalBetaalOP4";
@@ -45,6 +46,30 @@ public final class MailSender {
 		this.user = user;
 	}
 
+	public void sendMailThreeHoursReminder() {
+		Session session = Session.getDefaultInstance(PROPS);
+		session.setDebug(false);
+
+		Date now = new Date();
+		try {
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(emailSender));
+			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+			message.setSubject("Parkhaven Wasschema - Reminder");
+			message.setContent("<body> <h2>This mail is to remind you that you made an appointment.</h2>"
+					+ "<h4>The appointment is at: " + user.getHouseNumber() + ", wasruimte: "
+					+ user.getPassword().charAt(0) + ", wasmachine: " + user.getPassword() + ".</h4>"
+					+ "<p>Tot ziens!</p>" + "<p>Datum: " + DATEFORMAT.format(now) + "<p>========================</p>"
+					+ "<p>Dit is een automatisch gegenereerde email. Reageer aub niet hierop.</p>" + "</body>",
+					"text/html; charset=utf-8");
+			Transport transport = session.getTransport("smtp");
+			transport.connect("smtp.gmail.com", emailSender, passwordSender);
+			transport.sendMessage(message, message.getAllRecipients());
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void sendMailContainingPassword() {
 		Session session = Session.getDefaultInstance(PROPS);
 		session.setDebug(false);
@@ -56,10 +81,11 @@ public final class MailSender {
 			message.setFrom(new InternetAddress(emailSender));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
 			message.setSubject("Parkhaven Wasschema - New Password");
-			message.setContent("<body> " + "<h1>Parkhaven Wasschema</h1>" + "<hr></hr>" + "<h2>Your new password is: "
-					+ user.getPassword() + "</h2>" + "<p>Tot ziens!</p>" + "<p>Datum: " + DATEFORMAT.format(now)
-					+ "<br>Tijd: " + TIMEFORMAT.format(now) + "<p>========================</p>"
-					+ "<p>Dit is een automatisch gegenereerde email. Reageer aub niet hierop.</p>" + "</body>",
+			message.setContent(
+					"<body> " + "<h1>Parkhaven Wasschema</h1>" + "<hr></hr>" + "<h2>Your new password is: "
+							+ user.getPassword() + "</h2>" + "<p>Tot ziens!</p>" + "<p>Datum: " + DATEFORMAT.format(now)
+							+ "<br>Tijd: " + TIMEFORMAT.format(now) + "<p>========================</p>"
+							+ "<p>Dit is een automatisch gegenereerde email. Reageer aub niet hierop.</p>" + "</body>",
 					"text/html; charset=utf-8");
 			Transport transport = session.getTransport("smtp");
 			transport.connect("smtp.gmail.com", emailSender, passwordSender);

@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import nl.parkhaven.wasschema.component.bulletinboard.Message;
 import nl.parkhaven.wasschema.component.bulletinboard.BulletinBoardService;
+import nl.parkhaven.wasschema.component.bulletinboard.Message;
+import nl.parkhaven.wasschema.component.user.ModifyUserService;
+import nl.parkhaven.wasschema.component.user.User;
 
 @WebServlet("/admin.010")
 public class AdminControllerServlet extends HttpServlet {
@@ -29,13 +31,45 @@ public class AdminControllerServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		isMessageAccepted = request.getParameter("accept_prikbord_message");
+		String form = request.getParameter("to_servlet");
+		if (form == null) {
+			form = "";
+		}
 
-		if (isMessageAccepted != null) {
-			handlePendindingBulletinBoardMessage(request, response);
+		switch (form) {
+			case "accept_messageForm":
+				isMessageAccepted = request.getParameter("accept_prikbord_message");
+				if (isMessageAccepted != null) {
+					handlePendindingBulletinBoardMessage(request, response);
+				}
+				break;
+			case "getAllUsersForm":
+				showAllUsers(request, response);
+				break;
+			case "deleteSelectedUserForm":
+				deleteSelectedUser(request, response);
+				showAllUsers(request, response);
+				break;
+			default:
+				doGet(request, response);
+				return;
 		}
 
 		doGet(request, response);
+	}
+
+	private void showAllUsers(HttpServletRequest request, HttpServletResponse response) {
+		ModifyUserService modifyUserService = new ModifyUserService();
+		request.setAttribute("users", modifyUserService.getAllUsers());
+	}
+
+	private void deleteSelectedUser(HttpServletRequest request, HttpServletResponse response) {
+		User user = new User();
+		user.setId(Integer.parseInt(request.getParameter("id")));
+		user.setPassword(request.getParameter("password"));
+
+		ModifyUserService modifyUserService = new ModifyUserService();
+		modifyUserService.deleteAccount(user);
 	}
 
 	private void showPendingBulletinBoardMessages(HttpServletRequest request, HttpServletResponse response) {

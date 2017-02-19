@@ -9,6 +9,7 @@ public class User {
 	private String email;
 	private String password;
 	private boolean admin;
+	private int sharedPassword;
 
 	public int getId() {
 		return id;
@@ -64,6 +65,14 @@ public class User {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public int getSharedPassword() {
+		return sharedPassword;
+	}
+
+	public void setSharedPassword(int sharedPassword) {
+		this.sharedPassword = sharedPassword;
 	}
 
 }

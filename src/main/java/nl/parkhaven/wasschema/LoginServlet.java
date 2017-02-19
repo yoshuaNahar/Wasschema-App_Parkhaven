@@ -1,6 +1,7 @@
 package nl.parkhaven.wasschema;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +33,6 @@ public class LoginServlet extends HttpServlet {
 		if (form == null) {
 			form = "";
 		}
-
 		String message = null;
 
 		switch (form) {
@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
 				break;
 			case "forgotPassword":
 				message = sendMailWithNewPassword(request, response);
+				break;
 			case "": // logout from main page
 				message = "";
 		}
@@ -110,6 +111,7 @@ public class LoginServlet extends HttpServlet {
 		ForgotPasswordService forgotPasswordService = new ForgotPasswordService(user);
 		forgotPasswordService.setRandomPasswordForUser();
 
+		System.out.println(user.getPassword());
 		if (forgotPasswordService.errorOccured()) {
 			return forgotPasswordService.getErrorMessage();
 		} else {
