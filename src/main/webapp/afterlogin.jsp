@@ -575,18 +575,18 @@
               <tr>
             </tbody>
           </table>
+        </div>
 
-          <div class="legend">
-            <c:if test="${requestScope.wasruimte == 1}">
-              <small><span class="label" id="green">Dryer A3</span> <b>-</b> <span class="label" id="red">Dryer A4</span></small>
-            </c:if>
-            <c:if test="${requestScope.wasruimte == 2}">
-              <small><span class="label" id="green">Dryer B3</span> <b>-</b> <span class="label" id="red">Dryer B4</span></small>
-            </c:if>
-            <c:if test="${requestScope.wasruimte == 3}">
-              <small><span class="label" id="green">Laundrymachine C3</span> <b>-</b> <span class="label" id="red">Laundrymachine C4</span></small>
-            </c:if>
-          </div>
+        <div class="legend">
+          <c:if test="${requestScope.wasruimte == 1}">
+            <small><span class="label" id="green">Dryer A3</span> <b>-</b> <span class="label" id="red">Dryer A4</span></small>
+          </c:if>
+          <c:if test="${requestScope.wasruimte == 2}">
+            <small><span class="label" id="green">Dryer B3</span> <b>-</b> <span class="label" id="red">Dryer B4</span></small>
+          </c:if>
+          <c:if test="${requestScope.wasruimte == 3}">
+            <small><span class="label" id="green">Laundrymachine C3</span> <b>-</b> <span class="label" id="red">Laundrymachine C4</span></small>
+          </c:if>
         </div>
 
         <div class="table-responsive">
