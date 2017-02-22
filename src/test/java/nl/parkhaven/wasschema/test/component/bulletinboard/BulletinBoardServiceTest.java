@@ -6,8 +6,8 @@ import java.util.Map.Entry;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.component.bulletinboard.BulletinBoardService;
-import nl.parkhaven.wasschema.component.bulletinboard.Message;
+import nl.parkhaven.wasschema.modules.bulletinboard.BulletinBoardService;
+import nl.parkhaven.wasschema.modules.bulletinboard.Message;
 
 public class BulletinBoardServiceTest {
 

@@ -3,7 +3,7 @@ package nl.parkhaven.wasschema.test.util;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.util.Misc;
+import nl.parkhaven.wasschema.modules.util.Misc;
 
 public class MiscTest {
 

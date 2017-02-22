@@ -3,9 +3,9 @@ package nl.parkhaven.wasschema.test.component.user;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.component.user.LoginService;
-import nl.parkhaven.wasschema.component.user.ModifyUserService;
-import nl.parkhaven.wasschema.component.user.User;
+import nl.parkhaven.wasschema.modules.user.LoginService;
+import nl.parkhaven.wasschema.modules.user.ModifyUserService;
+import nl.parkhaven.wasschema.modules.user.User;
 
 public class ModifyUserServiceTest {
 

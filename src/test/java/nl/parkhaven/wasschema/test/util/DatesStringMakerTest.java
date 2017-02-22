@@ -5,7 +5,7 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.util.DatesStringMaker;
+import nl.parkhaven.wasschema.modules.util.DatesStringMaker;
 
 public class DatesStringMakerTest {
 

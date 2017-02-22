@@ -3,8 +3,8 @@ package nl.parkhaven.wasschema.test.component.appointment;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.component.appointment.Appointment;
-import nl.parkhaven.wasschema.component.appointment.AppointmentService;
+import nl.parkhaven.wasschema.modules.appointment.Appointment;
+import nl.parkhaven.wasschema.modules.appointment.AppointmentService;
 
 public class AppointmentServiceTest {
 
