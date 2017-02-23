@@ -2,14 +2,14 @@ package nl.parkhaven.wasschema.modules.user;
 
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.parkhaven.wasschema.modules.util.Misc;
 
 public final class ModifyUserService {
 
-	private static final Logger logger = LogManager.getLogger(ModifyUserService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ModifyUserService.class);
 
 	private UserDaoImpl userDao = new UserDaoImpl();
 	private String errorMessage;

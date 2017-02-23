@@ -976,10 +976,10 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-xs-9 col-xs-offset-1">
-                <input name="huisnummer" type="text" class="form-control settings_modal" placeholder="New Housenumber" required /> <span
+                <input name="houseNumber" type="text" class="form-control settings_modal" placeholder="New Housenumber" required /> <span
                   class="required_asterisk shrink_glyph glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="right"
                   title="You will need to log back in after this change."></span>
-                <input name="to_servlet" value="changeHuisnummerForm"
+                <input name="to_servlet" value="changeHouseNumber"
                   style="display: none;" required>
                 <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
                   
@@ -1014,7 +1014,7 @@
               <div class="col-xs-9 col-xs-offset-1">
                 <input name="password" type="password" class="form-control settings_modal" placeholder="New Password" required /> <br> <input
                   name="password" type="password" class="form-control" placeholder="Retype Password" />
-                <input name="to_servlet" value="changePasswordForm" style="display: none;" required>
+                <input name="to_servlet" value="changePassword" style="display: none;" required>
                 <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
               </div>
             </div>
@@ -1046,7 +1046,7 @@
             <div class="row">
               <div class="col-xs-9 col-xs-offset-1">
                 <input name="password" type="password" class="form-control settings_modal" placeholder="Type password" required />
-                <input name="to_servlet" value="deleteAccountForm" style="display: none;" required>
+                <input name="to_servlet" value="deleteAccount" style="display: none;" required>
                 <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
               </div>
             </div>
@@ -1167,7 +1167,7 @@
             </div>
 
             <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required> <input name="to_servlet"
-              value="appointmentForm" style="display: none;">
+              value="addAppointment" style="display: none;">
             <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
           </div>
           <div class="modal-footer">
@@ -1276,8 +1276,8 @@
             </div>
 
             <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required> <input name="to_servlet"
-              value="removeAppointmentForm" style="display: none;">
-            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
+              value="removeAppointment" style="display: none;">
+            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="laundryRoom" type="number" style="display: none;">
 
           </div>
           <div class="modal-footer">
@@ -1310,12 +1310,12 @@
                 <h5>
                   Are you sure you want to remove your message with title: <br> <b><span id="messageTitle"></span></b>
                 </h5>
-                <input value="${sessionScope.user.id}" name="user_id" type="number" style="display: none;" required> <input id="messageId"
-                  name="message_id" value="" style="display: none;" required>
+                <input value="${sessionScope.user.id}" name="userId" type="number" style="display: none;" required> <input id="messageId"
+                  name="id" value="" style="display: none;" required>
               </div>
             </div>
           </div>
-          <input name="to_servlet" value="removeMessageForm" style="display: none;">
+          <input name="to_servlet" value="removeMessage" style="display: none;">
           <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">
@@ -1376,8 +1376,8 @@
               </div>
             </div>
 
-            <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required> <input name="to_servlet"
-              value="createMessageForm" style="display: none;">
+            <input value="${sessionScope.user.id}" name="userId" type="number" style="display: none;" required> <input name="to_servlet"
+              value="createMessage" style="display: none;">
             <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
 
           </div>

@@ -1,13 +1,13 @@
 package nl.parkhaven.wasschema.modules.user;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.parkhaven.wasschema.modules.util.Misc;
 
 public final class ForgotPasswordService {
 
-	private static final Logger logger = LogManager.getLogger(ForgotPasswordService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ForgotPasswordService.class);
 
 	private User user;
 	private String errorMessage;
@@ -34,7 +34,7 @@ public final class ForgotPasswordService {
 	private boolean credentialsNotEmpty() {
 		if (user.getEmail() == null) {
 			errorMessage = "No email entered!";
-			logger.warn("= required check bypassed = Email: " + user.getEmail() + " Password: " + user.getPassword());
+			logger.warn("Required check bypassed = Email: " + user.getEmail() + " Password: " + user.getPassword());
 			return false;
 		}
 		return true;
@@ -46,7 +46,7 @@ public final class ForgotPasswordService {
 			logger.info("User password changed succesfully and email send! - Email: " + user.getEmail());
 		} else {
 			errorMessage = "No user found with this email address!";
-			logger.warn("= Change Password (Forgot email) Email not available: " + user.getEmail() + " =");
+			logger.warn("Change Password (Forgot email) Email not available: " + user.getEmail() + " =");
 		}
 	}
 

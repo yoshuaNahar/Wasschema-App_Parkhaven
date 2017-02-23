@@ -39,7 +39,7 @@ public class AppointmentServiceTest {
 	public Appointment createAppointment() {
 		Appointment appointment = new Appointment();
 		appointment.setUserId("1");
-		appointment.setWashingMachine("1");
+		appointment.setMachine("1");
 		appointment.setTime("12");
 		appointment.setDay("14");
 		return appointment;
@@ -48,7 +48,7 @@ public class AppointmentServiceTest {
 	public Appointment createNotLoggedInAppointment() {
 		Appointment appointment = new Appointment();
 		appointment.setUserId("NotANumber");
-		appointment.setWashingMachine("C1");
+		appointment.setMachine("C1");
 		appointment.setTime("12");
 		appointment.setDay("14");
 		return appointment;

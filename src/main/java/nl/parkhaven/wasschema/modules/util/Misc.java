@@ -2,12 +2,12 @@ package nl.parkhaven.wasschema.modules.util;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Misc {
 
-	private static final Logger logger = LogManager.getLogger(Misc.class);
+	private static final Logger logger = LoggerFactory.getLogger(Misc.class);
 
 	private Misc() {}
 

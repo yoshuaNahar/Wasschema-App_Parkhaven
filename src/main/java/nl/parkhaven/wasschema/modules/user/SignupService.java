@@ -1,13 +1,13 @@
 package nl.parkhaven.wasschema.modules.user;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import nl.parkhaven.wasschema.modules.util.Misc;
 
 public final class SignupService {
 
-	private static final Logger logger = LogManager.getLogger(SignupService.class);
+	private static final Logger logger = LoggerFactory.getLogger(SignupService.class);
 
 	private User user;
 	private String code;

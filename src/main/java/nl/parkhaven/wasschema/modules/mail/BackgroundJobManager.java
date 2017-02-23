@@ -43,6 +43,10 @@ public final class BackgroundJobManager implements ServletContextListener {
 				break;
 			}
 		}
+		
+		if (i == 13) {
+			i = 0;
+		}
  
 		return now.until(timeArray[i], ChronoUnit.SECONDS);
 	}

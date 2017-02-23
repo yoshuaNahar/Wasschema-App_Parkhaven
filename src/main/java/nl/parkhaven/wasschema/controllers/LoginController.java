@@ -2,6 +2,7 @@ package nl.parkhaven.wasschema.controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,25 +17,26 @@ import nl.parkhaven.wasschema.modules.util.MailSender;
 
 @Controller
 @RequestMapping(value = "/")
-public class LoginServlet {
+public class LoginController {
+
+	@Autowired
+	private LoginService loginService; // But why would I use Autowired instead of simply doing new Object?
 
     @RequestMapping(method = RequestMethod.GET)
     public String getLoginPage() {
-        System.out.println("I'm doing it!!!");
         return "login";
     }
 
     @RequestMapping(method = RequestMethod.POST, params = { "to_servlet=login" })
     public String login(Model model, @ModelAttribute User user, HttpSession session) {
-        LoginService loginService = new LoginService(user);
-        loginService.login();
+        User loggedInUser = loginService.login(user);
 
-        if (loginService.errorOccured()) {
+        if (loggedInUser == null) {
             model.addAttribute("message", loginService.getErrorMessage());
             return "login";
         } else {
-            session.setAttribute("user", loginService.getUser());
-            session.setAttribute("wash_counter", loginService.getWashCounter());
+            session.setAttribute("user", loggedInUser);
+            session.setAttribute("wash_counter", loginService.getWashCounter(loggedInUser));
             return "redirect:/index.010";
         }
     }

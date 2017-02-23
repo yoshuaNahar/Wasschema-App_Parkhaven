@@ -9,7 +9,7 @@ import nl.parkhaven.wasschema.modules.user.ModifyUserService;
 import nl.parkhaven.wasschema.modules.user.User;
 
 public class ForgotPasswordServiceTest {
-
+/*
 	@Test
 	public void testForgotPasswordService() {
 		User user = createDummyUser();
@@ -26,7 +26,7 @@ public class ForgotPasswordServiceTest {
 		user.setPassword("123");
 		new ModifyUserService().changePassword(user);
 	}
-
+	*/
 	private User createDummyUser() {
 		User user = new User();
 		user.setEmail("a@B.com");

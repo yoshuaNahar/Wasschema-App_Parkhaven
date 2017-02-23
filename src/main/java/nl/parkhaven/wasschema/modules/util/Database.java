@@ -8,20 +8,20 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public final class Database {
 
-	private static ComboPooledDataSource dataSource = configureDataSource();
+	private static final ComboPooledDataSource DATA_SOURCE = createDataSource();
 
 	private Database() {
 	}
 
 	public static Connection getConnection() throws SQLException, PropertyVetoException {
-		return dataSource.getConnection();
+		return DATA_SOURCE.getConnection();
 	}
 
 	public static void closeDataSource() {
-		dataSource.close();
+		DATA_SOURCE.close();
 	}
 
-	private static ComboPooledDataSource configureDataSource() {
+	private static ComboPooledDataSource createDataSource() {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 		try {
 			dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
@@ -34,7 +34,7 @@ public final class Database {
 		dataSource.setMinPoolSize(3);
 		dataSource.setMaxPoolSize(3); // 20
 		dataSource.setAcquireIncrement(3);
-		dataSource.setMaxConnectionAge(14400); // 4 hours 14400
+		dataSource.setMaxConnectionAge(14400); // 4 hours
 		dataSource.setMaxIdleTimeExcessConnections(300);
 		dataSource.setCheckoutTimeout(1000);
 		return dataSource;

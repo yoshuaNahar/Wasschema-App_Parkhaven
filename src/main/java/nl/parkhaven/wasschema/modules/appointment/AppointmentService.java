@@ -1,11 +1,11 @@
 package nl.parkhaven.wasschema.modules.appointment;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class AppointmentService {
 
-	private static final Logger logger = LogManager.getLogger(AppointmentService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AppointmentService.class);
 
 	private AppointmentDaoImpl appointmentDao = new AppointmentDaoImpl();
 	private Appointment appointment;

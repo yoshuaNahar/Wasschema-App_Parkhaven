@@ -23,7 +23,7 @@ final class AppointmentDaoImpl extends CommonDao implements Crud<Appointment> {
 			conn = getConnection();
 			preStmt = conn.prepareStatement(checkFreeAndAtleast5MinPriorSQL);
 			preStmt.setInt(1, ap.week_day_time_id());
-			preStmt.setInt(2, ap.getWashingMachine());
+			preStmt.setInt(2, ap.getMachine());
 			rs = preStmt.executeQuery();
 			if (rs.next()) {
 				apResult.setUserId(rs.getInt(1));
@@ -47,7 +47,7 @@ final class AppointmentDaoImpl extends CommonDao implements Crud<Appointment> {
 			preStmt = conn.prepareStatement(addAppointmentSQL);
 			preStmt.setInt(1, ap.getUserId());
 			preStmt.setInt(2, ap.week_day_time_id());
-			preStmt.setInt(3, ap.getWashingMachine());
+			preStmt.setInt(3, ap.getMachine());
 			preStmt.executeUpdate();
 			bool = true;
 		} catch (SQLException | PropertyVetoException e) {
@@ -67,7 +67,7 @@ final class AppointmentDaoImpl extends CommonDao implements Crud<Appointment> {
 			conn = getConnection();
 			preStmt = conn.prepareCall(removeAppointmentSQL);
 			preStmt.setInt(1, ap.week_day_time_id());
-			preStmt.setInt(2, ap.getWashingMachine());
+			preStmt.setInt(2, ap.getMachine());
 			if (preStmt.executeUpdate() == 1) { // A row was deleted
 				bool = true;
 			} // if executeUpdate == 0, the wasmachine or time and date were

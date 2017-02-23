@@ -10,10 +10,12 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import nl.parkhaven.wasschema.modules.user.LoginService;
+
+@Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "nl.parkhaven.wasschema" })
-@Configuration
-public class WebMvcConfigAdapter extends WebMvcConfigurerAdapter {
+public class WebAppConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public ViewResolver getViewResolver() {
@@ -21,6 +23,11 @@ public class WebMvcConfigAdapter extends WebMvcConfigurerAdapter {
 		resolver.setPrefix("/WEB-INF/views/");
 		resolver.setSuffix(".jsp");
 		return resolver;
+	}
+
+	@Bean
+	public LoginService getLoginService() {
+		return new LoginService();
 	}
 
 	@Override

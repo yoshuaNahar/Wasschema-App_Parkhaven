@@ -4,7 +4,7 @@ public class Appointment {
 
 	private int day;
 	private int time;
-	private int washingMachine;
+	private int machine;
 	private int userId = -1;
 	private static final int DEFAULT_VALUE = 0;
 	private static final int DAY_MULTIPLIER = 13;
@@ -33,15 +33,15 @@ public class Appointment {
 		}
 	}
 
-	public int getWashingMachine() {
-		return washingMachine;
+	public int getMachine() {
+		return machine;
 	}
 
-	public void setWashingMachine(String washingMachine) {
+	public void setMachine(String machine) {
 		try {
-			this.washingMachine = Integer.parseInt(washingMachine);
+			this.machine = Integer.parseInt(machine);
 		} catch (NumberFormatException e) {
-			this.washingMachine = DEFAULT_VALUE;
+			this.machine = DEFAULT_VALUE;
 		}
 	}
 

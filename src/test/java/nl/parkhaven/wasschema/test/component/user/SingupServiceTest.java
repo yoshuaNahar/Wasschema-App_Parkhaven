@@ -25,7 +25,7 @@ public class SingupServiceTest {
 		user_NecessaryInfo.setEmail("test.user2@hotmail.com");
 		user_NecessaryInfo.setPassword("testPassword2");
 	}
-
+/*
 	@Test
 	public void testingSignup() {
 		// User 1 - newUserAllInfo
@@ -72,5 +72,5 @@ public class SingupServiceTest {
 		loginService.login();
 		Assert.assertNull(loginService.getUser());
 	}
-
+*/
 }

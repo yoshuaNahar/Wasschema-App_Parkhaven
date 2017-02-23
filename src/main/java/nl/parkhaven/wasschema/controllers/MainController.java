@@ -1,16 +1,14 @@
+
 package nl.parkhaven.wasschema.controllers;
 
-import java.io.IOException;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +26,7 @@ import nl.parkhaven.wasschema.modules.util.DatesStringMaker;
 
 @Controller
 @RequestMapping(value = "/index.010")
-public class ControllerServlet {
+public class MainController {
 
 	private int hitCounter;
 	private int totalWashCounter;
@@ -66,13 +64,13 @@ public class ControllerServlet {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String getHomePage(Model model, @RequestParam(name = "week", required = false) String week,
+	public String homePage(Model model, @RequestParam(name = "week", required = false) String week,
 			@RequestParam(name = "wasruimte", required = false) Integer laundryRoom, HttpSession session) {
 		System.out.println("I'm doing it again!!!");
 
 		if (session.getAttribute("user") == null) {
 			System.out.println("Not here");
-			return "redirect:/login";
+			return "redirect:/";
 		}
 
 		int weekId = 0;
@@ -119,53 +117,6 @@ public class ControllerServlet {
 		return "afterlogin";
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String form = request.getParameter("to_servlet");
-		if (form == null) {
-			form = "";
-		}
-
-		// Set a try catch here, and send to doGet(); There will be an error if
-		// the user doesn't do anything for longer than 15 min!
-		switch (form) {
-		case "appointmentForm":
-			addAppointment(request, response);
-			updateSchema();
-			bulletinBoardMessages = new BulletinBoardService().getMessages();
-			// This was in the login method before I moved it to the
-			// LoginServlet
-			// I don't want to get the bulletinboard each time. (Idealy i should
-			// show this after a message is accepted by the admin!
-			break;
-		case "removeAppointmentForm":
-			removeAppointment(request, response);
-			updateSchema();
-			break;
-		case "createMessageForm":
-			createPrikbordMessage(request, response);
-			break;
-		case "removeMessageForm":
-			removeBulletinBoardMessage(request, response);
-			break;
-		case "changeHuisnummerForm":
-			changeUserHouseNumber(request, response);
-			updateSchema();
-			break;
-		case "changePasswordForm":
-			changeUserPassword(request, response);
-			break;
-		case "deleteAccountForm":
-			deleteUserAccount(request, response);
-			updateSchema();
-		default:
-			logout(request, response);
-			return;
-		}
-
-		// doGet(request, response);
-	}
-
 	public void destroy() {
 		MetaDataOperations miscDbOperations = new MetaDataOperations();
 		miscDbOperations.insertCounter(hitCounter, "hitcounter");
@@ -179,10 +130,19 @@ public class ControllerServlet {
 		overview = datesStringMaker.getOverview();
 	}
 
-	private void addAppointment(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		String week = request.getParameter("week");
-		int[] washCounter = (int[]) request.getSession().getAttribute("wash_counter");
+	// Set a try catch here, and send to doGet(); There will be an error if
+	// the user doesn't do anything for longer than 15 min!
+
+	//
+
+	// This was in the login method before I moved it to the
+	// LoginServlet
+	// I don't want to get the bulletinboard each time. (Idealy i should
+	// show this after a message is accepted by the admin!
+	@RequestMapping(method = RequestMethod.POST, params = { "to_servlet=addAppointment" })
+	public String addAppointment(Model model, @ModelAttribute Appointment appointment, HttpSession session,
+			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom) {
+		int[] washCounter = (int[]) session.getAttribute("wash_counter");
 		boolean canWash = false;
 
 		if (week != null && week.equals("next")) {
@@ -196,63 +156,55 @@ public class ControllerServlet {
 		}
 
 		if (canWash) {
-			String day = request.getParameter("day");
-			String time = request.getParameter("time");
-			String machine = request.getParameter("machine");
-			User user = (User) request.getSession().getAttribute("user");
-
-			Appointment appointment = new Appointment();
-			appointment.setDay(day);
-			appointment.setTime(time);
-			appointment.setWashingMachine(machine);
+			User user = (User) session.getAttribute("user");
 			appointment.setUserId(user.getId());
 
 			AppointmentService appointmentService = new AppointmentService(appointment);
 			appointmentService.addAppointment();
 
 			if (appointmentService.errorOccured()) {
-				request.setAttribute("errorMessage", appointmentService.getErrorMessage());
+				model.addAttribute("errorMessage", appointmentService.getErrorMessage());
 			} else {
 				if (week != null && week.equals("next")) {
 					washCounter[1]++;
 				} else {
 					washCounter[0]++;
 				}
-				request.getSession().setAttribute("wash_counter", washCounter);
+				session.setAttribute("wash_counter", washCounter);
 				totalWashCounter++;
+				updateSchema();
 			}
 		} else {
-			request.setAttribute("errorMessage", "Wash Limit for this week met!");
+			model.addAttribute("errorMessage", "Wash Limit for this week met!");
 		}
+		return homePage(model, week, laundryRoom, session);
 	}
 
-	private void removeAppointment(HttpServletRequest request, HttpServletResponse response) {
-		String day = request.getParameter("day");
-		String time = request.getParameter("time");
-		String machine = request.getParameter("machine");
-		User user = (User) request.getSession().getAttribute("user");
-		int[] washCounter = (int[]) request.getSession().getAttribute("wash_counter");
-		String week = request.getParameter("week");
-
-		Appointment appointment = new Appointment();
-		appointment.setDay(day);
-		appointment.setTime(time);
-		appointment.setWashingMachine(machine);
+	// Add The laundry room Parameter
+	@RequestMapping(method = RequestMethod.POST, params = { "to_servlet=removeAppointment" })
+	public String removeAppointment(Model model, @ModelAttribute Appointment appointment, HttpSession session,
+			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom) {
+		User user = (User) session.getAttribute("user");
 		appointment.setUserId(user.getId());
+
+		int[] washCounter = (int[]) session.getAttribute("wash_counter");
 
 		AppointmentService appointmentService = new AppointmentService(appointment);
 		appointmentService.removeAppointment();
 
 		if (appointmentService.errorOccured()) {
-			request.setAttribute("errorMessage", appointmentService.getErrorMessage());
+			model.addAttribute("errorMessage", appointmentService.getErrorMessage());
 		} else {
 			if (week != null && week.equals("next")) {
 				washCounter[1]--;
 			} else {
 				washCounter[0]--;
 			}
-			request.getSession().setAttribute("wash_counter", washCounter);
+			session.setAttribute("wash_counter", washCounter);
+			updateSchema();
 		}
+
+		return homePage(model, week, null, session);
 	}
 
 	private void updateSchema() {
@@ -277,82 +229,74 @@ public class ControllerServlet {
 		schemaService.releaseResources();
 	}
 
-	private void createPrikbordMessage(HttpServletRequest request, HttpServletResponse response) {
-		String title = request.getParameter("title");
-		String body = request.getParameter("body");
-		String userId = request.getParameter("id");
-
-		Message bulletinBoardMessage = new Message();
-		bulletinBoardMessage.setTitleInput(title);
-		bulletinBoardMessage.setBodyInput(body);
-		bulletinBoardMessage.setUserId(userId);
-
+	@RequestMapping(method = RequestMethod.POST, params = { "to_servlet=createMessage" })
+	public String createBulletinBoardMessage(@ModelAttribute Message message) {
 		BulletinBoardService bulletinBoardService = new BulletinBoardService();
-		bulletinBoardService.addMessage(bulletinBoardMessage);
+		bulletinBoardService.addMessage(message);
+
+		 return "/index.010";
 	}
 
-	private void removeBulletinBoardMessage(HttpServletRequest request, HttpServletResponse response) {
-		String userId = request.getParameter("user_id");
-		String messageId = request.getParameter("message_id");
-
-		Message bulletinBoardMessage = new Message();
-		bulletinBoardMessage.setId(messageId);
-		bulletinBoardMessage.setUserId(userId);
-
+	@RequestMapping(method = RequestMethod.POST, params = { "to_servlet=removeMessage" })
+	public String removeBulletinBoardMessage(Model model, @ModelAttribute Message message) {
 		BulletinBoardService bulletinBoardService = new BulletinBoardService();
-		bulletinBoardService.deactivateMessage(bulletinBoardMessage);
+		bulletinBoardService.deactivateMessage(message);
 
 		bulletinBoardMessages = bulletinBoardService.getMessages();
+		return homePage(model, null, null, null);
 	}
 
-	private void changeUserHouseNumber(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		User user = (User) request.getSession().getAttribute("user");
-		String houseNumber = request.getParameter("huisnummer");
-
+	@RequestMapping(method = RequestMethod.POST, params = { "to_servlet=changeHouseNumber" })
+	public String changeUserHouseNumber(Model model, HttpSession session,
+			@RequestParam("houseNumber") String houseNumber) {
+		User user = (User) session.getAttribute("user");
 		user.setHouseNumber(houseNumber);
 
 		ModifyUserService modifyUserService = new ModifyUserService();
 		modifyUserService.changeHouseNumber(user);
 
 		if (modifyUserService.errorOccured()) {
-			request.setAttribute("errorMessage", modifyUserService.getErrorMessage());
+			model.addAttribute("errorMessage", modifyUserService.getErrorMessage());
 		} else {
-			logout(request, response);
+			updateSchema();
 		}
+		 return homePage(model, null, null, session);
 	}
 
-	private void changeUserPassword(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("user");
-		String password = request.getParameter("password");
-
+	@RequestMapping(method = RequestMethod.POST, params = { "to_servlet=changePassword" })
+	public String changeUserPassword(Model model, HttpSession session, @RequestParam("password") String password) {
+		User user = (User) session.getAttribute("user");
 		user.setPassword(password);
 
 		ModifyUserService modifyUserService = new ModifyUserService();
 		modifyUserService.changePassword(user);
 
 		if (modifyUserService.errorOccured()) {
-			request.setAttribute("errorMessage", modifyUserService.getErrorMessage());
+			model.addAttribute("errorMessage", modifyUserService.getErrorMessage());
 		}
+		 return homePage(model, null, null, session);
 	}
 
-	private void deleteUserAccount(HttpServletRequest request, HttpServletResponse response) {
-		User user = (User) request.getSession().getAttribute("user");
+	@RequestMapping(method = RequestMethod.POST, params = { "to_servlet=deleteAccount" })
+	public String deleteUserAccount(Model model, HttpSession session) {
+		User user = (User) session.getAttribute("user");
 
 		ModifyUserService modifyUserService = new ModifyUserService();
 		modifyUserService.deleteAccount(user);
 
 		if (modifyUserService.errorOccured()) {
-			request.setAttribute("errorMessage", modifyUserService.getErrorMessage());
+			model.addAttribute("errorMessage", modifyUserService.getErrorMessage());
+		} else {
+			updateSchema();
 		}
+		return homePage(model, null, null, session);
 	}
 
-	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@RequestMapping(method = RequestMethod.POST)
+	public String logout(HttpSession session) {
 		// logout button
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			session.invalidate();
-		}
-		response.sendRedirect("/WasSchema/"); // Go to root (LoginServlet)
+		session.invalidate();
+		return "redirect:/";
 	}
 
 }

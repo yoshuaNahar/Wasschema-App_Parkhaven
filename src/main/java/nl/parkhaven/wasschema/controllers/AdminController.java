@@ -15,7 +15,7 @@ import nl.parkhaven.wasschema.modules.user.ModifyUserService;
 import nl.parkhaven.wasschema.modules.user.User;
 
 @WebServlet("/admin.010")
-public class AdminControllerServlet extends HttpServlet {
+public class AdminController extends HttpServlet {
 
 	private static final long serialVersionUID = 2L;
 
