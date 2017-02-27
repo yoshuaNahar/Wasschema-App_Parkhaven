@@ -1,83 +1,99 @@
 package nl.parkhaven.wasschema.modules.appointment;
 
-import java.beans.PropertyVetoException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import nl.parkhaven.wasschema.modules.CommonDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
 import nl.parkhaven.wasschema.modules.Crud;
 
-final class AppointmentDaoImpl extends CommonDao implements Crud<Appointment> {
+@Repository
+public final class AppointmentDaoImpl implements Crud<Appointment> {
+
+	private static final String CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME = "CALL check_free_and_atleast_5min_prior(?, ?);";
+	private static final String ADD_APPOINTMENT = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
+	private static final String REMOVE_APPOINTMENT = "CALL remove_appointment_if_atleast30min_in_future(?, ?);";
+
+	private JdbcTemplate template;
+
+	@Autowired
+	AppointmentDaoImpl(JdbcTemplate template) {
+		this.template = template;
+	}
 
 	@Override
 	public boolean create(Appointment ap) {
 		// New record creation is done weekly by a MySQL Event.
-		new RuntimeException("Not implemented!");
-		return false;
+		throw new RuntimeException("Not implemented!");
 	}
 
 	@Override
 	public Appointment read(Appointment ap) {
-		String checkFreeAndAtleast5MinPriorSQL = "CALL check_free_and_atleast_5min_prior(?, ?);";
-		Appointment apResult = new Appointment();
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(checkFreeAndAtleast5MinPriorSQL);
-			preStmt.setInt(1, ap.week_day_time_id());
-			preStmt.setInt(2, ap.getMachine());
-			rs = preStmt.executeQuery();
-			if (rs.next()) {
-				apResult.setUserId(rs.getInt(1));
-			} else {
-				apResult.setUserId(-1); // ResultSet was empty, so data was in the past
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
-		return apResult;
+		return template.queryForObject(CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME,
+				new Object[] { ap.week_day_time_id(), ap.getMachine() }, new AppointmentRowMapper());
 	}
+	// @Override
+	// public Appointment read(Appointment ap) {
+	// String CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME = "CALL
+	// check_free_and_atleast_5min_prior(?, ?);";
+	// Appointment apResult = new Appointment();
+	// try {
+	// conn = getConnection();
+	// preStmt = conn.prepareStatement(CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME);
+	// preStmt.setInt(1, ap.week_day_time_id());
+	// preStmt.setInt(2, ap.getMachine());
+	// rs = preStmt.executeQuery();
+	// if (rs.next()) {
+	// apResult.setUserId(rs.getInt(1));
+	// } else {
+	// apResult.setUserId(-1); // ResultSet was empty, so data was in
+	// // the past
+	// }
+	// } catch (SQLException | PropertyVetoException e) {
+	// e.printStackTrace();
+	// } finally {
+	// releaseResources();
+	// }
+	// return apResult;
+	// }
 
 	@Override
 	public boolean update(Appointment ap) {
-		String addAppointmentSQL = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
-		boolean bool = false;
 		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(addAppointmentSQL);
-			preStmt.setInt(1, ap.getUserId());
-			preStmt.setInt(2, ap.week_day_time_id());
-			preStmt.setInt(3, ap.getMachine());
-			preStmt.executeUpdate();
-			bool = true;
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+			this.template.update(ADD_APPOINTMENT,
+					new Object[] { ap.getUserId(), ap.week_day_time_id(), ap.getMachine() });
+		} catch (DataAccessException e) {
+			return false;
 		}
-		return bool;
+		return true;
 	}
 
 	// Sets userId in wasschema table to NULL
 	@Override
 	public boolean delete(Appointment ap) {
-		String removeAppointmentSQL = "CALL remove_appointment_if_atleast30min_in_future(?, ?);";
-		boolean bool = false;
 		try {
-			conn = getConnection();
-			preStmt = conn.prepareCall(removeAppointmentSQL);
-			preStmt.setInt(1, ap.week_day_time_id());
-			preStmt.setInt(2, ap.getMachine());
-			if (preStmt.executeUpdate() == 1) { // A row was deleted
-				bool = true;
-			} // if executeUpdate == 0, the wasmachine or time and date were
+			int rowsAffected = this.template.update(REMOVE_APPOINTMENT, new Object[] { ap.week_day_time_id(), ap.getMachine() });
+			if (rowsAffected != 1) {
+				return false;// if executeUpdate == 0, the wasmachine or time and date were
 				// incorrect or appointment was less than 30 min in the future
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+			} 
+		} catch (DataAccessException e) {
+			return false;
 		}
-		return bool;
+		return true;
+	}
+
+	public static class AppointmentRowMapper implements RowMapper<Appointment> {
+		@Override
+		public Appointment mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Appointment ap = new Appointment();
+			ap.setUserId(rs.getInt(1));
+			return ap;
+		}
 	}
 
 }

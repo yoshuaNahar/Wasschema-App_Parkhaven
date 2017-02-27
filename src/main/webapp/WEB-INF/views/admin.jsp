@@ -42,12 +42,12 @@
         <h4>${message.value.titleOutput}</h4>
         ${message.value.bodyOutput} <c:out value="${message.value.userEmail}"></c:out>
         <form name="accept_prikbord_message_form" class="form-signin" action="admin.010" method="post">
-          <input name="message_id" value="${message.value.id}" style="display: none;" required>
-          <input name="to_servlet" value="accept_messageForm" style="display: none;">
-          <button type="submit" name="accept_prikbord_message" value="true" class="btn btn-succes btn-xs">
+          <input name="id" value="${message.value.id}" style="display: none;" required>
+          <input name="to_servlet" value="acceptMessage" style="display: none;">
+          <button type="submit" name="messageAccepted" value="true" class="btn btn-succes btn-xs">
             Approve Message <span class="glyphicon glyphicon-ok"></span>
           </button>
-          <button type="submit" name="accept_prikbord_message" value="false" class="btn btn-succes btn-xs">
+          <button type="submit" name="messageAccepted" value="false" class="btn btn-succes btn-xs">
             Decline Message <span class="glyphicon glyphicon-remove"></span>
           </button>
         </form>
@@ -60,7 +60,7 @@
     <div class="row">
       <h4 class="page-header">Users:</h4>
       <form id="searchUserForm" action="admin.010" method="post">
-        <input name="to_servlet" value="getAllUsersForm" style="display: none;">
+        <input name="to_servlet" value="getAllUsers" style="display: none;">
         <input type="submit" name="submit" value="Search" />
       </form>
       <br>
@@ -94,10 +94,10 @@
             <div class="row">
               <div class="col-xs-9 col-xs-offset-1">
                 <input id="id" type="text" name="id" class="form-control settings_modal" readonly />                              
-                <input id="email" type="text" class="form-control settings_modal" readonly />
+                <input id="email" name="email" type="text" class="form-control settings_modal" readonly />
                 <input id="password" style="display: none;" name="password" type="text" class="form-control settings_modal" readonly />
-                <input id="housenumber" type="text" class="form-control settings_modal" readonly />
-                <input name="to_servlet" value="deleteSelectedUserForm" style="display: none;" required>
+                <input id="housenumber" name="houseNumber" type="text" class="form-control settings_modal" readonly />
+                <input name="to_servlet" value="deleteSelectedUser" style="display: none;" required>
               </div>
             </div>
           </div>

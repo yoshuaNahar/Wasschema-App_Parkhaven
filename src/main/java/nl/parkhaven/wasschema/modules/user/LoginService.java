@@ -2,22 +2,29 @@ package nl.parkhaven.wasschema.modules.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public final class LoginService {
+@Service
+public class LoginService {
 
 	private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
 
-	private UserDaoImpl userDao = new UserDaoImpl();
+	private UserDaoImpl userDao;
 	private String errorMessage;
+
+	@Autowired
+	public LoginService(UserDaoImpl userDao) {
+		this.userDao = userDao;
+	}
 
 	public User login(User user) {
 		if (credentialsNotEmpty(user)) {
 			user = userDao.read(user);
 			checkMemberSignedin(user);
 			return user;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	public String getErrorMessage() {

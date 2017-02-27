@@ -1,4 +1,4 @@
-package nl.parkhaven.wasschema.test.component.appointment;
+package nl.parkhaven.wasschema.modules.appointment;
 
 import org.junit.Assert;
 import org.junit.Test;

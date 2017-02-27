@@ -4,13 +4,21 @@ import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.petebevin.markdown.MarkdownProcessor;
 
+@Service
 public final class BulletinBoardService {
 
-	private BulletinBoardDaoImpl bulletinBoardDao = new BulletinBoardDaoImpl();
-	private Message message;
+	private BulletinBoardDaoImpl bulletinBoardDao;
+
+	@Autowired
+	public BulletinBoardService(BulletinBoardDaoImpl bulletinBoardDao) {
+		this.bulletinBoardDao = bulletinBoardDao;
+	}
+	
 	private Map<Long, Message> messages;
 
 	public Map<Long, Message> getMessages() {
@@ -19,9 +27,8 @@ public final class BulletinBoardService {
 	}
 
 	public void addMessage(Message message) {
-		this.message = message;
-		cleanMessage();
-		convertMdToHtml();
+		cleanMessage(message);
+		convertMdToHtml(message);
 		bulletinBoardDao.create(message);
 	}
 
@@ -38,7 +45,7 @@ public final class BulletinBoardService {
 		bulletinBoardDao.update(message);
 	}
 
-	private void cleanMessage() {
+	private void cleanMessage(Message message) {
 		String titleMd = message.getTitleInput();
 		String bodyMd = message.getBodyInput();
 
@@ -49,7 +56,7 @@ public final class BulletinBoardService {
 		message.setBodyOutput(bodyMdClean);
 	}
 
-	private void convertMdToHtml() {
+	private void convertMdToHtml(Message message) {
 		MarkdownProcessor mdProcessor = new MarkdownProcessor();
 		String titleHtml = mdProcessor.markdown(message.getTitleOutput());
 		String bodyHtml = mdProcessor.markdown(message.getBodyOutput());

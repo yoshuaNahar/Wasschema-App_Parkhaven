@@ -1,4 +1,4 @@
-package nl.parkhaven.wasschema.test.component.user;
+package nl.parkhaven.wasschema.modules.user;
 
 import org.junit.Assert;
 import org.junit.Test;

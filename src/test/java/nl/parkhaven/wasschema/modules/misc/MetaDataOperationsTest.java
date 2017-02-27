@@ -1,4 +1,4 @@
-package nl.parkhaven.wasschema.test.component.misc;
+package nl.parkhaven.wasschema.modules.misc;
 
 import org.junit.Assert;
 import org.junit.Test;

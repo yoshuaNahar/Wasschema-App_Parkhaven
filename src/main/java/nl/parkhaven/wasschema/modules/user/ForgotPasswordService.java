@@ -2,24 +2,28 @@ package nl.parkhaven.wasschema.modules.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import nl.parkhaven.wasschema.modules.util.Misc;
 
+@Service
 public final class ForgotPasswordService {
 
 	private static final Logger logger = LoggerFactory.getLogger(ForgotPasswordService.class);
 
-	private User user;
+	private UserDaoImpl userDao;
 	private String errorMessage;
 
-	public ForgotPasswordService(User user) {
-		this.user = user;
+	@Autowired
+	public ForgotPasswordService(UserDaoImpl userDao) {
+		this.userDao = userDao;
 	}
 
-	public void setRandomPasswordForUser() {
-		if (credentialsNotEmpty()) {
+	public void setRandomPasswordForUser(User user) {
+		if (credentialsNotEmpty(user)) {
 			user.setPassword(Misc.generateNewPassword());
-			changePasswordInDb();
+			changePasswordInDb(user);
 		}
 	}
 
@@ -31,7 +35,7 @@ public final class ForgotPasswordService {
 		return errorMessage;
 	}
 
-	private boolean credentialsNotEmpty() {
+	private boolean credentialsNotEmpty(User user) {
 		if (user.getEmail() == null) {
 			errorMessage = "No email entered!";
 			logger.warn("Required check bypassed = Email: " + user.getEmail() + " Password: " + user.getPassword());
@@ -40,8 +44,7 @@ public final class ForgotPasswordService {
 		return true;
 	}
 
-	private void changePasswordInDb() {
-		UserDaoImpl userDao = new UserDaoImpl();
+	private void changePasswordInDb(User user) {
 		if (userDao.updatePassword(user)) {
 			logger.info("User password changed succesfully and email send! - Email: " + user.getEmail());
 		} else {

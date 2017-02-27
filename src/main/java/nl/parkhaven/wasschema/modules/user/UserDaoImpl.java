@@ -1,236 +1,143 @@
 package nl.parkhaven.wasschema.modules.user;
 
-import java.beans.PropertyVetoException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import nl.parkhaven.wasschema.modules.CommonDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
 import nl.parkhaven.wasschema.modules.Crud;
 
-final class UserDaoImpl extends CommonDao implements Crud<User> {
+@Repository
+public class UserDaoImpl implements Crud<User> {
+
+	private JdbcTemplate template;
+
+	private static final String SIGNUP = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, sharedpassword_id) VALUES (?, ?, ?, ?, ?, ?);";
+	private static final String LOGIN = "SELECT id, huisnummer, email, admin FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
+	private static final String UPDATE_HOUSENUMBER = "UPDATE gebruiker SET huisnummer = ? WHERE id = ?;";
+	private static final String UPDATE_PASSWORD = "UPDATE gebruiker SET wachtwoord = ? WHERE id = ?;";
+	private static final String UPDATE_EMAIL = "UPDATE gebruiker SET email = ? WHERE id = ?;";
+	private static final String REMOVE_ACCOUNT = "UPDATE gebruiker SET actief = 'N', email = CONCAT(email, ?), huisnummer = CONCAT(huisnummer, ?) WHERE id = ? AND wachtwoord = ?;";
+	private static final String REMOVE_ACCOUNT_ABSOLUTE = "DELETE FROM gebruiker WHERE id = ?;";
+	private static final String SELECT_ALL_USERS = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord FROM gebruiker WHERE actief = 'Y';";
+	private static final String GET_USER_WASHCOUNTER = "SELECT COUNT(gebruiker_id) FROM wasschema x LEFT JOIN week_dag_tijd a ON x.week_dag_tijd_id = a.id WHERE x.gebruiker_id = ? AND a.week_id = ?;";
+	private static final String REMOVE_USER_APPOINTMENTS = "UPDATE wasschema SET gebruiker_id = NULL WHERE gebruiker_id = ?;";
+
+	@Autowired
+	UserDaoImpl(JdbcTemplate template) {
+		this.template = template;
+	}
 
 	@Override
 	public boolean create(User user) {
-		String signupSQL = "INSERT INTO gebruiker (voornaam, achternaam, huisnummer, email, wachtwoord, sharedpassword_id) VALUES (?, ?, ?, ?, ?, ?);";
-		boolean bool = false;
 		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(signupSQL);
-			preStmt.setString(1, user.getFirstName());
-			preStmt.setString(2, user.getLastName());
-			preStmt.setString(3, user.getHouseNumber());
-			preStmt.setString(4, user.getEmail());
-			preStmt.setString(5, user.getPassword());
-			preStmt.setInt(6, 1);
-			preStmt.executeUpdate();
-			bool = true;
-		} catch (SQLException | PropertyVetoException e) {
-			if (e instanceof SQLIntegrityConstraintViolationException) {
-				bool = false;
-			} else {
-				e.printStackTrace();
-			}
-		} finally {
-			releaseResources();
+			this.template.update(SIGNUP, new Object[] { user.getFirstName(), user.getLastName(), user.getHouseNumber(),
+					user.getEmail(), user.getPassword(), user.getSharedPassword() });
+		} catch (DataAccessException e) {
+			e.printStackTrace();
+			return false;
 		}
-		return bool;
+		return true;
 	}
 
 	@Override
 	public User read(User user) {
-		String signinSQL = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord, admin FROM gebruiker WHERE email = ? AND wachtwoord = ?;";
-		User outputUser = null;
 		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(signinSQL);
-			preStmt.setString(1, user.getEmail());
-			preStmt.setString(2, user.getPassword());
-			rs = preStmt.executeQuery();
-			if (rs.next()) {
-				outputUser = new User();
-				outputUser.setId(rs.getInt(1));
-				outputUser.setFirstName(rs.getString(2));
-				outputUser.setLastName(rs.getString(3));
-				outputUser.setHouseNumber(rs.getString(4));
-				outputUser.setEmail(rs.getString(5));
-				outputUser.setPassword(rs.getString(6));
-				outputUser.setAdmin(rs.getString(7).equals("Y"));
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+			return this.template.queryForObject(LOGIN, new Object[] { user.getEmail(), user.getPassword() },
+					new UserRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			return null;
 		}
-		return outputUser;
 	}
 
-	/*
-	 * Three methods for changing user settings. The changeable settings are
-	 * huisnummer, email, password. I created two other methods for email and
-	 * password!
-	 */
-
+	// Three methods for changing user settings. The changeable settings are
+	// huisnummer, email, password. I created two other methods for email and
+	// password!
 	@Override
 	public boolean update(User user) {
-		String updateHousenumberSQL = "UPDATE gebruiker SET huisnummer = ? WHERE id = ?;";
-		boolean bool = false;
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(updateHousenumberSQL);
-			preStmt.setString(1, user.getHouseNumber());
-			preStmt.setInt(2, user.getId());
-			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated == 1) {
-				bool = true;
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+		int rowsAffected = this.template.update(UPDATE_HOUSENUMBER,
+				new Object[] { user.getHouseNumber(), user.getId() });
+		if (rowsAffected != 1) {
+			return false;
 		}
-		return bool;
+		return true;
 	}
 
 	public boolean updatePassword(User user) {
-		String updatePasswordSQL = "UPDATE gebruiker SET wachtwoord = ? WHERE email = ?;";
-		boolean bool = false;
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(updatePasswordSQL);
-			preStmt.setString(1, user.getPassword());
-			preStmt.setString(2, user.getEmail());
-			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated == 1) {
-				bool = true;
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+		int rowsAffected = this.template.update(UPDATE_PASSWORD, new Object[] { user.getPassword(), user.getId() });
+		if (rowsAffected != 1) {
+			return false;
 		}
-		return bool;
+		return true;
 	}
 
 	// Not implemented in website yet
 	public boolean updateEmail(User user) {
-		String updatePasswordSQL = "UPDATE gebruiker SET email = ? WHERE id = ?;";
-		boolean bool = false;
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(updatePasswordSQL);
-			preStmt.setString(1, user.getEmail());
-			preStmt.setInt(2, user.getId());
-			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated == 1) {
-				bool = true;
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+		int rowsAffected = this.template.update(UPDATE_EMAIL, new Object[] { user.getEmail(), user.getId() });
+		if (rowsAffected != 1) {
+			return false;
 		}
-		return bool;
+		return true;
 	}
 
 	@Override
 	public boolean delete(User user) {
 		// CONCAT with userId because Db columns are unique
-		String deactiveUserSQL = "UPDATE gebruiker SET actief = 'N', email = CONCAT(email, ?), huisnummer = CONCAT(huisnummer, ?) WHERE id = ? AND wachtwoord = ?;";
-		boolean bool = false;
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(deactiveUserSQL);
-			preStmt.setInt(1, user.getId());
-			preStmt.setInt(2, user.getId());
-			preStmt.setInt(3, user.getId());
-			preStmt.setString(4, user.getPassword());
-			int rowsUpdated = preStmt.executeUpdate();
-			if (rowsUpdated == 1) {
-				deleteAllAppointmentsFromDeletedUser(user);
-				bool = true;
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+		int rowsAffected = this.template.update(REMOVE_ACCOUNT,
+				new Object[] { user.getEmail(), user.getHouseNumber(), user.getId(), user.getPassword() });
+		if (rowsAffected != 1) {
+			return false;
 		}
-		return bool;
+		deleteAppointmentsFromDeletedUser(user);
+		return true;
 	}
 
-	private void deleteAllAppointmentsFromDeletedUser(User user) {
-		String deleteAppointmentsSQL = "UPDATE wasschema SET gebruiker_id = NULL WHERE gebruiker_id = ?;";
-		try {
-			preStmt = conn.prepareStatement(deleteAppointmentsSQL);
-			preStmt.setInt(1, user.getId());
-			preStmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
+	private void deleteAppointmentsFromDeletedUser(User user) {
+		this.template.update(REMOVE_USER_APPOINTMENTS, new Object[] { user.getId() });
 	}
 
 	// Washcounter to check if user didn't wash more than 3 times
 	public int[] getWashCounter(User user) {
-		String sql = "SELECT COUNT(gebruiker_id) FROM wasschema x LEFT JOIN week_dag_tijd a ON x.week_dag_tijd_id = a.id WHERE x.gebruiker_id = ? AND a.week_id = ?;";
-		int[] wascounter = new int[2];
+		int[] userWashCounter = new int[2];
 		for (int i = 0; i < 2; i++) {
-			try {
-				conn = getConnection();
-				preStmt = conn.prepareStatement(sql);
-				preStmt.setInt(1, user.getId());
-				preStmt.setInt(2, i);
-				rs = preStmt.executeQuery();
-				rs.next();
-				wascounter[i] = rs.getInt(1);
-			} catch (SQLException | PropertyVetoException e) {
-				e.printStackTrace();
-			} finally {
-				releaseResources();
-			}
+			userWashCounter[i] = this.template.queryForObject(GET_USER_WASHCOUNTER, new Object[] { user.getId(), i },
+					Integer.class);
 		}
-		return wascounter;
+		return userWashCounter;
 	}
 
 	public Map<Long, User> selectAllUsers() {
-		String selectAllUsers = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord FROM gebruiker WHERE actief = 'Y';";
+		List<User> list = this.template.query(SELECT_ALL_USERS, new UserRowMapper());
 		Map<Long, User> users = new HashMap<>();
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(selectAllUsers);
-			rs = preStmt.executeQuery();
-			while (rs.next()) {
-				User user = new User();
-				user.setId(rs.getInt(1));
-				user.setFirstName(rs.getString(2));
-				user.setLastName(rs.getString(3));
-				user.setHouseNumber(rs.getString(4));
-				user.setEmail(rs.getString(5));
-				user.setPassword(rs.getString(6));
-				users.put((long) user.getId(), user);
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+		for (User user : list) {
+			users.put((long) user.getId(), user);
 		}
 		return users;
 	}
 
 	// only to be used in tests to delete dummy accounts
 	public void deleteCompletely(User user) {
-		String removeUserSQL = "DELETE FROM gebruiker WHERE id = ?;";
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(removeUserSQL);
-			preStmt.setInt(1, user.getId());
-			preStmt.executeUpdate();
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
+		this.template.update(REMOVE_ACCOUNT_ABSOLUTE, new Object[] { user.getId() });
+	}
+
+	// Should this be a bean? Or not? I am using this row mapper in other modules...
+	public static class UserRowMapper implements RowMapper<User> {
+		@Override
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User();
+			user.setId(rs.getInt("id"));
+			user.setHouseNumber(rs.getString("huisnummer"));
+			user.setEmail(rs.getString("email"));
+			user.setAdmin(rs.getBoolean("admin"));
+			return user;
 		}
 	}
 

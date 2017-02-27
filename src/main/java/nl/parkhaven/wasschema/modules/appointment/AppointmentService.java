@@ -2,32 +2,35 @@ package nl.parkhaven.wasschema.modules.appointment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public final class AppointmentService {
 
 	private static final Logger logger = LoggerFactory.getLogger(AppointmentService.class);
 
-	private AppointmentDaoImpl appointmentDao = new AppointmentDaoImpl();
-	private Appointment appointment;
+	private AppointmentDaoImpl appointmentDao;
 	private String errorMessage;
 
-	public AppointmentService(Appointment appointment) {
-		this.appointment = appointment;
+	@Autowired
+	public AppointmentService(AppointmentDaoImpl appointmentDao) {
+		this.appointmentDao = appointmentDao;
 	}
-
-	public void addAppointment() {
-		if (entryValid()) {
-			if (dateFree()) {
-				placeDate();
+	
+	public void addAppointment(Appointment ap) {
+		if (entryValid(ap)) {
+			if (dateFree(ap)) {
+				placeDate(ap);
 			}
 		}
 	}
 
-	public void removeAppointment() {
-		boolean removed = appointmentDao.delete(appointment);
+	public void removeAppointment(Appointment ap) {
+		boolean removed = appointmentDao.delete(ap);
 		if (!removed) {
 			errorMessage = "Failed to remove appointment. Check if given info is correct or if appointment isnt within 30 minutes!";
-			logger.warn("Wrong date Or in the passed (remove appointment). GebruikerId: " + appointment.getUserId());
+			logger.warn("Wrong date Or in the passed (remove appointment). GebruikerId: " + ap.getUserId());
 		}
 	}
 
@@ -39,8 +42,8 @@ public final class AppointmentService {
 		return errorMessage;
 	}
 
-	private boolean entryValid() {
-		if (appointment.getUserId() > 0) {
+	private boolean entryValid(Appointment ap) {
+		if (ap.getUserId() > 0) {
 			return true;
 		} else {
 			errorMessage = "You are not logged in!";
@@ -49,18 +52,18 @@ public final class AppointmentService {
 		}
 	}
 
-	private boolean dateFree() {
-		if (appointmentDao.read(appointment).getUserId() == 0) {
+	private boolean dateFree(Appointment ap) {
+		if (appointmentDao.read(ap).getUserId() == 0) {
 			return true;
 		} else {
 			errorMessage = "Passed date or date already taken!";
-			logger.warn("Date taken. GebruikerId: " + appointment.getUserId());
+			logger.warn("Date taken. GebruikerId: " + ap.getUserId());
 			return false;
 		}
 	}
 
-	private void placeDate() {
-		appointmentDao.update(appointment);
+	private void placeDate(Appointment ap) {
+		appointmentDao.update(ap);
 	}
 
 }

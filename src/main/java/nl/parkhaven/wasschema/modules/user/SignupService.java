@@ -2,25 +2,27 @@ package nl.parkhaven.wasschema.modules.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import nl.parkhaven.wasschema.modules.util.Misc;
 
+@Service
 public final class SignupService {
 
 	private static final Logger logger = LoggerFactory.getLogger(SignupService.class);
 
-	private User user;
-	private String code;
+	private UserDaoImpl userDao;
 	private String errorMessage;
 
-	public SignupService(User user, String code) {
-		this.user = user;
-		this.code = code;
+	@Autowired
+	public SignupService(UserDaoImpl userDao) {
+		this.userDao = userDao;
 	}
 
-	public void signup() {
-		if (credentialsValid()) {
-			addUser();
+	public void signup(User user, String code) {
+		if (credentialsValid(user, code)) {
+			addUser(user);
 		}
 	}
 
@@ -32,7 +34,7 @@ public final class SignupService {
 		return errorMessage;
 	}
 
-	private boolean credentialsValid() {
+	private boolean credentialsValid(User user, String code) {
 		if (user.getEmail() == null || !Misc.isHouseNumberValid(user.getHouseNumber()) || user.getPassword() == null
 				|| code == null) {
 			errorMessage = "Not all data entered!";
@@ -53,8 +55,7 @@ public final class SignupService {
 		}
 	}
 
-	private void addUser() {
-		UserDaoImpl userDao = new UserDaoImpl();
+	private void addUser(User user) {
 		if (!userDao.create(user)) {
 			errorMessage = "User with your huisnummer alread exists! (Contact beheerder)";
 			logger.warn("= Huisnummer or email already exists. Huisnummer: " + user.getHouseNumber() + " Email: "
@@ -65,7 +66,6 @@ public final class SignupService {
 
 	// only to be used in tests, to delete dummy accoutns
 	public void deleteUser(User user) {
-		UserDaoImpl userDao = new UserDaoImpl();
 		userDao.deleteCompletely(user);
 	}
 

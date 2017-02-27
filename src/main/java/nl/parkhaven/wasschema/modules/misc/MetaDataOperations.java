@@ -1,64 +1,44 @@
 package nl.parkhaven.wasschema.modules.misc;
 
-import java.beans.PropertyVetoException;
-import java.sql.SQLException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-import nl.parkhaven.wasschema.modules.CommonDao;
+@Repository
+public final class MetaDataOperations {
 
-public final class MetaDataOperations extends CommonDao {
+	private static final String ADD_META_DATA = "INSERT INTO metadata (counter, counter_type) VALUES (?, ?);";
+	private static final String SELECT_COUNTER_SUM = "SELECT SUM(counter) FROM metadata WHERE counter_type = ?;";
+	private static final String REMOVE = "REMOVE FROM metadata ORDER BY id DESC LIMIT 1;";
 
-	// used when restarting application, to save the ocunter for amount of page refreshes, and washes placed
+	private JdbcTemplate template;
+
+	@Autowired
+	public MetaDataOperations(JdbcTemplate template) {
+		this.template = template;
+	}
+
+	// used when restarting application, to save the counter for amount of page
+	// refreshes, and washes placed
 	public void insertCounter(int counter, String type) {
-		String storeMetaDataSQL = "INSERT INTO metadata (counter, counter_type) VALUES (?, ?);";
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(storeMetaDataSQL);
-			preStmt.setInt(1, counter);
-			preStmt.setString(2, type);
-			preStmt.executeUpdate();
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
+		this.template.update(ADD_META_DATA, new Object[] { counter, type });
 	}
 
 	// not used yet, but this is to get the old counters after a restart
 	public int getCounterSum(String type) {
-		String getCounterSumInMetaDataSQL = "SELECT SUM(counter) FROM metadata WHERE counter_type = ?;";
-		int sum = 0;
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(getCounterSumInMetaDataSQL);
-			preStmt.setString(1, type);
-			rs = preStmt.executeQuery();
-			rs.next();
-			sum = rs.getInt(1);
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
-		return sum;
+		return this.template.queryForObject(SELECT_COUNTER_SUM, new Object[] { type }, Integer.class);
 	}
 
 	// method only to be used for testing
 	public void deleteLastCounter() {
-		String deleteSpecificMetaDataRowSQL = "DELETE FROM metadata ORDER BY id DESC LIMIT 1;";
 		/*
-		 *  DELETE FROM metadata WHERE id = SELECT MAX(id) FROM metadata;
-		 *  In MySQL, you can't modify (INSERT, UPDATE, DELETE) the same table which you use in the SELECT part.
-		 *  http://stackoverflow.com/questions/45494/mysql-error-1093-cant-specify-target-table-for-update-in-from-clause
+		 * REMOVE FROM metadata WHERE id = SELECT MAX(id) FROM metadata; In
+		 * MySQL, you can't modify (INSERT, UPDATE, DELETE) the same table which
+		 * you use in the SELECT part.
+		 * http://stackoverflow.com/questions/45494/mysql-error-1093-cant-
+		 * specify-target-table-for-update-in-from-clause
 		 */
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(deleteSpecificMetaDataRowSQL);
-			preStmt.executeUpdate();
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
-		} finally {
-			releaseResources();
-		}
+		this.template.update(REMOVE);
 	}
 
 }

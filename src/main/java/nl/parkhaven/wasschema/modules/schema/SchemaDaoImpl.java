@@ -1,70 +1,66 @@
 package nl.parkhaven.wasschema.modules.schema;
 
-import java.beans.PropertyVetoException;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import nl.parkhaven.wasschema.modules.CommonDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
-final class SchemaDaoImpl extends CommonDao {
+@Repository
+public final class SchemaDaoImpl {
 
 	/*
 	 * The schema is the only class where I don't release the resources in the
 	 * Dao classes. I do this because I recall getData multiple times after each
 	 * other. I also only call this method twice so I won't forget to release
-	 * the resources.
-	 * Always call getTimes first, and always close connection after last getData call!
+	 * the resources. Always call getTimes first, and always close connection
+	 * after last getData call!
 	 */
 
+	private static final String SELECT_TIJD = "SELECT DATE_FORMAT(tijd_default, '%H:%i') FROM tijd;";
+	private static final String SELECT_LAUNDRYMACHINE = "SELECT name FROM wasmachine;";
+	private static final String SELECT_HOUSENUMBER = "SELECT a.huisnummer FROM wasschema x LEFT JOIN gebruiker a ON x.gebruiker_id = a.id WHERE x.wasmachine_id = ? ORDER BY week_dag_tijd_id;";
+
+	private JdbcTemplate template;
+
+	@Autowired
+	SchemaDaoImpl(JdbcTemplate template) {
+		this.template = template;
+	}
+
 	public Map<Long, String> getTimes() {
-		String sql = "SELECT id, DATE_FORMAT(tijd_default, '%H:%i') FROM tijd;";
+		List<String> list = this.template.queryForList(SELECT_TIJD, String.class);
 		Map<Long, String> times = new HashMap<>();
-		try {
-			conn = getConnection();
-			preStmt = conn.prepareStatement(sql);
-			rs = preStmt.executeQuery();
-			while (rs.next()) {
-				times.put((long) rs.getInt(1) - 1, rs.getString(2));
-			}
-		} catch (SQLException | PropertyVetoException e) {
-			e.printStackTrace();
+		int listSize = list.size();
+		for (int i = 0; i < listSize; i++) {
+			times.put((long) i + 1, list.get(i));
 		}
 		return times;
 	}
 
 	public Map<Long, String> getWashingMachines() {
-		String sql = "SELECT id, name FROM wasmachine;";
+		List<String> list = this.template.queryForList(SELECT_LAUNDRYMACHINE, String.class);
 		Map<Long, String> washmachines = new HashMap<>();
-		try {
-			preStmt = conn.prepareStatement(sql);
-			rs = preStmt.executeQuery();
-			while (rs.next()) {
-				washmachines.put((long) rs.getInt(1), rs.getString(2));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		int listSize = list.size();
+		for (int i = 0; i < listSize; i++) {
+			washmachines.put((long) i + 1, list.get(i));
 		}
 		return washmachines;
 	}
 
 	public String[][] getWashingSchemaData(int washmachine_id) {
-		String sql = "SELECT a.huisnummer FROM wasschema x LEFT JOIN gebruiker a ON x.gebruiker_id = a.id WHERE x.wasmachine_id = ? ORDER BY week_dag_tijd_id;";
-		String housenumbers[][] = new String[2][91];
-		try {
-			preStmt = conn.prepareStatement(sql);
-			preStmt.setInt(1, washmachine_id);
-			rs = preStmt.executeQuery();
-			for (int week = 0; week < 2; week++) {
-				for (int index = 0; index < 91; index++) {
-					rs.next();
-					housenumbers[week][index] = rs.getString(1);
-				}
+		List<String> list = this.template.queryForList(SELECT_HOUSENUMBER, new Object[] { washmachine_id },
+				String.class);
+		int listIndex = 0;
+		String houseNumbers[][] = new String[2][91];
+		for (int week = 0; week < 2; week++) {
+			for (int index = 0; index < 91; index++) {
+				houseNumbers[week][index] = list.get(listIndex++);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
-		return housenumbers;
+		return houseNumbers;
 	}
 
 }

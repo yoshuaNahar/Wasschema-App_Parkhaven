@@ -33,7 +33,7 @@ public final class Misc {
 		if (houseNummer.matches("[1-9]{1}[0-9]{0,2}[A-F]?")) {
 			return true;
 		}
-		logger.warn("= User Bypassed Javascript Regex =");
+		logger.warn("User Bypassed Javascript Regex");
 		return false;
 	}
 

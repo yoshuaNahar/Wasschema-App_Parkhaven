@@ -16,13 +16,13 @@
 <!-- Stylesheet for prikbord message modal -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />
 <style>
- <c:if test="${requestScope.wasruimte == 2}">
+ <c:if test="${requestScope.laundryRoom == 2}">
  #blue, .progress-bar-info {background-color: #69d2e7;}
  #green, .progress-bar-success {background-color: #588c73;}
  #yellow, .progress-bar-warning {background-color: #f39c12;}
  #red, .progress-bar-danger {background-color: #f2ae72;}
  </c:if>
- <c:if test="${requestScope.wasruimte == 3}">
+ <c:if test="${requestScope.laundryRoom == 3}">
  #blue, .progress-bar-info {background-color: #24a8ac;}
  #green, .progress-bar-success {background-color: #ffa200;}
  #yellow, .progress-bar-warning {background-color: #9b539c;}
@@ -47,7 +47,7 @@
             <c:out value="${sessionScope.user.email}" />
           </div>
           <c:if test="${sessionScope.user.admin}">
-            <form id="adminForm" name="adminButton" class="form-signin" action="admin.010" method="post">
+            <form id="adminForm" name="adminButton" class="form-signin" action="admin.010" method="get">
               <button type="submit" class="btn btn-succes">Admin page</button>
             </form>
           </c:if>
@@ -97,24 +97,24 @@
                 </div>
                 <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
                   <div class="panel-body">
-                    <c:if test="${requestScope.wasruimte != 1 && requestScope.wasruimte != 2 && requestScope.wasruimte != 3}">
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=1">Laundry room A</a><hr class="smaller_margin"></hr>
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=2">Laundry room B</a><hr class="smaller_margin"></hr>
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=3">Laundry room C</a>
+                    <c:if test="${requestScope.laundryRoom != 1 && requestScope.laundryRoom != 2 && requestScope.laundryRoom != 3}">
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a><hr class="smaller_margin"></hr>
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=2">Laundry room B</a><hr class="smaller_margin"></hr>
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
                     </c:if>
-                    <c:if test="${requestScope.wasruimte == 1}">
+                    <c:if test="${requestScope.laundryRoom == 1}">
                       <a class="settings_link">Laundry room A <span class="label" id="default_blue">(Current)</span></a><hr class="smaller_margin"></hr>
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=2">Laundry room B</a><hr class="smaller_margin"></hr>
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=3">Laundry room C</a>
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=2">Laundry room B</a><hr class="smaller_margin"></hr>
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
                     </c:if>
-                    <c:if test="${requestScope.wasruimte == 2}">
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=1">Laundry room A</a><hr class="smaller_margin"></hr>
+                    <c:if test="${requestScope.laundryRoom == 2}">
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a><hr class="smaller_margin"></hr>
                       <a class="settings_link">Laundry room B <span class="label" id="default_blue">(Current)</span></a><hr class="smaller_margin"></hr>
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=3">Laundry room C</a>
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
                     </c:if>
-                    <c:if test="${requestScope.wasruimte == 3}">
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=1">Laundry room A</a><hr class="smaller_margin"></hr>
-                      <a class="settings_link" href="?week=${requestScope.week}&wasruimte=2">Laundry room B</a><hr class="smaller_margin"></hr>
+                    <c:if test="${requestScope.laundryRoom == 3}">
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a><hr class="smaller_margin"></hr>
+                      <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=2">Laundry room B</a><hr class="smaller_margin"></hr>
                       <a class="settings_link">Laundry room C <span class="label" id="default_blue">(Current)</span></a>
                     </c:if>
                   </div>
@@ -151,7 +151,7 @@
           </li>
         </ul>
 
-       <c:if test="${requestScope.wasruimte == 1 || requestScope.wasruimte == 2 || requestScope.wasruimte == 3}">
+       <c:if test="${requestScope.laundryRoom == 1 || requestScope.laundryRoom == 2 || requestScope.laundryRoom == 3}">
         <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
           Place Date <span class="shrink_glyph glyphicon glyphicon-plus"> </span>
         </button>
@@ -161,17 +161,17 @@
 
       <div class="col-xs-10 col-xs-offset-2 main">
 
-<c:if test="${requestScope.wasruimte == 1 || requestScope.wasruimte == 2 || requestScope.wasruimte == 3}">
+<c:if test="${requestScope.laundryRoom == 1 || requestScope.laundryRoom == 2 || requestScope.laundryRoom == 3}">
         <nav aria-label="week_pagination" id="week">
           <ul class="pager">
             <c:if test="${requestScope.week != 'next'}">
               <li class="disabled label"><a id="active_week">Current Week</a></li>
-              <li class="label"><a id="available_week" href="?week=next&wasruimte=${requestScope.wasruimte}">Next Week <span
+              <li class="label"><a id="available_week" href="?week=next&laundryRoom=${requestScope.laundryRoom}">Next Week <span
                   class="shrink_glyph glyphicon glyphicon-arrow-right"></span>
               </a></li>
             </c:if>
             <c:if test="${requestScope.week == 'next'}">
-              <li class="label"><a id="available_week" href="?week=current&wasruimte=${requestScope.wasruimte}"><span
+              <li class="label"><a id="available_week" href="?week=current&laundryRoom=${requestScope.laundryRoom}"><span
                   class="shrink_glyph glyphicon glyphicon-arrow-left"></span> Current Week</a></li>
               <li class="label disabled"><a id="active_week">Next Week</a></li>
             </c:if>
@@ -194,13 +194,13 @@
         </div>
 
         <div class="legend">
-          <c:if test="${requestScope.wasruimte == 1}">
+          <c:if test="${requestScope.laundryRoom == 1}">
             <small><span class="label" id="blue">Laundrymachine A1</span> <b>-</b> <span class="label" id="yellow">Laundrymachine A2</span></small>
           </c:if>
-          <c:if test="${requestScope.wasruimte == 2}">
+          <c:if test="${requestScope.laundryRoom == 2}">
             <small><span class="label" id="blue">Laundrymachine B1</span> <b>-</b> <span class="label" id="yellow">Laundrymachine B2</span></small>
           </c:if>
-          <c:if test="${requestScope.wasruimte == 3}">
+          <c:if test="${requestScope.laundryRoom == 3}">
             <small><span class="label" id="blue">Laundrymachine C1</span> <b>-</b> <span class="label" id="yellow">Laundrymachine C2</span></small>
           </c:if>
         </div>
@@ -578,13 +578,13 @@
         </div>
 
         <div class="legend">
-          <c:if test="${requestScope.wasruimte == 1}">
+          <c:if test="${requestScope.laundryRoom == 1}">
             <small><span class="label" id="green">Dryer A3</span> <b>-</b> <span class="label" id="red">Dryer A4</span></small>
           </c:if>
-          <c:if test="${requestScope.wasruimte == 2}">
+          <c:if test="${requestScope.laundryRoom == 2}">
             <small><span class="label" id="green">Dryer B3</span> <b>-</b> <span class="label" id="red">Dryer B4</span></small>
           </c:if>
-          <c:if test="${requestScope.wasruimte == 3}">
+          <c:if test="${requestScope.laundryRoom == 3}">
             <small><span class="label" id="green">Laundrymachine C3</span> <b>-</b> <span class="label" id="red">Laundrymachine C4</span></small>
           </c:if>
         </div>
@@ -981,7 +981,7 @@
                   title="You will need to log back in after this change."></span>
                 <input name="to_servlet" value="changeHouseNumber"
                   style="display: none;" required>
-                <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
+                <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
                   
               </div>
             </div>
@@ -1015,7 +1015,7 @@
                 <input name="password" type="password" class="form-control settings_modal" placeholder="New Password" required /> <br> <input
                   name="password" type="password" class="form-control" placeholder="Retype Password" />
                 <input name="to_servlet" value="changePassword" style="display: none;" required>
-                <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
+                <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
               </div>
             </div>
           </div>
@@ -1047,7 +1047,7 @@
               <div class="col-xs-9 col-xs-offset-1">
                 <input name="password" type="password" class="form-control settings_modal" placeholder="Type password" required />
                 <input name="to_servlet" value="deleteAccount" style="display: none;" required>
-                <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
+                <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
               </div>
             </div>
           </div>
@@ -1120,17 +1120,17 @@
               <div class="col-xs-8 .col-xs-offset-4">
 
                 <select name="machine" class="form-control machine_class">
-                  <c:if test="${requestScope.wasruimte != 2 && requestScope.wasruimte != 3}">
+                  <c:if test="${requestScope.laundryRoom != 2 && requestScope.laundryRoom != 3}">
                     <c:forEach items="${wasmachine}" var="entry" varStatus="loop" begin="0" end="3">
                       <option value="${entry.key}">${entry.value}</option>
                     </c:forEach>
                   </c:if>
-                  <c:if test="${requestScope.wasruimte == 2}">
+                  <c:if test="${requestScope.laundryRoom == 2}">
                     <c:forEach items="${wasmachine}" var="entry" varStatus="loop" begin="4" end="7">
                       <option value="${entry.key}">${entry.value}</option>
                     </c:forEach>
                   </c:if>
-                  <c:if test="${requestScope.wasruimte == 3}">
+                  <c:if test="${requestScope.laundryRoom == 3}">
                     <c:forEach items="${wasmachine}" var="entry" varStatus="loop" begin="8" end="11">
                       <option value="${entry.key}">${entry.value}</option>
                     </c:forEach>
@@ -1168,7 +1168,7 @@
 
             <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required> <input name="to_servlet"
               value="addAppointment" style="display: none;">
-            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
+            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
           </div>
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">
@@ -1244,17 +1244,17 @@
               <div class="col-xs-8 .col-xs-offset-4">
 
                 <select name="machine" class="machine_class form-control">
-                  <c:if test="${requestScope.wasruimte == 1}">
+                  <c:if test="${requestScope.laundryRoom == 1}">
                     <c:forEach items="${wasmachine}" var="entry" varStatus="loop" begin="0" end="3">
                       <option value="${entry.key}">${entry.value}</option>
                     </c:forEach>
                   </c:if>
-                  <c:if test="${requestScope.wasruimte == 2}">
+                  <c:if test="${requestScope.laundryRoom == 2}">
                     <c:forEach items="${wasmachine}" var="entry" varStatus="loop" begin="4" end="7">
                       <option value="${entry.key}">${entry.value}</option>
                     </c:forEach>
                   </c:if>
-                  <c:if test="${requestScope.wasruimte == 3}">
+                  <c:if test="${requestScope.laundryRoom == 3}">
                     <c:forEach items="${wasmachine}" var="entry" varStatus="loop" begin="8" end="11">
                       <option value="${entry.key}">${entry.value}</option>
                     </c:forEach>
@@ -1277,7 +1277,7 @@
 
             <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required> <input name="to_servlet"
               value="removeAppointment" style="display: none;">
-            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="laundryRoom" type="number" style="display: none;">
+            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
 
           </div>
           <div class="modal-footer">
@@ -1316,7 +1316,7 @@
             </div>
           </div>
           <input name="to_servlet" value="removeMessage" style="display: none;">
-          <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
+          <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
           <div class="modal-footer">
             <button type="submit" class="btn btn-primary">
               Delete <span class="shrink_glyph glyphicon glyphicon-ok"></span>
@@ -1349,7 +1349,7 @@
                 <h5>Title:</h5>
               </div>
               <div class="col-xs-10 .col-xs-offset-2">
-                <input type="text" name="title" class="form-control pull-right">
+                <input type="text" name="titleInput" class="form-control pull-right">
               </div>
             </div>
 
@@ -1360,7 +1360,7 @@
                 <h5>Inhoud:</h5>
               </div>
               <div class="col-xs-10 .col-xs-offset-2">
-                <textarea name="body" rows="10" cols="80" id="MyID"></textarea>
+                <textarea name="bodyInput" rows="10" cols="80" id="MyID"></textarea>
               </div>
             </div>
 
@@ -1378,7 +1378,7 @@
 
             <input value="${sessionScope.user.id}" name="userId" type="number" style="display: none;" required> <input name="to_servlet"
               value="createMessage" style="display: none;">
-            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.wasruimte}" name="wasruimte" type="number" style="display: none;">
+            <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
 
           </div>
           <div class="modal-footer">
@@ -1541,16 +1541,16 @@
       var time = (i % 13);
       
       var thisWeek = ${requestScope.week != 'next'};
-      var wasruimte = ${requestScope.wasruimte};
+      var laundryRoom = ${requestScope.laundryRoom};
       
-      if (wasruimte == 2) {
+      if (laundryRoom == 2) {
     	  machine += 4;
-      } else if (wasruimte == 3) {
+      } else if (laundryRoom == 3) {
     	  machine += 8;
       }
 
       console.log(machine);
-      console.log(wasruimte);
+      console.log(laundryRoom);
 
       if (!thisWeek) {
     	  day += 7;

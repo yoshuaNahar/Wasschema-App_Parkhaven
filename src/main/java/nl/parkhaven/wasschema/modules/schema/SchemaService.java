@@ -2,6 +2,10 @@ package nl.parkhaven.wasschema.modules.schema;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public final class SchemaService {
 
 	/*
@@ -11,7 +15,13 @@ public final class SchemaService {
 	 * the resources.
 	 */
 
-	private final SchemaDaoImpl schemaDao = new SchemaDaoImpl();
+	private SchemaDaoImpl schemaDao;
+
+	@Autowired
+	public SchemaService(SchemaDaoImpl schemaDao) {
+		this.schemaDao = schemaDao;
+	}
+
 	private String[][] houseNummers;
 	private Map<Long, String> times;
 	private Map<Long, String> washingMachines;
@@ -29,10 +39,6 @@ public final class SchemaService {
 	public Map<Long, String> getTimes() {
 		times = schemaDao.getTimes();
 		return times;
-	}
-
-	public void releaseResources() {
-		schemaDao.releaseResources();
 	}
 
 }

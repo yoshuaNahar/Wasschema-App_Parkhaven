@@ -20,13 +20,13 @@
     <div class="initial_form">
       <a href="/WasSchema"><img id="logo" src="${pageContext.request.contextPath}/resources/img/parkhaven-logo.png" /></a>
       <form id="register_form" action="" method="post">
-        <input name="email" type="email" placeholder="email address"/>
+        <input name="email" type="email" placeholder="email address" required />
         <input name="firstName" type="text" placeholder="firstname"/>
         <input name="lastName" type="text" placeholder="lastname"/>
-        <input name="password" type="password" placeholder="password"/>
-        <input name="repeatpassword" type="password" placeholder="repeat password"/>
-        <input name="houseNumber" type="text" placeholder="house number"/>
-        <input name="sharedPassword" type="text" placeholder="shared code"/>
+        <input name="password" type="password" placeholder="password" required />
+        <input name="repeatpassword" type="password" placeholder="repeat password" required />
+        <input name="houseNumber" type="text" placeholder="housenumber" required />
+        <input name="sharedPassword" type="text" placeholder="shared code" required />
         <input name="to_servlet" value="signup" style="display: none;" />
         <button type="submit">create</button> 
         <div class="message">
@@ -36,8 +36,8 @@
         </div>
       </form>
       <form id="login_form" action="" method="post">
-        <input name="email" type="text" placeholder="email" />
-        <input name="password" type="password" placeholder="password" />
+        <input name="email" type="email" placeholder="email" required />
+        <input name="password" type="password" placeholder="password" required />
         <input name="to_servlet" value="login" style="display: none;" />        
         <button type="submit">login</button>
         <div class="message">
@@ -50,7 +50,7 @@
         </div>
       </form>
       <form id="forgot_password_form" action="" method="post">
-        <input name="email" type="text" placeholder="email" />
+        <input name="email" type="text" placeholder="email" required />
         <input name="to_servlet" value="forgotPassword" style="display: none;" />        
         <button type="submit">send mail</button>
         <div class="message">

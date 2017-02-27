@@ -1,4 +1,4 @@
-package nl.parkhaven.wasschema.test.component.schema;
+package nl.parkhaven.wasschema.modules.schema;
 
 import java.util.Map;
 

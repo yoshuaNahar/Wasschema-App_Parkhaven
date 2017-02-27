@@ -1,4 +1,4 @@
-package nl.parkhaven.wasschema.test.component.bulletinboard;
+package nl.parkhaven.wasschema.modules.bulletinboard;
 
 import java.util.Map;
 import java.util.Map.Entry;
