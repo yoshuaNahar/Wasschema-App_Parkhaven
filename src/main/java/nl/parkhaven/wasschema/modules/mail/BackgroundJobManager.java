@@ -10,15 +10,24 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import nl.parkhaven.wasschema.modules.util.MailSenderService;
+
 @WebListener
 public final class BackgroundJobManager implements ServletContextListener {
 
 	private ScheduledExecutorService scheduler;
 
+	@Autowired
+	private EmailDao emailDao;
+	@Autowired
+	private MailSenderService mailSenderService;
+
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new SendMailToWashersService(), initialDelay(), 3600, TimeUnit.SECONDS);
+		scheduler.scheduleAtFixedRate(new SendMailToWashersService(emailDao, mailSenderService), initialDelay(), 3600, TimeUnit.SECONDS);
 	}
 
 	@Override

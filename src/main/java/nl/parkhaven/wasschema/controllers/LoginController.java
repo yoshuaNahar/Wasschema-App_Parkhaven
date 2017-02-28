@@ -10,22 +10,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import nl.parkhaven.wasschema.modules.user.ForgotPasswordService;
 import nl.parkhaven.wasschema.modules.user.LoginService;
-import nl.parkhaven.wasschema.modules.user.SignupService;
 import nl.parkhaven.wasschema.modules.user.User;
-import nl.parkhaven.wasschema.modules.util.MailSender;
+import nl.parkhaven.wasschema.modules.util.MailSenderService;
 
 @Controller
 @RequestMapping(value = "/")
 public class LoginController {
 
-	@Autowired
 	private LoginService loginService;
+	private MailSenderService mailSenderService; 
+
 	@Autowired
-	private SignupService signupService;
-	@Autowired
-	private ForgotPasswordService forgotPasswordService;
+	public LoginController(LoginService loginService, MailSenderService mailSenderService) {
+		this.loginService = loginService;
+		this.mailSenderService = mailSenderService;
+	}
 
 	@GetMapping()
 	public String getLoginPage() {
@@ -34,40 +34,47 @@ public class LoginController {
 
 	@PostMapping(params = { "to_servlet=login" })
 	public String login(@ModelAttribute User user, HttpSession session, Model model) {
-		User loggedInUser = loginService.login(user);
-
-		if (loggedInUser == null) {
-			model.addAttribute("message", loginService.getErrorMessage());
-			return "login";
+		if (loginService.loginCredentialsValid(user)) {
+			User loggedInUser = loginService.login(user);
+			if (loggedInUser == null) {
+				model.addAttribute("message", LoginService.LOGIN_CREDENTIALS_INVALID);
+			} else {
+				session.setAttribute("user", loggedInUser);
+				session.setAttribute("wash_counter", loginService.getWashCounter(loggedInUser));
+				return "redirect:/index.010";
+			}
 		} else {
-			session.setAttribute("user", loggedInUser);
-			session.setAttribute("wash_counter", loginService.getWashCounter(loggedInUser));
-			return "redirect:/index.010";
+			model.addAttribute("message", LoginService.NOT_ALL_REQUIRED_FIELDS_FILLED);
 		}
+		return "login";
 	}
 
 	@PostMapping(params = { "to_servlet=signup" })
 	public String signup(@ModelAttribute User user, HttpSession session, Model model) {
-		signupService.signup(user, user.getSharedPassword());
-
-		if (signupService.errorOccured()) {
-			model.addAttribute("message", signupService.getErrorMessage());
-			return "login";
+		if (loginService.signupCredentialsValid(user)) {
+			if (loginService.created(user)) {
+				return login(user, session, model);
+			} else {
+				model.addAttribute("message", LoginService.USER_WITH_HOUSENUMBER_ALREADY_EXISTS);
+			}
 		} else {
-			return login(user, session, model);
+			if (loginService.checkSharedPasswordValid(user.getSharedPassword())) {
+				model.addAttribute("message", LoginService.INCORRECT_SHARED_PASSWORD);
+			} else {
+				model.addAttribute("message", LoginService.NOT_ALL_REQUIRED_FIELDS_FILLED);
+			}
 		}
+		return "login";
 	}
 
 	@PostMapping(params = { "to_servlet=forgotPassword" })
 	public String forgotPassword(@ModelAttribute User user, Model model) {
-		forgotPasswordService.setRandomPasswordForUser(user);
-
-		if (forgotPasswordService.errorOccured()) {
-			model.addAttribute("message", forgotPasswordService.getErrorMessage());
-		} else {
-			MailSender mailSender = new MailSender(user);
-			mailSender.sendMailContainingPassword();
+		if (loginService.emailValid(user)) {
+			loginService.setRandomPasswordFor(user);
+			mailSenderService.sendMailContainingPasswordTo(user);
 			model.addAttribute("message", "A mail has been sent to your email adres.");
+		} else {
+			model.addAttribute("message", LoginService.NOT_ALL_REQUIRED_FIELDS_FILLED);
 		}
 		return "login";
 	}

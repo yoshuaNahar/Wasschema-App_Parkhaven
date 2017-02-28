@@ -3,9 +3,6 @@ package nl.parkhaven.wasschema.modules.appointment;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.modules.appointment.Appointment;
-import nl.parkhaven.wasschema.modules.appointment.AppointmentService;
-
 public class AppointmentServiceTest {
 
 	private AppointmentService appointmentService;

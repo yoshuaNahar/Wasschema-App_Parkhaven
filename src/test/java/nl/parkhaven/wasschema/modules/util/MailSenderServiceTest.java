@@ -2,7 +2,7 @@ package nl.parkhaven.wasschema.modules.util;
 
 import org.junit.Test;
 
-public class MailSenderTest {
+public class MailSenderServiceTest {
 
 	@Test
 	public void testSendMailContainingPassword() {

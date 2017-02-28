@@ -3,8 +3,6 @@ package nl.parkhaven.wasschema.modules.misc;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.modules.misc.MetaDataOperations;
-
 public class MetaDataOperationsTest {
 
 	private final MetaDataOperations miscDbOperations = new MetaDataOperations();

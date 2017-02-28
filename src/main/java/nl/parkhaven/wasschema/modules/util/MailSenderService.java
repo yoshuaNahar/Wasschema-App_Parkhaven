@@ -12,16 +12,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.stereotype.Service;
+
 import nl.parkhaven.wasschema.modules.user.User;
 
-public final class MailSender {
+@Service
+public class MailSenderService {
 
 	//	public static void main(String[] args) {
 	//		User user = new User();
 	//		user.setEmail("yosh.nahar@gmail.com");
 	//		ForgotPasswordService forgotPasswordService = new ForgotPasswordService(user);
 	//		forgotPasswordService.setRandomPasswordForUser();
-	//		new MailSender(user).sendMailContainingPassword();;
+	//		new MailSenderService(user).sendMailContainingPassword();;
 	//	}
 
 	private static final String emailSender = "straalbetaal@gmail.com";
@@ -29,8 +32,6 @@ public final class MailSender {
 	private static final Properties PROPS;
 	private static final DateFormat DATEFORMAT = new SimpleDateFormat("dd-MM-yyyy");
 	private static final DateFormat TIMEFORMAT = new SimpleDateFormat("HH:mm:ss");
-
-	private final User user;
 
 	static {
 		PROPS = System.getProperties();
@@ -42,11 +43,7 @@ public final class MailSender {
 		PROPS.put("mail.smtp.starttls.enable", "true");
 	}
 
-	public MailSender(User user) {
-		this.user = user;
-	}
-
-	public void sendMailThreeHoursReminder() {
+	public void sendMailThreeHoursReminder(User user) {
 		Session session = Session.getDefaultInstance(PROPS);
 		session.setDebug(false);
 
@@ -70,7 +67,7 @@ public final class MailSender {
 		}
 	}
 
-	public void sendMailContainingPassword() {
+	public void sendMailContainingPasswordTo(User user) {
 		Session session = Session.getDefaultInstance(PROPS);
 		session.setDebug(false);
 

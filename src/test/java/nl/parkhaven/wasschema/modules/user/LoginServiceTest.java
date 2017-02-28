@@ -1,63 +1,44 @@
 package nl.parkhaven.wasschema.modules.user;
 
-import org.junit.Assert;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import nl.parkhaven.wasschema.modules.user.LoginService;
-import nl.parkhaven.wasschema.modules.user.User;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 public class LoginServiceTest {
 
-	private User correctCredentialsUser = new User();
-	private User[] falseCredentialsUser = new User[3];
-	private String[] expectedDbValues = new String[6];
+	@Mock
+	private UserDaoImpl userDao;
 
-	// 4 Users: 1 has Correct Credentials, 3 Wrong have Credentials
+	@InjectMocks
+	private LoginService loginService;
+
 	@Before
-	public void settingUsersCredentials() {
-		correctCredentialsUser.setEmail("yosh.nahar@gmail.com");
-		correctCredentialsUser.setPassword("asusx52j");
-
-		User signinUserFalseEmailPassword = new User();
-		signinUserFalseEmailPassword.setEmail("false.email@gmail.com");
-		signinUserFalseEmailPassword.setPassword("falsePassword");
-
-		User signinUserFalseEmail = new User();
-		signinUserFalseEmail.setEmail("false.email@gmail.com");
-
-		User signinUserFalsePassword = new User();
-		signinUserFalsePassword.setPassword("falsePassword");
-
-		falseCredentialsUser[0] = signinUserFalseEmailPassword;
-		falseCredentialsUser[1] = signinUserFalseEmail;
-		falseCredentialsUser[2] = signinUserFalsePassword;
-
-		expectedDbValues[0] = "Yoshua";
-		expectedDbValues[1] = "Nahar";
-		expectedDbValues[2] = "230A";
-		expectedDbValues[3] = "yosh.nahar@gmail.com";
-		expectedDbValues[4] = "asusx52j";
+	public void setup() {
+		MockitoAnnotations.initMocks(this);
+		MockMvcBuilders.standaloneSetup(loginService).build();
 	}
-	/*
+
 	@Test
 	public void testLogin() {
-		LoginService loginService = new LoginService(correctCredentialsUser);
-		loginService.login();
-		User signedinUser = loginService.getUser();
-		Assert.assertEquals("Is the firstname correct?", signedinUser.getFirstName(), expectedDbValues[0]);
-		Assert.assertEquals("Is the surname correct?", signedinUser.getLastName(), expectedDbValues[1]);
-		Assert.assertEquals("Is the housenumber correct?", signedinUser.getHouseNumber(), expectedDbValues[2]);
-		Assert.assertEquals("Is the email correct?", signedinUser.getEmail(), expectedDbValues[3]);
-		Assert.assertEquals("Is the password correct?", signedinUser.getPassword(), expectedDbValues[4]);
+		User userWithEmailAndPassword = new User();
+		userWithEmailAndPassword.setEmail("email@gmail.com");
+		userWithEmailAndPassword.setPassword("password");
 
-		// False login credentials
-		for (int i = 0; i < falseCredentialsUser.length; i++) {
-			loginService = new LoginService(falseCredentialsUser[i]);
-			loginService.login();
-			signedinUser = loginService.getUser();
-			Assert.assertTrue(loginService.errorOccured());
-		}
+		User userWithEmail = new User();
+		userWithEmail.setEmail("email@gmail.com");
+
+		User userWithPassword = new User();
+		userWithPassword.setPassword("password");
+
+		assertThat(loginService.loginCredentialsValid(userWithEmailAndPassword), equalTo(true));
+		assertThat(loginService.loginCredentialsValid(userWithEmail), equalTo(false));
+		assertThat(loginService.loginCredentialsValid(userWithPassword), equalTo(false));
 	}
-	*/
+
 }

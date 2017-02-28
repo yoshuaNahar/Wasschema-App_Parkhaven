@@ -5,8 +5,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 
-import nl.parkhaven.wasschema.modules.schema.SchemaService;
-
 public class SchemaServiceTest {
 
 	/*

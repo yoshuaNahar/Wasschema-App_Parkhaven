@@ -1,12 +1,6 @@
 package nl.parkhaven.wasschema.modules.user;
 
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
-
-import nl.parkhaven.wasschema.modules.user.LoginService;
-import nl.parkhaven.wasschema.modules.user.SignupService;
-import nl.parkhaven.wasschema.modules.user.User;
 
 public class SingupServiceTest {
 
