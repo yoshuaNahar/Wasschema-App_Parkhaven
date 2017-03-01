@@ -1,5 +1,6 @@
 package nl.parkhaven.wasschema.controllers;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,19 +18,16 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import nl.parkhaven.wasschema.TestConfig;
 import nl.parkhaven.wasschema.modules.user.LoginService;
 import nl.parkhaven.wasschema.modules.user.User;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestConfig.class)
+@RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
 
 	// I'm only unit testing the Normal/Expected Conditions.
@@ -37,6 +35,15 @@ public class LoginControllerTest {
 	// test
 	// unexpected conditions. eg. user.email and user.password is null
 	// Plus to be fair, this is almost useless. The controller method only has if/else conditions.
+
+	
+	
+	// Handy links : -http://blog.trifork.com/2012/12/11/properly-testing-spring-mvc-controllers/
+	// https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
+	// https://myshittycode.com/2013/10/23/how-to-unit-test-spring-mvc-controller/
+	// https://developer.salesforce.com/page/How_to_Write_Good_Unit_Tests
+	
+	// how to write good unit tests https://developer.salesforce.com/page/How_to_Write_Good_Unit_Tests
 	@Mock
 	private LoginService loginService;
 
@@ -72,6 +79,8 @@ public class LoginControllerTest {
 
 		User sessionUser = (User) session.getAttribute("user");
 		int[] sessionWashCounter = (int[]) session.getAttribute("wash_counter");
+		assertThat(sessionUser.getId(), equalTo(1));
+		assertThat(sessionWashCounter, equalTo(washCounter));
 	}
 
 	@Test

@@ -32,7 +32,7 @@ public class UserDaoImpl implements Crud<User> {
 	private static final String REMOVE_USER_APPOINTMENTS = "UPDATE wasschema SET gebruiker_id = NULL WHERE gebruiker_id = ?;";
 
 	@Autowired
-	UserDaoImpl(JdbcTemplate template) {
+	public UserDaoImpl(JdbcTemplate template) {
 		this.template = template;
 	}
 
@@ -54,6 +54,7 @@ public class UserDaoImpl implements Crud<User> {
 			return this.template.queryForObject(LOGIN, new Object[] { user.getEmail(), user.getPassword() },
 					new UserRowMapper());
 		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -136,7 +137,7 @@ public class UserDaoImpl implements Crud<User> {
 			user.setId(rs.getInt("id"));
 			user.setHouseNumber(rs.getString("huisnummer"));
 			user.setEmail(rs.getString("email"));
-			user.setAdmin(rs.getBoolean("admin"));
+			user.setAdmin(rs.getString("admin").equalsIgnoreCase("Y"));
 			return user;
 		}
 	}

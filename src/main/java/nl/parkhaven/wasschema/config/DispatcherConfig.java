@@ -2,9 +2,12 @@ package nl.parkhaven.wasschema.config;
 
 import java.beans.PropertyVetoException;
 
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -18,6 +21,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "nl.parkhaven.wasschema" })
+@PropertySource("classpath:prod.properties")
 public class DispatcherConfig extends WebMvcConfigurerAdapter {
 
 	// Context for the dispatcherServlet.
@@ -28,23 +32,30 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter {
 	// http://docs.spring.io/autorepo/docs/spring-framework/4.1.x/javadoc-api/org/springframework/web/WebApplicationInitializer.html
 
 	@Bean
-	public JdbcTemplate getJdbcTemplate() throws PropertyVetoException {
+	public PropertiesConfiguration getConfiguration() throws ConfigurationException {
+	}
+
+	@Bean
+	public JdbcTemplate getJdbcTemplate() throws PropertyVetoException, ConfigurationException {
 		return new JdbcTemplate(getDataSource());
 	}
 
 	@Bean()
-	public ComboPooledDataSource getDataSource() throws PropertyVetoException {
+	public ComboPooledDataSource getDataSource() throws PropertyVetoException, ConfigurationException {
+		PropertiesConfiguration conf = getConfiguration();
+
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
-		dataSource.setDriverClass("com.mysql.cj.jdbc.Driver");
-		dataSource.setJdbcUrl("jdbc:mysql://localhost:3306/parkhaven?serverTimezone=CET&useSSL=false");
-		dataSource.setUser("root");
-		dataSource.setPassword("geheim");
-		dataSource.setMinPoolSize(3);
-		dataSource.setMaxPoolSize(3); // 20
-		dataSource.setAcquireIncrement(3);
-		dataSource.setMaxConnectionAge(14400); // 4 hours
-		dataSource.setMaxIdleTimeExcessConnections(300);
-		dataSource.setCheckoutTimeout(1000);
+		dataSource.setDriverClass(conf.getString("db.driverClass"));
+		dataSource.setJdbcUrl(conf.getString("db.jdbcUrl"));
+		dataSource.setUser(conf.getString("db.user"));
+		dataSource.setPassword(conf.getString("db.password"));
+		dataSource.setMinPoolSize(conf.getInt("db.minPoolSize"));
+		dataSource.setMaxPoolSize(conf.getInt("db.maxPoolSize")); // 20
+		dataSource.setAcquireIncrement(conf.getInt("db.acquireIncrement"));
+		dataSource.setMaxConnectionAge(conf.getInt("db.maxConnectionAge")); // 4
+																			// hours
+		dataSource.setMaxIdleTimeExcessConnections(conf.getInt("db.maxIdleTimeExcessConnections"));
+		dataSource.setCheckoutTimeout(conf.getInt("db.checkoutTimeout"));
 		return dataSource;
 	}
 
