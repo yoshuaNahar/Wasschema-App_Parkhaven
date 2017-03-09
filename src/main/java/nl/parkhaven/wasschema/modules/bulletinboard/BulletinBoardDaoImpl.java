@@ -24,7 +24,6 @@ public final class BulletinBoardDaoImpl implements Crud<Message> {
 	private static final String UPDATE_AS_USER = "UPDATE prikbord_bericht SET actief_gebruiker='N' WHERE id=?;";
 	private static final String SELECT_MESSAGES = "SELECT id, gebruiker_id, title_output, body_output FROM prikbord_bericht WHERE actief_gebruiker='Y' AND actief_beheerder='Y' ORDER BY id DESC LIMIT 5;";
 	private static final String SELECT_UNCHECKED_MESSAGES = "SELECT id, gebruiker_id, title_output, body_output FROM prikbord_bericht WHERE actief_beheerder = 'N' AND actief_gebruiker = 'Y';";
-	private static final String REMOVE = "DELETE FROM prikbord_bericht WHERE id = ?;";
 
 	@Autowired
 	BulletinBoardDaoImpl(JdbcTemplate template) {
@@ -37,6 +36,7 @@ public final class BulletinBoardDaoImpl implements Crud<Message> {
 			this.template.update(ADD, new Object[] { message.getUserId(), message.getTitleInput(),
 					message.getBodyInput(), message.getTitleOutput(), message.getBodyOutput() });
 		} catch (DataAccessException e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -68,7 +68,8 @@ public final class BulletinBoardDaoImpl implements Crud<Message> {
 		Map<Long, Message> messages = new HashMap<>();
 		int listSize = list.size();
 		for (int i = 0; i < listSize; i++) {
-			messages.put((long) i, list.get(i));
+			Message message = list.get(i);
+			messages.put((long) message.getId(), message);
 		}
 		return messages;
 	}
@@ -83,12 +84,8 @@ public final class BulletinBoardDaoImpl implements Crud<Message> {
 		return messages;
 	}
 
-	// method only to be used for testing
-	public void deleteCompletely(int messageId) {
-		this.template.update(REMOVE, new Object[] { messageId });
-	}
-
 	public static class MessageRowMapper implements RowMapper<Message> {
+
 		@Override
 		public Message mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Message message = new Message();

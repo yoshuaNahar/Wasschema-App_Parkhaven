@@ -10,24 +10,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
+
 import nl.parkhaven.wasschema.modules.user.LoginService;
 import nl.parkhaven.wasschema.modules.user.User;
-import nl.parkhaven.wasschema.modules.util.MailSenderService;
+import nl.parkhaven.wasschema.modules.util.MailService;
 
 @Controller
 @RequestMapping(value = "/")
 public class LoginController {
 
 	private LoginService loginService;
-	private MailSenderService mailSenderService; 
+	private MailService mailService;
 
 	@Autowired
-	public LoginController(LoginService loginService, MailSenderService mailSenderService) {
+	public LoginController(LoginService loginService, MailService mailService) {
 		this.loginService = loginService;
-		this.mailSenderService = mailSenderService;
+		this.mailService = mailService;
 	}
 
-	@GetMapping()
+	@GetMapping
 	public String getLoginPage() {
 		return "login";
 	}
@@ -40,8 +42,8 @@ public class LoginController {
 				model.addAttribute("message", LoginService.LOGIN_CREDENTIALS_INVALID);
 			} else {
 				session.setAttribute("user", loggedInUser);
-				session.setAttribute("wash_counter", loginService.getWashCounter(loggedInUser));
-				return "redirect:/index.010";
+				session.setAttribute("wash_counter", new Gson().toJson(loginService.getWashCounter(loggedInUser)));
+				return "redirect:/index.010/loggedin";
 			}
 		} else {
 			model.addAttribute("message", LoginService.NOT_ALL_REQUIRED_FIELDS_FILLED);
@@ -58,7 +60,7 @@ public class LoginController {
 				model.addAttribute("message", LoginService.USER_WITH_HOUSENUMBER_ALREADY_EXISTS);
 			}
 		} else {
-			if (loginService.checkSharedPasswordValid(user.getSharedPassword())) {
+			if (!loginService.checkSharedPasswordValid(user.getSharedPassword())) {
 				model.addAttribute("message", LoginService.INCORRECT_SHARED_PASSWORD);
 			} else {
 				model.addAttribute("message", LoginService.NOT_ALL_REQUIRED_FIELDS_FILLED);
@@ -69,10 +71,13 @@ public class LoginController {
 
 	@PostMapping(params = { "to_servlet=forgotPassword" })
 	public String forgotPassword(@ModelAttribute User user, Model model) {
-		if (loginService.emailValid(user)) {
-			loginService.setRandomPasswordFor(user);
-			mailSenderService.sendMailContainingPasswordTo(user);
-			model.addAttribute("message", "A mail has been sent to your email adres.");
+		if (user.getEmail() != null) {
+			if (loginService.setRandomPasswordFor(user)) {
+				mailService.sendMailContainingPasswordTo(user);
+				model.addAttribute("message", "A mail has been sent to your email adres.");
+			} else {
+				model.addAttribute("message", LoginService.NO_USER_WITH_EMAIL);
+			}
 		} else {
 			model.addAttribute("message", LoginService.NOT_ALL_REQUIRED_FIELDS_FILLED);
 		}

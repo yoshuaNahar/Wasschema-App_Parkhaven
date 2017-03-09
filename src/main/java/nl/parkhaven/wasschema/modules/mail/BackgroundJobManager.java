@@ -12,22 +12,24 @@ import javax.servlet.annotation.WebListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import nl.parkhaven.wasschema.modules.util.MailSenderService;
+import nl.parkhaven.wasschema.modules.util.MailService;
 
 @WebListener
-public final class BackgroundJobManager implements ServletContextListener {
+public class BackgroundJobManager implements ServletContextListener {
 
 	private ScheduledExecutorService scheduler;
 
 	@Autowired
 	private EmailDao emailDao;
+
 	@Autowired
-	private MailSenderService mailSenderService;
+	private MailService mailSenderService;
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new SendMailToWashersService(emailDao, mailSenderService), initialDelay(), 3600, TimeUnit.SECONDS);
+		scheduler.scheduleAtFixedRate(new SendMailToWashersJob(emailDao, mailSenderService), initialDelay(), 3600,
+				TimeUnit.SECONDS);
 	}
 
 	@Override
@@ -35,8 +37,10 @@ public final class BackgroundJobManager implements ServletContextListener {
 		scheduler.shutdownNow();
 	}
 
-	// The initial delay before the timer 10800 seconds starts. This is needed because I should be able to start the application at every moment!
-	// It checks the nearest time and the amount of seconds to that time is the initial delay.
+	// The initial delay before the timer 10800 seconds starts. This is needed
+	// because I should be able to start the application at every moment!
+	// It checks the nearest time and the amount of seconds to that time is the
+	// initial delay.
 	private long initialDelay() {
 		final LocalTime[] timeArray = { LocalTime.of(5, 30, 0), LocalTime.of(7, 0, 0), LocalTime.of(8, 30, 0),
 				LocalTime.of(10, 0, 0), LocalTime.of(11, 30, 0), LocalTime.of(13, 0, 0), LocalTime.of(14, 30, 0),
@@ -51,11 +55,11 @@ public final class BackgroundJobManager implements ServletContextListener {
 				break;
 			}
 		}
-		
+
 		if (i == 13) {
 			i = 0;
 		}
- 
+
 		return now.until(timeArray[i], ChronoUnit.SECONDS);
 	}
 

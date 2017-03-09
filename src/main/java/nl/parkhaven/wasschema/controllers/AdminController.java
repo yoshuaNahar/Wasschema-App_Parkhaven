@@ -22,31 +22,30 @@ import nl.parkhaven.wasschema.modules.user.User;
 @RequestMapping(value = "/admin.010")
 public class AdminController {
 
-	@Autowired
 	private ModifyUserService modifyUserService;
-	@Autowired
 	private BulletinBoardService bulletinBoardService;
 
 	private Map<Long, Message> bulletinBoardMessages;
 
+	@Autowired
+	public AdminController(ModifyUserService modifyUserService, BulletinBoardService bulletinBoardService) {
+		this.modifyUserService = modifyUserService;
+		this.bulletinBoardService = bulletinBoardService;
+	}
+
 	@GetMapping
 	public String adminPage(HttpSession session, Model model) {
 		if (session.getAttribute("user") == null) {
-			System.out.println("Not here admin");
 			return "redirect:/";
 		}
-
 		bulletinBoardMessages = bulletinBoardService.getPendingMessages();
-
 		model.addAttribute("prikbord_messages", bulletinBoardMessages);
-
 		return "admin";
 	}
 
 	@PostMapping(params = { "to_servlet=acceptMessage" })
 	public String handleMessage(@ModelAttribute Message message,
 			@RequestParam("messageAccepted") Boolean messageAccepted) {
-
 		if (messageAccepted) {
 			bulletinBoardService.acceptPendingMessage(message);
 		} else {
@@ -64,7 +63,6 @@ public class AdminController {
 	@PostMapping(params = { "to_servlet=deleteSelectedUser" })
 	public String deleteSelectedUser(@ModelAttribute User user, Model model) {
 		modifyUserService.deleteAccount(user);
-
 		return showAllUsers(model);
 	}
 

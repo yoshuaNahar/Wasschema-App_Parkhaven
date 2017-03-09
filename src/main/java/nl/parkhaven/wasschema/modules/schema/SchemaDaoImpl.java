@@ -11,14 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public final class SchemaDaoImpl {
 
-	/*
-	 * The schema is the only class where I don't release the resources in the
-	 * Dao classes. I do this because I recall getData multiple times after each
-	 * other. I also only call this method twice so I won't forget to release
-	 * the resources. Always call getTimes first, and always close connection
-	 * after last getData call!
-	 */
-
 	private static final String SELECT_TIJD = "SELECT DATE_FORMAT(tijd_default, '%H:%i') FROM tijd;";
 	private static final String SELECT_LAUNDRYMACHINE = "SELECT name FROM wasmachine;";
 	private static final String SELECT_HOUSENUMBER = "SELECT a.huisnummer FROM wasschema x LEFT JOIN gebruiker a ON x.gebruiker_id = a.id WHERE x.wasmachine_id = ? ORDER BY week_dag_tijd_id;";
@@ -35,7 +27,7 @@ public final class SchemaDaoImpl {
 		Map<Long, String> times = new HashMap<>();
 		int listSize = list.size();
 		for (int i = 0; i < listSize; i++) {
-			times.put((long) i + 1, list.get(i));
+			times.put((long) i, list.get(i));
 		}
 		return times;
 	}

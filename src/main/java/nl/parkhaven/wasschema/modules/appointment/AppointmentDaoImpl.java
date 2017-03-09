@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import nl.parkhaven.wasschema.modules.Crud;
 
 @Repository
-public final class AppointmentDaoImpl implements Crud<Appointment> {
+public class AppointmentDaoImpl implements Crud<Appointment> {
 
 	private static final String CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME = "CALL check_free_and_atleast_5min_prior(?, ?);";
 	private static final String ADD_APPOINTMENT = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
@@ -33,42 +34,18 @@ public final class AppointmentDaoImpl implements Crud<Appointment> {
 
 	@Override
 	public Appointment read(Appointment ap) {
-		return template.queryForObject(CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME,
-				new Object[] { ap.week_day_time_id(), ap.getMachine() }, new AppointmentRowMapper());
+		try {
+			return template.queryForObject(CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME,
+					new Object[] { ap.week_day_time_id(), ap.getMachine() }, new AppointmentRowMapper());
+		} catch (EmptyResultDataAccessException e) {
+			e.printStackTrace();
+			return new Appointment();
+		}
 	}
-	// @Override
-	// public Appointment read(Appointment ap) {
-	// String CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME = "CALL
-	// check_free_and_atleast_5min_prior(?, ?);";
-	// Appointment apResult = new Appointment();
-	// try {
-	// conn = getConnection();
-	// preStmt = conn.prepareStatement(CHECK_FREE_AND_5MIN_BEFORE_ACTUAL_TIME);
-	// preStmt.setInt(1, ap.week_day_time_id());
-	// preStmt.setInt(2, ap.getMachine());
-	// rs = preStmt.executeQuery();
-	// if (rs.next()) {
-	// apResult.setUserId(rs.getInt(1));
-	// } else {
-	// apResult.setUserId(-1); // ResultSet was empty, so data was in
-	// // the past
-	// }
-	// } catch (SQLException | PropertyVetoException e) {
-	// e.printStackTrace();
-	// } finally {
-	// releaseResources();
-	// }
-	// return apResult;
-	// }
 
 	@Override
 	public boolean update(Appointment ap) {
-		try {
-			this.template.update(ADD_APPOINTMENT,
-					new Object[] { ap.getUserId(), ap.week_day_time_id(), ap.getMachine() });
-		} catch (DataAccessException e) {
-			return false;
-		}
+		this.template.update(ADD_APPOINTMENT, new Object[] { ap.getUserId(), ap.week_day_time_id(), ap.getMachine() });
 		return true;
 	}
 
@@ -76,12 +53,15 @@ public final class AppointmentDaoImpl implements Crud<Appointment> {
 	@Override
 	public boolean delete(Appointment ap) {
 		try {
-			int rowsAffected = this.template.update(REMOVE_APPOINTMENT, new Object[] { ap.week_day_time_id(), ap.getMachine() });
+			int rowsAffected = this.template.update(REMOVE_APPOINTMENT,
+					new Object[] { ap.week_day_time_id(), ap.getMachine() });
 			if (rowsAffected != 1) {
-				return false;// if executeUpdate == 0, the wasmachine or time and date were
+				// if executeUpdate == 0, the wasmachine or time and date were
 				// incorrect or appointment was less than 30 min in the future
-			} 
+				return false;
+			}
 		} catch (DataAccessException e) {
+			e.printStackTrace();
 			return false;
 		}
 		return true;

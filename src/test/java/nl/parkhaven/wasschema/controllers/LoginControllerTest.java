@@ -9,6 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.junit.Before;
@@ -24,28 +28,21 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import nl.parkhaven.wasschema.modules.user.LoginService;
 import nl.parkhaven.wasschema.modules.user.User;
+import nl.parkhaven.wasschema.modules.util.MailService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
 
-	// I'm only unit testing the Normal/Expected Conditions.
-	// All loginService methods are tested separately, so there is no need to
-	// test
-	// unexpected conditions. eg. user.email and user.password is null
-	// Plus to be fair, this is almost useless. The controller method only has if/else conditions.
-
-	
-	
-	// Handy links : -http://blog.trifork.com/2012/12/11/properly-testing-spring-mvc-controllers/
-	// https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
-	// https://myshittycode.com/2013/10/23/how-to-unit-test-spring-mvc-controller/
-	// https://developer.salesforce.com/page/How_to_Write_Good_Unit_Tests
-	
-	// how to write good unit tests https://developer.salesforce.com/page/How_to_Write_Good_Unit_Tests
 	@Mock
 	private LoginService loginService;
+
+	@Mock
+	private MailService mailService;
 
 	@InjectMocks
 	private LoginController loginController;
@@ -59,11 +56,20 @@ public class LoginControllerTest {
 	}
 
 	@Test
+	public void testGetLoginPage() throws Exception {
+		RequestBuilder request = get("/");
+		mockMvc.perform(request).andExpect(status().isOk()).andExpect(view().name("login"));
+	}
+
+	@Test
 	public void testLogin() throws Exception {
+		Type type = new TypeToken<Map<String, Integer>>() {}.getType();
+
 		User userLoggedIn = new User();
 		userLoggedIn.setId(1);
 
-		int[] washCounter = new int[] { 0, 2 };
+		Map<String, Integer> washCounter = new HashMap<>();
+		washCounter.put("currentwash", 2);
 
 		when(loginService.loginCredentialsValid(ArgumentMatchers.any(User.class))).thenReturn(true);
 		when(loginService.login(ArgumentMatchers.any(User.class))).thenReturn(userLoggedIn);
@@ -78,15 +84,9 @@ public class LoginControllerTest {
 		HttpSession session = mockMvc.perform(request).andReturn().getRequest().getSession();
 
 		User sessionUser = (User) session.getAttribute("user");
-		int[] sessionWashCounter = (int[]) session.getAttribute("wash_counter");
+		String sessionWashCounter = (String) session.getAttribute("wash_counter");
 		assertThat(sessionUser.getId(), equalTo(1));
-		assertThat(sessionWashCounter, equalTo(washCounter));
-	}
-
-	@Test
-	public void testGetLoginPage() throws Exception {
-		RequestBuilder request = get("/");
-		mockMvc.perform(request).andExpect(status().isOk()).andExpect(view().name("login"));
+		assertThat(new Gson().fromJson(sessionWashCounter, type), equalTo(washCounter));
 	}
 
 	@Test
@@ -98,9 +98,19 @@ public class LoginControllerTest {
 		when(loginService.created(ArgumentMatchers.any(User.class))).thenReturn(true);
 		when(loginService.loginCredentialsValid(ArgumentMatchers.any(User.class))).thenReturn(true);
 		when(loginService.login(ArgumentMatchers.any(User.class))).thenReturn(new User());
-	
+
 		mockMvc.perform(request).andDo(MockMvcResultHandlers.print()).andExpect(status().is3xxRedirection())
 				.andExpect(redirectedUrl("/index.010"));
+	}
+
+	@Test
+	public void testForgotPassword() throws Exception {
+		RequestBuilder request = post("/").param("to_servlet", "forgotPassword").param("email", "email@gmail.com");
+
+		when(loginService.setRandomPasswordFor(ArgumentMatchers.any(User.class))).thenReturn(true);
+
+		mockMvc.perform(request).andDo(MockMvcResultHandlers.print()).andExpect(status().isOk())
+				.andExpect(view().name("login"));
 	}
 
 }

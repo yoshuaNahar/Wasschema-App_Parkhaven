@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.petebevin.markdown.MarkdownProcessor;
 
 @Service
-public final class BulletinBoardService {
+public class BulletinBoardService {
 
 	private BulletinBoardDaoImpl bulletinBoardDao;
 
@@ -63,11 +63,6 @@ public final class BulletinBoardService {
 
 		message.setTitleOutput(titleHtml);
 		message.setBodyOutput(bodyHtml);
-	}
-
-	// method only to be used for testing
-	public void deleteCompletely(int messageId) {
-		bulletinBoardDao.deleteCompletely(messageId);
 	}
 
 }

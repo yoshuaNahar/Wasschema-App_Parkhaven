@@ -3,14 +3,14 @@ package nl.parkhaven.wasschema.modules.mail;
 import java.util.List;
 
 import nl.parkhaven.wasschema.modules.user.User;
-import nl.parkhaven.wasschema.modules.util.MailSenderService;
+import nl.parkhaven.wasschema.modules.util.MailService;
 
-final class SendMailToWashersService implements Runnable {
+class SendMailToWashersJob implements Runnable {
 
 	private EmailDao emailDao;
-	private MailSenderService mailSenderService;
+	private MailService mailSenderService;
 
-	public SendMailToWashersService(EmailDao emailDao, MailSenderService mailSender) {
+	SendMailToWashersJob(EmailDao emailDao, MailService mailSender) {
 		this.emailDao = emailDao;
 		this.mailSenderService = mailSender;
 	}

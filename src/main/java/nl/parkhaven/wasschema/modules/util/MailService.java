@@ -17,15 +17,7 @@ import org.springframework.stereotype.Service;
 import nl.parkhaven.wasschema.modules.user.User;
 
 @Service
-public class MailSenderService {
-
-	//	public static void main(String[] args) {
-	//		User user = new User();
-	//		user.setEmail("yosh.nahar@gmail.com");
-	//		ForgotPasswordService forgotPasswordService = new ForgotPasswordService(user);
-	//		forgotPasswordService.setRandomPasswordForUser();
-	//		new MailSenderService(user).sendMailContainingPassword();;
-	//	}
+public class MailService {
 
 	private static final String emailSender = "straalbetaal@gmail.com";
 	private static final String passwordSender = "straalBetaalOP4";

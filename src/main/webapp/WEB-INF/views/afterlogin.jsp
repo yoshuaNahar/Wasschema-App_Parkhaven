@@ -13,6 +13,7 @@
 <link rel="icon" href="${pageContext.request.contextPath}/resources/img/favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrapEdited.css" />
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/dashboard.css" />
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/alert-box.css" />
 <!-- Stylesheet for prikbord message modal -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" />
 <style>
@@ -52,7 +53,7 @@
             </form>
           </c:if>
           <form id="logoutForm" name="logoutButton" class="form-signin" action="index.010" method="post">
-            <button type="submit" class="btn btn-default">Log Out</button>
+            <button id="logoutButton" type="submit" class="btn btn-default">Log Out</button>
           </form>
         </c:if>
       </div>
@@ -151,12 +152,13 @@
           </li>
         </ul>
 
-       <c:if test="${requestScope.laundryRoom == 1 || requestScope.laundryRoom == 2 || requestScope.laundryRoom == 3}">
-        <button class="btn btn-primary btn-md" data-toggle="modal" data-target="#myModal">
-          Place Date <span class="shrink_glyph glyphicon glyphicon-plus"> </span>
-        </button>
-      </c:if>
       </div>
+
+
+  <div id="alert_div" class="alert alert-success">
+    <a href="" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></a>
+    ${requestScope.errorMessage}
+  </div>
 
 
       <div class="col-xs-10 col-xs-offset-2 main">
@@ -220,9 +222,8 @@
                 <th>Sunday</th>
               </tr>
             </thead>
-            <tbody>
-
-
+            
+            <tbody data-machineType="wash">
               <tr>
                 <td><c:out value="${time[0]}"></c:out></td>
                 <c:forEach var="i" begin="0" end="90" step="13" varStatus="loop">
@@ -265,7 +266,7 @@
                       </c:if>
 
                       <c:if test='${not empty huis_nummer2[i]}'>
-                        <div data-machine="1" class="progress-barr progress-bar-warning">
+                        <div data-machine="2" class="progress-bar progress-bar-warning">
                           <span class="coverProgressNumber">${huis_nummer2[i]}</span>
                         </div>
                       </c:if>
@@ -319,7 +320,7 @@
                       </c:if>
 
                       <c:if test='${not empty huis_nummer2[i]}'>
-                        <div data-machine="1" class="progress-bar progress-bar-warning">
+                        <div data-machine="2" class="progress-bar progress-bar-warning">
                           <span class="coverProgressNumber">${huis_nummer2[i]}</span>
                         </div>
                       </c:if>
@@ -603,7 +604,7 @@
                 <th>Sunday</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody data-machineType="dry">
 
               <tr>
                 <td><c:out value="${time[0]}"></c:out></td>
@@ -1012,8 +1013,8 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-xs-9 col-xs-offset-1">
-                <input name="password" type="password" class="form-control settings_modal" placeholder="New Password" required /> <br> <input
-                  name="password" type="password" class="form-control" placeholder="Retype Password" />
+                <input id="password" name="password" type="password" class="form-control settings_modal" placeholder="New Password" required /> <br>
+                <input id="confirm_password" type="password" class="form-control" placeholder="Retype Password" pattern="" required title="Password not identical"/>
                 <input name="to_servlet" value="changePassword" style="display: none;" required>
                 <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
               </div>
@@ -1155,19 +1156,14 @@
                 <h5>Remaining:</h5>
               </div>
               <div class="col-xs-8 .col-xs-offset-4">
-              <c:if test="${requestScope.week != 'next'}">
-                <input value="${3 - sessionScope.wash_counter[0]}" name="wash_counter" type="text" class="form-control pull-right readonly"
+              <input id="remaining" value="" name="wash_counter" type="text" class="form-control pull-right readonly"
                   placeholder="Not Logged In!" readonly>
-              </c:if>
-              <c:if test="${requestScope.week == 'next'}">
-                <input value="${3 - sessionScope.wash_counter[1]}" name="wash_counter" type="text" class="form-control pull-right readonly"
-                  placeholder="Not Logged In!" readonly>
-              </c:if>
               </div>
             </div>
 
             <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required> <input name="to_servlet"
               value="addAppointment" style="display: none;">
+              <input class="machineType" value="" name="machinetype" type="text" style="display: none;">
             <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
           </div>
           <div class="modal-footer">
@@ -1277,6 +1273,8 @@
 
             <input value="${sessionScope.user.id}" name="id" type="number" style="display: none;" required> <input name="to_servlet"
               value="removeAppointment" style="display: none;">
+              
+            <input class="machineType" name="machinetype" type="text" style="display: none;">
             <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
 
           </div>
@@ -1310,8 +1308,8 @@
                 <h5>
                   Are you sure you want to remove your message with title: <br> <b><span id="messageTitle"></span></b>
                 </h5>
-                <input value="${sessionScope.user.id}" name="userId" type="number" style="display: none;" required> <input id="messageId"
-                  name="id" value="" style="display: none;" required>
+                <input value="${sessionScope.user.id}" name="userId" type="number" style="display: none;" required>
+                <input id="messageId" name="id" value="" style="display: none;" required>
               </div>
             </div>
           </div>
@@ -1404,21 +1402,6 @@
   <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
 
   <script>
-		<!-- Save id for delete message modal -->
-			$(document)
-					.on(
-							"click",
-							"#save_message_id",
-							function() {
-								var myMessageId = $(this).data('id');
-								$("#messageId").val(myMessageId);
-
-								var myMessageTitle = $(this).data('title');
-								document.getElementById("messageTitle").innerHTML = myMessageTitle;
-							});
-		</script>
-
-  <script>
 			$("[data-toggle=popover]").popover();
 
 			$("#delete_appointment_modal").draggable({
@@ -1441,16 +1424,30 @@
 
 			$(function() {
 				$('[data-toggle="tooltip"]').tooltip()
-			})
+			});
 		</script>
 
-  <!-- Showing Error Messages! -->
-  <script>
-			myVar = "${errorMessage}";
-			if (myVar != "") {
-				alert(myVar);
-			}
-		</script>
+<script>
+$(function() {
+  // toggle alert message
+  if ("${requestScope.errorMessage}" != "") {
+    $('#alert_div').animate({
+      height : "toggle",
+       opacity : "toggle"
+     }, "slow").delay(10000);
+     $('#alert_div').animate({
+       height : "toggle",
+       opacity : "toggle"
+     }, "slow");
+   }
+   $('.close').click(function() {
+     $('#alert_div').animate({
+       height : "toggle",
+       opacity : "toggle"
+     }, "slow");
+   });
+});
+</script>
 
   <script>
 			$(".go_to_dryers").click(function() {
@@ -1481,9 +1478,9 @@
 
 <script>
   $(document).ready(function() {
-    var timesArray = new Array();
+    var dbTimesArray = new Array();
     <c:forEach items="${time}" var="entry">
-      timesArray.push("${entry.value}");
+    dbTimesArray.push("${entry.value}");
     </c:forEach>
 
     var now = new Date();
@@ -1493,21 +1490,25 @@
     }
 
     var nowPlus5Min = new Date(now.getTime() + (5 * 60000));
-    var nowTime = nowPlus5Min.getHours() + ":" + nowPlus5Min.getMinutes() + ":" + nowPlus5Min.getSeconds();
+    var nowTimePlus5Min = nowPlus5Min.getHours() + ':' + nowPlus5Min.getMinutes() + ":" + nowPlus5Min.getSeconds();
 
+    var nowPlus30Min = new Date(now.getTime() + (30 * 60000));
+    var nowTimePlus30Min = nowPlus30Min.getHours() + ':' + nowPlus30Min.getMinutes() + ":" + nowPlus30Min.getSeconds();
+    
     var thisWeek = ${requestScope.week != 'next'};
 
-    var yourHousenumber = "${sessionScope.user.houseNumber}";
+    var yourHousenumber = '${sessionScope.user.houseNumber}';
     
     var placeHoverEffectClass = function() {
         if (thisWeek) {
           var i = $(this).parent().closest('div').data('id');
           var day = Math.floor(i / 13);
           var timeIndex = i % 13;
-          var nowOrInTheFuture_Time = Date.parse("1/1/1970 " + timesArray[timeIndex]) >= Date.parse("1/1/1970 " + nowTime);
+          var nowOrWithin5min_Time = Date.parse("1/1/1970 " + dbTimesArray[timeIndex]) >= Date.parse("1/1/1970 " + nowTimePlus5Min);
+          var nowOrWithin30min_Time = Date.parse("1/1/1970 " + dbTimesArray[timeIndex]) >= Date.parse("1/1/1970 " + nowTimePlus30Min);
 
-          if (!$(this).children("span").length) { // Span doesnt exists (no appointment there)
-              if (day > now_DayIndex || (day == now_DayIndex && nowOrInTheFuture_Time)) { // Future Date OR (day == today && passed current Time)
+          if (!$(this).children('span').length) { // Span doesnt exists (no appointment there)
+              if (day > now_DayIndex || (day == now_DayIndex && nowOrWithin5min_Time)) { // Future Date OR (day == today && passed current Time)
                 $(this).addClass('hoverEffect');
                 $(this).attr('data-toggle', 'modal');
                 $(this).attr('data-target', '#myModal');
@@ -1515,12 +1516,12 @@
             	  $(this).addClass('passed_date');
               }
             } else if ($(this).children('span').text() == yourHousenumber) { // Span exists and has your housenumber
-              if (day > now_DayIndex || (day == now_DayIndex && nowOrInTheFuture_Time)) { // Future Date OR (day == today && passed current Time)
+              if (day > now_DayIndex || (day == now_DayIndex && nowOrWithin30min_Time)) { // Future Date OR (day == today && passed current Time)
           	    $(this).append('<button type="button" data-toggle="modal" data-target="#delete_appointment_modal" class="shrink_glyph remove_appointment glyphicon glyphicon-trash"></button>');
               }
             }
         } else {
-          if (!$(this).children("span").length) { // Span doesnt exists (no appointment there)
+          if (!$(this).children('span').length) { // Span doesnt exists (no appointment there)
             $(this).addClass('hoverEffect');
             $(this).attr('data-toggle', 'modal');
             $(this).attr('data-target', '#myModal');
@@ -1535,6 +1536,15 @@
   });
 
   var placeValues = function() {
+	    var machineType = $(this).parents("tbody").data('machinetype');
+	    
+	    var week = 'next';
+	    <c:if test="${requestScope.week != 'next'}">
+	      week = 'current';
+	    </c:if>
+	    var userWashesMap = ${sessionScope.wash_counter};
+	    
+
       var i = $(this).parent().closest('div').data('id');
       var machine = $(this).data('machine');
       var day = Math.floor(i / 13);
@@ -1549,9 +1559,6 @@
     	  machine += 8;
       }
 
-      console.log(machine);
-      console.log(laundryRoom);
-
       if (!thisWeek) {
     	  day += 7;
       }
@@ -1559,10 +1566,27 @@
       $(".time_class").val(time);
       $(".day_class").val(day + 1);
       $(".machine_class").val(machine);
+      $(".machineType").val(machineType);
+      
+      $("#remaining").val(3 - userWashesMap[week + machineType]);
     }
 
   $("#laundry_machines_table div div").click(placeValues);
   $("#dryers_table div div").click(placeValues);
+
+  <!-- Save id for delete message modal -->
+  $("#save_message_id").click(function() {
+        var myMessageId = $(this).data('id');
+        $("#messageId").val(myMessageId);
+
+        var myMessageTitle = $(this).data('title');
+        document.getElementById("messageTitle").innerHTML = myMessageTitle;
+  });
+  
+  $('#password').focusout(function() {
+	  var pass = $('#password').val();
+	  $('#confirm_password').attr("pattern", pass);
+  });
 </script>
 </body>
 </html>

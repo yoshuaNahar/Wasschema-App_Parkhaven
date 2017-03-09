@@ -7,7 +7,6 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -21,7 +20,6 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "nl.parkhaven.wasschema" })
-@PropertySource("classpath:prod.properties")
 public class DispatcherConfig extends WebMvcConfigurerAdapter {
 
 	// Context for the dispatcherServlet.
@@ -33,6 +31,7 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter {
 
 	@Bean
 	public PropertiesConfiguration getConfiguration() throws ConfigurationException {
+		return new PropertiesConfiguration("production.properties");
 	}
 
 	@Bean
@@ -50,10 +49,9 @@ public class DispatcherConfig extends WebMvcConfigurerAdapter {
 		dataSource.setUser(conf.getString("db.user"));
 		dataSource.setPassword(conf.getString("db.password"));
 		dataSource.setMinPoolSize(conf.getInt("db.minPoolSize"));
-		dataSource.setMaxPoolSize(conf.getInt("db.maxPoolSize")); // 20
+		dataSource.setMaxPoolSize(conf.getInt("db.maxPoolSize"));
 		dataSource.setAcquireIncrement(conf.getInt("db.acquireIncrement"));
-		dataSource.setMaxConnectionAge(conf.getInt("db.maxConnectionAge")); // 4
-																			// hours
+		dataSource.setMaxConnectionAge(conf.getInt("db.maxConnectionAge"));
 		dataSource.setMaxIdleTimeExcessConnections(conf.getInt("db.maxIdleTimeExcessConnections"));
 		dataSource.setCheckoutTimeout(conf.getInt("db.checkoutTimeout"));
 		return dataSource;

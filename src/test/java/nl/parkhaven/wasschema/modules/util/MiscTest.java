@@ -1,15 +1,16 @@
 package nl.parkhaven.wasschema.modules.util;
 
+import static org.hamcrest.CoreMatchers.isA;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import nl.parkhaven.wasschema.modules.util.Misc;
 
 public class MiscTest {
 
 	@Test
 	public void testGenerateNewPassword() {
-		// can't test this method
+		assertThat(Misc.generateNewPassword(), isA(String.class));
 	}
 
 	@Test
@@ -21,5 +22,5 @@ public class MiscTest {
 		Assert.assertFalse(Misc.isHouseNumberValid("0"));
 		Assert.assertFalse(Misc.isHouseNumberValid("-50A"));
 	}
-	
+
 }

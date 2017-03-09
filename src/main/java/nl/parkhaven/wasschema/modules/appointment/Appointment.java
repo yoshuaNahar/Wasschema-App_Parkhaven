@@ -13,7 +13,6 @@ public class Appointment {
 		if (day == DEFAULT_VALUE || time < DEFAULT_VALUE) {
 			return DEFAULT_VALUE;
 		}
-
 		return ((day - 1) * DAY_MULTIPLIER) + time + 1;
 	}
 

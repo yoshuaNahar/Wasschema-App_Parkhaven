@@ -1,8 +1,10 @@
 
 package nl.parkhaven.wasschema.controllers;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
+import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,31 +15,31 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import nl.parkhaven.wasschema.modules.appointment.Appointment;
 import nl.parkhaven.wasschema.modules.appointment.AppointmentService;
 import nl.parkhaven.wasschema.modules.bulletinboard.BulletinBoardService;
 import nl.parkhaven.wasschema.modules.bulletinboard.Message;
-import nl.parkhaven.wasschema.modules.misc.MetaDataOperations;
+import nl.parkhaven.wasschema.modules.misc.MetaDataDao;
 import nl.parkhaven.wasschema.modules.schema.SchemaService;
 import nl.parkhaven.wasschema.modules.user.ModifyUserService;
 import nl.parkhaven.wasschema.modules.user.User;
 import nl.parkhaven.wasschema.modules.util.DatesStringMaker;
+import nl.parkhaven.wasschema.modules.util.Misc;
 
 @Controller
 @RequestMapping(value = "/index.010")
 public class MainController {
 
-	@Autowired
 	private AppointmentService appointmentService;
-	@Autowired
 	private ModifyUserService modifyUserService;
-	@Autowired
 	private BulletinBoardService bulletinBoardService;
-	@Autowired
 	private SchemaService schemaService;
-	@Autowired
-	private MetaDataOperations miscDbOperations;
+	private MetaDataDao metaData;
 
 	private int hitCounter;
 	private int totalWashCounter;
@@ -63,34 +65,40 @@ public class MainController {
 
 	private String[] overview;
 
-	// @PostConstruct
-	private void init() {
+	@Autowired
+	public MainController(AppointmentService appointmentService, ModifyUserService modifyUserService,
+			BulletinBoardService bulletinBoardService, SchemaService schemaService, MetaDataDao miscDbOperations) {
+		this.appointmentService = appointmentService;
+		this.modifyUserService = modifyUserService;
+		this.bulletinBoardService = bulletinBoardService;
+		this.schemaService = schemaService;
+		this.metaData = miscDbOperations;
 		updateSchema();
+		times = schemaService.getTimes();
+		machines = schemaService.getWashingMachines();
+	}
 
-		bulletinBoardMessages = bulletinBoardService.getMessages();
-
+	@GetMapping("/loggedin")
+	public String loggedIn() {
 		DatesStringMaker datesStringMaker = new DatesStringMaker();
 		dates = datesStringMaker.getDates();
 		overview = datesStringMaker.getOverview();
+		bulletinBoardMessages = bulletinBoardService.getMessages(); // If the admin excepts a message I can't let this class refresh the messages
+		return "redirect:/index.010";
 	}
 
 	@GetMapping()
 	public String homePage(@RequestParam(name = "week", required = false) String week,
 			@RequestParam(name = "laundryRoom", required = false) Integer laundryRoom, HttpSession session,
 			Model model) {
-		System.out.println("I'm doing it again!!!");
-
 		if (session.getAttribute("user") == null) {
-			System.out.println("Not here");
 			return "redirect:/";
 		}
 
 		int weekId = 0;
-
 		if (laundryRoom == null) {
 			laundryRoom = 0;
 		}
-
 		if (week != null && week.equals("next")) {
 			weekId = 1;
 		}
@@ -117,7 +125,7 @@ public class MainController {
 		model.addAttribute("wasmachine", machines);
 		model.addAttribute("prikbord_messages", bulletinBoardMessages);
 
-		model.addAttribute("week", week);
+		//		model.addAttribute("week", week);
 		model.addAttribute("laundryRoom", laundryRoom);
 
 		model.addAttribute("get_overview", overview[weekId]);
@@ -126,105 +134,84 @@ public class MainController {
 		model.addAttribute("hitcounter", hitCounter);
 		model.addAttribute("totalwashcounter", totalWashCounter);
 
+		System.out.println(model.containsAttribute("week"));
 		return "afterlogin";
 	}
 
+	@PreDestroy
 	public void destroy() {
-		miscDbOperations.insertCounter(hitCounter, "hitcounter");
-		miscDbOperations.insertCounter(totalWashCounter, "washcounter");
+		metaData.insertCounter(hitCounter, "hitcounter");
+		metaData.insertCounter(totalWashCounter, "washcounter");
 	}
 
-	private void setOverviewDateAndDays() {
-		DatesStringMaker datesStringMaker = new DatesStringMaker();
-		dates = datesStringMaker.getDates();
-		overview = datesStringMaker.getOverview();
-	}
-
-	// Set a try catch here, and send to doGet(); There will be an error if
-	// the user doesn't do anything for longer than 15 min!
-
-	//
-
-	// This was in the login method before I moved it to the
-	// LoginServlet
-	// I don't want to get the bulletinboard each time. (Idealy i should
-	// show this after a message is accepted by the admin!
 	@PostMapping(params = { "to_servlet=addAppointment" })
 	public String addAppointment(@ModelAttribute Appointment appointment, HttpSession session,
-			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom, Model model) {
-		int[] washCounter = (int[]) session.getAttribute("wash_counter");
+			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
+			@RequestParam("machinetype") String machineType, RedirectAttributes redirectAttrs) {
+		User user = (User) session.getAttribute("user"); // Need this to couple the app to the user id
+		appointment.setUserId(user.getId());
+
+		String washCounterJson = (String) session.getAttribute("wash_counter");
+		Type type = new TypeToken<Map<String, Integer>>() {}.getType();
+		Map<String, Integer> washCounter = new Gson().fromJson(washCounterJson, type);
+
 		boolean canWash = false;
 
-		if (week != null && week.equals("next")) {
-			if (washCounter[1] < 3) {
-				canWash = true;
-			}
-		} else {
-			if (washCounter[0] < 3) {
-				canWash = true;
-			}
+		redirectAttrs.addFlashAttribute("week", week);
+		redirectAttrs.addFlashAttribute("laundryRoom", laundryRoom);
+
+		if (week == null || week.isEmpty()) {
+			week = "current";
 		}
-
+		int amountOfWashes = washCounter.get(week + machineType);
+		if (amountOfWashes < 3) {
+			canWash = true;
+		}
 		if (canWash) {
-			User user = (User) session.getAttribute("user");
-			appointment.setUserId(user.getId());
-
-			appointmentService.addAppointment(appointment);
-
-			if (appointmentService.errorOccured()) {
-				model.addAttribute("errorMessage", appointmentService.getErrorMessage());
-			} else {
-				if (week != null && week.equals("next")) {
-					washCounter[1]++;
-				} else {
-					washCounter[0]++;
-				}
-				session.setAttribute("wash_counter", washCounter);
+			if (appointmentService.dateFree(appointment)) {
+				appointmentService.addAppointment(appointment);
+				washCounter.replace(week + machineType, ++amountOfWashes);
+				session.setAttribute("wash_counter", new Gson().toJson(washCounter));
 				totalWashCounter++;
 				updateSchema();
+			} else {
+				redirectAttrs.addFlashAttribute("errorMessage", AppointmentService.DATE_PASSED_OR_TAKEN);
 			}
 		} else {
-			model.addAttribute("errorMessage", "Wash Limit for this week met!");
+			redirectAttrs.addFlashAttribute("errorMessage", AppointmentService.WASH_LIMIT_MET);
 		}
-		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
+		return "redirect:/index.010";
 	}
 
-	// Add The laundry room Parameter
 	@PostMapping(params = { "to_servlet=removeAppointment" })
 	public String removeAppointment(@ModelAttribute Appointment appointment, HttpSession session,
-			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom, Model model) {
+			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
+			@RequestParam("machinetype") String machineType, Model model) {
 		User user = (User) session.getAttribute("user");
 		appointment.setUserId(user.getId());
 
-		System.out.println("3");
-		int[] washCounter = (int[]) session.getAttribute("wash_counter");
+		String washCounterJson = (String) session.getAttribute("wash_counter");
+		Type type = new TypeToken<Map<String, Integer>>() {}.getType();
+		Map<String, Integer> washCounter = new Gson().fromJson(washCounterJson, type);
 
-		appointmentService.removeAppointment(appointment);
-		System.out.println("4");
-
-		if (appointmentService.errorOccured()) {
-			model.addAttribute("errorMessage", appointmentService.getErrorMessage());
-		} else {
-			if (week != null && week.equals("next")) {
-				washCounter[1]--;
-			} else {
-				washCounter[0]--;
-			}
-			session.setAttribute("wash_counter", washCounter);
-			updateSchema();
-
-			System.out.println("5");
-
+		if (week == null || week.isEmpty()) {
+			week = "current";
 		}
-		System.out.println("6");
+
+		int amountOfWashes = washCounter.get(week + machineType);
+
+		if (appointmentService.removeAppointment(appointment)) {
+			washCounter.replace(week + machineType, --amountOfWashes);
+			session.setAttribute("wash_counter", new Gson().toJson(washCounter));
+			updateSchema();
+		} else {
+			model.addAttribute("errorMessage", AppointmentService.REMOVE_APPOINTMENT_FAILED);
+		}
 
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
 
 	private void updateSchema() {
-		times = schemaService.getTimes();
-		machines = schemaService.getWashingMachines();
-
 		housenumbersMachine1 = schemaService.getData(1);
 		housenumbersMachine2 = schemaService.getData(2);
 		housenumbersMachine3 = schemaService.getData(3);
@@ -243,6 +230,7 @@ public class MainController {
 	public String createBulletinBoardMessage(@ModelAttribute Message message, @RequestParam("week") String week,
 			@RequestParam("laundryRoom") Integer laundryRoom) {
 		bulletinBoardService.addMessage(message);
+		bulletinBoardMessages = bulletinBoardService.getMessages();
 
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
@@ -251,8 +239,8 @@ public class MainController {
 	public String removeBulletinBoardMessage(Model model, @ModelAttribute Message message,
 			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom) {
 		bulletinBoardService.deactivateMessage(message);
-
 		bulletinBoardMessages = bulletinBoardService.getMessages();
+
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
 
@@ -260,15 +248,16 @@ public class MainController {
 	public String changeUserHouseNumber(@RequestParam("houseNumber") String houseNumber,
 			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom, HttpSession session,
 			Model model) {
-		User user = (User) session.getAttribute("user");
-		user.setHouseNumber(houseNumber);
-
-		modifyUserService.changeHouseNumber(user);
-
-		if (modifyUserService.errorOccured()) {
-			model.addAttribute("errorMessage", modifyUserService.getErrorMessage());
+		if (Misc.isHouseNumberValid(houseNumber)) {
+			User user = (User) session.getAttribute("user");
+			user.setHouseNumber(houseNumber);
+			if (modifyUserService.changeHouseNumber(user)) {
+				updateSchema();
+			} else {
+				model.addAttribute("errorMessage", ModifyUserService.HOUSENUMBER_TAKEN);
+			}
 		} else {
-			updateSchema();
+			model.addAttribute("errorMessage", ModifyUserService.INVALID_HOUSENUMBER);
 		}
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
@@ -278,12 +267,8 @@ public class MainController {
 			@RequestParam("laundryRoom") Integer laundryRoom, HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
 		user.setPassword(password);
-
 		modifyUserService.changePassword(user);
 
-		if (modifyUserService.errorOccured()) {
-			model.addAttribute("errorMessage", modifyUserService.getErrorMessage());
-		}
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
 
@@ -291,14 +276,9 @@ public class MainController {
 	public String deleteUserAccount(@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
 			HttpSession session, Model model) {
 		User user = (User) session.getAttribute("user");
-
 		modifyUserService.deleteAccount(user);
+		session.invalidate();
 
-		if (modifyUserService.errorOccured()) {
-			model.addAttribute("errorMessage", modifyUserService.getErrorMessage());
-		} else {
-			updateSchema();
-		}
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
 

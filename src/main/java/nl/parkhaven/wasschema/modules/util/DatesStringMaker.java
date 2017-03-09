@@ -27,14 +27,17 @@ public final class DatesStringMaker {
 
 	private void makeOverview() {
 		for (int i = 0; i < 14; i += 7) {
-			LocalDate date = LocalDate.now().plusDays(i);
+			LocalDate date = LocalDate.now()
+					.plusDays(i);
 
-			int dayOfTheWeek = date.getDayOfWeek().getValue();
+			int dayOfTheWeek = date.getDayOfWeek()
+					.getValue();
 
 			LocalDate firstDayOfTheWeek = date.minusDays(dayOfTheWeek - 1);
 			LocalDate lastDayOfTheWeek = firstDayOfTheWeek.plusDays(7);
 
-			int weekOfTheYear = date.get(WeekFields.of(Locale.UK).weekOfWeekBasedYear());
+			int weekOfTheYear = date.get(WeekFields.of(Locale.UK)
+					.weekOfWeekBasedYear());
 
 			int firstDay = firstDayOfTheWeek.getDayOfMonth();
 			int firstDay_MonthOfTheYear = firstDayOfTheWeek.getMonthValue();
@@ -53,9 +56,11 @@ public final class DatesStringMaker {
 		LocalDate firstDayOfTheWeek;
 
 		for (int i = 0; i < 14; i = i + 7) {
-			date = LocalDate.now().plusDays(i);
+			date = LocalDate.now()
+					.plusDays(i);
 
-			int dayOfTheWeek = date.getDayOfWeek().getValue();
+			int dayOfTheWeek = date.getDayOfWeek()
+					.getValue();
 
 			firstDayOfTheWeek = date.minusDays(dayOfTheWeek - 1);
 
@@ -64,8 +69,8 @@ public final class DatesStringMaker {
 					"Dec" };
 
 			for (int j = 0; j < 7; j++) {
-				dates.put((long) j + i + 1, daysOfTheWeek[j] + " - " + firstDayOfTheWeek.plusDays(j).getDayOfMonth()
-						+ " " + monthOfTheYear[firstDayOfTheWeek.getMonthValue() - 1]);
+				dates.put((long) j + i + 1, daysOfTheWeek[j] + " - " + firstDayOfTheWeek.plusDays(j)
+						.getDayOfMonth() + " " + monthOfTheYear[firstDayOfTheWeek.getMonthValue() - 1]);
 			}
 		}
 	}

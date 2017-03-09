@@ -25,11 +25,14 @@ public class UserDaoImpl implements Crud<User> {
 	private static final String UPDATE_HOUSENUMBER = "UPDATE gebruiker SET huisnummer = ? WHERE id = ?;";
 	private static final String UPDATE_PASSWORD = "UPDATE gebruiker SET wachtwoord = ? WHERE id = ?;";
 	private static final String UPDATE_EMAIL = "UPDATE gebruiker SET email = ? WHERE id = ?;";
-	private static final String REMOVE_ACCOUNT = "UPDATE gebruiker SET actief = 'N', email = CONCAT(email, ?), huisnummer = CONCAT(huisnummer, ?) WHERE id = ? AND wachtwoord = ?;";
-	private static final String REMOVE_ACCOUNT_ABSOLUTE = "DELETE FROM gebruiker WHERE id = ?;";
-	private static final String SELECT_ALL_USERS = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord FROM gebruiker WHERE actief = 'Y';";
-	private static final String GET_USER_WASHCOUNTER = "SELECT COUNT(gebruiker_id) FROM wasschema x LEFT JOIN week_dag_tijd a ON x.week_dag_tijd_id = a.id WHERE x.gebruiker_id = ? AND a.week_id = ?;";
+	private static final String REMOVE_ACCOUNT = "UPDATE gebruiker SET actief = 'N', email = CONCAT(email, ?), huisnummer = CONCAT(huisnummer, ?) WHERE id = ?;";
+	private static final String SELECT_ALL_USERS = "SELECT id, voornaam, achternaam, huisnummer, email, wachtwoord, admin FROM gebruiker WHERE actief = 'Y';";
+	private static final String GET_USER_WASHCOUNTER = "SELECT COUNT(gebruiker_id) FROM wasschema x LEFT JOIN week_dag_tijd a ON x.week_dag_tijd_id = a.id LEFT JOIN wasmachine b ON b.id = x.wasmachine_id WHERE x.gebruiker_id = ? AND a.week_id = ? AND b.machine_type = ?;";
 	private static final String REMOVE_USER_APPOINTMENTS = "UPDATE wasschema SET gebruiker_id = NULL WHERE gebruiker_id = ?;";
+
+	private static final String[] MACHINE_TYPES = { "wash", "dry" };
+	private static final String[] WEEKS = { "current", "next" };
+
 
 	@Autowired
 	public UserDaoImpl(JdbcTemplate template) {
@@ -93,7 +96,7 @@ public class UserDaoImpl implements Crud<User> {
 	public boolean delete(User user) {
 		// CONCAT with userId because Db columns are unique
 		int rowsAffected = this.template.update(REMOVE_ACCOUNT,
-				new Object[] { user.getEmail(), user.getHouseNumber(), user.getId(), user.getPassword() });
+				new Object[] { user.getId(), user.getId(), user.getId() });
 		if (rowsAffected != 1) {
 			return false;
 		}
@@ -106,12 +109,17 @@ public class UserDaoImpl implements Crud<User> {
 	}
 
 	// Washcounter to check if user didn't wash more than 3 times
-	public int[] getWashCounter(User user) {
-		int[] userWashCounter = new int[2];
+	public Map<String, Integer> getWashCounter(User user) {
+		Map<String, Integer> userWashCounter = new HashMap<>();
+		
 		for (int i = 0; i < 2; i++) {
-			userWashCounter[i] = this.template.queryForObject(GET_USER_WASHCOUNTER, new Object[] { user.getId(), i },
-					Integer.class);
+			for (int j = 0; j < 2; j++) {
+				int value = this.template.queryForObject(GET_USER_WASHCOUNTER,
+						new Object[] { user.getId(), i + 1, MACHINE_TYPES[j] }, Integer.class);
+				userWashCounter.put(WEEKS[i] + MACHINE_TYPES[j], value);
+			}
 		}
+
 		return userWashCounter;
 	}
 
@@ -124,13 +132,9 @@ public class UserDaoImpl implements Crud<User> {
 		return users;
 	}
 
-	// only to be used in tests to delete dummy accounts
-	public void deleteCompletely(User user) {
-		this.template.update(REMOVE_ACCOUNT_ABSOLUTE, new Object[] { user.getId() });
-	}
-
-	// Should this be a bean? Or not? I am using this row mapper in other modules...
+	// TODO Should these types of minor classes be a bean? Or not? I am using this row mapper in other modules...
 	public static class UserRowMapper implements RowMapper<User> {
+
 		@Override
 		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			User user = new User();

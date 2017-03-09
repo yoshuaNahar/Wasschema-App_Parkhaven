@@ -6,14 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public final class SchemaService {
-
-	/*
-	 * The schema is the only class where I don't release the resources in the
-	 * Dao classes. I do this because I recall getData multiple times after each
-	 * other. I also only call this method twice so I won't forget to release
-	 * the resources.
-	 */
+public class SchemaService {
 
 	private SchemaDaoImpl schemaDao;
 

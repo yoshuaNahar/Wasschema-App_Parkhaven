@@ -7,55 +7,40 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.parkhaven.wasschema.modules.util.Misc;
-
 @Service
-public final class ModifyUserService {
+public class ModifyUserService {
 
+	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(ModifyUserService.class);
 
+	public static final String HOUSENUMBER_TAKEN = "The housenumber you have entered is already taken.";
+	public static final String INVALID_HOUSENUMBER = "The housenumber you have entered is invalid.";
+
 	private UserDaoImpl userDao;
-	private String errorMessage;
 
 	@Autowired
 	public ModifyUserService(UserDaoImpl userDao) {
 		this.userDao = userDao;
 	}
 
-	public void changeHouseNumber(User user) {
-		if (Misc.isHouseNumberValid(user.getHouseNumber())) {
-			if (!userDao.update(user)) {
-				errorMessage = "Housenumber already taken!";
-				logger.warn("Housenumber already taken. Id:" + user.getId() + " - email: " + user.getEmail());
-			}
-		} else {
-			errorMessage = "Not a valid housenumber!";
-			logger.info("User tried to change housenumber: " + user.getHouseNumber() + " - email: " + user.getEmail());
-		}
+	public boolean changeHouseNumber(User user) {
+		return userDao.update(user);
 	}
 
-	public void changePassword(User user) {
-		userDao.updatePassword(user);
+	public boolean changePassword(User user) {
+		return userDao.updatePassword(user);
 	}
 
-	public void changeEmail(User user) {
-		userDao.updateEmail(user);
+	public boolean changeEmail(User user) {
+		return userDao.updateEmail(user);
 	}
 
-	public void deleteAccount(User user) {
-		userDao.delete(user);
+	public boolean deleteAccount(User user) {
+		return userDao.delete(user);
 	}
 
 	public Map<Long, User> getAllUsers() {
 		return userDao.selectAllUsers();
-	}
-
-	public boolean errorOccured() {
-		return errorMessage != null;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
 	}
 
 }

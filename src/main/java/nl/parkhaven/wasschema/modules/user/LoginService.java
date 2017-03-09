@@ -1,5 +1,7 @@
 package nl.parkhaven.wasschema.modules.user;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ public class LoginService {
 
 	public static final String LOGIN_CREDENTIALS_INVALID = "Invalid email or password entered.";
 	public static final String NOT_ALL_REQUIRED_FIELDS_FILLED = "Please fill all required fields.";
-	public static final String USER_WITH_HOUSENUMBER_ALREADY_EXISTS = "A user with this housenumber already exists.";
+	public static final String USER_WITH_HOUSENUMBER_ALREADY_EXISTS = "A user with this housenumber or email already exists.";
 	public static final String INCORRECT_SHARED_PASSWORD = "The shared password is incorrect. It is visible in the laundryroom.";
 	public static final String NO_USER_WITH_EMAIL = "No user found with this email address.";
 	private static final String SHARED_PASSWORD = "3024NH";
@@ -38,7 +40,7 @@ public class LoginService {
 		return userDao.read(user);
 	}
 
-	public int[] getWashCounter(User user) {
+	public Map<String, Integer> getWashCounter(User user) {
 		return userDao.getWashCounter(user);
 	}
 
@@ -51,6 +53,7 @@ public class LoginService {
 			return false;
 		} else {
 			if (checkSharedPasswordValid(user.getSharedPassword())) {
+				user.setSharedPassword("1");
 				return true;
 			} else {
 				logger.warn("Wrong signup code: " + user.getSharedPassword());
@@ -69,35 +72,25 @@ public class LoginService {
 	public boolean created(User user) {
 		if (!userDao.create(user)) {
 			logger.warn("= Huisnummer or email already exists. Huisnummer: " + user.getHouseNumber() + " Email: "
-					+ user.getEmail() + " =");
+					+ user.getEmail());
 			return false;
 		}
 		logger.info("Signed up. Huisnummer: " + user.getHouseNumber() + " - Email: " + user.getEmail());
 		return true;
 	}
 
-	// only to be used in tests, to delete dummy accoutns
-	public void deleteUser(User user) {
-		userDao.deleteCompletely(user);
-	}
-
-	public void setRandomPasswordFor(User user) {
+	public boolean setRandomPasswordFor(User user) {
 		user.setPassword(Misc.generateNewPassword());
-		changePasswordInDb(user);
+		return changePasswordInDb(user);
 	}
 
-	public boolean emailValid(User user) {
-		if (user.getEmail() == null) {
-			return false;
-		}
-		return true;
-	}
-
-	public void changePasswordInDb(User user) {
+	private boolean changePasswordInDb(User user) {
 		if (userDao.updatePassword(user)) {
 			logger.info("User password changed succesfully and email send! - Email: " + user.getEmail());
+			return true;
 		} else {
-			logger.warn("Change Password (Forgot email) Email not available: " + user.getEmail() + " =");
+			logger.warn("Change Password Email not available: " + user.getEmail());
+			return false;
 		}
 	}
 

@@ -15,9 +15,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 @Configuration
-@ComponentScan(basePackages = { "nl.parkhaven.wasschema.modules.user" })
+@ComponentScan(basePackages = { "nl.parkhaven.wasschema.modules" })
 @EnableTransactionManagement
 public class TestConfig {
+
+	// I'm only unit testing the Normal/Expected Conditions. And I'm testing the
+	// Dao classes through the Service classes
+
+	// Handy links :
+	// -http://blog.trifork.com/2012/12/11/properly-testing-spring-mvc-controllers/
+	// https://www.petrikainulainen.net/programming/spring-framework/unit-testing-of-spring-mvc-controllers-normal-controllers/
+	// https://myshittycode.com/2013/10/23/how-to-unit-test-spring-mvc-controller/
+	// https://developer.salesforce.com/page/How_to_Write_Good_Unit_Tests
 
 	@Bean
 	public PropertiesConfiguration getConfiguration() throws ConfigurationException {
