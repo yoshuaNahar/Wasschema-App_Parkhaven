@@ -155,9 +155,9 @@
       </div>
 
 
-  <div id="alert_div" class="alert alert-success">
+  <div id="alert_div" class="alert alert-success" style="position:absolute; top: 6%; left: 40%">
     <a href="" class="close" data-dismiss="alert" aria-label="close"><span aria-hidden="true">&times;</span></a>
-    ${requestScope.errorMessage}
+    <span id="errorMessage"></span>
   </div>
 
 
@@ -1429,8 +1429,23 @@
 
 <script>
 $(function() {
+	var getUrlParameter = function getUrlParameter(sParam) {
+	    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+	        sURLVariables = sPageURL.split('&'),
+	        sParameterName,
+	        i;
+	    for (i = 0; i < sURLVariables.length; i++) {
+	        sParameterName = sURLVariables[i].split('=');
+	        if (sParameterName[0] === sParam) {
+	            return sParameterName[1] === undefined ? true : sParameterName[1];
+	        }
+	    }
+	};
+
   // toggle alert message
-  if ("${requestScope.errorMessage}" != "") {
+  var hasMessage = getUrlParameter("message");
+  if (hasMessage) {
+	  $('#errorMessage').text(hasMessage);
     $('#alert_div').animate({
       height : "toggle",
        opacity : "toggle"

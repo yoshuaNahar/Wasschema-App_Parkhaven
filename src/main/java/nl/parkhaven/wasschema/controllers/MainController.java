@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -125,7 +124,7 @@ public class MainController {
 		model.addAttribute("wasmachine", machines);
 		model.addAttribute("prikbord_messages", bulletinBoardMessages);
 
-		//		model.addAttribute("week", week);
+		model.addAttribute("week", week);
 		model.addAttribute("laundryRoom", laundryRoom);
 
 		model.addAttribute("get_overview", overview[weekId]);
@@ -134,7 +133,6 @@ public class MainController {
 		model.addAttribute("hitcounter", hitCounter);
 		model.addAttribute("totalwashcounter", totalWashCounter);
 
-		System.out.println(model.containsAttribute("week"));
 		return "afterlogin";
 	}
 
@@ -147,7 +145,7 @@ public class MainController {
 	@PostMapping(params = { "to_servlet=addAppointment" })
 	public String addAppointment(@ModelAttribute Appointment appointment, HttpSession session,
 			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
-			@RequestParam("machinetype") String machineType, RedirectAttributes redirectAttrs) {
+			@RequestParam("machinetype") String machineType) {
 		User user = (User) session.getAttribute("user"); // Need this to couple the app to the user id
 		appointment.setUserId(user.getId());
 
@@ -156,10 +154,7 @@ public class MainController {
 		Map<String, Integer> washCounter = new Gson().fromJson(washCounterJson, type);
 
 		boolean canWash = false;
-
-		redirectAttrs.addFlashAttribute("week", week);
-		redirectAttrs.addFlashAttribute("laundryRoom", laundryRoom);
-
+		   
 		if (week == null || week.isEmpty()) {
 			week = "current";
 		}
@@ -167,6 +162,9 @@ public class MainController {
 		if (amountOfWashes < 3) {
 			canWash = true;
 		}
+
+		String errorMessage = "";
+
 		if (canWash) {
 			if (appointmentService.dateFree(appointment)) {
 				appointmentService.addAppointment(appointment);
@@ -175,12 +173,12 @@ public class MainController {
 				totalWashCounter++;
 				updateSchema();
 			} else {
-				redirectAttrs.addFlashAttribute("errorMessage", AppointmentService.DATE_PASSED_OR_TAKEN);
+				errorMessage = AppointmentService.DATE_PASSED_OR_TAKEN;
 			}
 		} else {
-			redirectAttrs.addFlashAttribute("errorMessage", AppointmentService.WASH_LIMIT_MET);
+			errorMessage = AppointmentService.WASH_LIMIT_MET;
 		}
-		return "redirect:/index.010";
+		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + errorMessage;
 	}
 
 	@PostMapping(params = { "to_servlet=removeAppointment" })
@@ -200,6 +198,8 @@ public class MainController {
 
 		int amountOfWashes = washCounter.get(week + machineType);
 
+		String errorMessage = "";
+
 		if (appointmentService.removeAppointment(appointment)) {
 			washCounter.replace(week + machineType, --amountOfWashes);
 			session.setAttribute("wash_counter", new Gson().toJson(washCounter));
@@ -208,7 +208,7 @@ public class MainController {
 			model.addAttribute("errorMessage", AppointmentService.REMOVE_APPOINTMENT_FAILED);
 		}
 
-		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
+		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + errorMessage;
 	}
 
 	private void updateSchema() {
@@ -248,6 +248,8 @@ public class MainController {
 	public String changeUserHouseNumber(@RequestParam("houseNumber") String houseNumber,
 			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom, HttpSession session,
 			Model model) {
+		String errorMessage = "";
+
 		if (Misc.isHouseNumberValid(houseNumber)) {
 			User user = (User) session.getAttribute("user");
 			user.setHouseNumber(houseNumber);
@@ -259,7 +261,7 @@ public class MainController {
 		} else {
 			model.addAttribute("errorMessage", ModifyUserService.INVALID_HOUSENUMBER);
 		}
-		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
+		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + errorMessage;
 	}
 
 	@PostMapping(params = { "to_servlet=changePassword" })
@@ -273,13 +275,12 @@ public class MainController {
 	}
 
 	@PostMapping(params = { "to_servlet=deleteAccount" })
-	public String deleteUserAccount(@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
-			HttpSession session, Model model) {
+	public String deleteUserAccount(HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		modifyUserService.deleteAccount(user);
 		session.invalidate();
 
-		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
+		return "redirect:/";
 	}
 
 	@PostMapping()

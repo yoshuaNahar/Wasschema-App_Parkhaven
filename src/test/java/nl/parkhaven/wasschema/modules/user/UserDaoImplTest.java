@@ -56,7 +56,7 @@ public class UserDaoImplTest {
 		userDao.create(user);
 
 		User signedInDbUser = userDao.read(dbUser);
-		assertThat(signedInDbUser.getId(), greaterThan(20));
+		assertThat(signedInDbUser.getId(), greaterThan(2));
 	}
 
 }

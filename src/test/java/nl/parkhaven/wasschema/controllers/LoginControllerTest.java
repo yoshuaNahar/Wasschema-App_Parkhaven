@@ -79,7 +79,7 @@ public class LoginControllerTest {
 				.param("password", "password");
 
 		mockMvc.perform(request).andDo(MockMvcResultHandlers.print()).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/index.010"));
+				.andExpect(redirectedUrl("/index.010/loggedin"));
 
 		HttpSession session = mockMvc.perform(request).andReturn().getRequest().getSession();
 
