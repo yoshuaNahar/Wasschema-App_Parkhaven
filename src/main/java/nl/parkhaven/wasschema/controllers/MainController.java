@@ -4,6 +4,9 @@ package nl.parkhaven.wasschema.controllers;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import static java.util.Objects.nonNull;
+import static java.util.Objects.isNull;
+
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
 
@@ -90,15 +93,15 @@ public class MainController {
 	public String homePage(@RequestParam(name = "week", required = false) String week,
 			@RequestParam(name = "laundryRoom", required = false) Integer laundryRoom, HttpSession session,
 			Model model) {
-		if (session.getAttribute("user") == null) {
+		if (isNull(session.getAttribute("user"))) {
 			return "redirect:/";
 		}
 
 		int weekId = 0;
-		if (laundryRoom == null) {
+		if (isNull(laundryRoom)) {
 			laundryRoom = 0;
 		}
-		if (week != null && week.equals("next")) {
+		if (nonNull(week) && week.equals("next")) {
 			weekId = 1;
 		}
 
@@ -155,7 +158,7 @@ public class MainController {
 
 		boolean canWash = false;
 		   
-		if (week == null || week.isEmpty()) {
+		if (isNull(week) || week.isEmpty()) {
 			week = "current";
 		}
 		int amountOfWashes = washCounter.get(week + machineType);
@@ -192,7 +195,7 @@ public class MainController {
 		Type type = new TypeToken<Map<String, Integer>>() {}.getType();
 		Map<String, Integer> washCounter = new Gson().fromJson(washCounterJson, type);
 
-		if (week == null || week.isEmpty()) {
+		if (isNull(week) || week.isEmpty()) {
 			week = "current";
 		}
 

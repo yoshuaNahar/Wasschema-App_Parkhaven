@@ -1,6 +1,7 @@
 package nl.parkhaven.wasschema.controllers;
 
 import java.util.Map;
+import static java.util.Objects.isNull;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,7 +36,7 @@ public class AdminController {
 
 	@GetMapping
 	public String adminPage(HttpSession session, Model model) {
-		if (session.getAttribute("user") == null) {
+		if (isNull(session.getAttribute("user"))) {
 			return "redirect:/";
 		}
 		bulletinBoardMessages = bulletinBoardService.getPendingMessages();

@@ -1,5 +1,8 @@
 package nl.parkhaven.wasschema.controllers;
 
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,7 @@ public class LoginController {
 	public String login(@ModelAttribute User user, HttpSession session, Model model) {
 		if (loginService.loginCredentialsValid(user)) {
 			User loggedInUser = loginService.login(user);
-			if (loggedInUser == null) {
+			if (isNull(loggedInUser)) {
 				model.addAttribute("message", LoginService.LOGIN_CREDENTIALS_INVALID);
 			} else {
 				session.setAttribute("user", loggedInUser);
@@ -71,7 +74,7 @@ public class LoginController {
 
 	@PostMapping(params = { "to_servlet=forgotPassword" })
 	public String forgotPassword(@ModelAttribute User user, Model model) {
-		if (user.getEmail() != null) {
+		if (nonNull(user.getEmail())) {
 			if (loginService.setRandomPasswordFor(user)) {
 				mailService.sendMailContainingPasswordTo(user);
 				model.addAttribute("message", "A mail has been sent to your email adres.");

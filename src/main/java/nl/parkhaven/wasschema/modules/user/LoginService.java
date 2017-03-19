@@ -1,6 +1,7 @@
 package nl.parkhaven.wasschema.modules.user;
 
 import java.util.Map;
+import static java.util.Objects.isNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class LoginService {
 	}
 
 	public boolean loginCredentialsValid(User user) {
-		if (user.getEmail() == null || user.getPassword() == null) {
+		if (isNull(user.getEmail()) || isNull(user.getPassword())) {
 			logger.warn("Required JS check = Email: " + user.getEmail() + " Password: " + user.getPassword());
 			return false;
 		}
@@ -45,8 +46,8 @@ public class LoginService {
 	}
 
 	public boolean signupCredentialsValid(User user) {
-		if (user.getEmail() == null || !Misc.isHouseNumberValid(user.getHouseNumber()) || user.getPassword() == null
-				|| user.getSharedPassword() == null) {
+		if (isNull(user.getEmail()) || !Misc.isHouseNumberValid(user.getHouseNumber()) || isNull(user.getPassword())
+				|| isNull(user.getSharedPassword())) {
 			logger.warn("Not all required data entered. First name: " + user.getFirstName() + " - Last Name: "
 					+ user.getLastName() + " - Email: " + user.getEmail() + " - Huisnummer: " + user.getHouseNumber()
 					+ " - Wachtwoord: " + user.getPassword());
