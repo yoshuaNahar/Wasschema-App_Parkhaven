@@ -29,9 +29,9 @@ public class ModifyUserServiceTest {
 	}
 
 	@Test
-	public void testChangeHouseNumber() {
-		user.setHouseNumber("88A");
-		modifyUserService.changeHouseNumber(user);
+	public void testRememberLaundryRoom() {
+		user.setRememberLaundryRoomChecked(true);
+		modifyUserService.changeRememberLaundryRoom(user);
 	}
 
 	@Test

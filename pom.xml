@@ -147,7 +147,7 @@
 				<configuration>
 					<url>http://198.211.125.131:8080/manager/text</url>
 					<server>digitalOcean</server>
-					<user>admin2</user>
+					<username>admin2</username>
 					<password>geheim4MavenPlugin</password>
 					<path>/WasSchema</path>
 					<update>true</update>

@@ -10,6 +10,7 @@ public class User {
 	private String password;
 	private boolean admin;
 	private String sharedPassword;
+	private boolean rememberLaundryRoomChecked;
 
 	public int getId() {
 		return id;
@@ -83,4 +84,11 @@ public class User {
 	}
 
 
+	public boolean isRememberLaundryRoomChecked() {
+		return rememberLaundryRoomChecked;
+	}
+
+	public void setRememberLaundryRoomChecked(boolean rememberLaundryRoomChecked) {
+		this.rememberLaundryRoomChecked = rememberLaundryRoomChecked;
+	}
 }

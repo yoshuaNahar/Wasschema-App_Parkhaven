@@ -31,7 +31,6 @@ import nl.parkhaven.wasschema.modules.schema.SchemaService;
 import nl.parkhaven.wasschema.modules.user.ModifyUserService;
 import nl.parkhaven.wasschema.modules.user.User;
 import nl.parkhaven.wasschema.modules.util.DatesStringMaker;
-import nl.parkhaven.wasschema.modules.util.Misc;
 
 @Controller
 @RequestMapping(value = "/index.010")
@@ -75,6 +74,7 @@ public class MainController {
 		this.bulletinBoardService = bulletinBoardService;
 		this.schemaService = schemaService;
 		this.metaData = miscDbOperations;
+
 		updateSchema();
 		times = schemaService.getTimes();
 		machines = schemaService.getWashingMachines();
@@ -85,7 +85,12 @@ public class MainController {
 		DatesStringMaker datesStringMaker = new DatesStringMaker();
 		dates = datesStringMaker.getDates();
 		overview = datesStringMaker.getOverview();
-		bulletinBoardMessages = bulletinBoardService.getMessages(); // If the admin excepts a message I can't let this class refresh the messages
+		bulletinBoardMessages = bulletinBoardService.getMessages();
+		/* If the admin accepts a message I have no trigger code to call this method this method.
+		 * This method, to refresh the bulletinBoard will only be called when a user logs in.
+		 */
+
+		// Based on your sharedPassword and the Remember Laundry Room, I will be able to automatically open the correct laundry room.
 		return "redirect:/index.010";
 	}
 
@@ -93,7 +98,8 @@ public class MainController {
 	public String homePage(@RequestParam(name = "week", required = false) String week,
 			@RequestParam(name = "laundryRoom", required = false) Integer laundryRoom, HttpSession session,
 			Model model) {
-		if (isNull(session.getAttribute("user"))) {
+		User user = (User) session.getAttribute("user");
+		if (isNull(user)) {
 			return "redirect:/";
 		}
 
@@ -103,6 +109,11 @@ public class MainController {
 		}
 		if (nonNull(week) && week.equals("next")) {
 			weekId = 1;
+		}
+
+		// User checked remember my laundry room, so that their laundry room is displayed on login.
+		if (user.isRememberLaundryRoomChecked()) {
+			laundryRoom = Integer.valueOf(user.getSharedPassword());
 		}
 
 		if (laundryRoom == 1) {
@@ -247,24 +258,16 @@ public class MainController {
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
 
-	@PostMapping(params = { "to_servlet=changeHouseNumber" })
-	public String changeUserHouseNumber(@RequestParam("houseNumber") String houseNumber,
-			@RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom, HttpSession session,
-			Model model) {
-		String errorMessage = "";
+	// IM HERE
+	@PostMapping(params = { "to_servlet=rememberLaundryRoom" })
+	public String rememberLaundryRoom(@RequestParam(name="rememberLaundryRoomChecked", required=false) boolean rememberLaundryRoomChecked, @RequestParam("week") String week,
+									 @RequestParam("laundryRoom") Integer laundryRoom, HttpSession session, Model model) {
+		User user = (User) session.getAttribute("user");
+		System.out.println(rememberLaundryRoomChecked);
+		user.setRememberLaundryRoomChecked(rememberLaundryRoomChecked);
+		modifyUserService.changeRememberLaundryRoom(user);
 
-		if (Misc.isHouseNumberValid(houseNumber)) {
-			User user = (User) session.getAttribute("user");
-			user.setHouseNumber(houseNumber);
-			if (modifyUserService.changeHouseNumber(user)) {
-				updateSchema();
-			} else {
-				model.addAttribute("errorMessage", ModifyUserService.HOUSENUMBER_TAKEN);
-			}
-		} else {
-			model.addAttribute("errorMessage", ModifyUserService.INVALID_HOUSENUMBER);
-		}
-		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + errorMessage;
+		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
 	}
 
 	@PostMapping(params = { "to_servlet=changePassword" })

@@ -21,6 +21,7 @@ public class LoginService {
 	public static final String INCORRECT_SHARED_PASSWORD = "The shared password is incorrect. It is visible in the laundryroom.";
 	public static final String NO_USER_WITH_EMAIL = "No user found with this email address.";
 	private static final String SHARED_PASSWORD = "3024NH";
+	public static final String NONEXISTENT_HOUSE_NUMBER = "The house number you entered is not valid, please add a correct house number.";
 
 	private UserDaoImpl userDao;
 
@@ -46,7 +47,7 @@ public class LoginService {
 	}
 
 	public boolean signupCredentialsValid(User user) {
-		if (isNull(user.getEmail()) || !Misc.isHouseNumberValid(user.getHouseNumber()) || isNull(user.getPassword())
+		if (isNull(user.getEmail()) || isNull(user.getHouseNumber()) || isNull(user.getPassword())
 				|| isNull(user.getSharedPassword())) {
 			logger.warn("Not all required data entered. First name: " + user.getFirstName() + " - Last Name: "
 					+ user.getLastName() + " - Email: " + user.getEmail() + " - Huisnummer: " + user.getHouseNumber()
@@ -62,6 +63,10 @@ public class LoginService {
 			}
 		}
 	}
+
+	public boolean checkHouseNumberExists(User user) {
+	    return userDao.checkHouseNumberExists(user);
+    }
 
 	public boolean checkSharedPasswordValid(String code) {
 		if (code.trim().equalsIgnoreCase(SHARED_PASSWORD)) {

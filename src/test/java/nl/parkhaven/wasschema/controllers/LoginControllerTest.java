@@ -15,6 +15,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import nl.parkhaven.wasschema.modules.util.MailService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,6 @@ import com.google.gson.reflect.TypeToken;
 
 import nl.parkhaven.wasschema.modules.user.LoginService;
 import nl.parkhaven.wasschema.modules.user.User;
-import nl.parkhaven.wasschema.modules.util.MailService;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginControllerTest {
@@ -95,12 +95,13 @@ public class LoginControllerTest {
 				.param("password", "password").param("houseNumber", "230").param("sharedPassword", "3024NH");
 
 		when(loginService.signupCredentialsValid(ArgumentMatchers.any(User.class))).thenReturn(true);
+		when(loginService.checkHouseNumberExists(ArgumentMatchers.any(User.class))).thenReturn(true);
 		when(loginService.created(ArgumentMatchers.any(User.class))).thenReturn(true);
 		when(loginService.loginCredentialsValid(ArgumentMatchers.any(User.class))).thenReturn(true);
 		when(loginService.login(ArgumentMatchers.any(User.class))).thenReturn(new User());
 
 		mockMvc.perform(request).andDo(MockMvcResultHandlers.print()).andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/index.010"));
+				.andExpect(redirectedUrl("/index.010/loggedin"));
 	}
 
 	@Test

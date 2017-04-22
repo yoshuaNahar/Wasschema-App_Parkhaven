@@ -13,9 +13,6 @@ public class ModifyUserService {
 	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerFactory.getLogger(ModifyUserService.class);
 
-	public static final String HOUSENUMBER_TAKEN = "The housenumber you have entered is already taken.";
-	public static final String INVALID_HOUSENUMBER = "The housenumber you have entered is invalid.";
-
 	private UserDaoImpl userDao;
 
 	@Autowired
@@ -23,8 +20,8 @@ public class ModifyUserService {
 		this.userDao = userDao;
 	}
 
-	public boolean changeHouseNumber(User user) {
-		return userDao.update(user);
+	public boolean changeRememberLaundryRoom(User user) {
+		return userDao.updateRememberLaundryRoom(user);
 	}
 
 	public boolean changePassword(User user) {
@@ -32,7 +29,7 @@ public class ModifyUserService {
 	}
 
 	public boolean changeEmail(User user) {
-		return userDao.updateEmail(user);
+		return userDao.update(user);
 	}
 
 	public boolean deleteAccount(User user) {

@@ -1,13 +1,15 @@
 package nl.parkhaven.wasschema.modules.mail;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import nl.parkhaven.wasschema.modules.user.User;
-import nl.parkhaven.wasschema.modules.user.UserDaoImpl.UserRowMapper;
 
 @Repository
 public class EmailDao {
@@ -27,6 +29,17 @@ public class EmailDao {
 
 	public List<User> getEmailAddresses() {
 		return this.template.query(GET_USERS_EMAIL, new UserRowMapper());
+	}
+
+	private static class UserRowMapper implements RowMapper<User> {
+		@Override
+		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+			User user = new User();
+			user.setHouseNumber(rs.getString("huisnummer"));
+			user.setEmail(rs.getString("email"));
+			user.setPassword(rs.getString("name")); // Yeah, Im stupid...
+			return user;
+		}
 	}
 
 }

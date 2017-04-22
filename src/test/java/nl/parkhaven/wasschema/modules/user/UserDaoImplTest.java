@@ -38,7 +38,7 @@ public class UserDaoImplTest {
 
 		User dbUser = userDao.read(user);
 
-		assertThat(dbUser.getId(), is(3));
+		assertThat(dbUser.getId(), is(1));
 	}
 
 	@Test

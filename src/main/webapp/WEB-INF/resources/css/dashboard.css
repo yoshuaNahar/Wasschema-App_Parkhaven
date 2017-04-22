@@ -1,239 +1,246 @@
 /* Move down content because we have a fixed navbar that is 50px tall */
 body {
-	padding-top: 125px !important;
+  padding-top: 125px !important;
 }
 
 p {
-	margin: 0;
+  margin: 0;
 }
 
-@media ( min-width : 868px) {
-	body {
-		padding-top: 65px !important;
-	}
+@media ( min-width: 868px) {
+  body {
+    padding-top: 65px !important;
+  }
 }
 
 .navbar-fixed-top {
-	border: 0;
+  border: 0;
 }
 
 .sub-header {
-	padding-bottom: 10px;
-	border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #EEEEEE;
 }
 
 nav.navbar {
-	min-width: 768px !important;
+  min-width: 768px !important;
 }
 
 div.container-fluid {
-	min-width: 768px !important;
+  min-width: 768px !important;
 }
 
 #laundryroom_img {
-	width: 18px;
+  width: 18px;
 }
 
 #login_form {
-	display: inline-block;
+  display: inline-block;
 }
 
 #login_form button {
-	margin-left: 12px;
-	margin-right: 10px
+  margin-left: 12px;
+  margin-right: 10px
 }
 
 #login_information {
-	float: left;
-	margin: 13px 20px 0 0;
-	color: #ffffff;
+  float: left;
+  margin: 13px 20px 0 0;
+  color: #FFFFFF;
 }
 
 #logoutForm {
-	float: right;
+  float: right;
 }
 
 #adminForm {
-	float: left;
-	margin-right: 10px;
+  float: left;
+  margin-right: 10px;
 }
 
 .sidebar {
-	position: fixed;
-	top: 51px;
-	bottom: 0;
-	left: 0;
-	z-index: 1000;
-	display: block;
-	padding: 20px;
-	overflow-x: hidden;
-	overflow-y: auto;
-	/* Scrollable contents if viewport is shorter than content. */
-	background-color: #f5f5f5;
-	border-right: 1px solid #eee;
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Scrollable contents if viewport is shorter than content. */
+  background-color: #F5F5F5;
+  border-right: 1px solid #EEEEEE;
 }
 
 /* Sidebar navigation */
 .nav-sidebar {
-	margin-right: -21px; /* 20px padding + 1px border */
-	margin-bottom: 20px;
-	margin-left: -20px;
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
 }
 
-.nav-sidebar>li>a {
-	padding-right: 20px;
-	padding-left: 20px;
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
-.nav-sidebar>.active>a, .nav-sidebar>.active>a:hover, .nav-sidebar>.active>a:focus
-	{
-	color: #fff;
-	background-color: #428bca;
+.nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+  color: #FFFFFF;
+  background-color: #428BCA;
 }
 
 table {
-	min-width: 1200px;
+  min-width: 1200px;
 }
 
 .remove_appointment {
-	float: right;
-	background-color: Transparent;
-	border: none;
-	position: relative;
-	top: 4px;
-	right: 2px;
+  float: right;
+  background-color: Transparent;
+  border: none;
+  position: relative;
+  top: 4px;
+  right: 2px;
 }
 
 .remove_appointment:hover {
-	color: #b7b7b7;
+  color: #B7B7B7;
 }
+
+#remember_laundry_room_checkbox {
+  position: relative;
+  top: 2px;
+  left: 5px;
+}
+
 /*
  * Main content
  */
 div#overview {
-	width: 400px;
-	border-bottom: 2px solid #b7b7b7;
-	margin-bottom: 10px;
+  width: 400px;
+  border-bottom: 2px solid #B7B7B7;
+  margin-bottom: 10px;
 }
 
 #overview h2 {
-	margin-bottom: 1px;
+  margin-bottom: 1px;
 }
 
 hr.smaller_margin {
-	margin: 10px 0;
+  margin: 10px 0;
 }
 
 .legend {
-	padding-top: 10px;
+  padding-top: 10px;
 }
 
 .main {
-	padding-right: 20px;
-	padding-left: 20px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .main .page-header {
-	margin-top: 0;
+  margin-top: 0;
 }
 
 /*
  * Placeholder dashboard ideas
  */
 .placeholders {
-	margin-bottom: 30px;
-	text-align: center;
+  margin-bottom: 30px;
+  text-align: center;
 }
 
 .placeholders h4 {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .placeholder {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .placeholder img {
-	display: inline-block;
-	border-radius: 50%;
+  display: inline-block;
+  border-radius: 50%;
 }
 
 /************************************* CUSTOMIZED FOR WAS APP *********************************************/
 input {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 
 .mainTitle {
-	color: #fff !important;
+  color: #FFFFFF !important;
 }
 
 .dashBoard_boldness {
-	height: 48px;
-	vertical-align: center;
-	font-size: 18px;
+  height: 48px;
+  vertical-align: center;
+  font-size: 18px;
 }
 
 .dashBoard_margin {
-	margin-bottom: 7px;
+  margin-bottom: 7px;
 }
 
 #menu_img {
-	width: 105px;
-	height: 55px;
-	margin-top: -17px;
-	float: left;
+  width: 105px;
+  height: 55px;
+  margin-top: -17px;
+  float: left;
 }
 
 #menu_span {
-	margin-left: 15px;
+  margin-left: 15px;
 }
 
 .modal-backdrop {
-	opacity: 0 !important;
+  opacity: 0 !important;
 }
 
 .pager {
-	margin: 12px 0;
+  margin: 12px 0;
 }
+
 .inputSpread div div select {
-	margin-top: 6px !important;
+  margin-top: 6px !important;
 }
 
 .inputSpread div div input {
-	margin-top: 6px !important;
+  margin-top: 6px !important;
 }
 
 .inputSpread div div h5 {
-	margin-top: 18px !important;
+  margin-top: 18px !important;
 }
 
 /************************************* GENERAL MODAL *********************************************/
 .modal-header {
-	padding: 10px;
-	background-color: #DDD;
-	border-bottom: 2px solid #b7b7b7;
+  padding: 10px;
+  background-color: #DDDDDD;
+  border-bottom: 2px solid #B7B7B7;
 }
 
 .passed_date {
-	background-color: #8a8282 !important;
+  background-color: #8A8282 !important;
 }
 
 .center_modal_header {
-	font-size: 22px;
-	text-align: center;
-	margin-top: 15px;
+  font-size: 22px;
+  text-align: center;
+  margin-top: 15px;
 }
 
 .center_modal_top_close_button {
-	margin-top: 17px !important;
+  margin-top: 17px !important;
 }
 
 #signup_modal button {
-	margin: 20px 5px;
+  margin: 20px 5px;
 }
 
 #register_form .modal-footer {
-	padding: 0 102px 0 0;
+  padding: 0 102px 0 0;
 }
 
 /************************************* SPECIFIC FOR SIGNUP MODAL *********************************************/
@@ -242,243 +249,242 @@ input {
  * The asterisk's are also positioned away from their initial position!!
  */
 .non_required_input {
-	margin-bottom: 11px;
+  margin-bottom: 11px;
 }
 
 .required_asterisk {
-	float: right;
-	position: relative;
-	top: -27px;
-	right: -35px;
-	color: #2c3e50;
+  float: right;
+  position: relative;
+  top: -27px;
+  right: -35px;
+  color: #2C3E50;
 }
 
 #shared_code_info {
-	position: absolute;
-	top: 357px;
-	right: -40px;
-	color: #2c3e50;
+  position: absolute;
+  top: 357px;
+  right: -40px;
+  color: #2C3E50;
 }
 
 /* Blue blackground on signup modal */
 #blue_background {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 1040;
-	width: 100%;
-	height: 100%;
-	background-color: rgb(31, 135, 194);
-	background-color: rgba(31, 135, 194, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(31, 135, 194);
+  background-color: rgba(31, 135, 194, 0.8);
 }
 
 /************************************* PROGRESS BAR *********************************************/
 .progress {
-	margin-bottom: 0 !important;
-	width: 80% !important;
-	height: 20px !important;
+  margin-bottom: 0 !important;
+  width: 80% !important;
+  height: 20px !important;
 }
 
 div[class*="progress-bar"] {
-	box-shadow: none !important;
-	width: 50%;
+  box-shadow: none !important;
+  width: 50%;
 }
 
 div[class*="progress-bar-default"] {
-	background-color: #ecf0f1;
+  background-color: #ECF0F1;
 }
 
 .progress-bar span {
-	text-align: center;
-	vertical-align: middle !important;
-	line-height: 20px;
+  text-align: center;
+  vertical-align: middle !important;
+  line-height: 20px;
 }
 
 td {
-	padding-right: 20px !important;
+  padding-right: 20px !important;
 }
 
-tr>td:first-child {
-	padding-right: 7px !important;
+tr > td:first-child {
+  padding-right: 7px !important;
 }
 
-tr>td:last-child {
-	padding-right: 0 !important;
+tr > td:last-child {
+  padding-right: 0 !important;
 }
 
 th {
-	width: 100px !important;
+  width: 100px !important;
 }
 
 #timeHeader {
-	width: 40px !important;
+  width: 40px !important;
 }
 
 .coverProgressNumber {
-	color: #ECF0F1;
+  color: #ECF0F1;
 }
 
 #blue {
-	background-color: #6a8fa5;
-	/*25% Saturated = #6a8fa5, normal = #3498db(gemaakt op w3school w3.css palettes)*/
-	/*Veranderd op line 5180 in bootstrap file*/
+  background-color: #6A8FA5;
+  /*25% Saturated = #6a8fa5, normal = #3498db(gemaakt op w3school w3.css palettes)*/
+  /*Veranderd op line 5180 in bootstrap file*/
 }
 
 #default_blue {
-	background-color: #428bca;
+  background-color: #428BCA;
 }
+
 #green {
-	background-color: #18bc9c;
+  background-color: #18BC9C;
 }
 
 #yellow {
-	background-color: #ab8e5a; /* normal = #f39c12*/
+  background-color: #AB8E5A; /* normal = #f39c12*/
 }
 
 #red {
-	background-color: #e74c3c;
+  background-color: #E74C3C;
 }
 
 #remove_background_color_insert_date_modal {
-	padding-top: 0;
-	padding-bottom: 15px;
-	background-color: rgba(86, 61, 124, 0);
-	border: none;
+  padding-top: 0;
+  padding-bottom: 15px;
+  background-color: rgba(86, 61, 124, 0);
+  border: none;
 }
 
 a.settings_link, a.settings_link:focus, a.settings_link:hover {
-	color: #2c3e50 !important;
+  color: #2C3E50 !important;
 }
 
 input.settings_modal {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 div#headingOne {
-	padding: 0;
+  padding: 0;
 }
 
 div#accordion {
-	margin: 5px 0 0;
+  margin: 5px 0 0;
 }
 
 img#prikbord_header {
-	width: 100%;
-	height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 div#prikbord_body {
-	padding-top: 0;
-	padding-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 #space_for_span_prikbord_input {
-	margin-left: 0;
-	float: left !important;
-	width: 435px;
+  margin-left: 0;
+  float: left !important;
+  width: 435px;
 }
 
 #space_for_span_prikbord_input ~ span {
-	position: relative;
-	top: 17px;
-	left: 8px;
+  position: relative;
+  top: 17px;
+  left: 8px;
 }
 
 hr.prikbord_message {
-	margin-top: 5px;
+  margin-top: 5px;
 }
 
 h4.prikbord_message {
-	margin-top: 10px;
-	text-align: center;
+  margin-top: 10px;
+  text-align: center;
 }
 
 nav#week {
-	float: right;
+  float: right;
 }
 
-nav>ul {
-	margin: 8px 0;
+nav > ul {
+  margin: 8px 0;
 }
 
 nav#dryers {
-	float: right;
+  float: right;
 }
 
 .hoverEffect:hover {
-	background-image: none !important;
-	background-color: #cbcdce !important;
+  background-image: none !important;
+  background-color: #CBCDCE !important;
   cursor: pointer;
   cursor: hand;
 }
 
-
 div.vertical-line {
-	width: 2px;
-	background-color: #585858;
-	height: 22px;
-	float: right;
-	position: relative;
-	top: 13px;
-	right: -3px;
-	margin: 0 10px;
+  width: 2px;
+  background-color: #585858;
+  height: 22px;
+  float: right;
+  position: relative;
+  top: 13px;
+  right: -3px;
+  margin: 0 10px;
 }
 
-div#wasruimte_all>nav:first-child>ul {
-	margin: 8px 0;
+div#wasruimte_all > nav:first-child > ul {
+  margin: 8px 0;
 }
 
 nav#under_wasruimte {
-	position: absolute;
-	left: 14px;
+  position: absolute;
+  left: 14px;
 }
 
-nav#under_wasruimte>ul {
-	margin: -2px 0 0;
+nav#under_wasruimte > ul {
+  margin: -2px 0 0;
 }
 
 nav#under_other_wasruimte {
-	position: absolute;
-	right: 14px;
+  position: absolute;
+  right: 14px;
 }
 
-nav#under_other_wasruimte>ul {
-	margin: -2px 0 0;
+nav#under_other_wasruimte > ul {
+  margin: -2px 0 0;
 }
 
 .shrink_glyph {
-	font-size: 0.85em;
+  font-size: 0.85em;
 }
 
 a#active_week {
-	background-color: #798d8f;
+  background-color: #798D8F;
 }
 
 a#available_week {
-	background-color: #313e4c;
+  background-color: #313E4C;
 }
 
 a#available_week:hover {
-	background-color: #1a242f;
+  background-color: #1A242F;
 }
 
 a#available_week:focus {
-	background-color: #1a242f;
+  background-color: #1A242F;
 }
 
 .dashboard_glyph {
-	margin-left: 3px;
+  margin-left: 3px;
 }
 
 #left_menu_header {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 /***** TABLE *****/
 .table {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
-
 
 /* Template-specific stuff
  *
@@ -488,26 +494,26 @@ a#available_week:focus {
 
 /* Account for fixed navbar */
 body {
-	padding-top: 70px;
-	padding-bottom: 30px;
+  padding-top: 70px;
+  padding-bottom: 30px;
 }
 
 body, .navbar-fixed-top, .navbar-fixed-bottom {
-	min-width: 970px;
+  min-width: 970px;
 }
 
 /* Don't let the lead text change font-size. */
 .lead {
-	font-size: 16px;
+  font-size: 16px;
 }
 
 /* Finesse the page header spacing */
 .page-header {
-	margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .page-header .lead {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 /* Non-responsive overrides
@@ -518,226 +524,225 @@ body, .navbar-fixed-top, .navbar-fixed-bottom {
 
 /* Reset the container */
 .container {
-	width: 970px;
-	max-width: none !important;
+  width: 970px;
+  max-width: none !important;
 }
 
 /* Demonstrate the grids */
 .col-xs-4 {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	background-color: #eee;
-	background-color: rgba(86, 61, 124, .15);
-	border: 1px solid #ddd;
-	border: 1px solid rgba(86, 61, 124, .2);
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #EEEEEE;
+  background-color: rgba(86, 61, 124, .15);
+  border: 1px solid #DDDDDD;
+  border: 1px solid rgba(86, 61, 124, .2);
 }
 
 .container .navbar-header, .container .navbar-collapse {
-	margin-right: 0;
-	margin-left: 0;
+  margin-right: 0;
+  margin-left: 0;
 }
 
 /* Always float the navbar header */
 .navbar-header {
-	float: left;
+  float: left;
 }
 
 /* Undo the collapsing navbar */
 .navbar-collapse {
-	display: block !important;
-	height: auto !important;
-	padding-bottom: 0;
-	overflow: visible !important;
-	visibility: visible !important;
+  display: block !important;
+  height: auto !important;
+  padding-bottom: 0;
+  overflow: visible !important;
+  visibility: visible !important;
 }
 
 .navbar-toggle {
-	display: none;
+  display: none;
 }
 
 .navbar-collapse {
-	border-top: 0;
+  border-top: 0;
 }
 
 .navbar-brand {
-	margin-left: -15px;
+  margin-left: -15px;
 }
 
 /* Always apply the floated nav */
 .navbar-nav {
-	float: left;
-	margin: 0;
+  float: left;
+  margin: 0;
 }
 
-.navbar-nav>li {
-	float: left;
+.navbar-nav > li {
+  float: left;
 }
 
-.navbar-nav>li>a {
-	padding: 15px;
+.navbar-nav > li > a {
+  padding: 15px;
 }
 
 /* Redeclare since we override the float above */
 .navbar-nav.navbar-right {
-	float: right;
+  float: right;
 }
 
 /* Undo custom dropdowns */
 .navbar .navbar-nav .open .dropdown-menu {
-	position: absolute;
-	float: left;
-	background-color: #fff;
-	border: 1px solid #ccc;
-	border: 1px solid rgba(0, 0, 0, .15);
-	border-width: 0 1px 1px;
-	border-radius: 0 0 4px 4px;
-	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  position: absolute;
+  float: left;
+  background-color: #FFFFFF;
+  border: 1px solid #CCCCCC;
+  border: 1px solid rgba(0, 0, 0, .15);
+  border-width: 0 1px 1px;
+  border-radius: 0 0 4px 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
 
-.navbar-default .navbar-nav .open .dropdown-menu>li>a {
-	color: #333;
+.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+  color: #333333;
 }
 
-.navbar .navbar-nav .open .dropdown-menu>li>a:hover, .navbar .navbar-nav .open .dropdown-menu>li>a:focus,
-	.navbar .navbar-nav .open .dropdown-menu>.active>a, .navbar .navbar-nav .open .dropdown-menu>.active>a:hover,
-	.navbar .navbar-nav .open .dropdown-menu>.active>a:focus {
-	color: #fff !important;
-	background-color: #428bca !important;
+.navbar .navbar-nav .open .dropdown-menu > li > a:hover, .navbar .navbar-nav .open .dropdown-menu > li > a:focus,
+.navbar .navbar-nav .open .dropdown-menu > .active > a, .navbar .navbar-nav .open .dropdown-menu > .active > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > .active > a:focus {
+  color: #FFFFFF !important;
+  background-color: #428BCA !important;
 }
 
-.navbar .navbar-nav .open .dropdown-menu>.disabled>a, .navbar .navbar-nav .open .dropdown-menu>.disabled>a:hover,
-	.navbar .navbar-nav .open .dropdown-menu>.disabled>a:focus {
-	color: #999 !important;
-	background-color: transparent !important;
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a, .navbar .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+.navbar .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+  color: #999999 !important;
+  background-color: transparent !important;
 }
 
 /* Undo form expansion */
 .navbar-form {
-	float: left;
-	width: auto;
-	padding-top: 0;
-	padding-bottom: 0;
-	margin-right: 0;
-	margin-left: 0;
-	border: 0;
-	-webkit-box-shadow: none;
-	box-shadow: none;
+  float: left;
+  width: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 /* Copy-pasted from forms.less since we mixin the .form-inline styles. */
 .navbar-form .form-group {
-	display: inline-block;
-	margin-bottom: 0;
-	vertical-align: middle;
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 
 .navbar-form .form-control {
-	display: inline-block;
-	width: auto;
-	vertical-align: middle;
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
 }
 
 .navbar-form .form-control-static {
-	display: inline-block;
+  display: inline-block;
 }
 
 .navbar-form .input-group {
-	display: inline-table;
-	vertical-align: middle;
+  display: inline-table;
+  vertical-align: middle;
 }
 
 .navbar-form .input-group .input-group-addon, .navbar-form .input-group .input-group-btn,
-	.navbar-form .input-group .form-control {
-	width: auto;
+.navbar-form .input-group .form-control {
+  width: auto;
 }
 
-.navbar-form .input-group>.form-control {
-	width: 100%;
+.navbar-form .input-group > .form-control {
+  width: 100%;
 }
 
 .navbar-form .control-label {
-	margin-bottom: 0;
-	vertical-align: middle;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 
 .navbar-form .radio, .navbar-form .checkbox {
-	display: inline-block;
-	margin-top: 0;
-	margin-bottom: 0;
-	vertical-align: middle;
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 
 .navbar-form .radio label, .navbar-form .checkbox label {
-	padding-left: 0;
+  padding-left: 0;
 }
 
-.navbar-form .radio input[type="radio"], .navbar-form .checkbox input[type="checkbox"]
-	{
-	position: relative;
-	margin-left: 0;
+.navbar-form .radio input[type="radio"], .navbar-form .checkbox input[type="checkbox"] {
+  position: relative;
+  margin-left: 0;
 }
 
 .navbar-form .has-feedback .form-control-feedback {
-	top: 0;
+  top: 0;
 }
 
 .label {
-	font-size: 80% !important;
+  font-size: 80% !important;
 }
+
 /* Undo inline form compaction on small screens */
 .form-inline .form-group {
-	display: inline-block;
-	margin-bottom: 0;
-	vertical-align: middle;
+  display: inline-block;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 
 .form-inline .form-control {
-	display: inline-block;
-	width: auto;
-	vertical-align: middle;
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
 }
 
 .form-inline .form-control-static {
-	display: inline-block;
+  display: inline-block;
 }
 
 .form-inline .input-group {
-	display: inline-table;
-	vertical-align: middle;
+  display: inline-table;
+  vertical-align: middle;
 }
 
 .form-inline .input-group .input-group-addon, .form-inline .input-group .input-group-btn,
-	.form-inline .input-group .form-control {
-	width: auto;
+.form-inline .input-group .form-control {
+  width: auto;
 }
 
-.form-inline .input-group>.form-control {
-	width: 100%;
+.form-inline .input-group > .form-control {
+  width: 100%;
 }
 
 .form-inline .control-label {
-	margin-bottom: 0;
-	vertical-align: middle;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 
 .form-inline .radio, .form-inline .checkbox {
-	display: inline-block;
-	margin-top: 0;
-	margin-bottom: 0;
-	vertical-align: middle;
+  display: inline-block;
+  margin-top: 0;
+  margin-bottom: 0;
+  vertical-align: middle;
 }
 
 .form-inline .radio label, .form-inline .checkbox label {
-	padding-left: 0;
+  padding-left: 0;
 }
 
-.form-inline .radio input[type="radio"], .form-inline .checkbox input[type="checkbox"]
-	{
-	position: relative;
-	margin-left: 0;
+.form-inline .radio input[type="radio"], .form-inline .checkbox input[type="checkbox"] {
+  position: relative;
+  margin-left: 0;
 }
 
 .form-inline .has-feedback .form-control-feedback {
-	top: 0;
+  top: 0;
 }
