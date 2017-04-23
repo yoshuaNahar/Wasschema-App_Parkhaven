@@ -27,7 +27,7 @@ public class AppointmentServiceTest {
 	public void setup() {
 		appointment = new Appointment();
 		appointment.setUserId("1");
-		appointment.setMachine("1");
+		appointment.setMachine("4");
 		appointment.setTime("12");
 		appointment.setDay("14");
 	}

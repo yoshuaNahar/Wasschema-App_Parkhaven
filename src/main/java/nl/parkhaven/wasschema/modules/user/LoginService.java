@@ -1,5 +1,6 @@
 package nl.parkhaven.wasschema.modules.user;
 
+import java.util.Arrays;
 import java.util.Map;
 import static java.util.Objects.isNull;
 
@@ -20,7 +21,8 @@ public class LoginService {
 	public static final String USER_WITH_HOUSENUMBER_ALREADY_EXISTS = "A user with this housenumber or email already exists.";
 	public static final String INCORRECT_SHARED_PASSWORD = "The shared password is incorrect. It is visible in the laundryroom.";
 	public static final String NO_USER_WITH_EMAIL = "No user found with this email address.";
-	private static final String SHARED_PASSWORD = "3024NH";
+	private static final String SHARED_PASSWORDS[]  = { "3024NH", "9999AH", "1234TZ" }; // These codes will be used to pair a user to a laundry room.
+	// Each user should log in with the shared password given by the admin.
 	public static final String NONEXISTENT_HOUSE_NUMBER = "The house number you entered is not valid, please add a correct house number.";
 
 	private UserDaoImpl userDao;
@@ -69,7 +71,7 @@ public class LoginService {
     }
 
 	public boolean checkSharedPasswordValid(String code) {
-		if (code.trim().equalsIgnoreCase(SHARED_PASSWORD)) {
+		if (Arrays.asList(SHARED_PASSWORDS).contains(code.trim().toUpperCase())) { // Contains uses equals
 			return true;
 		}
 		return false;

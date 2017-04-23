@@ -113,6 +113,10 @@ table {
   left: 5px;
 }
 
+#remember_laundry_room_sign {
+  float: right;
+  top: 5px;
+}
 /*
  * Main content
  */

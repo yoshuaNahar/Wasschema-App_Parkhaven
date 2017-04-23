@@ -24,12 +24,20 @@ public class Appointment {
 		}
 	}
 
+	public int getDay() {
+		return day;
+	}
+
 	public void setTime(String time) {
 		try {
 			this.time = Integer.parseInt(time);
 		} catch (NumberFormatException e) {
 			this.time = DEFAULT_VALUE;
 		}
+	}
+
+	public int getTime() {
+		return time;
 	}
 
 	public int getMachine() {

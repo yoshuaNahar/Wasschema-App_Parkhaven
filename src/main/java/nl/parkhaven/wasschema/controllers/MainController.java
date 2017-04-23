@@ -104,16 +104,16 @@ public class MainController {
 		}
 
 		int weekId = 0;
-		if (isNull(laundryRoom)) {
-			laundryRoom = 0;
-		}
+
 		if (nonNull(week) && week.equals("next")) {
 			weekId = 1;
 		}
 
 		// User checked remember my laundry room, so that their laundry room is displayed on login.
-		if (user.isRememberLaundryRoomChecked()) {
+		if (isNull(laundryRoom) && user.isRememberLaundryRoomChecked()) {
 			laundryRoom = Integer.valueOf(user.getSharedPassword());
+		} else if (isNull(laundryRoom)) {
+			laundryRoom = 0;
 		}
 
 		if (laundryRoom == 1) {
@@ -219,7 +219,7 @@ public class MainController {
 			session.setAttribute("wash_counter", new Gson().toJson(washCounter));
 			updateSchema();
 		} else {
-			model.addAttribute("errorMessage", AppointmentService.REMOVE_APPOINTMENT_FAILED);
+			errorMessage = AppointmentService.REMOVE_APPOINTMENT_FAILED;
 		}
 
 		return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + errorMessage;
