@@ -90,6 +90,11 @@ public class MainController {
 		 * This method, to refresh the bulletinBoard will only be called when a user logs in.
 		 */
 
+		// I need to put this here only because I have nothing in the code to deal with the weekly db event at 00:05 that removes values...
+		updateSchema();
+		times = schemaService.getTimes();
+		machines = schemaService.getWashingMachines();
+
 		// Based on your sharedPassword and the Remember Laundry Room, I will be able to automatically open the correct laundry room.
 		return "redirect:/index.010";
 	}

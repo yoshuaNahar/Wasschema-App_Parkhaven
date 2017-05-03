@@ -59,11 +59,12 @@ public class AppointmentService {
 
     private boolean appointmentInThePast(Appointment ap, int timeInThePast) {
         if (ap.getDay() <= 7) {
+
             LocalDateTime now = LocalDateTime.now();
             LocalTime timeNowPlus = now.toLocalTime().plusMinutes(timeInThePast);
             int currentDayOfTheWeek = now.getDayOfWeek().getValue();
 
-            if (currentDayOfTheWeek < ap.getDay()) {
+            if (ap.getDay() < currentDayOfTheWeek) {
                 return true; // cant remove app in the past.
             } else if (currentDayOfTheWeek == ap.getDay()) {
                 if (timeNowPlus.isAfter(TIMES_ARRAY[ap.getTime()])) {
