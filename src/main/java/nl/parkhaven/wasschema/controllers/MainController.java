@@ -76,6 +76,10 @@ public class MainController {
         totalWashCounter = metaData.getCounterSum("washcounter");
     }
 
+    // If the user is inactive for 15min his session will automatically expire.
+    // Doing anything on the main page will result into a redirect to the login page.
+    // I currently have not implemented a way to turn the message into an alert
+
     @GetMapping("/loggedin")
     public String loggedIn() {
         DatesStringMaker datesStringMaker = new DatesStringMaker();
@@ -85,7 +89,7 @@ public class MainController {
 
         bulletinBoardMessages = bulletinBoardService.getMessages();
         /* If the admin accepts a message I have no trigger code to call this method this method.
-		 * This method, to refresh the bulletinBoard will only be called when a user logs in.
+         * This method, to refresh the bulletinBoard will only be called when a user logs in.
 		 */
 
         // I need to put this here only because I have nothing in the code to deal with the weekly db event at 00:05 that removes values...
@@ -103,7 +107,7 @@ public class MainController {
                            Model model) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return "redirect:/";
+            return sessionExpired();
         }
 
         int weekId = 0;
@@ -115,7 +119,7 @@ public class MainController {
         // User checked remember my laundry room, so that their laundry room is displayed on login.
         if (laundryRoom == null && user.isRememberLaundryRoomChecked()) {
             laundryRoom = Integer.valueOf(user.getSharedPassword());
-        } else if (laundryRoom  == null) {
+        } else if (laundryRoom == null) {
             laundryRoom = 0;
         }
 
@@ -165,6 +169,9 @@ public class MainController {
                                  @RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
                                  @RequestParam("machinetype") String machineType) {
         User user = (User) session.getAttribute("user"); // Need this to couple the app to the user id
+        if (user == null) {
+            return sessionExpired();
+        }
         appointment.setUserId(user.getId());
 
         String washCounterJson = (String) session.getAttribute("wash_counter");
@@ -207,6 +214,9 @@ public class MainController {
                                     @RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
                                     @RequestParam("machinetype") String machineType, Model model) {
         User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return sessionExpired();
+        }
         appointment.setUserId(user.getId());
 
         String washCounterJson = (String) session.getAttribute("wash_counter");
@@ -251,7 +261,11 @@ public class MainController {
 
     @PostMapping(params = {"to_servlet=createMessage"})
     public String createBulletinBoardMessage(@ModelAttribute Message message, @RequestParam("week") String week,
-                                             @RequestParam("laundryRoom") Integer laundryRoom) {
+                                             @RequestParam("laundryRoom") Integer laundryRoom,
+                                             HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return sessionExpired();
+        }
         bulletinBoardService.addMessage(message);
         bulletinBoardMessages = bulletinBoardService.getMessages();
 
@@ -260,7 +274,11 @@ public class MainController {
 
     @PostMapping(params = {"to_servlet=removeMessage"})
     public String removeBulletinBoardMessage(Model model, @ModelAttribute Message message,
-                                             @RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom) {
+                                             @RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
+                                             HttpSession session) {
+        if (session.getAttribute("user") == null) {
+            return sessionExpired();
+        }
         bulletinBoardService.deactivateMessage(message);
         bulletinBoardMessages = bulletinBoardService.getMessages();
 
@@ -272,7 +290,10 @@ public class MainController {
     public String rememberLaundryRoom(@RequestParam(name = "rememberLaundryRoomChecked", required = false) boolean rememberLaundryRoomChecked, @RequestParam("week") String week,
                                       @RequestParam("laundryRoom") Integer laundryRoom, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        System.out.println(rememberLaundryRoomChecked);
+        if (user == null) {
+            return sessionExpired();
+        }
+
         user.setRememberLaundryRoomChecked(rememberLaundryRoomChecked);
         modifyUserService.changeRememberLaundryRoom(user);
 
@@ -283,6 +304,10 @@ public class MainController {
     public String changeUserPassword(@RequestParam("password") String password, @RequestParam("week") String week,
                                      @RequestParam("laundryRoom") Integer laundryRoom, HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return sessionExpired();
+        }
+
         user.setPassword(password);
         modifyUserService.changePassword(user);
 
@@ -299,7 +324,7 @@ public class MainController {
     }
 
     @PostMapping()
-    public String logout(HttpSession session) {
+    public String logout(HttpSession session, Model model) {
         session.invalidate();
         return "redirect:/";
     }
@@ -310,6 +335,10 @@ public class MainController {
             return "wash";
         }
         return "dry";
+    }
+
+    private String sessionExpired() {
+        return "redirect:/?session=expired";
     }
 
 }
