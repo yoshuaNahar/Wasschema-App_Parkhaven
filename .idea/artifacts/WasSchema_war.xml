@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="WasSchema:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="WasSchema.war">
-      <element id="artifact" artifact-name="WasSchema:war exploded" />
-    </root>
-  </artifact>
-</component>

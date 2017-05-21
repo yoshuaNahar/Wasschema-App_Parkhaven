@@ -106,16 +106,20 @@
                 </h4>
               </div>
 
-            <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+              <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                 <div class="panel-body">
                   <form id="rememberLaundryRoom" name="rememberLaundryRoom" action="index.010" method="post">
                     <p>Remember Laundry Room:
-                      <input id="remember_laundry_room_checkbox" type="checkbox" name="rememberLaundryRoomChecked" value='true' onchange="$('#rememberLaundryRoom').submit();" <c:if test="${sessionScope.user.rememberLaundryRoomChecked}">checked</c:if>>
-                      <span id="remember_laundry_room_sign" class="shrink_glyph glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="left"
-                              title="To show your laundry room when logging in."></span>
+                      <input id="remember_laundry_room_checkbox" type="checkbox" name="rememberLaundryRoomChecked"
+                             value='true' onchange="$('#rememberLaundryRoom').submit();"
+                             <c:if test="${sessionScope.user.rememberLaundryRoomChecked}">checked</c:if>>
+                      <span id="remember_laundry_room_sign" class="shrink_glyph glyphicon glyphicon-question-sign"
+                            data-toggle="tooltip" data-placement="left"
+                            title="To show your laundry room when logging in."></span>
                       <input name="to_servlet" value="rememberLaundryRoom" style="display: none;" required>
                       <input value="${requestScope.week}" name="week" type="text" style="display: none;"><input
-                        value="${requestScope.laundryRoom}" name="laundryRoom" type="number" style="display: none;">
+                              value="${requestScope.laundryRoom}" name="laundryRoom" type="number"
+                              style="display: none;">
                     </p>
                   </form>
                   <hr class="smaller_margin">
@@ -241,8 +245,8 @@
 
         <div id="overview">
           <h2 class="page-header">
-            Week
-            <small>${get_overview}</small>
+            Week ${get_weekNumber}
+            <small>/ ${get_weekRange}</small>
           </h2>
         </div>
 

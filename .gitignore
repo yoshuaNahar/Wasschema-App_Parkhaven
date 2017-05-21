@@ -1,8 +1,11 @@
 # Compiled files
 /target/
 
-# Eclipse files
-.settings/
-.classpath
-.project
+# IntelliJ files
+\.idea/
+*.iml
+
+# Other
 src/main/resources/production.properties
+
+rebel.xml

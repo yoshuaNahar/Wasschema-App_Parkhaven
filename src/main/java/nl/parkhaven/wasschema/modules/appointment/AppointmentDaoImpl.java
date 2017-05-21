@@ -18,8 +18,8 @@ public class AppointmentDaoImpl implements Crud<Appointment> {
     private static final String ADD_APPOINTMENT = "UPDATE wasschema SET gebruiker_id = ? WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
     private static final String REMOVE_APPOINTMENT = "UPDATE wasschema x SET gebruiker_id = NULL WHERE x.week_dag_tijd_id = ? AND x.wasmachine_id = ?;";
     private static final String CHECK_APPOINTMENT_IS_YOURS = "SELECT gebruiker_id FROM wasschema WHERE week_dag_tijd_id = ? AND wasmachine_id = ?;";
-
     private JdbcTemplate template;
+
     @Autowired
     AppointmentDaoImpl(JdbcTemplate template) {
         this.template = template;
@@ -35,7 +35,7 @@ public class AppointmentDaoImpl implements Crud<Appointment> {
     public Appointment read(Appointment ap) {
         try {
             return template.queryForObject(CHECK_FREE,
-                    new Object[] { ap.week_day_time_id(), ap.getMachine() }, new AppointmentRowMapper());
+                    new Object[] {ap.week_day_time_id(), ap.getMachine()}, new AppointmentRowMapper());
         } catch (EmptyResultDataAccessException e) {
             e.printStackTrace();
             return new Appointment();
@@ -44,13 +44,13 @@ public class AppointmentDaoImpl implements Crud<Appointment> {
 
     @Override
     public boolean update(Appointment ap) {
-        this.template.update(ADD_APPOINTMENT, new Object[] { ap.getUserId(), ap.week_day_time_id(), ap.getMachine() });
+        this.template.update(ADD_APPOINTMENT, ap.getUserId(), ap.week_day_time_id(), ap.getMachine());
         return true;
     }
 
     public Integer checkBeforeDelete(Appointment ap) {
         try {
-            return this.template.queryForObject(CHECK_APPOINTMENT_IS_YOURS, new Object[] { ap.week_day_time_id(), ap.getMachine() }, Integer.class);
+            return this.template.queryForObject(CHECK_APPOINTMENT_IS_YOURS, new Object[] {ap.week_day_time_id(), ap.getMachine()}, Integer.class);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
@@ -61,7 +61,7 @@ public class AppointmentDaoImpl implements Crud<Appointment> {
     public boolean delete(Appointment ap) {
         try {
             int rowsAffected = this.template.update(REMOVE_APPOINTMENT,
-                    new Object[] { ap.week_day_time_id(), ap.getMachine() });
+                    ap.week_day_time_id(), ap.getMachine());
             if (rowsAffected != 1) {
                 // if executeUpdate == 0, the wasmachine or time and date were
                 // incorrect or appointment was less than 30 min in the future
@@ -75,12 +75,15 @@ public class AppointmentDaoImpl implements Crud<Appointment> {
     }
 
     public static class AppointmentRowMapper implements RowMapper<Appointment> {
+
         @Override
         public Appointment mapRow(ResultSet rs, int rowNum) throws SQLException {
             Appointment ap = new Appointment();
             ap.setUserId(rs.getInt(1));
+
             return ap;
         }
+
     }
 
 }

@@ -8,71 +8,71 @@ import java.util.Map;
 
 public final class DatesStringMaker {
 
-	private static String[] overview = new String[2];
+    private static String[] weekRange = new String[2];
+    private static int[] weekNumber = new int[2];
+    private static Map<Long, String> dates = new HashMap<>();
 
-	private static Map<Long, String> dates = new HashMap<>();
+    public DatesStringMaker() {
+        setWeekRangeAndWeekNumber();
+        setDates();
+    }
 
-	public DatesStringMaker() {
-		makeOverview();
-		makeDates();
-	}
+    public String[] getWeekRange() {
+        return weekRange;
+    }
 
-	public String[] getOverview() {
-		return overview;
-	}
+    public int[] getWeekNumber() {
+        return weekNumber;
+    }
 
-	public Map<Long, String> getDates() {
-		return dates;
-	}
+    public Map<Long, String> getDates() {
+        return dates;
+    }
 
-	private void makeOverview() {
-		for (int i = 0; i < 14; i += 7) {
-			LocalDate date = LocalDate.now()
-					.plusDays(i);
+    private void setWeekRangeAndWeekNumber() {
+        for (int i = 0; i < 14; i += 7) {
+            LocalDate date = LocalDate.now().plusDays(i);
 
-			int dayOfTheWeek = date.getDayOfWeek()
-					.getValue();
+            int dayOfTheWeek = date.getDayOfWeek().getValue();
 
-			LocalDate firstDayOfTheWeek = date.minusDays(dayOfTheWeek - 1);
-			LocalDate lastDayOfTheWeek = firstDayOfTheWeek.plusDays(7);
+            LocalDate firstDayOfTheWeek = date.minusDays(dayOfTheWeek - 1);
+            LocalDate lastDayOfTheWeek = firstDayOfTheWeek.plusDays(7);
 
-			int weekOfTheYear = date.get(WeekFields.of(Locale.UK)
-					.weekOfWeekBasedYear());
+            int weekOfTheYear = date.get(WeekFields.of(Locale.UK).weekOfWeekBasedYear());
 
-			int firstDay = firstDayOfTheWeek.getDayOfMonth();
-			int firstDay_MonthOfTheYear = firstDayOfTheWeek.getMonthValue();
+            int firstDay = firstDayOfTheWeek.getDayOfMonth();
+            int firstDay_MonthOfTheYear = firstDayOfTheWeek.getMonthValue();
 
-			int lastDay = lastDayOfTheWeek.getDayOfMonth();
-			int lastDay_MonthOfTheYear = lastDayOfTheWeek.getMonthValue();
+            int lastDay = lastDayOfTheWeek.getDayOfMonth();
+            int lastDay_MonthOfTheYear = lastDayOfTheWeek.getMonthValue();
 
-			overview[i / 7] = weekOfTheYear + " / " + String.format("%02d", firstDay) + "-"
-					+ String.format("%02d", firstDay_MonthOfTheYear) + " Untill " + String.format("%02d", lastDay) + "-"
-					+ String.format("%02d", lastDay_MonthOfTheYear);
-		}
-	}
+            weekRange[i / 7] = String.format("%02d", firstDay) + "-"
+                    + String.format("%02d", firstDay_MonthOfTheYear) + " Untill " + String.format("%02d", lastDay) + "-"
+                    + String.format("%02d", lastDay_MonthOfTheYear);
 
-	private void makeDates() {
-		LocalDate date;
-		LocalDate firstDayOfTheWeek;
+            weekNumber[i / 7] = weekOfTheYear;
+        }
+    }
 
-		for (int i = 0; i < 14; i = i + 7) {
-			date = LocalDate.now()
-					.plusDays(i);
+    private void setDates() {
+        LocalDate date;
+        LocalDate firstDayOfTheWeek;
+        for (int i = 0; i < 14; i = i + 7) {
+            date = LocalDate.now().plusDays(i);
 
-			int dayOfTheWeek = date.getDayOfWeek()
-					.getValue();
+            int dayOfTheWeek = date.getDayOfWeek().getValue();
 
-			firstDayOfTheWeek = date.minusDays(dayOfTheWeek - 1);
+            firstDayOfTheWeek = date.minusDays(dayOfTheWeek - 1);
 
-			String[] daysOfTheWeek = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-			String[] monthOfTheYear = { "Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov",
-					"Dec" };
+            String[] daysOfTheWeek = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+            String[] monthOfTheYear = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov",
+                    "Dec"};
 
-			for (int j = 0; j < 7; j++) {
-				dates.put((long) j + i + 1, daysOfTheWeek[j] + " - " + firstDayOfTheWeek.plusDays(j)
-						.getDayOfMonth() + " " + monthOfTheYear[firstDayOfTheWeek.getMonthValue() - 1]);
-			}
-		}
-	}
+            for (int j = 0; j < 7; j++) {
+                dates.put((long) j + i + 1, daysOfTheWeek[j] + " - " + firstDayOfTheWeek.plusDays(j)
+                        .getDayOfMonth() + " " + monthOfTheYear[firstDayOfTheWeek.getMonthValue() - 1]);
+            }
+        }
+    }
 
 }
