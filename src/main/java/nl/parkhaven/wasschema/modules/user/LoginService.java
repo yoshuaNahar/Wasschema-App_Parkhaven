@@ -19,7 +19,7 @@ public class LoginService {
     // Each user should log in with the shared password given by the admin.
     public static final String NONEXISTENT_HOUSE_NUMBER = "The house number you entered is not valid, please add a correct house number.";
     private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
-    private static final String SHARED_PASSWORDS[] = {"3024NH", "9999AH", "1234TZ"}; // These codes will be used to pair a user to a laundry room.
+    private static final String SHARED_PASSWORDS[] = {"3024NH", "B101", "999999"}; // These codes will be used to pair a user to a laundry room.
     private UserDaoImpl userDao;
 
     @Autowired

@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import java.beans.PropertyVetoException;
 
 @Configuration
-@ComponentScan(basePackages = {"nl.parkhaven.wasschema.modules"})
+@ComponentScan(basePackages = "nl.parkhaven.wasschema.modules")
 @EnableTransactionManagement
 public class TestConfig {
 
@@ -23,7 +23,7 @@ public class TestConfig {
     // The reason I should have used an embedded db for testing is that I have no control over
     // my current db state. Even with Spring transactions.
     // This would have been handy if I wanted to add a user with a specific housenumber. I wouldnt
-    // have to worry about picking a housenumber in the thousands.
+    // have to worry about picking a housenumber that doesnt already exists.
     // or When adding an appointment... How do I add an appointment somewhere in a database that isnt clean?
 
     // Handy links :

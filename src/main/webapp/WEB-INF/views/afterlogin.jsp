@@ -144,11 +144,11 @@
               <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingTwo">
                 <div class="panel-body">
                   <c:if test="${requestScope.laundryRoom != 1 && requestScope.laundryRoom != 2 && requestScope.laundryRoom != 3}">
-                    <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a>
+                    <a class="settings_link" style="color: #CACACA; pointer-events: none; display: inline-block;"  href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a>
                     <hr class="smaller_margin">
                     <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=2">Laundry room B</a>
                     <hr class="smaller_margin">
-                    <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
+                    <a class="settings_link" style="color: #CACACA; pointer-events: none; display: inline-block;"  href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
                   </c:if>
                   <c:if test="${requestScope.laundryRoom == 1}">
                     <a class="settings_link">Laundry room A <span class="label" id="default_blue">(Current)</span></a>
@@ -158,11 +158,11 @@
                     <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
                   </c:if>
                   <c:if test="${requestScope.laundryRoom == 2}">
-                    <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a>
+                    <a class="settings_link" style="color: #CACACA; pointer-events: none; display: inline-block;"  href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a>
                     <hr class="smaller_margin"></hr>
                     <a class="settings_link">Laundry room B <span class="label" id="default_blue">(Current)</span></a>
                     <hr class="smaller_margin"></hr>
-                    <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
+                    <a class="settings_link" style="color: #CACACA; pointer-events: none; display: inline-block;"  href="?week=${requestScope.week}&laundryRoom=3">Laundry room C</a>
                   </c:if>
                   <c:if test="${requestScope.laundryRoom == 3}">
                     <a class="settings_link" href="?week=${requestScope.week}&laundryRoom=1">Laundry room A</a>

@@ -108,7 +108,7 @@ public class LoginServiceTest {
 
     @Test
     public void testSharedPasswordValid() {
-        user.setSharedPassword("9999AH");
+        user.setSharedPassword("B101");
         boolean sharedPasswordValid = loginService.sharedPasswordValid(user);
 
         assertThat(sharedPasswordValid, is(true));

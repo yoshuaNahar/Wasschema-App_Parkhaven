@@ -11,6 +11,7 @@ import java.util.Map;
 @Service
 public class BulletinBoardService {
 
+    public static final String MESSAGE_CREATED = "Your message was created and send to the admin.";
     private BulletinBoardDaoImpl bulletinBoardDao;
     private Map<Long, Message> messages;
 

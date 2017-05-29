@@ -123,6 +123,10 @@ public class MainController {
             laundryRoom = 0;
         }
 
+        if (laundryRoom == 1 || laundryRoom == 3) {
+            return "redirect:/index.010";  // This part is only to disable anyone from going to the first and the third wash room for now
+        }
+
         if (laundryRoom == 1) {
             model.addAttribute("huis_nummer1", housenumbersMachine1[weekId]);
             model.addAttribute("huis_nummer2", housenumbersMachine2[weekId]);
@@ -269,7 +273,7 @@ public class MainController {
         bulletinBoardService.addMessage(message);
         bulletinBoardMessages = bulletinBoardService.getMessages();
 
-        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
+        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + bulletinBoardService.MESSAGE_CREATED;
     }
 
     @PostMapping(params = {"to_servlet=removeMessage"})
@@ -297,7 +301,12 @@ public class MainController {
         user.setRememberLaundryRoomChecked(rememberLaundryRoomChecked);
         modifyUserService.changeRememberLaundryRoom(user);
 
-        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
+        String message = null;
+        if (rememberLaundryRoomChecked) {
+            message = modifyUserService.LAUNDRY_ROOM_REMEMBERED;
+        }
+
+        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + message;
     }
 
     @PostMapping(params = {"to_servlet=changePassword"})
@@ -311,7 +320,7 @@ public class MainController {
         user.setPassword(password);
         modifyUserService.changePassword(user);
 
-        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom;
+        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message=" + modifyUserService.PASSWORD_CHANGED;
     }
 
     @PostMapping(params = {"to_servlet=deleteAccount"})

@@ -8,6 +8,8 @@ import java.util.Map;
 @Service
 public class ModifyUserService {
 
+    public static final String PASSWORD_CHANGED = "You can now login with your new password.";
+    public static final String LAUNDRY_ROOM_REMEMBERED = "Your appointed laundry room will automatically be shown when logging in.";
     private UserDaoImpl userDao;
 
     @Autowired

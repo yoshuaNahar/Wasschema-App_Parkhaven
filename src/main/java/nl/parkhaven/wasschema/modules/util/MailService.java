@@ -40,8 +40,9 @@ public class MailService {
         session.setDebug(false);
 
         LocalDateTime now = LocalDateTime.now();
+        Duration tenSecondsToMakeSureInNextMinute = Duration.ofSeconds(10); // Sometimes I get 16:59:59 seconds, which will become 16:59 which I dont want.
         Duration threeHours = Duration.ofHours(3);
-        LocalDateTime afterThreeHours = now.plus(threeHours);
+        LocalDateTime afterThreeHours = now.plus(threeHours).plus(tenSecondsToMakeSureInNextMinute);
 
         try {
             Message message = new MimeMessage(session);
@@ -50,11 +51,13 @@ public class MailService {
             message.setSubject("Parkhaven WasSchema - Reminder");
             message.setContent("<body> "
                             + "<h2>Parkhaven WasSchema</h2>" + "<hr></hr>"
-                            + "<h4>This mail is to remind you that you have a laundry appointment at. " + TIME_FORMATTER_WITHOUT_SECONDS.format(afterThreeHours) + "</h4>"
+                            + "<h4>This mail is to remind you that you have a laundry appointment at " + TIME_FORMATTER_WITHOUT_SECONDS.format(afterThreeHours) + "</h4>"
                             + "Laundry room: " + user.getPassword().charAt(0) + ", laundry machine: " + user.getPassword() + ".</h4>"
+                            + "<br>"
+                            + "<p>Are you not planning to use the laundry machine? You can remove your appointment till 15 min before the actual time.</p>"
                             + "<p>Kind regards!</p>"
                             + "<p>Date: " + DATE_FORMATTER.format(now)
-                            + "<br>Time: " + TIME_FORMATTER.format(now)
+                            + "<br>Time: " + TIME_FORMATTER_WITHOUT_SECONDS.format(now)
                             + "<p>========================</p>"
                             + "<p>This is an automatically generated email. Please do not send a reply.</p>"
                             + "</body>",
@@ -82,6 +85,7 @@ public class MailService {
                             + "<h2>Parkhaven WasSchema</h2>" + "<hr></hr>"
                             + "<p>You have just requested a new password.</p>"
                             + "<h4>Your new password is: " + user.getPassword() + "<h4>"
+                            + "<br>"
                             + "<p>Kind regards!</p>"
                             + "<p>Date: " + DATE_FORMATTER.format(now)
                             + "<br>Time: " + TIME_FORMATTER.format(now)

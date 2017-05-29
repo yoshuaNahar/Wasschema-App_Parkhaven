@@ -16,7 +16,8 @@ public class EmailDao {
     private static final String GET_USERS_EMAIL_WASMACHINE_TIME = "SELECT c.email, d.name FROM wasschema x " // , b.tijd_default (the actual time)
             + "LEFT JOIN week_dag_tijd a ON x.week_dag_tijd_id = a.id LEFT JOIN tijd b ON a.tijd_id = b.id "
             + "LEFT JOIN gebruiker c ON c.id = x.gebruiker_id LEFT JOIN wasmachine d ON d.id = x.wasmachine_id WHERE x.week_dag_tijd_id < 92 "
-            + "AND NOW() + INTERVAL 1 HOUR < tijd_default AND WEEKDAY(NOW()) + 1 = a.dag_id "
+            + "AND TIME(NOW() + INTERVAL 3 HOUR) BETWEEN TIME(tijd_default - INTERVAL 5 MINUTE) AND TIME(tijd_default + INTERVAL 5 MINUTE) "
+            + "AND WEEKDAY(NOW()) + 1 = a.dag_id "
             + "ORDER BY week_dag_tijd_id LIMIT 12;";
 
     private JdbcTemplate template;
