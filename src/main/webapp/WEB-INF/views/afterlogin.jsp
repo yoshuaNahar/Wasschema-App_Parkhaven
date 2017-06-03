@@ -383,7 +383,7 @@
                       </div>
                     </c:if>
                     <c:if test='${empty huis_nummer2[i]}'>
-                      <div data-machine="2" class="progress-bar progress-bar-default" style="width:50%"></div>
+                      <div data-machine="2" class="progress-bar progress-bar-default"></div> <!--style="width:50%"-->
                     </c:if>
                   </div>
                 </td>
@@ -736,7 +736,7 @@
                     </c:if>
 
                     <c:if test='${not empty huis_nummer4[i]}'>
-                      <div data-machine="4" class="progress-bar progress-bar-default">
+                      <div data-machine="4" class="progress-bar progress-bar-danger">
                         <span class="coverProgressNumber">${huis_nummer4[i]}</span>
                       </div>
                     </c:if>
@@ -1053,7 +1053,7 @@
           <button class="btn btn-primary" type="submit">
             Accept <span class="shrink_glyph glyphicon glyphicon-ok"></span>
           </button>
-          <button class="btn btn-default" type="button" onclick="hideBlueBlackground()" data-dismiss="modal">
+          <button class="btn btn-default" type="button" onclick="hideBlueBackground()" data-dismiss="modal">
             Cancel <span class="shrink_glyph glyphicon glyphicon-remove"></span>
           </button>
         </div>
@@ -1088,7 +1088,7 @@
           <button class="btn btn-primary" type="submit">
             Accept <span class="shrink_glyph glyphicon glyphicon-ok"></span>
           </button>
-          <button class="btn btn-default" type="button" onclick="hideBlueBlackground()" data-dismiss="modal">
+          <button class="btn btn-default" type="button" onclick="hideBlueBackground()" data-dismiss="modal">
             Cancel <span class="shrink_glyph glyphicon glyphicon-remove"></span>
           </button>
         </div>
@@ -1475,7 +1475,7 @@
         });
     });
 
-    function hideBlueBlackground() {
+    function hideBlueBackground() {
         $("#blue_background").css("display", "none");
     };
 

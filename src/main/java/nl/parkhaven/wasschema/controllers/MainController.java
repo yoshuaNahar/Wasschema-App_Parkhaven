@@ -301,7 +301,7 @@ public class MainController {
         user.setRememberLaundryRoomChecked(rememberLaundryRoomChecked);
         modifyUserService.changeRememberLaundryRoom(user);
 
-        String message = null;
+        String message = "";
         if (rememberLaundryRoomChecked) {
             message = modifyUserService.LAUNDRY_ROOM_REMEMBERED;
         }
