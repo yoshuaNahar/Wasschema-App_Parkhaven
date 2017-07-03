@@ -2,68 +2,68 @@ package nl.parkhaven.wasschema.modules.bulletinboard;
 
 public class Message {
 
-    private int id;
-    private int userId;
-    private String userEmail;
-    private String titleInput;
-    private String bodyInput;
-    private String titleOutput;
-    private String bodyOutput;
+  private int id;
+  private int userId;
+  private String userEmail;
+  private String titleInput;
+  private String bodyInput;
+  private String titleOutput;
+  private String bodyOutput;
 
-    public int getId() {
-        return id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public int getUserId() {
-        return userId;
-    }
+  public int getUserId() {
+    return userId;
+  }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
+  public String getUserEmail() {
+    return userEmail;
+  }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
+  public void setUserEmail(String userEmail) {
+    this.userEmail = userEmail;
+  }
 
-    public String getTitleInput() {
-        return titleInput;
-    }
+  public String getTitleInput() {
+    return titleInput;
+  }
 
-    public void setTitleInput(String titleInput) {
-        this.titleInput = titleInput;
-    }
+  public void setTitleInput(String titleInput) {
+    this.titleInput = titleInput;
+  }
 
-    public String getBodyInput() {
-        return bodyInput;
-    }
+  public String getBodyInput() {
+    return bodyInput;
+  }
 
-    public void setBodyInput(String bodyInput) {
-        this.bodyInput = bodyInput;
-    }
+  public void setBodyInput(String bodyInput) {
+    this.bodyInput = bodyInput;
+  }
 
-    public String getTitleOutput() {
-        return titleOutput;
-    }
+  public String getTitleOutput() {
+    return titleOutput;
+  }
 
-    public void setTitleOutput(String titleOutput) {
-        this.titleOutput = titleOutput;
-    }
+  public void setTitleOutput(String titleOutput) {
+    this.titleOutput = titleOutput;
+  }
 
-    public String getBodyOutput() {
-        return bodyOutput;
-    }
+  public String getBodyOutput() {
+    return bodyOutput;
+  }
 
-    public void setBodyOutput(String bodyOutput) {
-        this.bodyOutput = bodyOutput;
-    }
+  public void setBodyOutput(String bodyOutput) {
+    this.bodyOutput = bodyOutput;
+  }
 
 }
