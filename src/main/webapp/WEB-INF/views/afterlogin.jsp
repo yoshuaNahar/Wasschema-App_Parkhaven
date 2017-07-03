@@ -978,12 +978,12 @@
                       <div data-machine="3" class="progress-bar progress-bar-default"></div>
                     </c:if>
 
-                    <c:if test='${not empty huis_nummer2[i]}'>
+                    <c:if test='${not empty huis_nummer4[i]}'>
                       <div data-machine="4" class="progress-bar progress-bar-danger">
-                        <span class="coverProgressNumber">${huis_nummer2[i]}</span>
+                        <span class="coverProgressNumber">${huis_nummer4[i]}</span>
                       </div>
                     </c:if>
-                    <c:if test='${empty huis_nummer2[i]}'>
+                    <c:if test='${empty huis_nummer4[i]}'>
                       <div data-machine="4" class="progress-bar progress-bar-default"></div>
                     </c:if>
                   </div>

@@ -8,7 +8,6 @@ import nl.parkhaven.wasschema.modules.bulletinboard.BulletinBoardService;
 import nl.parkhaven.wasschema.modules.bulletinboard.Message;
 import nl.parkhaven.wasschema.modules.misc.MetaDataDao;
 import nl.parkhaven.wasschema.modules.schema.SchemaService;
-import nl.parkhaven.wasschema.modules.user.LoginService;
 import nl.parkhaven.wasschema.modules.user.ModifyUserService;
 import nl.parkhaven.wasschema.modules.user.User;
 import nl.parkhaven.wasschema.modules.util.DatesStringMaker;
@@ -31,7 +30,6 @@ public class MainController {
     private BulletinBoardService bulletinBoardService;
     private SchemaService schemaService;
     private MetaDataDao metaData;
-    private LoginService loginService;
 
     private int hitCounter;
     private int totalWashCounter;
@@ -60,13 +58,12 @@ public class MainController {
 
     @Autowired
     public MainController(AppointmentService appointmentService, ModifyUserService modifyUserService,
-                          BulletinBoardService bulletinBoardService, SchemaService schemaService, MetaDataDao miscDbOperations, LoginService loginService) {
+                          BulletinBoardService bulletinBoardService, SchemaService schemaService, MetaDataDao miscDbOperations) {
         this.appointmentService = appointmentService;
         this.modifyUserService = modifyUserService;
         this.bulletinBoardService = bulletinBoardService;
         this.schemaService = schemaService;
         this.metaData = miscDbOperations;
-        this.loginService = loginService;
 
         updateSchema();
         times = schemaService.getTimes();
