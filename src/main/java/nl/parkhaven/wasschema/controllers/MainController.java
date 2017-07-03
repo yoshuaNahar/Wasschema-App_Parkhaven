@@ -3,6 +3,7 @@ package nl.parkhaven.wasschema.controllers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Map;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
@@ -28,21 +29,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/index.010")
 public class MainController {
 
+  // TODO: Remove after 24 juli. Used to check these laundryMachines to not place app
+  private static int[] laundryMachinesWhereAppointmentMusntBeMade = new int[] {1, 2, 3, 4, 9, 10,
+      11, 12};
   private AppointmentService appointmentService;
   private ModifyUserService modifyUserService;
   private BulletinBoardService bulletinBoardService;
   private SchemaService schemaService;
   private MetaDataDao metaData;
-
   private int hitCounter;
   private int totalWashCounter;
-
   private Map<Long, String> times;
   private Map<Long, String> machines;
   private Map<Long, Message> bulletinBoardMessages;
-
   private Map<Long, String> dates;
-
   private String[][] housenumbersMachine1;
   private String[][] housenumbersMachine2;
   private String[][] housenumbersMachine3;
@@ -55,9 +55,12 @@ public class MainController {
   private String[][] housenumbersMachine10;
   private String[][] housenumbersMachine11;
   private String[][] housenumbersMachine12;
-
   private String[] weekRange;
   private int[] weekNumber;
+
+  // If the user is inactive for 15min his session will automatically expire.
+  // Doing anything on the main page will result into a redirect to the login page.
+  // I currently have not implemented a way to turn the message into an alert
 
   @Autowired
   public MainController(AppointmentService appointmentService, ModifyUserService modifyUserService,
@@ -76,10 +79,6 @@ public class MainController {
     hitCounter = metaData.getCounterSum("hitcounter");
     totalWashCounter = metaData.getCounterSum("washcounter");
   }
-
-  // If the user is inactive for 15min his session will automatically expire.
-  // Doing anything on the main page will result into a redirect to the login page.
-  // I currently have not implemented a way to turn the message into an alert
 
   @GetMapping("/loggedin")
   public String loggedIn() {
@@ -123,11 +122,6 @@ public class MainController {
       laundryRoom = Integer.valueOf(user.getSharedPassword());
     } else if (laundryRoom == null) {
       laundryRoom = 0;
-    }
-
-    // TODO remove this here
-    if (laundryRoom == 1 || laundryRoom == 3) {
-      return "redirect:/index.010";  // This part is only to disable anyone from going to the first and the third wash room for now
     }
 
     if (laundryRoom == 1) {
@@ -175,6 +169,15 @@ public class MainController {
   public String addAppointment(@ModelAttribute Appointment appointment, HttpSession session,
       @RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
       @RequestParam("machinetype") String machineType) {
+    // TODO: remove after 24 juli (when people can make an appointment)
+    System.out.println(appointment.getMachine());
+    System.out.println(laundryRoom);
+    if (laundryRoom == 1 || laundryRoom == 3 || Arrays
+        .asList(laundryMachinesWhereAppointmentMusntBeMade).contains(appointment.getMachine())) {
+      return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message="
+          + "As mentioned in the mail, creating an appointment is only allowed after juli 24.";
+    }
+
     User user = (User) session.getAttribute("user"); // Need this to couple the app to the user id
     if (user == null) {
       return sessionExpired();
@@ -282,7 +285,7 @@ public class MainController {
     bulletinBoardMessages = bulletinBoardService.getMessages();
 
     return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message="
-        + bulletinBoardService.MESSAGE_CREATED;
+        + BulletinBoardService.MESSAGE_CREATED;
   }
 
   @PostMapping(params = {"to_servlet=removeMessage"})
@@ -314,7 +317,7 @@ public class MainController {
 
     String message = "";
     if (rememberLaundryRoomChecked) {
-      message = modifyUserService.LAUNDRY_ROOM_REMEMBERED;
+      message = ModifyUserService.LAUNDRY_ROOM_REMEMBERED;
     }
 
     return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message="
@@ -334,7 +337,7 @@ public class MainController {
     modifyUserService.changePassword(user);
 
     return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message="
-        + modifyUserService.PASSWORD_CHANGED;
+        + ModifyUserService.PASSWORD_CHANGED;
   }
 
   @PostMapping(params = {"to_servlet=deleteAccount"})
