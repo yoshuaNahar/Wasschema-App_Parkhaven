@@ -1,6 +1,6 @@
 #### Laundry Schedule for Parkhaven
 
-A hobby project to learn Java EE.
+A hobby project to learn ~~Java EE~~ Spring.
 
 Tools used:
 * Backend - SpringMVC ~~Servlets~~ & JSP
