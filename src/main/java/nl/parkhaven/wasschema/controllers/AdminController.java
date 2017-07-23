@@ -4,6 +4,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import nl.parkhaven.wasschema.modules.bulletinboard.BulletinBoardService;
 import nl.parkhaven.wasschema.modules.bulletinboard.Message;
+import nl.parkhaven.wasschema.modules.schema.SchemaService;
 import nl.parkhaven.wasschema.modules.user.ModifyUserService;
 import nl.parkhaven.wasschema.modules.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +22,14 @@ public class AdminController {
 
   private ModifyUserService modifyUserService;
   private BulletinBoardService bulletinBoardService;
-
-  private Map<Long, Message> bulletinBoardMessages;
+  private SchemaService schemaService;
 
   @Autowired
   public AdminController(ModifyUserService modifyUserService,
-      BulletinBoardService bulletinBoardService) {
+      BulletinBoardService bulletinBoardService, SchemaService schemaService) {
     this.modifyUserService = modifyUserService;
     this.bulletinBoardService = bulletinBoardService;
+    this.schemaService = schemaService;
   }
 
   @GetMapping
@@ -36,7 +37,7 @@ public class AdminController {
     if (session.getAttribute("user") == null) {
       return "redirect:/";
     }
-    bulletinBoardMessages = bulletinBoardService.getPendingMessages();
+    Map<Long, Message> bulletinBoardMessages = bulletinBoardService.getPendingMessages();
     model.addAttribute("prikbord_messages", bulletinBoardMessages);
     return "admin";
   }
@@ -50,6 +51,12 @@ public class AdminController {
       bulletinBoardService.deactivateMessage(message);
     }
     return "redirect:/admin.010";
+  }
+
+  @PostMapping(params = {"to_servlet=getAllMachines"})
+  public String showAllMachines(Model model) {
+    model.addAttribute("machines", schemaService.getWashingMachines());
+    return "admin";
   }
 
   @PostMapping(params = {"to_servlet=getAllUsers"})

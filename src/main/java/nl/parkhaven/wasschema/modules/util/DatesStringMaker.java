@@ -47,7 +47,7 @@ public final class DatesStringMaker {
       int lastDay_MonthOfTheYear = lastDayOfTheWeek.getMonthValue();
 
       weekRange[i / 7] = String.format("%02d", firstDay) + "-"
-          + String.format("%02d", firstDay_MonthOfTheYear) + " Untill " + String
+          + String.format("%02d", firstDay_MonthOfTheYear) + " Until " + String
           .format("%02d", lastDay) + "-"
           + String.format("%02d", lastDay_MonthOfTheYear);
 

@@ -3,6 +3,7 @@ package nl.parkhaven.wasschema.controllers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Map;
 import javax.annotation.PreDestroy;
@@ -172,10 +173,12 @@ public class MainController {
     // TODO: remove after 24 juli (when people can make an appointment)
     System.out.println(appointment.getMachine());
     System.out.println(laundryRoom);
-    if (laundryRoom == 1 || laundryRoom == 3 || Arrays
-        .asList(laundryMachinesWhereAppointmentMusntBeMade).contains(appointment.getMachine())) {
-      return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message="
-          + "As mentioned in the mail, creating an appointment is only allowed after juli 24.";
+    if (LocalDate.now().isAfter(LocalDate.of(2017, 7, 23))) {
+      if (laundryRoom == 1 || laundryRoom == 3 || Arrays
+          .asList(laundryMachinesWhereAppointmentMusntBeMade).contains(appointment.getMachine())) {
+        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message="
+            + "As mentioned in the mail, creating an appointment is only allowed after juli 23.";
+      }
     }
 
     User user = (User) session.getAttribute("user"); // Need this to couple the app to the user id
