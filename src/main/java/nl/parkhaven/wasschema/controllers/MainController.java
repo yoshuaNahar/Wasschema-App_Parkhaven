@@ -3,9 +3,11 @@ package nl.parkhaven.wasschema.controllers;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import javax.annotation.PreDestroy;
 import javax.servlet.http.HttpSession;
 import nl.parkhaven.wasschema.modules.appointment.Appointment;
@@ -30,9 +32,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping(value = "/index.010")
 public class MainController {
 
-  // TODO: Remove after 24 juli. Used to check these laundryMachines to not place app
-  private static int[] laundryMachinesWhereAppointmentMusntBeMade = new int[] {1, 2, 3, 4, 9, 10,
-      11, 12};
   private AppointmentService appointmentService;
   private ModifyUserService modifyUserService;
   private BulletinBoardService bulletinBoardService;
@@ -41,6 +40,7 @@ public class MainController {
   private int hitCounter;
   private int totalWashCounter;
   private Map<Long, String> times;
+  private Map<Long, String> dryerTimes; // hacky af
   private Map<Long, String> machines;
   private Map<Long, Message> bulletinBoardMessages;
   private Map<Long, String> dates;
@@ -75,6 +75,7 @@ public class MainController {
 
     updateSchema();
     times = schemaService.getTimes();
+    dryerTimes = getTimesPlus1AndAHalfHour(times);
     machines = schemaService.getWashingMachines();
 
     hitCounter = metaData.getCounterSum("hitcounter");
@@ -89,13 +90,14 @@ public class MainController {
     weekNumber = datesStringMaker.getWeekNumber();
 
     bulletinBoardMessages = bulletinBoardService.getMessages();
-        /* If the admin accepts a message I have no trigger code to call this method this method.
-         * This method, to refresh the bulletinBoard will only be called when a user logs in.
+    /* If the admin accepts a message I have no trigger code to call
+     * this method. Refresh the bulletinBoard will only be called when a user logs in again.
 		 */
 
     // I need to put this here only because I have nothing in the code to deal with the weekly db event at 00:05 that removes values...
     updateSchema();
     times = schemaService.getTimes();
+    dryerTimes = getTimesPlus1AndAHalfHour(times);
     machines = schemaService.getWashingMachines();
 
     // Based on your sharedPassword and the Remember Laundry Room, I will be able to automatically open the correct laundry room.
@@ -143,6 +145,7 @@ public class MainController {
     }
 
     model.addAttribute("time", times);
+    model.addAttribute("dryerTime", dryerTimes);
     model.addAttribute("date", dates);
     model.addAttribute("wasmachine", machines);
     model.addAttribute("prikbord_messages", bulletinBoardMessages);
@@ -160,6 +163,15 @@ public class MainController {
     return "afterlogin";
   }
 
+  private Map<Long, String> getTimesPlus1AndAHalfHour(Map<Long, String> times) {
+    Map<Long, String> dryerTimes = new HashMap<>();
+    for (Entry<Long, String> entry : times.entrySet()) {
+      dryerTimes.put(entry.getKey(),
+          LocalTime.parse(entry.getValue()).plus(90, ChronoUnit.MINUTES).toString());
+    }
+    return dryerTimes;
+  }
+
   @PreDestroy
   public void destroy() {
     metaData.insertCounter(hitCounter, "hitcounter");
@@ -170,17 +182,6 @@ public class MainController {
   public String addAppointment(@ModelAttribute Appointment appointment, HttpSession session,
       @RequestParam("week") String week, @RequestParam("laundryRoom") Integer laundryRoom,
       @RequestParam("machinetype") String machineType) {
-    // TODO: remove after 24 juli (when people can make an appointment)
-    System.out.println(appointment.getMachine());
-    System.out.println(laundryRoom);
-    if (LocalDate.now().isAfter(LocalDate.of(2017, 7, 23))) {
-      if (laundryRoom == 1 || laundryRoom == 3 || Arrays
-          .asList(laundryMachinesWhereAppointmentMusntBeMade).contains(appointment.getMachine())) {
-        return "redirect:/index.010?week=" + week + "&laundryRoom=" + laundryRoom + "&message="
-            + "As mentioned in the mail, creating an appointment is only allowed after juli 23.";
-      }
-    }
-
     User user = (User) session.getAttribute("user"); // Need this to couple the app to the user id
     if (user == null) {
       return sessionExpired();

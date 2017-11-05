@@ -782,7 +782,7 @@
             <tbody data-machineType="dry">
 
             <tr>
-              <td><c:out value="${time[0]}"></c:out></td>
+              <td><c:out value="${dryerTime[0]}"></c:out></td>
               <c:forEach var="i" begin="0" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -813,7 +813,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[1]}"></c:out></td>
+              <td><c:out value="${dryerTime[1]}"></c:out></td>
               <c:forEach var="i" begin="1" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -844,7 +844,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[2]}"></c:out></td>
+              <td><c:out value="${dryerTime[2]}"></c:out></td>
               <c:forEach var="i" begin="2" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -875,7 +875,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[3]}"></c:out></td>
+              <td><c:out value="${dryerTime[3]}"></c:out></td>
               <c:forEach var="i" begin="3" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -906,7 +906,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[4]}"></c:out></td>
+              <td><c:out value="${dryerTime[4]}"></c:out></td>
               <c:forEach var="i" begin="4" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -937,7 +937,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[5]}"></c:out></td>
+              <td><c:out value="${dryerTime[5]}"></c:out></td>
               <c:forEach var="i" begin="5" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -968,7 +968,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[6]}"></c:out></td>
+              <td><c:out value="${dryerTime[6]}"></c:out></td>
               <c:forEach var="i" begin="6" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -999,7 +999,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[7]}"></c:out></td>
+              <td><c:out value="${dryerTime[7]}"></c:out></td>
               <c:forEach var="i" begin="7" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -1030,7 +1030,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[8]}"></c:out></td>
+              <td><c:out value="${dryerTime[8]}"></c:out></td>
               <c:forEach var="i" begin="8" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -1061,7 +1061,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[9]}"></c:out></td>
+              <td><c:out value="${dryerTime[9]}"></c:out></td>
               <c:forEach var="i" begin="9" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -1092,7 +1092,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[10]}"></c:out></td>
+              <td><c:out value="${dryerTime[10]}"></c:out></td>
               <c:forEach var="i" begin="10" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -1123,7 +1123,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[11]}"></c:out></td>
+              <td><c:out value="${dryerTime[11]}"></c:out></td>
               <c:forEach var="i" begin="11" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
@@ -1154,7 +1154,7 @@
             </tr>
 
             <tr>
-              <td><c:out value="${time[12]}"></c:out></td>
+              <td><c:out value="${dryerTime[12]}"></c:out></td>
               <c:forEach var="i" begin="12" end="90" step="13" varStatus="loop">
                 <td>
                   <div data-id="${i}" class="progress">
