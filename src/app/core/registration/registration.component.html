@@ -1,0 +1,80 @@
+<main>
+  <mat-card class="form-container">
+    <mat-card-header>
+      <a routerLink="/login">
+        <img id="logo"
+             mat-card-image
+             src="../../../assets/parkhaven-logo.png"
+             alt="Logo">
+      </a>
+    </mat-card-header>
+
+    <form [formGroup]="registrationForm"
+          (ngSubmit)="onFormSubmit();">
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput placeholder="First Name"
+                 formControlName="firstName">
+          <!--<mat-error-->
+          <!--*ngIf="registrationForm.controls.firstName.errors?.required">-->
+          <!--Please enter your first name.-->
+          <!--</mat-error>-->
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput
+                 placeholder="Last Name"
+                 formControlName="lastName">
+          <!--<mat-error-->
+          <!--*ngIf="registrationForm.controls.lastName.errors?.required">-->
+          <!--Please enter your last name.-->
+          <!--</mat-error>-->
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput
+                 placeholder="Email"
+                 formControlName="email"
+                 type="email">
+          <!--<mat-error-->
+          <!--*ngIf="registrationForm.controls.email.errors?.email">-->
+          <!--Please enter your email.-->
+          <!--</mat-error>-->
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput
+                 placeholder="Password"
+                 formControlName="password"
+                 type="password">
+          <!--<mat-error-->
+          <!--*ngIf="registrationForm.controls.password.errors?.required">-->
+          <!--Please enter a valid password.-->
+          <!--</mat-error>-->
+          <!--<mat-error-->
+          <!--*ngIf="registrationForm.controls.password.errors?.minlength">-->
+          <!--Please enter at least 6 characters.-->
+          <!--</mat-error>-->
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput
+                 placeholder="House number"
+                 formControlName="houseNumber">
+          <!--<mat-error-->
+          <!--*ngIf="registrationForm.controls.houseNumber.errors?.required">-->
+          <!--Please enter your house number.-->
+          <!--</mat-error>-->
+        </mat-form-field>
+      </mat-card-content>
+
+      <div id="action">
+        <button mat-raised-button
+                color="primary"
+                type="submit">Signup
+        </button>
+      </div>
+
+      <div id="card_footer">
+        <a class="action_link"
+           routerLink="/login">Login</a>
+      </div>
+    </form>
+  </mat-card>
+</main>

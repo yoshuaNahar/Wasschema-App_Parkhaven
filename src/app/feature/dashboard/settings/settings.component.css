@@ -1,0 +1,45 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* all text color to darkblue */
+::ng-deep div {
+  color: #2c3e50;
+}
+
+::ng-deep div.title {
+  padding: 25px;
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+::ng-deep div.title > h2 {
+  margin: 0;
+}
+
+::ng-deep mat-form-field {
+  width: 98%;
+}
+
+::ng-deep div.messages {
+  padding: 20px 25px 5px;
+}
+
+::ng-deep div.action {
+  padding: 0 25px 30px;
+}
+
+::ng-deep div.action > button {
+  width: 100%;
+}
+
+/* set favourite room */
+
+::ng-deep mat-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+::ng-deep mat-radio-button {
+  margin: 5px 5px 15px;
+}

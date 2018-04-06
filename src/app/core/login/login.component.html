@@ -1,0 +1,53 @@
+<main>
+  <mat-card class="mat-elevation-z8">
+    <mat-card-header>
+      <a routerLink="/login">
+        <img id="logo"
+             mat-card-image
+             src="../../../assets/parkhaven-logo.png"
+             alt="Logo">
+      </a>
+    </mat-card-header>
+
+    <form [formGroup]="loginForm"
+          (ngSubmit)="login()">
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput
+                 placeholder="Email"
+                 name="email"
+                 type="email"
+                 formControlName="email"/>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput
+                 placeholder="Password"
+                 name="password"
+                 type="password"
+                 formControlName="password"/>
+        </mat-form-field>
+        <mat-checkbox name="rememberMe"
+                      formControlName="rememberMe">
+          Remember Me?
+        </mat-checkbox>
+      </mat-card-content>
+
+      <div id="action">
+        <button mat-raised-button
+                color="primary"
+                type="submit">Login
+        </button>
+      </div>
+
+      <div id="card_footer">
+        <a class="action_link"
+           routerLink="/register">No account yet?</a>
+        <a class="action_link"
+           routerLink="/forgot-password">Forgot password?</a>
+      </div>
+    </form>
+    <button routerLink="/">Home</button>
+    <button (click)="showSignedInUser = !showSignedInUser">Show Display Name</button>
+    <p *ngIf="showSignedInUser">{{signedInUser.displayName}}</p>
+  </mat-card>
+</main>

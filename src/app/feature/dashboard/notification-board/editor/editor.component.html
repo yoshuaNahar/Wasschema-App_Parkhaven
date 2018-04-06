@@ -1,0 +1,16 @@
+<simplemde class="editor_title"
+           [(ngModel)]="title"
+           [options]="options2"></simplemde>
+
+<simplemde [(ngModel)]="content"
+           [options]="options"></simplemde>
+<div class="action_app_editor">
+  <button mat-raised-button
+          color="primary"
+          (click)="goBackEvent()">Back
+  </button>
+  <button mat-raised-button
+          color="primary"
+          (click)="createMessage()">Create
+  </button>
+</div>

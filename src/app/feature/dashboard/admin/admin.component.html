@@ -1,0 +1,32 @@
+<main>
+  <!--<app-notification-board></app-notification-board>-->
+
+  <div id="users">
+    <h2>Users</h2>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Housenumber</th>
+        <th>Action</th>
+      </tr>
+      <tr *ngFor="let user of users; let index = index">
+        <td>{{index + 1}}</td>
+        <td>
+          {{user.name}}
+        </td>
+        <td>
+          {{user.email}}
+        </td>
+        <td>
+          {{keys[index]}}
+        </td>
+        <td>
+          <button mat-button
+                  (click)="delete(keys[index])">Delete</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+</main>

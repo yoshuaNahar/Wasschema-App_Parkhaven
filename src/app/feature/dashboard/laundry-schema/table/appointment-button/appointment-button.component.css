@@ -1,0 +1,66 @@
+.mat-button {
+  min-width: 74px;
+  height: 25px;
+  float: left;
+  line-height: unset;
+}
+
+.mat-button[disabled][disabled] {
+  /* Disabled button change color to transparent
+  to show that it is disabled, remove this feature */
+  color: inherit;
+}
+
+.left, .left ::ng-deep .mat-ripple {
+  /* rounded corners */
+  -webkit-border-radius: 4px 0 0 4px;
+  -moz-border-radius: 4px 0 0 4px;
+  border-radius: 4px 0 0 4px;
+}
+
+.right, .right ::ng-deep .mat-ripple {
+  /* rounded corners */
+  -webkit-border-radius: 0 4px 4px 0;
+  -moz-border-radius: 0 4px 4px 0;
+  border-radius: 0 4px 4px 0;
+}
+
+/* TODO: These colors should be loaded dynamically!
+   except empty and unavailable */
+.left_taken {
+  background-color: #D1B854;
+}
+
+.right_taken {
+  background-color: #5C9E93;
+}
+
+.left_taken_dryer1 {
+  background-color: #D5C67A;
+}
+
+.right_taken_dryer2 {
+  background-color: #5B8699;
+}
+
+.empty {
+  background-color: #d3dde0;
+}
+
+.unavailable {
+  background-color: #8A8282;
+}
+
+.material-icons.trash {
+  font-size: 14px;
+  height: 17px;
+  width: 0;
+}
+
+.right .material-icons.trash {
+  margin-left: 5px;
+}
+
+.left .material-icons.trash {
+  margin-right: 5px;
+}

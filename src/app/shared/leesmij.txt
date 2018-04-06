@@ -1,0 +1,2 @@
+Add components, directives and pipes here that will be used by other components.
+Don't place services here.

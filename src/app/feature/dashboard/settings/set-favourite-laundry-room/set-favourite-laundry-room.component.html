@@ -1,0 +1,31 @@
+<div class="settings_card mat-elevation-z4">
+  <div class="title">
+    <h2>Set favourite laundry room</h2>
+  </div>
+  <form [formGroup]="setFavouriteLaundryRoomForm"
+        (ngSubmit)="setFavouriteLaundryRoom()">
+    <div class="messages">
+      <mat-radio-group name="favouriteLaundryRoom"
+                       formControlName="favouriteLaundryRoom">
+        <mat-radio-button [value]="'A'"
+                          [checked]="favouriteLaundryRoom === 'A'">
+          Room A
+        </mat-radio-button>
+        <mat-radio-button [value]="'B'"
+                          [checked]="favouriteLaundryRoom === 'B'">
+          Room B
+        </mat-radio-button>
+        <mat-radio-button [value]="'C'"
+                          [checked]="favouriteLaundryRoom === 'C'">
+          Room C
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="action">
+      <button mat-raised-button
+              color="primary"
+              type="submit">Update
+      </button>
+    </div>
+  </form>
+</div>

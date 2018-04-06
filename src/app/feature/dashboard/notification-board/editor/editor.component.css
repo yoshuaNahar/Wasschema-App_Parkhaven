@@ -1,0 +1,17 @@
+div.action_app_editor {
+  padding: 0 25px 30px;
+}
+
+div.action_app_editor {
+  display: flex;
+  justify-content: space-between;
+}
+
+div.action_app_editor > button {
+  width: 25%;
+}
+
+::ng-deep .editor_title > .CodeMirror {
+  min-height: 30px;
+  height: 30px;
+}

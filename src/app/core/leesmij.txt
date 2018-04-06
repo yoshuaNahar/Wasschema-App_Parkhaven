@@ -1,0 +1,4 @@
+Add components and services that are needed for the app to function correctly.
+The core.module will be imported inside the App.Module.
+
+The core.module will not be lazily loaded.

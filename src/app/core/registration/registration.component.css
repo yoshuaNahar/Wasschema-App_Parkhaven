@@ -1,0 +1,60 @@
+main {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* only for login, registration and forgotPassword */
+  background: #2c3e50;
+}
+
+mat-card {
+  width: 100%;
+  min-width: 200px;
+  max-width: 350px;
+  padding: 45px 45px 40px 45px;
+  margin: 20px;
+}
+
+@media (min-width: 767px) {
+  main {
+    align-items: flex-start;
+  }
+
+  mat-card {
+    margin-top: 10%;
+  }
+}
+
+mat-card-header {
+  justify-content: center;
+}
+
+mat-card-header #logo {
+  width: 110px;
+  margin: -15px 0 10px 0;
+}
+
+mat-card-content {
+  margin-bottom: 0;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+div#action > button {
+  width: 100%;
+}
+
+div#card_footer {
+  margin-top: 15px;
+}
+
+a.action_link {
+  text-decoration: none;
+  color: #2C3E50;
+  font-size: 12px;
+}

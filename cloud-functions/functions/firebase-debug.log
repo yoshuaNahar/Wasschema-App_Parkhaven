@@ -1,0 +1,45 @@
+[debug] [2018-04-01T08:31:17.245Z] ----------------------------------------------------------------------
+[debug] [2018-04-01T08:31:17.247Z] Command:       /home/yoshua/.nvm/versions/node/v8.9.4/bin/node /home/yoshua/.nvm/versions/node/v8.9.4/bin/firebase serve --only functions
+[debug] [2018-04-01T08:31:17.247Z] CLI Version:   3.17.7
+[debug] [2018-04-01T08:31:17.247Z] Platform:      linux
+[debug] [2018-04-01T08:31:17.247Z] Node Version:  v8.9.4
+[debug] [2018-04-01T08:31:17.247Z] Time:          Sun Apr 01 2018 10:31:17 GMT+0200 (CEST)
+[debug] [2018-04-01T08:31:17.247Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-01T08:31:17.254Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-01T08:31:17.254Z] > authorizing via signed-in user
+[debug] [2018-04-01T08:31:17.255Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-04-01T08:31:17.256Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/Jva_w48WogtvOCtEfQ1zShPeGjbfVDbdBYcw5YYg_EE',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Sun Apr 01 2018 10:31:17 GMT+0200 (CEST)
+[debug] [2018-04-01T08:31:17.389Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-01T08:31:17.395Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-531f4  
+  
+ Sun Apr 01 2018 10:31:17 GMT+0200 (CEST)
+[debug] [2018-04-01T08:31:18.859Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-01T08:31:18.860Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-531f4/tokens  
+  
+ Sun Apr 01 2018 10:31:18 GMT+0200 (CEST)
+[debug] [2018-04-01T08:31:19.851Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-01T08:31:19.853Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-531f4  
+  
+ Sun Apr 01 2018 10:31:19 GMT+0200 (CEST)
+[debug] [2018-04-01T08:31:20.618Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/yoshua/Development/GitHub/wasschema2/cloud-functions'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-04-01T08:31:21.290Z] Fetching environment
+[debug] [2018-04-01T08:31:21.292Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/932886716822:getServerAppConfig  
+  
+ Sun Apr 01 2018 10:31:21 GMT+0200 (CEST)
+[debug] [2018-04-01T08:31:22.303Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-01T08:31:22.304Z] Starting @google-cloud/functions-emulator
+[debug] [2018-04-01T08:31:23.335Z] Parsing function triggers
+[info] ✔  functions: registerUser: http://localhost:5000/fir-531f4/us-central1/registerUser
+[info] ✔  functions: appointment: http://localhost:5000/fir-531f4/us-central1/appointment
+[info] ✔  functions: removeOldDates: http://localhost:5000/fir-531f4/us-central1/removeOldDates

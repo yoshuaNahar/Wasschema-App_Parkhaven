@@ -1,0 +1,108 @@
+main {
+  background-color: #fafafa;
+}
+
+mat-sidenav-container {
+  height: calc(100vh - 64px);
+}
+
+/* header */
+
+header {
+  position: relative;
+  z-index: 2;
+}
+
+header a {
+  text-decoration-line: none;
+  margin-left: 15px;
+}
+
+header span {
+  color: #fafafa;
+}
+
+mat-toolbar > .fill-remaining-space {
+  /* push to the right */
+  flex: 1 1 auto;
+}
+
+span#logged_in_as_text {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+/* side navigation */
+
+.sidenav_style {
+  width: 325px;
+  /* need to ng::deep this, color is not trickling down to child element */
+  background-color: #fafafa;
+}
+
+.sidenav_style > nav {
+  margin: 25px 15px;
+  padding: 10px 25px 15px;
+  background: #f2f2f2;
+}
+
+mat-list-item a {
+  font-weight: 700;
+  color: rgba(0, 0, 0, .55);
+  text-decoration-line: none;
+  /* makes the link clickable from further away than the text */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* otherwise yellow border on mobile */
+mat-list-item a:focus {
+  outline: none;
+}
+
+mat-list-item a:hover {
+  color: #3f51b5;
+}
+
+.active_link {
+  color: #3f51b5 !important;
+}
+
+.material-icons#notification {
+  color: rgba(255, 0, 0, 0.9);
+  font-size: 18px;
+  margin-top: 4px;
+}
+
+/* other */
+
+.router_outlet_margin_top {
+  margin-top: 25px;
+}
+
+/* media queries */
+
+@media (min-width: 610px) {
+
+  .router_outlet_margin_top {
+    margin: 25px 5px 0;
+  }
+
+}
+
+@media (max-width: 610px) {
+
+  span#logged_in_as_text {
+    order: 4;
+    align-self: flex-end;
+    margin: -30px 20px 0 auto;
+  }
+
+  mat-toolbar {
+    flex-wrap: wrap;
+    height: 80px;
+  }
+
+}

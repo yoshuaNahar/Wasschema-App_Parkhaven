@@ -1,0 +1,5 @@
+Place actual features in the feature.module.
+Don't include other stuff here.
+
+Each feature can import stuff from the core and shared modules. Never the other way around!
+These features could and should be lazily loaded.
