@@ -11,3 +11,6 @@ src/main/resources/production.properties
 # Used for SQL generation
 /src/main/java/nl/parkhaven/wasschema/SQLQuery.java
 allHouseNumbersAbleToMakeAccount.txt
+
+node_modules
+*/node_modules

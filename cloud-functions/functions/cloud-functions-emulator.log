@@ -1,0 +1,790 @@
+2018-04-06T16:26:35.474Z - info: User function triggered, starting execution
+2018-04-06T16:26:35.492Z - info: Execution took 10 ms, user function completed successfully
+2018-04-06T16:26:35.495Z - info: Worker for appointment closed due to file changes.
+2018-04-06T16:26:36.588Z - info: User function triggered, starting execution
+2018-04-06T16:26:36.591Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 0,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDI5Mzg0LCJleHAiOjE1MjMwMzI5ODQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.PyPNKNW5Nz1mNP9qJzvEXNh0qeAHNm3tEfgwbFLXO5hjZEdFVF2bb3q7OXZm4P_FCEjR-agjSm66gdCUGmG5BR2ELCwxjG_uh6OHZcjt0NW0R5j9lpvz4mtGaxGqWaunSNDw_W6XQJh_xDUniq7cBTgZ2fHFK1s3VNrYq9-O24O5FfrbcW0srsb4SWQrkXj8PN2pyW3UIdOlGTCvMQYOwgDzrDqZb0MFd1YD7WIP4VMGtd47SueFXVm5ijKW7_MC3wN5v0jhrXDPaiGKzk8MX3mM3m9CYZJ5_OtfkLZe-E__ifcRuiSRB13NEG6QvW_4b2TD426Fn4aH5uAOr0vi2g',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:26:36.592Z - info: request.method:  PUT
+2018-04-06T16:26:36.617Z - info: Execution took 664 ms, finished with status: 'crash'
+2018-04-06T16:28:27.820Z - info: Worker for demo closed due to file changes.
+2018-04-06T16:28:28.787Z - info: Worker for appointment closed due to file changes.
+2018-04-06T16:28:28.788Z - info: Worker for registerUser closed due to file changes.
+2018-04-06T16:28:28.790Z - info: Worker for removeOldDates closed due to file changes.
+2018-04-06T16:29:22.557Z - info: User function triggered, starting execution
+2018-04-06T16:29:22.560Z - info: {}
+2018-04-06T16:29:22.570Z - info: Execution took 12 ms, user function completed successfully
+2018-04-06T16:29:22.577Z - info: Worker for demo closed due to file changes.
+2018-04-06T16:39:30.158Z - info: User function triggered, starting execution
+2018-04-06T16:39:30.169Z - info: Execution took 10 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T16:39:30.816Z - info: User function triggered, starting execution
+2018-04-06T16:39:30.820Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDI5Mzg0LCJleHAiOjE1MjMwMzI5ODQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.PyPNKNW5Nz1mNP9qJzvEXNh0qeAHNm3tEfgwbFLXO5hjZEdFVF2bb3q7OXZm4P_FCEjR-agjSm66gdCUGmG5BR2ELCwxjG_uh6OHZcjt0NW0R5j9lpvz4mtGaxGqWaunSNDw_W6XQJh_xDUniq7cBTgZ2fHFK1s3VNrYq9-O24O5FfrbcW0srsb4SWQrkXj8PN2pyW3UIdOlGTCvMQYOwgDzrDqZb0MFd1YD7WIP4VMGtd47SueFXVm5ijKW7_MC3wN5v0jhrXDPaiGKzk8MX3mM3m9CYZJ5_OtfkLZe-E__ifcRuiSRB13NEG6QvW_4b2TD426Fn4aH5uAOr0vi2g',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:39:30.821Z - info: request.method:  PUT
+2018-04-06T16:39:30.851Z - info: Execution took 673 ms, finished with status: 'crash'
+2018-04-06T16:41:23.096Z - info: User function triggered, starting execution
+2018-04-06T16:41:23.101Z - info: Execution took 606 ms, finished with status: 'crash'
+2018-04-06T16:41:23.122Z - info: Execution took 24 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T16:41:23.797Z - info: User function triggered, starting execution
+2018-04-06T16:41:23.801Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 4,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T16:41:23.827Z - info: Execution took 667 ms, finished with status: 'crash'
+2018-04-06T16:41:54.848Z - info: User function triggered, starting execution
+2018-04-06T16:41:54.852Z - info: {}
+2018-04-06T16:41:54.860Z - info: Execution took 13 ms, user function completed successfully
+2018-04-06T16:41:54.869Z - info: Worker for demo closed due to file changes.
+2018-04-06T16:42:34.847Z - info: User function triggered, starting execution
+2018-04-06T16:42:34.851Z - info: {}
+2018-04-06T16:42:34.861Z - info: Execution took 15 ms, user function completed successfully
+2018-04-06T16:42:34.864Z - info: Worker for demo closed due to file changes.
+2018-04-06T16:43:31.446Z - info: User function triggered, starting execution
+2018-04-06T16:43:31.454Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T16:43:31.456Z - info: Worker for appointment closed due to file changes.
+2018-04-06T16:43:32.107Z - info: User function triggered, starting execution
+2018-04-06T16:43:32.111Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:43:32.112Z - info: request.method:  PUT
+2018-04-06T16:43:32.138Z - info: Execution took 663 ms, finished with status: 'crash'
+2018-04-06T16:44:16.584Z - info: User function triggered, starting execution
+2018-04-06T16:44:16.592Z - info: Execution took 10 ms, user function completed successfully
+2018-04-06T16:44:17.239Z - info: User function triggered, starting execution
+2018-04-06T16:44:17.243Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 0,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:44:17.243Z - info: request.method:  PUT
+till here working
+2018-04-06T16:44:17.268Z - info: Execution took 669 ms, finished with status: 'crash'
+2018-04-06T16:45:02.947Z - info: User function triggered, starting execution
+2018-04-06T16:45:02.957Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T16:45:02.966Z - info: Worker for appointment closed due to file changes.
+2018-04-06T16:45:03.622Z - info: User function triggered, starting execution
+2018-04-06T16:45:03.627Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+till here working
+2018-04-06T16:45:03.655Z - info: Execution took 672 ms, finished with status: 'crash'
+2018-04-06T16:46:02.317Z - info: User function triggered, starting execution
+2018-04-06T16:46:02.324Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T16:46:02.980Z - info: User function triggered, starting execution
+2018-04-06T16:46:02.984Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+till here working
+2018-04-06T16:46:03.007Z - info: Execution took 27 ms, user function completed successfully
+2018-04-06T16:46:09.738Z - info: User function triggered, starting execution
+2018-04-06T16:46:09.746Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T16:46:10.388Z - info: User function triggered, starting execution
+2018-04-06T16:46:10.391Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:46:10.392Z - info: request.method:  PUT
+till here working
+2018-04-06T16:46:10.414Z - info: Execution took 28 ms, user function completed successfully
+2018-04-06T16:46:45.822Z - info: User function triggered, starting execution
+2018-04-06T16:46:45.848Z - info: Execution took 18 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T16:46:46.700Z - info: User function triggered, starting execution
+2018-04-06T16:46:46.705Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:46:46.705Z - info: request.method:  PUT
+till here working
+2018-04-06T16:46:46.741Z - info: Execution took 39 ms, user function completed successfully
+2018-04-06T16:46:46.742Z - info: Worker for appointment closed due to file changes.
+2018-04-06T16:46:59.951Z - info: User function triggered, starting execution
+2018-04-06T16:46:59.961Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T16:47:00.605Z - info: User function triggered, starting execution
+2018-04-06T16:47:00.611Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:47:00.612Z - info: request.method:  PUT
+till here working
+2018-04-06T16:47:00.642Z - info: Execution took 38 ms, user function completed successfully
+2018-04-06T16:48:57.034Z - info: User function triggered, starting execution
+2018-04-06T16:48:57.047Z - info: Execution took 14 ms, user function completed successfully
+2018-04-06T16:48:57.055Z - info: Execution took 6 ms, finished with status: 'crash'
+2018-04-06T16:48:57.056Z - info: Worker for appointment closed due to file changes.
+2018-04-06T16:49:08.699Z - info: User function triggered, starting execution
+2018-04-06T16:49:08.706Z - info: Execution took 8 ms, user function completed successfully
+2018-04-06T16:49:09.365Z - info: User function triggered, starting execution
+2018-04-06T16:49:09.368Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 7,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T16:49:09.368Z - info: request.method:  PUT
+till here working
+2018-04-06T16:49:09.393Z - info: Execution took 661 ms, finished with status: 'crash'
+2018-04-06T17:05:00.403Z - info: User function triggered, starting execution
+2018-04-06T17:05:00.414Z - info: Execution took 13 ms, user function completed successfully
+2018-04-06T17:05:01.054Z - info: User function triggered, starting execution
+2018-04-06T17:05:01.058Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:05:01.059Z - info: request.method:  PUT
+till here working
+2018-04-06T17:05:01.085Z - info: Execution took 667 ms, finished with status: 'crash'
+2018-04-06T17:06:13.912Z - info: User function triggered, starting execution
+2018-04-06T17:06:13.952Z - info: Execution took 51 ms, user function completed successfully
+2018-04-06T17:06:14.595Z - info: User function triggered, starting execution
+2018-04-06T17:06:14.599Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:06:14.599Z - info: request.method:  PUT
+till here working
+2018-04-06T17:06:14.619Z - info: Promise { <pending> }
+2018-04-06T17:06:14.627Z - info: Execution took 668 ms, finished with status: 'crash'
+2018-04-06T17:11:11.765Z - info: User function triggered, starting execution
+2018-04-06T17:11:11.776Z - info: Execution took 12 ms, user function completed successfully
+2018-04-06T17:11:12.440Z - info: User function triggered, starting execution
+2018-04-06T17:11:12.445Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 0,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:11:12.445Z - info: request.method:  PUT
+till here working
+2018-04-06T17:11:12.467Z - info: Function crashed
+2018-04-06T17:11:12.467Z - info: TypeError: verifyPromise.resolve is not a function
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:123:31)
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:188:7)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:224:17
+    at originCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:214:15)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:219:13
+    at optionsCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:199:9)
+    at corsMiddleware (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:204:7)
+    at exports.appointment.functions.https.onRequest (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:82:10)
+    at cloudFunction (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/firebase-functions/lib/providers/https.js:37:41)
+    at app.use (/home/yoshua/.nvm/versions/node/v8.9.4/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:142:11)
+2018-04-06T17:11:12.475Z - info: Execution took 35 ms, user function completed successfully
+2018-04-06T17:12:36.383Z - info: User function triggered, starting execution
+2018-04-06T17:12:36.393Z - info: Execution took 13 ms, user function completed successfully
+2018-04-06T17:12:37.056Z - info: User function triggered, starting execution
+2018-04-06T17:12:37.059Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 7,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:12:37.060Z - info: request.method:  PUT
+till here working
+2018-04-06T17:12:37.078Z - info: Promise { <pending> }
+2018-04-06T17:12:37.084Z - info: Execution took 667 ms, finished with status: 'crash'
+2018-04-06T17:15:13.785Z - error: /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:89
+    let verifyPromise = await admin.auth().verifyIdToken(appointmentRequest.idToken)
+                              ^^^^^
+
+SyntaxError: Unexpected identifier
+    at createScript (vm.js:80:10)
+    at Object.runInThisContext (vm.js:139:10)
+    at Module._compile (module.js:607:28)
+    at Object.Module._extensions..js (module.js:654:10)
+    at Module.load (module.js:556:32)
+    at tryModuleLoad (module.js:499:12)
+    at Function.Module._load (module.js:491:3)
+    at Module.require (module.js:587:17)
+    at require (internal/module.js:11:18)
+    at process.on (/home/yoshua/.nvm/versions/node/v8.9.4/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:76:28)
+2018-04-06T17:15:13.798Z - error: Function worker crashed with exit code: 1
+2018-04-06T17:19:38.858Z - info: User function triggered, starting execution
+2018-04-06T17:19:38.866Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:19:38.868Z - info: Worker for appointment closed due to file changes.
+2018-04-06T17:19:39.529Z - info: User function triggered, starting execution
+2018-04-06T17:19:39.534Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 0,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+till here working
+2018-04-06T17:19:39.556Z - info: Function crashed
+2018-04-06T17:19:39.558Z - info: TypeError: verifyPromise.done is not a function
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:123:31)
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:188:7)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:224:17
+    at originCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:214:15)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:219:13
+    at optionsCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:199:9)
+    at corsMiddleware (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:204:7)
+    at exports.appointment.functions.https.onRequest (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:82:10)
+    at cloudFunction (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/firebase-functions/lib/providers/https.js:37:41)
+    at app.use (/home/yoshua/.nvm/versions/node/v8.9.4/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:142:11)
+2018-04-06T17:19:39.568Z - info: Execution took 39 ms, user function completed successfully
+2018-04-06T17:20:16.139Z - info: User function triggered, starting execution
+2018-04-06T17:20:16.146Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:20:16.799Z - info: User function triggered, starting execution
+2018-04-06T17:20:16.803Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 1,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:20:16.803Z - info: request.method:  PUT
+till here working
+2018-04-06T17:20:16.823Z - info: Promise { <pending> }
+2018-04-06T17:20:16.830Z - info: Execution took 31 ms, user function completed successfully
+2018-04-06T17:21:42.169Z - info: User function triggered, starting execution
+2018-04-06T17:21:42.186Z - info: Execution took 13 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T17:21:42.859Z - info: User function triggered, starting execution
+2018-04-06T17:21:42.863Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 1,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:21:42.863Z - info: request.method:  PUT
+till here working
+2018-04-06T17:21:42.881Z - info: Promise { <pending> }
+2018-04-06T17:21:42.886Z - info: Execution took 28 ms, user function completed successfully
+2018-04-06T17:22:25.625Z - info: User function triggered, starting execution
+2018-04-06T17:22:25.645Z - info: Execution took 22 ms, user function completed successfully
+2018-04-06T17:22:25.657Z - info: Execution took 13 ms, finished with status: 'crash'
+2018-04-06T17:22:47.362Z - info: User function triggered, starting execution
+2018-04-06T17:22:47.414Z - info: Execution took 54 ms, user function completed successfully
+2018-04-06T17:22:47.425Z - info: Execution took 17 ms, finished with status: 'crash'
+2018-04-06T17:22:56.661Z - info: User function triggered, starting execution
+2018-04-06T17:22:56.673Z - info: Execution took 8 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T17:22:57.520Z - info: User function triggered, starting execution
+2018-04-06T17:22:57.524Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 4,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:22:57.525Z - info: request.method:  PUT
+till here working
+2018-04-06T17:22:57.547Z - info: Function crashed
+2018-04-06T17:22:57.547Z - info: TypeError: "callback" argument must be a function
+    at setTimeout (timers.js:427:11)
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:126:5)
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:188:7)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:224:17
+    at originCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:214:15)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:219:13
+    at optionsCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:199:9)
+    at corsMiddleware (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:204:7)
+    at exports.appointment.functions.https.onRequest (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:82:10)
+    at cloudFunction (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/firebase-functions/lib/providers/https.js:37:41)
+2018-04-06T17:22:57.563Z - info: Execution took 35 ms, user function completed successfully
+2018-04-06T17:24:16.078Z - info: User function triggered, starting execution
+2018-04-06T17:24:16.085Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:24:16.728Z - info: User function triggered, starting execution
+2018-04-06T17:24:16.732Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:24:16.733Z - info: request.method:  PUT
+till here working
+2018-04-06T17:24:16.760Z - info: Promise { <pending> }
+2018-04-06T17:24:16.768Z - info: Execution took 41 ms, user function completed successfully
+2018-04-06T17:24:16.771Z - info: timeout
+2018-04-06T17:24:29.951Z - info: User function triggered, starting execution
+2018-04-06T17:24:29.959Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:24:30.607Z - info: User function triggered, starting execution
+2018-04-06T17:24:30.611Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 6,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+till here working
+2018-04-06T17:24:30.634Z - info: Promise { <pending> }
+2018-04-06T17:24:30.642Z - info: Execution took 34 ms, user function completed successfully
+2018-04-06T17:24:30.642Z - info: timeout
+2018-04-06T17:26:48.902Z - info: User function triggered, starting execution
+2018-04-06T17:26:48.911Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:26:48.912Z - info: Worker for appointment closed due to file changes.
+2018-04-06T17:26:49.571Z - info: User function triggered, starting execution
+2018-04-06T17:26:49.575Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:26:49.575Z - info: request.method:  PUT
+till here working
+2018-04-06T17:26:49.597Z - info: Promise { <pending> }
+2018-04-06T17:26:49.602Z - info: Execution took 33 ms, user function completed successfully
+2018-04-06T17:26:49.605Z - info: timeout
+2018-04-06T17:26:56.203Z - info: User function triggered, starting execution
+2018-04-06T17:26:56.213Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T17:26:56.872Z - info: User function triggered, starting execution
+2018-04-06T17:26:56.875Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+till here working
+2018-04-06T17:26:56.895Z - info: Promise { <pending> }
+2018-04-06T17:26:56.899Z - info: Execution took 29 ms, user function completed successfully
+2018-04-06T17:26:56.902Z - info: timeout
+2018-04-06T17:27:10.319Z - info: User function triggered, starting execution
+2018-04-06T17:27:10.327Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:27:10.333Z - info: Worker for appointment closed due to file changes.
+2018-04-06T17:27:11.183Z - info: User function triggered, starting execution
+2018-04-06T17:27:11.188Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:27:11.189Z - info: request.method:  PUT
+till here working
+2018-04-06T17:27:11.213Z - info: Promise { <pending> }
+2018-04-06T17:27:11.221Z - info: Execution took 872 ms, finished with status: 'crash'
+2018-04-06T17:28:40.953Z - info: User function triggered, starting execution
+2018-04-06T17:28:40.963Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T17:28:41.603Z - info: User function triggered, starting execution
+2018-04-06T17:28:41.607Z - info: req.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+req.method:  PUT
+till here working
+2018-04-06T17:28:41.628Z - info: Promise { <pending> }
+2018-04-06T17:28:41.637Z - info: Execution took 669 ms, finished with status: 'crash'
+2018-04-06T17:30:22.839Z - info: User function triggered, starting execution
+2018-04-06T17:30:22.845Z - info: Execution took 8 ms, user function completed successfully
+2018-04-06T17:30:23.488Z - info: User function triggered, starting execution
+2018-04-06T17:30:23.492Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+till here working
+2018-04-06T17:30:23.520Z - info: Execution took 667 ms, finished with status: 'crash'
+2018-04-06T17:31:30.741Z - info: User function triggered, starting execution
+2018-04-06T17:31:30.751Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T17:31:31.411Z - info: User function triggered, starting execution
+2018-04-06T17:31:31.415Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+till here working
+2018-04-06T17:31:31.439Z - info: Execution took 664 ms, finished with status: 'crash'
+2018-04-06T17:31:36.722Z - info: User function triggered, starting execution
+2018-04-06T17:31:36.730Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:31:37.377Z - info: User function triggered, starting execution
+2018-04-06T17:31:37.385Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAyOTM4NCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDMyNzY5LCJleHAiOjE1MjMwMzYzNjksImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.OVy9gx_dm-zJE_jHr4HY6-QHfs0mgOZbcL1R-Exc5AlsLvTETdhuxup-Fz-GX_eNidX1_BiCtfvi1XoP4IGf6xVa0HzUWdBVg2Kpg63nlk_d3yAwRPr96Kw6hDEpVJIbxriv6Sy-kUwuWqKCe2SNwdiE4Noh-feZA83khl936BZ61fzu_AN2O9rKBjI2347QamsqLmgjLqZbY3CH0XB3D0wsK07wIws9h7poviJJrMclgJ7erCd_2RtNns5-vgLLtMnD3Rswe2eYXJl6gQ_vixpTfwxPg4qpK9FUzdYupVSRONqTXliwchOOOkJqvFCbPLCextqKOnOkIZTcQOUVsw',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:31:37.394Z - info: request.method:  PUT
+till here working
+2018-04-06T17:31:37.427Z - info: Execution took 690 ms, finished with status: 'crash'
+2018-04-06T17:35:11.069Z - info: User function triggered, starting execution
+2018-04-06T17:35:11.077Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:35:11.737Z - info: User function triggered, starting execution
+2018-04-06T17:35:11.741Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:35:11.741Z - info: request.method:  PUT
+till here working
+2018-04-06T17:35:11.770Z - info: Execution took 667 ms, finished with status: 'crash'
+2018-04-06T17:39:50.251Z - info: User function triggered, starting execution
+2018-04-06T17:39:50.277Z - info: Execution took 28 ms, user function completed successfully
+2018-04-06T17:39:50.292Z - info: Execution took 11 ms, finished with status: 'crash'
+2018-04-06T17:40:00.097Z - info: User function triggered, starting execution
+2018-04-06T17:40:00.106Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T17:40:00.751Z - info: User function triggered, starting execution
+2018-04-06T17:40:00.755Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T17:40:00.776Z - info: till here working
+2018-04-06T17:40:00.785Z - info: Execution took 670 ms, finished with status: 'crash'
+2018-04-06T17:40:23.169Z - info: User function triggered, starting execution
+2018-04-06T17:40:23.199Z - info: Execution took 32 ms, user function completed successfully
+2018-04-06T17:40:23.842Z - info: User function triggered, starting execution
+2018-04-06T17:40:23.848Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:40:23.850Z - info: request.method:  PUT
+2018-04-06T17:40:23.886Z - info: till here working
+2018-04-06T17:40:23.909Z - info: Execution took 53 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T17:40:32.739Z - info: User function triggered, starting execution
+2018-04-06T17:40:32.747Z - info: Execution took 10 ms, user function completed successfully
+2018-04-06T17:40:33.406Z - info: User function triggered, starting execution
+2018-04-06T17:40:33.410Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 7,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T17:40:33.431Z - info: till here working
+2018-04-06T17:40:33.437Z - info: Execution took 31 ms, user function completed successfully
+2018-04-06T17:40:44.550Z - info: User function triggered, starting execution
+2018-04-06T17:40:44.558Z - info: Execution took 10 ms, user function completed successfully
+2018-04-06T17:40:45.224Z - info: User function triggered, starting execution
+2018-04-06T17:40:45.228Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 7,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:40:45.228Z - info: request.method:  PUT
+2018-04-06T17:40:45.248Z - info: till here working
+2018-04-06T17:40:45.254Z - info: Execution took 31 ms, user function completed successfully
+2018-04-06T17:41:45.175Z - info: User function triggered, starting execution
+2018-04-06T17:41:45.184Z - info: Execution took 10 ms, user function completed successfully
+2018-04-06T17:41:45.848Z - info: User function triggered, starting execution
+2018-04-06T17:41:45.852Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 4,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:41:45.852Z - info: request.method:  PUT
+2018-04-06T17:41:45.873Z - info: till here working
+2018-04-06T17:41:45.879Z - info: Execution took 32 ms, user function completed successfully
+2018-04-06T17:42:26.502Z - info: User function triggered, starting execution
+2018-04-06T17:42:26.511Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T17:42:27.170Z - info: User function triggered, starting execution
+2018-04-06T17:42:27.174Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 6,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T17:42:27.195Z - info: till here working
+2018-04-06T17:42:27.204Z - info: Execution took 35 ms, user function completed successfully
+2018-04-06T17:42:43.647Z - info: User function triggered, starting execution
+2018-04-06T17:42:43.658Z - info: Execution took 13 ms, user function completed successfully
+2018-04-06T17:42:44.529Z - info: User function triggered, starting execution
+2018-04-06T17:42:44.534Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 1,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:42:44.537Z - info: request.method:  PUT
+2018-04-06T17:42:44.577Z - info: till here working
+2018-04-06T17:42:44.586Z - info: Execution took 890 ms, finished with status: 'crash'
+2018-04-06T17:47:34.940Z - info: User function triggered, starting execution
+2018-04-06T17:47:34.950Z - info: Execution took 10 ms, user function completed successfully
+2018-04-06T17:47:34.952Z - info: Worker for appointment closed due to file changes.
+2018-04-06T17:47:35.603Z - info: User function triggered, starting execution
+2018-04-06T17:47:35.607Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:47:35.607Z - info: request.method:  PUT
+2018-04-06T17:47:35.635Z - info: Execution took 666 ms, finished with status: 'crash'
+2018-04-06T17:48:00.835Z - info: User function triggered, starting execution
+2018-04-06T17:48:00.845Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T17:48:01.491Z - info: User function triggered, starting execution
+2018-04-06T17:48:01.495Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T17:48:01.524Z - info: Execution took 670 ms, finished with status: 'crash'
+2018-04-06T17:52:31.054Z - info: Worker for registerUser closed due to file changes.
+2018-04-06T17:52:33.707Z - info: User function triggered, starting execution
+2018-04-06T17:52:33.722Z - info: Execution took 11 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T17:52:34.377Z - info: User function triggered, starting execution
+2018-04-06T17:52:34.381Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 6,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T17:52:34.409Z - info: Execution took 668 ms, finished with status: 'crash'
+2018-04-06T17:52:56.970Z - info: User function triggered, starting execution
+2018-04-06T17:52:56.979Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T17:52:56.981Z - info: Worker for appointment closed due to file changes.
+2018-04-06T17:52:57.643Z - info: User function triggered, starting execution
+2018-04-06T17:52:57.650Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:52:57.650Z - info: request.method:  PUT
+2018-04-06T17:52:57.680Z - info: Execution took 673 ms, finished with status: 'crash'
+2018-04-06T17:53:37.172Z - info: User function triggered, starting execution
+2018-04-06T17:53:37.184Z - info: Execution took 11 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T17:53:37.845Z - info: User function triggered, starting execution
+2018-04-06T17:53:37.850Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 3,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T17:53:37.851Z - info: request.method:  PUT
+2018-04-06T17:53:37.881Z - info: Execution took 672 ms, finished with status: 'crash'
+2018-04-06T18:00:04.890Z - info: User function triggered, starting execution
+2018-04-06T18:00:04.898Z - info: Execution took 10 ms, user function completed successfully
+2018-04-06T18:00:05.558Z - info: User function triggered, starting execution
+2018-04-06T18:00:05.562Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 1,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T18:00:05.584Z - info: Execution took 662 ms, finished with status: 'crash'
+2018-04-06T18:00:16.750Z - info: User function triggered, starting execution
+2018-04-06T18:00:16.761Z - info: Execution took 11 ms, user function completed successfully
+Worker for appointment closed due to file changes.
+2018-04-06T18:00:17.403Z - info: User function triggered, starting execution
+2018-04-06T18:00:17.406Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 5,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T18:00:17.425Z - info: Function crashed
+2018-04-06T18:00:17.426Z - info: TypeError: r.send is not a function
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:120:7)
+    at cors (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:188:7)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:224:17
+    at originCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:214:15)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:219:13
+    at optionsCallback (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:199:9)
+    at corsMiddleware (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/cors/lib/index.js:204:7)
+    at exports.appointment.functions.https.onRequest (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/index.js:82:10)
+    at cloudFunction (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/cloud-functions/functions/node_modules/firebase-functions/lib/providers/https.js:37:41)
+    at app.use (/home/yoshua/.nvm/versions/node/v8.9.4/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:142:11)
+2018-04-06T18:00:17.433Z - info: Execution took 32 ms, user function completed successfully
+2018-04-06T18:01:24.089Z - info: User function triggered, starting execution
+2018-04-06T18:01:24.098Z - info: Execution took 11 ms, user function completed successfully
+2018-04-06T18:01:24.741Z - info: User function triggered, starting execution
+2018-04-06T18:01:24.745Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 1,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T18:01:24.746Z - info: request.method:  PUT
+2018-04-06T18:01:24.774Z - info: Execution took 668 ms, finished with status: 'crash'
+2018-04-06T18:01:31.491Z - info: User function triggered, starting execution
+2018-04-06T18:01:31.499Z - info: Execution took 9 ms, user function completed successfully
+2018-04-06T18:01:32.134Z - info: User function triggered, starting execution
+2018-04-06T18:01:32.142Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 11,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '25-04-2018',
+  houseNumber: '-' }
+request.method:  PUT
+2018-04-06T18:01:32.173Z - info: Execution took 668 ms, finished with status: 'crash'
+2018-04-06T18:01:32.612Z - info: User function triggered, starting execution
+2018-04-06T18:01:32.617Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 11,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '25-04-2018',
+  houseNumber: '-' }
+2018-04-06T18:01:32.620Z - info: request.method:  PUT
+2018-04-06T18:01:32.649Z - info: Execution took 676 ms, finished with status: 'crash'
+2018-04-06T18:01:40.088Z - info: User function triggered, starting execution
+2018-04-06T18:01:40.099Z - info: Execution took 12 ms, user function completed successfully
+2018-04-06T18:01:40.761Z - info: User function triggered, starting execution
+2018-04-06T18:01:40.765Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 10,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzAzNjEwNCwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMDM2MTA0LCJleHAiOjE1MjMwMzk3MDQsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.TR_kRG9AKTrwOdtXl4QsyK51-HW7JD-lo0dWQNS2WX8rJ1CGdx-7ylCPlNaEc3sIVO8iHsbjI0bW8gExi9ej_hHpAqP5_XYkzzXgaddTs7TE8u6WOHGQqPCVkIws9c_AXPN6PK4FlSXjh8rs8dCnqU-sj6GzYM4nq20U__aBlJFHzBQOGFcB0yR3llJz5qanrRPENS0agZFFMexuV1FifEkigCNfsbkZS8ulw0S6bV5tvv_R6O1cIXvd4BrZ1uUl_9LdMC_f8WLI-UCeW-Od8mBDbeeX3f39uEzYgP6ONmvzwwHnyHPZlDaXGUhOViEku5idj0TkxyHoUoTY6e-W4Q',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-06T18:01:40.765Z - info: request.method:  PUT
+2018-04-06T18:01:40.796Z - info: Execution took 673 ms, finished with status: 'crash'
+2018-04-06T18:08:59.774Z - info: User function triggered, starting execution
+2018-04-06T18:08:59.777Z - info: {}
+2018-04-06T18:08:59.784Z - info: Execution took 637 ms, finished with status: 'crash'
+2018-04-06T18:09:12.150Z - info: User function triggered, starting execution
+2018-04-06T18:09:12.153Z - info: {}
+2018-04-06T18:09:12.160Z - info: Execution took 624 ms, finished with status: 'crash'
+2018-04-06T18:09:18.522Z - info: User function triggered, starting execution
+2018-04-06T18:09:18.525Z - info: {}
+2018-04-06T18:09:18.532Z - info: Execution took 823 ms, finished with status: 'crash'
+2018-04-06T18:09:25.923Z - info: User function triggered, starting execution
+2018-04-06T18:09:25.926Z - info: {}
+2018-04-06T18:09:25.940Z - info: Execution took 1029 ms, finished with status: 'crash'
+2018-04-06T18:09:32.780Z - info: User function triggered, starting execution
+2018-04-06T18:09:32.792Z - info: {}
+2018-04-06T18:09:32.809Z - info: Execution took 23 ms, user function completed successfully
+Worker for demo closed due to file changes.
+2018-04-06T18:09:38.813Z - info: User function triggered, starting execution
+2018-04-06T18:09:38.817Z - info: {}
+2018-04-06T18:09:38.838Z - info: Execution took 25 ms, user function completed successfully
+2018-04-06T18:09:46.680Z - info: User function triggered, starting execution
+2018-04-06T18:09:46.684Z - info: {}
+2018-04-06T18:09:46.707Z - info: Execution took 642 ms, finished with status: 'crash'
+2018-04-06T18:13:21.064Z - info: Worker for demo closed due to file changes.
+2018-04-06T18:13:21.069Z - info: Worker for registerUser closed due to file changes.
+2018-04-06T18:13:21.070Z - info: Worker for removeOldDates closed due to file changes.
+2018-04-06T18:13:21.274Z - error:  code=500, status=INTERNAL, message=Function worker killed by signal: SIGTERM, errors=[Function worker killed by signal: SIGTERM]
+2018-04-06T18:14:31.369Z - info: Worker for demo closed due to file changes.
+2018-04-06T18:14:31.373Z - info: Worker for registerUser closed due to file changes.
+2018-04-06T18:14:31.374Z - info: Worker for appointment closed due to file changes.
+2018-04-06T18:14:39.970Z - info: User function triggered, starting execution
+2018-04-06T18:14:39.975Z - info: {}
+2018-04-06T18:14:39.984Z - info: Execution took 632 ms, finished with status: 'crash'
+2018-04-06T18:14:47.095Z - info: User function triggered, starting execution
+2018-04-06T18:14:47.101Z - info: {}
+2018-04-06T18:14:47.123Z - info: Execution took 642 ms, finished with status: 'crash'
+2018-04-06T18:32:36.660Z - error: /home/yoshua/.nvm/versions/node/v9.11.1/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:80
+      throw new Error(`No function found with name ${cloudfunction.entryPoint || name}`);
+      ^
+
+Error: No function found with name demo
+    at process.on (/home/yoshua/.nvm/versions/node/v9.11.1/lib/node_modules/firebase-tools/node_modules/@google-cloud/functions-emulator/src/supervisor/worker.js:80:13)
+    at process.emit (events.js:180:13)
+    at emit (internal/child_process.js:783:12)
+    at process._tickCallback (internal/process/next_tick.js:178:19)
+2018-04-06T18:32:36.684Z - error: Function worker crashed with exit code: 1
+2018-04-06T18:32:47.149Z - info: User function triggered, starting execution
+2018-04-06T18:32:47.152Z - info: {}
+2018-04-06T18:32:47.160Z - info: Execution took 636 ms, finished with status: 'crash'
+2018-04-06T18:33:11.752Z - info: User function triggered, starting execution
+2018-04-06T18:33:11.755Z - info: {}
+2018-04-06T18:33:11.761Z - info: Execution took 632 ms, finished with status: 'crash'
+2018-04-06T18:33:13.240Z - info: User function triggered, starting execution
+2018-04-06T18:33:13.243Z - info: {}
+2018-04-06T18:33:13.250Z - info: Execution took 632 ms, finished with status: 'crash'
+2018-04-06T18:33:14.525Z - info: User function triggered, starting execution
+2018-04-06T18:33:14.528Z - info: {}
+2018-04-06T18:33:14.535Z - info: Execution took 633 ms, finished with status: 'crash'
+2018-04-06T18:33:15.846Z - info: User function triggered, starting execution
+2018-04-06T18:33:15.848Z - info: {}
+2018-04-06T18:33:15.858Z - info: Execution took 634 ms, finished with status: 'crash'
+2018-04-06T18:33:17.133Z - info: User function triggered, starting execution
+2018-04-06T18:33:17.136Z - info: {}
+2018-04-06T18:33:17.144Z - info: Execution took 632 ms, finished with status: 'crash'
+2018-04-06T18:33:18.152Z - info: User function triggered, starting execution
+2018-04-06T18:33:18.155Z - info: {}
+2018-04-06T18:33:18.162Z - info: Execution took 433 ms, finished with status: 'crash'
+2018-04-06T18:33:19.510Z - info: User function triggered, starting execution
+2018-04-06T18:33:19.513Z - info: {}
+2018-04-06T18:33:19.518Z - info: Execution took 627 ms, finished with status: 'crash'

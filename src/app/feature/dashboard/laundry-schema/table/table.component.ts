@@ -30,7 +30,7 @@ export class TableComponent implements OnInit {
     const days = [];
     for (let i = 0; i < 7; i++) {
       const day = new Date();
-      day.setDate(today.getDate() + i + 24); // TODO remove 25 in future also set good dates in firebase
+      day.setDate(today.getDate() + i + 19); // TODO remove 25 in future also set good dates in firebase
       days.push(day);
     }
 

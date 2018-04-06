@@ -10,6 +10,7 @@ export class AppointmentService {
   addOrRemoveAppointment(appointmentDetail: AppointmentDetail) {
     return this.http.put('http://localhost:5000/fir-531f4/us-central1/appointment', appointmentDetail);
   }
+
 }
 
 interface AppointmentDetail {

@@ -4,12 +4,16 @@ const admin = require('firebase-admin');
 const serviceAccount = require(
   "../fir-531f4-firebase-adminsdk-gcqo4-a8dd830b56");
 
-const cors = require('cors')({origin: true});
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://fir-531f4.firebaseio.com',
+const cors = require('cors')({
+  origin: true
 });
+
+admin.initializeApp();
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: 'https://fir-531f4.firebaseio.com',
+// });
 
 // apiKey: 'AIzaSyBN5qsGqVAzWwOgnYYToNFOYcLvCE0zXM0',
 // authDomain: 'fir-531f4.firebaseapp.com',
@@ -60,6 +64,16 @@ exports.registerUser = functions.https.onRequest((request, response) => {
 
 });
 
+exports.demo = functions.https.onRequest((request, response) => {
+
+  return cors(request, response, () => {
+    console.log(request.body);
+    setTimeout(() => {
+      response.status(200).send('This is working just fine!');
+    }, 100);
+  });
+});
+
 exports.appointment = functions.https.onRequest((request, response) => {
   // Supported HTTP methods are: GET, POST, PUT, DELETE, and OPTIONS.
   // maybe also disable DELETE HTTP method,
@@ -73,37 +87,38 @@ exports.appointment = functions.https.onRequest((request, response) => {
     console.log('request.body: ', appointmentRequest);
     console.log('request.method: ', request.method);
 
-    admin.auth().verifyIdToken(appointmentRequest.idToken).then(
-      decodedToken => {
+    admin.auth().verifyIdToken(appointmentRequest.idToken)
+      .then((decodedToken) => {
         console.log('decodedToken: ' + decodedToken);
-        const signedInUserUid = decodedToken.uid;
-        console.log('signedInUserUid', signedInUserUid);
-
-        admin.auth().getUser(signedInUserUid).then(userRecord => {
-          const signedInUserHouseNumber = userRecord.displayName;
-
-          const isEmpty = appointmentRequest.houseNumber === '-';
-
-          let counterType;
-          if (appointmentRequest.machineType === 'Laundrymachine') {
-            counterType = 'laundryMachineCounter';
-          } else {
-            counterType = 'dryerCounter';
-          }
-
-          if (isEmpty) {
-            addAppointment(request, response, appointmentRequest,
-              signedInUserHouseNumber, counterType);
-          } else {
-            removeAppointment(request, response, appointmentRequest,
-              signedInUserHouseNumber, counterType);
-          }
-        });
-      }).catch(reason => {
-      console.log('reason ', reason);
-      response.status(401).send(reason);
+        // const signedInUserUid = decodedToken.uid;
+        // console.log('signedInUserUid', signedInUserUid);
+        //
+        // admin.auth().getUser(signedInUserUid).then(userRecord => {
+        //   const signedInUserHouseNumber = userRecord.displayName;
+        //
+        //   const isEmpty = appointmentRequest.houseNumber === '-';
+        //
+        //   let counterType;
+        //   if (appointmentRequest.machineType === 'Laundrymachine') {
+        //     counterType = 'laundryMachineCounter';
+        //   } else {
+        //     counterType = 'dryerCounter';
+        //   }
+        //
+        //   if (isEmpty) {
+        //     addAppointment(request, response, appointmentRequest,
+        //       signedInUserHouseNumber, counterType);
+        //   } else {
+        //     removeAppointment(request, response, appointmentRequest,
+        //       signedInUserHouseNumber, counterType);
+        //   }
+        // });
+        response.status(200).send();
+      }).catch((error) => {
+        console.log('reason1 ', error);
+        response.status(401).send();
+      });
     });
-  });
 });
 
 function addAppointment(request, response, appointmentRequest,
@@ -181,51 +196,51 @@ function removeAppointment(request, response, appointmentRequest,
 
 /// I WILL NOT NEED CORS if application is live. They are on the same origin!
 
-exports.removeOldDates = functions.https.onRequest((request, response) => {
-  // const rooms = ['A', 'B', 'C'];
-  // const machines = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4'];
-  const rooms = ['D'];
-  const machines = ['D1'];
-
-
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-
-  const nextWeek = new Date();
-  nextWeek.setDate(nextWeek.getDate() + 6);
-
-  const yesterdayString = getDayMonthYearString(yesterday);
-  const nextWeekString = getDayMonthYearString(nextWeek);
-
-  const roomsRef = admin.database().ref('/rooms');
-
-  const dataToAdd = ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
-
-  return cors(request, response, () => {
-    for (const room of rooms) {
-      for (const machine of machines) {
-        roomsRef.child(`${room}/machines/${machine}/appointments/${yesterdayString}`)
-          .remove().then(() => {
-          console.log('removed');
-        }).catch(error => {
-          console.log('error', error);
-          console.log('error while removing');
-        });
-
-        roomsRef.child(`${room}/machines/${machine}/appointments/${nextWeekString}`).set(dataToAdd)
-          .then(() => {
-            console.log('Synchronization succeeded');
-          })
-          .catch(error => {
-            console.log('error', error);
-            console.log('Synchronization failed');
-          });
-      }
-    }
-
-    response.status(200).send('OK');
-  });
-});
+// exports.removeOldDates = functions.https.onRequest((request, response) => {
+//   // const rooms = ['A', 'B', 'C'];
+//   // const machines = ['A1', 'A2', 'A3', 'A4', 'B1', 'B2', 'B3', 'B4', 'C1', 'C2', 'C3', 'C4'];
+//   const rooms = ['D'];
+//   const machines = ['D1'];
+//
+//
+//   const yesterday = new Date();
+//   yesterday.setDate(yesterday.getDate() - 1);
+//
+//   const nextWeek = new Date();
+//   nextWeek.setDate(nextWeek.getDate() + 6);
+//
+//   const yesterdayString = getDayMonthYearString(yesterday);
+//   const nextWeekString = getDayMonthYearString(nextWeek);
+//
+//   const roomsRef = admin.database().ref('/rooms');
+//
+//   const dataToAdd = ['-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'];
+//
+//   return cors(request, response, () => {
+//     for (const room of rooms) {
+//       for (const machine of machines) {
+//         roomsRef.child(`${room}/machines/${machine}/appointments/${yesterdayString}`)
+//           .remove().then(() => {
+//           console.log('removed');
+//         }).catch(error => {
+//           console.log('error', error);
+//           console.log('error while removing');
+//         });
+//
+//         roomsRef.child(`${room}/machines/${machine}/appointments/${nextWeekString}`).set(dataToAdd)
+//           .then(() => {
+//             console.log('Synchronization succeeded');
+//           })
+//           .catch(error => {
+//             console.log('error', error);
+//             console.log('Synchronization failed');
+//           });
+//       }
+//     }
+//
+//     response.status(200).send('OK');
+//   });
+// });
 
 function getDayMonthYearString(date) {
   let day = date.getDate();
