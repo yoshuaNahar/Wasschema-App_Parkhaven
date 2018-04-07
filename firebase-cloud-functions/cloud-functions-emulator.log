@@ -901,3 +901,241 @@ signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
 2018-04-07T12:53:52.118Z - info: counter 0
 2018-04-07T12:53:52.242Z - info: houseNumber -
 2018-04-07T12:53:52.495Z - info: here
+2018-04-07T18:01:52.605Z - info: User function triggered, starting execution
+2018-04-07T18:01:52.612Z - info: Execution took 7 ms, user function completed successfully
+2018-04-07T18:01:52.634Z - info: User function triggered, starting execution
+2018-04-07T18:01:52.636Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 9,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEwMjQ5NiwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTAyNDk2LCJleHAiOjE1MjMxMDYwOTYsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.CY5MiK1ofuitSMPkcaSx-aTAN26i-H2QGDisO0VpnB22JcUIzKFYC5OWBWNK6KQ8OLTACZiO4grJ6CglvCMZ5U0CreY_mVN9oPsDuE6knc5jnprG9N9V565jdJtiUysI-u71TrzpFPzrRgTjBgfoJlfT-Kzern0XL5VXg74OJiyovSuoXYyz0cseFDCPbY7Ae3WEaWCJ2toImKSrjgPU8POKWYuxCTqsC_cZZfFKPcTfUwgq3rTRauqHUhrYzirdGzqVVtmjbt3dbP6YzMZNybF6qomIxsoQjpTwaZdMZ-3opRVuzRpSF60RF8FBhPq2f0Vkto0-y0XknnzXSi2OlQ',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T18:01:52.715Z - info: error { Error: Firebase ID token has expired. Get a fresh token from your client app and try again (auth/id-token-expired). See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.
+    at FirebaseAuthError.FirebaseError [as constructor] (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/utils/error.js:39:28)
+    at FirebaseAuthError.PrefixedFirebaseError [as constructor] (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/utils/error.js:85:28)
+    at new FirebaseAuthError (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/utils/error.js:143:16)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:173:35
+    at Object.module.exports [as verify] (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/jsonwebtoken/verify.js:126:14)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:162:17
+    at new Promise (<anonymous>)
+    at FirebaseTokenVerifier.verifyJwtSignatureWithKey (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:161:16)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:145:30
+    at <anonymous>
+  errorInfo: 
+   { code: 'auth/argument-error',
+     message: 'Firebase ID token has expired. Get a fresh token from your client app and try again (auth/id-token-expired). See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.' },
+  codePrefix: 'auth' }
+2018-04-07T18:01:52.717Z - info: Execution took 82 ms, user function completed successfully
+2018-04-07T18:02:14.662Z - info: User function triggered, starting execution
+2018-04-07T18:02:14.664Z - info: Execution took 1 ms, user function completed successfully
+2018-04-07T18:02:14.676Z - info: User function triggered, starting execution
+2018-04-07T18:02:14.677Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 9,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyNDEzMSwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI0MTMxLCJleHAiOjE1MjMxMjc3MzEsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.IMBe3Oq0MhsUCjYTt_1KTBXbdJg0sYPi6TBFBwZxdhTfn0j_eq73ymdEX1-PiB3iaos5VD3YVchyhfiU4DG3NFUWkUx7pN0U_rWr5DZr6zNAcBacZ4O5i82xbQP3DC6oTKcyQYurgOkD_-ygsI9ur3z58rS7t-yE6Js8E2J8XaH2-R-p3QvVFGD6ngVF0IQuSbKe6si4B_b4CFlntXAYN7sIN51E5QrbOB-Jp_URFFV9HhZnPJ5s4Cwi_QgEJ2NLXG9yv9OW1GFEjpVrCpGudzwMSI6czmEplthPR8q5FvyYV51XEq3ZWDbUkVfeYWRJiD8KRrD6H22qpj8fY_cOAg',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T18:02:14.678Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T18:02:15.164Z - info: counter null
+2018-04-07T18:02:15.165Z - info: houseNumber null
+2018-04-07T18:02:15.172Z - error: (node:22410) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 2): spot not not empty
+2018-04-07T18:02:15.173Z - error: (node:22410) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+2018-04-07T18:02:15.963Z - info: counter 1
+2018-04-07T18:02:15.964Z - info: houseNumber null
+2018-04-07T18:02:15.971Z - error: (node:22410) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 3): spot not not empty
+2018-04-07T18:02:16.149Z - info: Appointment placed!
+2018-04-07T18:02:16.152Z - info: Execution took 1474 ms, user function completed successfully
+2018-04-07T18:04:33.162Z - error: Function worker killed by signal: SIGTERM
+2018-04-07T18:04:38.317Z - info: User function triggered, starting execution
+2018-04-07T18:04:38.327Z - info: Execution took 12 ms, user function completed successfully
+2018-04-07T18:04:38.343Z - info: User function triggered, starting execution
+2018-04-07T18:04:38.344Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 9,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyNDEzMSwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI0MTMxLCJleHAiOjE1MjMxMjc3MzEsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.IMBe3Oq0MhsUCjYTt_1KTBXbdJg0sYPi6TBFBwZxdhTfn0j_eq73ymdEX1-PiB3iaos5VD3YVchyhfiU4DG3NFUWkUx7pN0U_rWr5DZr6zNAcBacZ4O5i82xbQP3DC6oTKcyQYurgOkD_-ygsI9ur3z58rS7t-yE6Js8E2J8XaH2-R-p3QvVFGD6ngVF0IQuSbKe6si4B_b4CFlntXAYN7sIN51E5QrbOB-Jp_URFFV9HhZnPJ5s4Cwi_QgEJ2NLXG9yv9OW1GFEjpVrCpGudzwMSI6czmEplthPR8q5FvyYV51XEq3ZWDbUkVfeYWRJiD8KRrD6H22qpj8fY_cOAg',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T18:04:38.445Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T18:04:38.998Z - info: counter null
+2018-04-07T18:04:38.998Z - info: houseNumber null
+2018-04-07T18:04:39.000Z - error: (node:22686) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): spot not not empty
+(node:22686) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+2018-04-07T18:04:56.919Z - info: Execution took 18590 ms, finished with status: 'crash'
+2018-04-07T18:04:56.927Z - error: Function worker killed by signal: SIGTERM
+2018-04-07T18:10:36.105Z - info: User function triggered, starting execution
+2018-04-07T18:10:36.112Z - info: Execution took 9 ms, user function completed successfully
+2018-04-07T18:10:36.126Z - info: User function triggered, starting execution
+2018-04-07T18:10:36.128Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 9,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyNDEzMSwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI0MTMxLCJleHAiOjE1MjMxMjc3MzEsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.IMBe3Oq0MhsUCjYTt_1KTBXbdJg0sYPi6TBFBwZxdhTfn0j_eq73ymdEX1-PiB3iaos5VD3YVchyhfiU4DG3NFUWkUx7pN0U_rWr5DZr6zNAcBacZ4O5i82xbQP3DC6oTKcyQYurgOkD_-ygsI9ur3z58rS7t-yE6Js8E2J8XaH2-R-p3QvVFGD6ngVF0IQuSbKe6si4B_b4CFlntXAYN7sIN51E5QrbOB-Jp_URFFV9HhZnPJ5s4Cwi_QgEJ2NLXG9yv9OW1GFEjpVrCpGudzwMSI6czmEplthPR8q5FvyYV51XEq3ZWDbUkVfeYWRJiD8KRrD6H22qpj8fY_cOAg',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T18:10:36.211Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T18:10:36.774Z - info: counter null
+2018-04-07T18:10:36.775Z - info: houseNumber null
+2018-04-07T18:10:36.780Z - error: (node:23258) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): spot not empty
+2018-04-07T18:10:36.780Z - error: (node:23258) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+2018-04-07T18:10:37.617Z - info: Appointment placed!
+2018-04-07T18:10:37.620Z - info: Execution took 1493 ms, user function completed successfully
+2018-04-07T18:10:41.888Z - error: Function worker killed by signal: SIGTERM
+2018-04-07T18:10:48.651Z - info: User function triggered, starting execution
+2018-04-07T18:10:48.660Z - info: Execution took 12 ms, user function completed successfully
+2018-04-07T18:10:48.675Z - info: User function triggered, starting execution
+2018-04-07T18:10:48.676Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 9,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyNDEzMSwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI0MTMxLCJleHAiOjE1MjMxMjc3MzEsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.IMBe3Oq0MhsUCjYTt_1KTBXbdJg0sYPi6TBFBwZxdhTfn0j_eq73ymdEX1-PiB3iaos5VD3YVchyhfiU4DG3NFUWkUx7pN0U_rWr5DZr6zNAcBacZ4O5i82xbQP3DC6oTKcyQYurgOkD_-ygsI9ur3z58rS7t-yE6Js8E2J8XaH2-R-p3QvVFGD6ngVF0IQuSbKe6si4B_b4CFlntXAYN7sIN51E5QrbOB-Jp_URFFV9HhZnPJ5s4Cwi_QgEJ2NLXG9yv9OW1GFEjpVrCpGudzwMSI6czmEplthPR8q5FvyYV51XEq3ZWDbUkVfeYWRJiD8KRrD6H22qpj8fY_cOAg',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T18:10:48.781Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T18:10:49.230Z - info: counter null
+2018-04-07T18:10:49.230Z - info: houseNumber null
+2018-04-07T18:10:49.235Z - error: (node:23302) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 1): spot not empty
+(node:23302) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+2018-04-07T18:10:50.038Z - info: counter 1
+2018-04-07T18:10:50.040Z - info: houseNumber null
+2018-04-07T18:10:50.049Z - error: (node:23302) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 2): spot not empty
+2018-04-07T18:10:50.176Z - info: Appointment placed!
+2018-04-07T18:10:50.179Z - info: Execution took 1504 ms, user function completed successfully
+2018-04-07T18:10:51.910Z - info: User function triggered, starting execution
+2018-04-07T18:10:51.910Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 8,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyNDEzMSwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI0MTMxLCJleHAiOjE1MjMxMjc3MzEsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.IMBe3Oq0MhsUCjYTt_1KTBXbdJg0sYPi6TBFBwZxdhTfn0j_eq73ymdEX1-PiB3iaos5VD3YVchyhfiU4DG3NFUWkUx7pN0U_rWr5DZr6zNAcBacZ4O5i82xbQP3DC6oTKcyQYurgOkD_-ygsI9ur3z58rS7t-yE6Js8E2J8XaH2-R-p3QvVFGD6ngVF0IQuSbKe6si4B_b4CFlntXAYN7sIN51E5QrbOB-Jp_URFFV9HhZnPJ5s4Cwi_QgEJ2NLXG9yv9OW1GFEjpVrCpGudzwMSI6czmEplthPR8q5FvyYV51XEq3ZWDbUkVfeYWRJiD8KRrD6H22qpj8fY_cOAg',
+  date: '26-04-2018',
+  houseNumber: '401' }
+2018-04-07T18:10:51.912Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T18:10:52.353Z - info: counter 2
+2018-04-07T18:10:52.556Z - info: houseNumber 401
+2018-04-07T18:10:52.814Z - info: Execution took 903 ms, user function completed successfully
+2018-04-07T18:20:35.426Z - error: Function worker killed by signal: SIGTERM
+2018-04-07T19:21:38.101Z - info: User function triggered, starting execution
+2018-04-07T19:21:38.110Z - info: Execution took 12 ms, user function completed successfully
+2018-04-07T19:21:38.127Z - info: User function triggered, starting execution
+2018-04-07T19:21:38.129Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 2,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyNDEzMSwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI0MTMxLCJleHAiOjE1MjMxMjc3MzEsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.IMBe3Oq0MhsUCjYTt_1KTBXbdJg0sYPi6TBFBwZxdhTfn0j_eq73ymdEX1-PiB3iaos5VD3YVchyhfiU4DG3NFUWkUx7pN0U_rWr5DZr6zNAcBacZ4O5i82xbQP3DC6oTKcyQYurgOkD_-ygsI9ur3z58rS7t-yE6Js8E2J8XaH2-R-p3QvVFGD6ngVF0IQuSbKe6si4B_b4CFlntXAYN7sIN51E5QrbOB-Jp_URFFV9HhZnPJ5s4Cwi_QgEJ2NLXG9yv9OW1GFEjpVrCpGudzwMSI6czmEplthPR8q5FvyYV51XEq3ZWDbUkVfeYWRJiD8KRrD6H22qpj8fY_cOAg',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T19:21:38.249Z - info: error { Error: Firebase ID token has expired. Get a fresh token from your client app and try again (auth/id-token-expired). See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.
+    at FirebaseAuthError.FirebaseError [as constructor] (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/utils/error.js:39:28)
+    at FirebaseAuthError.PrefixedFirebaseError [as constructor] (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/utils/error.js:85:28)
+    at new FirebaseAuthError (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/utils/error.js:143:16)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:173:35
+    at Object.module.exports [as verify] (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/jsonwebtoken/verify.js:126:14)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:162:17
+    at new Promise (<anonymous>)
+    at FirebaseTokenVerifier.verifyJwtSignatureWithKey (/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:161:16)
+    at /home/yoshua/Development/GitHub/Wasschema-App_Parkhaven/firebase-cloud-functions/functions/node_modules/firebase-admin/lib/auth/token-verifier.js:145:30
+    at <anonymous>
+  errorInfo: 
+   { code: 'auth/argument-error',
+     message: 'Firebase ID token has expired. Get a fresh token from your client app and try again (auth/id-token-expired). See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.' },
+  codePrefix: 'auth' }
+2018-04-07T19:21:38.251Z - info: Execution took 123 ms, user function completed successfully
+2018-04-07T19:25:59.587Z - info: User function triggered, starting execution
+2018-04-07T19:25:59.588Z - info: Execution took 0 ms, user function completed successfully
+2018-04-07T19:25:59.601Z - info: User function triggered, starting execution
+2018-04-07T19:25:59.601Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 6,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyOTE1NiwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI5MTU2LCJleHAiOjE1MjMxMzI3NTYsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ZqLI5TIoRNByf6NGf0pChnIYXOMD1Aw2BDqKAQ-XTkydtxj153JthQ3OaQvztK6uLtqRRccXXdSUepnjzl-GC7TNn5s0Y-Ha74mEfquKL0XjBokV6-cfbBJ83Q3HRbbeSOPjzMnvfmi9nc5uAyQ7WUVTRmfNLYK1G1GxjZsJVnGDmGA8ky4OJfIq28c4UThPZf0jbt2YE2IIdbeXtfPNzjWQt2fExKqmJIHG7CUhz9Aja7Q9flnPlUDh8RPSrKbINYclao4315GqAYI6u8oiq4mAh7EN4Jba0ZWvxXs31MwiOfBhXT1cxkEjcXGTZZEvPLKjUCVTmXSU8PDfKir4mA',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T19:25:59.602Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T19:26:00.109Z - info: counter null
+2018-04-07T19:26:00.109Z - info: houseNumber null
+2018-04-07T19:26:00.119Z - error: (node:28563) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 2): spot not empty
+2018-04-07T19:26:00.119Z - error: (node:28563) [DEP0018] DeprecationWarning: Unhandled promise rejections are deprecated. In the future, promise rejections that are not handled will terminate the Node.js process with a non-zero exit code.
+2018-04-07T19:26:01.134Z - info: counter 1
+2018-04-07T19:26:01.134Z - info: houseNumber null
+2018-04-07T19:26:01.137Z - error: (node:28563) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 3): spot not empty
+2018-04-07T19:26:01.350Z - info: Appointment placed!
+2018-04-07T19:26:01.350Z - info: Execution took 1750 ms, user function completed successfully
+2018-04-07T19:26:08.953Z - info: User function triggered, starting execution
+2018-04-07T19:26:08.954Z - info: Execution took 0 ms, user function completed successfully
+2018-04-07T19:26:08.963Z - info: User function triggered, starting execution
+2018-04-07T19:26:08.963Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 7,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyOTE1NiwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI5MTU2LCJleHAiOjE1MjMxMzI3NTYsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ZqLI5TIoRNByf6NGf0pChnIYXOMD1Aw2BDqKAQ-XTkydtxj153JthQ3OaQvztK6uLtqRRccXXdSUepnjzl-GC7TNn5s0Y-Ha74mEfquKL0XjBokV6-cfbBJ83Q3HRbbeSOPjzMnvfmi9nc5uAyQ7WUVTRmfNLYK1G1GxjZsJVnGDmGA8ky4OJfIq28c4UThPZf0jbt2YE2IIdbeXtfPNzjWQt2fExKqmJIHG7CUhz9Aja7Q9flnPlUDh8RPSrKbINYclao4315GqAYI6u8oiq4mAh7EN4Jba0ZWvxXs31MwiOfBhXT1cxkEjcXGTZZEvPLKjUCVTmXSU8PDfKir4mA',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T19:26:08.964Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T19:26:09.202Z - info: counter null
+2018-04-07T19:26:09.203Z - info: houseNumber null
+2018-04-07T19:26:09.205Z - error: (node:28563) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 4): spot not empty
+2018-04-07T19:26:09.405Z - info: counter 2
+2018-04-07T19:26:09.407Z - info: houseNumber null
+2018-04-07T19:26:09.414Z - error: (node:28563) UnhandledPromiseRejectionWarning: Unhandled promise rejection (rejection id: 5): spot not empty
+2018-04-07T19:26:09.572Z - info: Appointment placed!
+2018-04-07T19:26:09.573Z - info: Execution took 609 ms, user function completed successfully
+2018-04-07T19:26:22.364Z - error: Function worker killed by signal: SIGTERM
+2018-04-07T19:26:25.069Z - info: User function triggered, starting execution
+2018-04-07T19:26:25.078Z - info: Execution took 12 ms, user function completed successfully
+2018-04-07T19:26:25.100Z - info: User function triggered, starting execution
+2018-04-07T19:26:25.102Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 6,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyOTE1NiwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI5MTU2LCJleHAiOjE1MjMxMzI3NTYsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ZqLI5TIoRNByf6NGf0pChnIYXOMD1Aw2BDqKAQ-XTkydtxj153JthQ3OaQvztK6uLtqRRccXXdSUepnjzl-GC7TNn5s0Y-Ha74mEfquKL0XjBokV6-cfbBJ83Q3HRbbeSOPjzMnvfmi9nc5uAyQ7WUVTRmfNLYK1G1GxjZsJVnGDmGA8ky4OJfIq28c4UThPZf0jbt2YE2IIdbeXtfPNzjWQt2fExKqmJIHG7CUhz9Aja7Q9flnPlUDh8RPSrKbINYclao4315GqAYI6u8oiq4mAh7EN4Jba0ZWvxXs31MwiOfBhXT1cxkEjcXGTZZEvPLKjUCVTmXSU8PDfKir4mA',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T19:26:25.418Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T19:26:26.322Z - info: counter null
+2018-04-07T19:26:26.322Z - info: houseNumber null
+2018-04-07T19:26:27.538Z - info: counter 3
+2018-04-07T19:26:27.542Z - info: No counters remaining
+2018-04-07T19:26:27.549Z - info: Execution took 2447 ms, user function completed successfully
+2018-04-07T19:26:47.327Z - info: User function triggered, starting execution
+2018-04-07T19:26:47.329Z - info: Execution took 1 ms, user function completed successfully
+2018-04-07T19:26:47.336Z - info: User function triggered, starting execution
+2018-04-07T19:26:47.336Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 10,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyOTE1NiwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI5MTU2LCJleHAiOjE1MjMxMzI3NTYsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ZqLI5TIoRNByf6NGf0pChnIYXOMD1Aw2BDqKAQ-XTkydtxj153JthQ3OaQvztK6uLtqRRccXXdSUepnjzl-GC7TNn5s0Y-Ha74mEfquKL0XjBokV6-cfbBJ83Q3HRbbeSOPjzMnvfmi9nc5uAyQ7WUVTRmfNLYK1G1GxjZsJVnGDmGA8ky4OJfIq28c4UThPZf0jbt2YE2IIdbeXtfPNzjWQt2fExKqmJIHG7CUhz9Aja7Q9flnPlUDh8RPSrKbINYclao4315GqAYI6u8oiq4mAh7EN4Jba0ZWvxXs31MwiOfBhXT1cxkEjcXGTZZEvPLKjUCVTmXSU8PDfKir4mA',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T19:26:47.337Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T19:26:47.600Z - info: counter null
+2018-04-07T19:26:47.601Z - info: houseNumber null
+2018-04-07T19:26:47.919Z - info: counter 3
+2018-04-07T19:26:47.920Z - info: No counters remaining
+2018-04-07T19:26:47.923Z - info: Execution took 586 ms, user function completed successfully
+2018-04-07T19:52:32.506Z - info: User function triggered, starting execution
+2018-04-07T19:52:32.512Z - info: Execution took 6 ms, user function completed successfully
+2018-04-07T19:52:32.528Z - info: User function triggered, starting execution
+2018-04-07T19:52:32.530Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A2',
+  time: 5,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6IjZlYThhZmIwMjFjMjEzMDhjNzkzMDI2ZTMzNDA4ZGI3MDc2ODc0MWEifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzEyOTE1NiwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTI5MTU2LCJleHAiOjE1MjMxMzI3NTYsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.ZqLI5TIoRNByf6NGf0pChnIYXOMD1Aw2BDqKAQ-XTkydtxj153JthQ3OaQvztK6uLtqRRccXXdSUepnjzl-GC7TNn5s0Y-Ha74mEfquKL0XjBokV6-cfbBJ83Q3HRbbeSOPjzMnvfmi9nc5uAyQ7WUVTRmfNLYK1G1GxjZsJVnGDmGA8ky4OJfIq28c4UThPZf0jbt2YE2IIdbeXtfPNzjWQt2fExKqmJIHG7CUhz9Aja7Q9flnPlUDh8RPSrKbINYclao4315GqAYI6u8oiq4mAh7EN4Jba0ZWvxXs31MwiOfBhXT1cxkEjcXGTZZEvPLKjUCVTmXSU8PDfKir4mA',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-07T19:52:33.551Z - info: signedInUserUid 3hbB2cQb6whvtQv2TtXDnyqgSDf2
+2018-04-07T19:52:34.613Z - info: counter null
+2018-04-07T19:52:34.613Z - info: houseNumber null
+2018-04-07T19:52:35.955Z - info: counter 3
+2018-04-07T19:52:35.958Z - info: No counters remaining
+2018-04-07T19:52:35.965Z - info: Execution took 3435 ms, user function completed successfully
+2018-04-07T20:16:04.906Z - error: SUPERVISOR error Error: listen EADDRINUSE 127.0.0.1:5000
+    at Object._errnoException (util.js:1022:11)
+    at _exceptionWithHostPort (util.js:1044:20)
+    at Server.setupListenHandle [as _listen2] (net.js:1351:14)
+    at listenInCluster (net.js:1392:12)
+    at GetAddrInfoReqWrap.doListen [as callback] (net.js:1501:7)
+    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:97:10)
+2018-04-07T20:16:04.908Z - error: supervisorPort (5000) is already in use
+2018-04-07T20:16:04.908Z - error: restPort (5001) is already in use

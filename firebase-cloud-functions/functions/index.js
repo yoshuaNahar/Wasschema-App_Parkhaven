@@ -66,27 +66,37 @@ function addAppointment(request, response, appointmentRequest, signedInUserHouse
     `rooms/${appointmentRequest.room}/machines/${appointmentRequest.machine}/appointments/${appointmentRequest.date}/${appointmentRequest.time}`
   );
 
-  counterDbRef.once('value').then(counter => {
-    counter = counter.val();
+  counterDbRef.transaction(counter => {
     console.log('counter', counter);
     if (counter < 3) {
-      houseNumberDbRef.once('value').then(houseNumber => {
-        houseNumber = houseNumber.val();
+
+      houseNumberDbRef.transaction(houseNumber => {
         console.log('houseNumber', houseNumber);
         if (houseNumber === '-') {
-          counterDbRef.set(++counter).then(() => {
-              houseNumberDbRef.set(signedInUserHouseNumber).then(() => {
-                console.log('here');
-                response.status(200).send();
-              });
-            }
-          );
+          return houseNumber;
         } else {
-          response.status(400).send('Spot already taken');
+          return;
         }
+      }).then(value => {
+        // if (!value.committed) {
+        //   throw 'spot not empty';
+        // }
       });
+
+      return ++counter;
     } else {
+      return;
+    }
+  }, (error, committed, snapshot) => {
+    if (error) {
+      console.log('Transaction failed abnormally!', error);
+      response.status(500).send('Unknow Exception');
+    } else if (!committed) {
+      console.log('No counters remaining');
       response.status(400).send('No appointments left');
+    } else {
+      console.log('Appointment placed!');
+      response.status(200).send();
     }
   });
 }
