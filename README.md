@@ -35,3 +35,9 @@ I will not use retype password or are you sure modals.
 
 - I did not make use of HammerJS for the swipe 
   functionality for the sidenav
+
+# How to run
+
+- `ng serve --aot --host 0.0.0.0`
+- Also run cloud functions
+- Make sure the current date is correct

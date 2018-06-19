@@ -1,0 +1,12 @@
+2018-04-08T08:28:17.332Z - info: User function triggered, starting execution
+2018-04-08T08:28:17.336Z - info: Execution took 5 ms, user function completed successfully
+2018-04-08T08:28:17.337Z - info: Worker for appointment closed due to file changes.
+2018-04-08T08:28:17.771Z - info: User function triggered, starting execution
+2018-04-08T08:28:17.773Z - info: request.body:  { machineType: 'Laundrymachine',
+  machine: 'A1',
+  time: 5,
+  room: 'A',
+  idToken: 'eyJhbGciOiJSUzI1NiIsImtpZCI6ImMwNmEyMTQ5YjdmOTU3MjgwNTJhOTg1YWRlY2JmNWRlMDQ3Y2RhNmYifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmlyLTUzMWY0IiwibmFtZSI6IjQwMSIsImF1ZCI6ImZpci01MzFmNCIsImF1dGhfdGltZSI6MTUyMzE3NjA1NSwidXNlcl9pZCI6IjNoYkIyY1FiNndodnRRdjJUdFhEbnlxZ1NEZjIiLCJzdWIiOiIzaGJCMmNRYjZ3aHZ0UXYyVHRYRG55cWdTRGYyIiwiaWF0IjoxNTIzMTc2MDU1LCJleHAiOjE1MjMxNzk2NTUsImVtYWlsIjoieW9zaC5uYWhhckBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsieW9zaC5uYWhhckBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.bpVJL7WAYLdsND8pIvP_opIv3yI_w_XFvTKbEAVt-h8AuqKk4SVGikmET6rWkhDgJeDAgH7lcROxBNQMvHFOUKWdQSICNiHt0aAyXHh-rQlKKLrvzMN7qznrJhtVQa5UAfMNP4YLCZqWHQEeKeLfeXGIn6q12eYjcn-AvIXASUFNKgeUSx_VVJ2hxhbhXUmTuQJ_AG-SefN3mkzl_L5UJiB2Ta60Jq9H3U85vi2O6qgZx6P2OcBZ6xVEA93w6N0vmLJjJu9xaW3u3vqMC3VIfoW7T-VffopKvXSSvAny1tZbWNE1_TNlqDn7hCWDv_KsIW8gOk60OeJe_RSK_HTmNA',
+  date: '26-04-2018',
+  houseNumber: '-' }
+2018-04-08T08:28:17.794Z - info: Execution took 444 ms, finished with status: 'crash'
