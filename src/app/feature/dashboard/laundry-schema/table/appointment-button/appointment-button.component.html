@@ -1,16 +1,16 @@
 <button mat-button
         [disabled]="(!isEmpty &&
                     appointment.houseNumber !== currentUserHouseNumber) ||
-                    isPassed"
-        [ngClass]='{empty: isEmpty,
-                    unavailable: isPassed && isEmpty,
+                    isInThePast"
+        [ngClass]="{empty: isEmpty,
+                    unavailable: isInThePast && isEmpty,
                     left: isLeft,
                     right: !isLeft,
                     left_taken: isLeft && !isEmpty,
-                    right_taken: !isLeft && !isEmpty}'
+                    right_taken: !isLeft && !isEmpty}"
         (click)="makeOrRemoveAppointment()">
   {{appointment.houseNumber}}
-  <span *ngIf="!isPassed &&
+  <span *ngIf="!isInThePast &&
                appointment.houseNumber === currentUserHouseNumber">
     <mat-icon class="trash">delete</mat-icon>
   </span>

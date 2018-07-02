@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div id="main-div">Hello World</div>
+
+<button onclick="writeUserData()">Write user data</button>
+<button onclick="fetchUserData()">Fetch user data</button>
+
+<script src="https://www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  const config = {
+    apiKey: "AIzaSyBN5qsGqVAzWwOgnYYToNFOYcLvCE0zXM0",
+    authDomain: "fir-531f4.firebaseapp.com",
+    databaseURL: "https://fir-531f4.firebaseio.com",
+    projectId: "fir-531f4",
+    storageBucket: "fir-531f4.appspot.com",
+    messagingSenderId: "932886716822"
+  };
+  firebase.initializeApp(config);
+</script>
+<script>
+  function writeUserData() {
+    firebase.database().ref('tmp/' + 2).set({
+      username: 'Name',
+      email: 'Email',
+      profile_picture: 'Url',
+      timestamp: new Date().getTime(),
+      otherTime: new Date().toISOString()
+    });
+  }
+
+  function fetchUserData() {
+    return firebase.database().ref('/schema/').orderByKey().once('value').then(
+      snapshot => {
+        snapshot.forEach(e => console.log(e.val()));
+        let user = snapshot.val();
+        console.log(user);
+        document.querySelector('#main-div').innerHTML = JSON.stringify(user);
+      });
+  }
+</script>
+</body>
+</html>

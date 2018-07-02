@@ -1,8 +1,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
-const serviceAccount = require(
-  "../fir-531f4-firebase-adminsdk-gcqo4-a8dd830b56");
+const serviceAccount = require("./fir-531f4-firebase-adminsdk-gcqo4-a8dd830b56");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -13,41 +12,6 @@ const cors = require('cors')({
   origin: true
 });
 
-async function test(response, userCounterDbRef, userHouseNumberDbRef) {
-  const counterResult = await userCounterDbRef.transaction(washCounter => {
-    console.log('washCounter', washCounter); // debug
-    const washLimitReached = washCounter < 3;
-    if (washLimitReached) {
-      return washCounter + 1;
-    }
-    // else returns undefined, which will cause the transaction to abort
-  });
-  if (counterResult.committed) {
-    console.log(userHouseNumberDbRef.toString());
-    const userHouseNumberResult = await userHouseNumberDbRef.transaction(
-      houseNumber => {
-        console.log('houseNumber', houseNumber);
-        if (houseNumber == null) {
-          return -1; // because transactions return null on first attempt
-        }
-        if (houseNumber === '-') {
-          return '401';
-        }
-        // else returns undefined, which will cause the transaction to abort
-      });
-    if (userHouseNumberResult.committed) {
-      console.log('Appointment placed!');
-      return response.status(200);
-    } else { // rollback counter and return houseNumberJustTaken message
-      userCounterDbRef.set(counterResult.snapshot.val());
-      return response.status(207).body('Spot already taken!');
-    }
-  } else {
-    console.log('No appointments left!');
-    return response.status(207).body('No appointments left!');
-  }
-}
-
 exports.appointmentTest = functions.https.onRequest((request, response) => {
   return cors(request, response, () => {
     console.log('request.body', request.body);
@@ -56,10 +20,52 @@ exports.appointmentTest = functions.https.onRequest((request, response) => {
     const userHouseNumberDbRef = houseNumberDbRef({
       room: 'A',
       machine: 'A1',
-      date: '25-04-2018',
-      time: 0
+      date: '2018-07-01',
+      time: 12
     });
-    test(response, userCounterDbRef, userHouseNumberDbRef).fin((res) => res.send());
+
+    userCounterDbRef.transaction(washCounter => {
+      console.log('washCounter', washCounter); // debug
+      const isAbleToWash = washCounter < 3;
+      if (isAbleToWash) {
+        return washCounter + 1;
+      }
+      // else returns undefined, which will cause the transaction to abort
+    }, (error, committed, snapshot) => {
+      if (error || !committed) {
+        console.log(error);
+        console.log(committed);
+        console.log(snapshot);
+        console.log('No appointments left!');
+        response.status(207).send('No appointments left!');
+      } else { // washCounter Incremented
+        console.log(userHouseNumberDbRef.toString());
+        userHouseNumberDbRef.transaction(
+          houseNumber => {
+            console.log('houseNumber', houseNumber);
+            if (houseNumber === null) {
+              return -1; // because transactions return null on first attempt
+            }
+            if (houseNumber === '-') {
+              return '401';
+            }
+            // else returns undefined, which will cause the transaction to abort
+          }, (error, committed, snapshot) => {
+            if (error || !committed) {
+              console.log('error');
+              // rollback counter and return houseNumberAlreadyTaken message
+              userCounterDbRef.transaction(washCounter => {
+                console.log('rollback washcounter');
+                return washCounter - 1;
+              });
+              return response.status(207).send('Spot already taken!');
+            } else {
+              console.log('Appointment placed!');
+              return response.status(200).send();
+            }
+          });
+      }
+    });
   });
 });
 
@@ -72,42 +78,42 @@ exports.appointmentTest = functions.https.onRequest((request, response) => {
  * 5. Check if the user's counter is valid
  * 6. Check if spot is free when placing an appointment or if taken spot is really his, when removing an appointment
  */
-exports.appointment = functions.https.onRequest((request, response) => {
-  return cors(request, response, () => {
-
-    const appointment = request.body;
-    console.log('request.body: ', appointment);
-
-    admin.auth().verifyIdToken(appointment.idToken)
-    .then(decodedIdToken => {
-      const signedInUserUid = decodedIdToken.uid;
-      console.log('signedInUserUid', signedInUserUid);
-
-      return admin.auth().getUser(signedInUserUid); // What happens if this fails? I think the last catch is for the
-    }).then(userRecord => {
-      const signedInUserHouseNumber = userRecord.displayName;
-      const isEmpty = appointment.houseNumber === '-';
-
-      let counterType;
-      if (appointment.machineType === 'Laundrymachine') {
-        counterType = 'laundryMachineCounter';
-      } else {
-        counterType = 'dryerCounter';
-      }
-
-      // if (isEmpty) {
-      return addAppointment(request, response, appointment,
-        signedInUserHouseNumber, counterType);
-      // } else {
-      //   return removeAppointment(request, response, appointment,
-      //     signedInUserHouseNumber, counterType);
-      // }
-    }).catch(error => {
-      console.log('error', error);
-      response.status(401).send();
-    });
-  });
-});
+// exports.appointment = functions.https.onRequest((request, response) => {
+//   return cors(request, response, () => {
+//
+//     const appointment = request.body;
+//     console.log('request.body: ', appointment);
+//
+//     admin.auth().verifyIdToken(appointment.idToken)
+//     .then(decodedIdToken => {
+//       const signedInUserUid = decodedIdToken.uid;
+//       console.log('signedInUserUid', signedInUserUid);
+//
+//       return admin.auth().getUser(signedInUserUid); // What happens if this fails? I think the last catch is for the
+//     }).then(userRecord => {
+//       const signedInUserHouseNumber = userRecord.displayName;
+//       const isEmpty = appointment.houseNumber === '-';
+//
+//       let counterType;
+//       if (appointment.machineType === 'Laundrymachine') {
+//         counterType = 'laundryMachineCounter';
+//       } else {
+//         counterType = 'dryerCounter';
+//       }
+//
+//       // if (isEmpty) {
+//       return addAppointment(request, response, appointment,
+//         signedInUserHouseNumber, counterType);
+//       // } else {
+//       //   return removeAppointment(request, response, appointment,
+//       //     signedInUserHouseNumber, counterType);
+//       // }
+//     }).catch(error => {
+//       console.log('error', error);
+//       response.status(401).send();
+//     });
+//   });
+// });
 
 function addAppointment(request, response, appointmentRequest,
   signedInUserHouseNumber, counterType) {
@@ -179,11 +185,10 @@ function removeAppointment(request, response, appointmentRequest,
 
 function houseNumberDbRef(appointmentRequest) {
   return admin.database().ref(
-    `rooms/${appointmentRequest.room}/machines/${appointmentRequest.machine}/appointments/${appointmentRequest.date}/${appointmentRequest.time}`
+    `schema/${appointmentRequest.date}/${appointmentRequest.room}/${appointmentRequest.machine}/${appointmentRequest.time}`
   );
 }
 
 function counterDbRef(houseNumber, counterType) {
-  return admin.database().ref(
-    `users/${houseNumber}/${counterType}`);
+  return admin.database().ref(`users/${houseNumber}/${counterType}`);
 }

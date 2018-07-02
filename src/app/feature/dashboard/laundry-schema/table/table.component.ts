@@ -1,36 +1,41 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Appointment} from '../laundry-schema.component';
-import {MatSnackBar} from '@angular/material';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {AppointmentService} from '../../../../core/services/appointment.service';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {DatePipe} from '@angular/common';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Appointment } from '../laundry-schema.component';
+import { MatSnackBar } from '@angular/material';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { AppointmentService } from '../../../../core/services/appointment.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { DatePipe } from '@angular/common';
+import { SchemaService } from '../../schema-service';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.css'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit {
+
+  static TIMES = ['05:30', '07:00', '08:30', '10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:30', '22:00', '23:30'];
+  static DAYS = TableComponent.setDates();
 
   @Input() room;
   @Input('machine') machineNames: string[];
   @Input() machineType;
 
-  isLoadingFirebaseDataFinished = 0;
+  schema;
+  machines;
 
-  machines = [];
-  times = ['05:30', '07:00', '08:30', '10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:30', '22:00', '23:30'];
-  days = [];
+  days;
+  times;
 
   currentUserIdToken;
 
   private static setDates() {
     const today = new Date();
     const days = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 3; i++) {
       const day = new Date();
-      day.setDate(today.getDate() + i + 17); // TODO remove 25 in future also set good dates in firebase
+      day.setDate(today.getDate() + i);
       days.push(day);
     }
 
@@ -41,40 +46,60 @@ export class TableComponent implements OnInit {
               private afAuth: AngularFireAuth,
               private appointmentService: AppointmentService,
               private datePipe: DatePipe,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar,
+              private schemaService: SchemaService,
+              private cdr: ChangeDetectorRef) {
+    this.days = TableComponent.DAYS;
+    this.times = TableComponent.TIMES;
   }
 
   ngOnInit() {
-    this.days = TableComponent.setDates();
+    this.schemaService.schemaUpdated.subscribe(value => {
+      this.schema = value;
+      this.machines = [];
 
-    for (let machineNameIndex = 0; machineNameIndex < this.machineNames.length; machineNameIndex++) {
-      this.afDb.database.ref(`/rooms/${this.room}/machines/${this.machineNames[machineNameIndex]}`)
-        .on('value', machine_ => {
-          const machine = machine_.val();
+      console.log('table component');
+      console.log(this.schema);
+      console.log(this.room);
+      console.log(this.machineNames[0]);
+      console.log(this.schema[0][`${this.room}`]);
 
-          // // Now you have an array with of machines[{name, appointments: [[appointment array of day 1], ...]}, ...]
-          this.addAppointmentsOfOneWeekInsideMachineArray(machine, this.machineNames[machineNameIndex], machineNameIndex);
+      let machine = [];
+      for (let day = 0; day < 3; day++) {
+        console.log('day' + day);
+        console.log(this.schema[day][`${this.room}`][`${this.machineNames[0]}`]);
+        machine.push(this.schema[day][`${this.room}`][`${this.machineNames[0]}`]);
+      }
+      this.machines.push(machine);
+      machine = [];
+      for (let day = 0; day < 3; day++) {
+        machine.push(this.schema[day][`${this.room}`][`${this.machineNames[0]}`]);
+      }
+      this.machines.push(machine);
 
-          console.log(this.machines.length);
-          console.log(this.machines[0].appointments.length);
-          console.log(this.machines[0].appointments[0].length);
-
-          if (this.isLoadingFirebaseDataFinished < 2) {
-            this.isLoadingFirebaseDataFinished += 1;
-            console.log(this.isLoadingFirebaseDataFinished);
-          }
-        });
-    }
-
-    this.afAuth.auth.onAuthStateChanged(user => {
-      user.getIdToken().then(idToken => {
-        this.currentUserIdToken = idToken;
-      });
+      console.log(this.machines);
     });
+
+    // // Now you have an array with of machines[{name, appointments: [[appointment array of day 1], ...]}, ...]
+    // this.addAppointmentsOfOneWeekInsideMachineArray(machine, this.machineNames[machineNameIndex], machineNameIndex);
+
+    // this.afAuth.auth.onAuthStateChanged(user => {
+    //   user.getIdToken().then(idToken => {
+    //     this.currentUserIdToken = idToken;
+    //   });
+    // });
+  }
+
+  ngAfterViewInit(): void {
+    // this.cdr.detach();
   }
 
   makeOrRemoveAppointment(appointment: Appointment) {
     console.log(`appointment ${appointment.houseNumber} ${appointment.day} ${appointment.time.value}`);
+
+    // testing
+    appointment.houseNumber = 230;
+    this.currentUserIdToken = 1;
 
     if (this.currentUserIdToken) {
 
@@ -86,7 +111,7 @@ export class TableComponent implements OnInit {
         time: appointment.time.index,
         room: this.room,
         idToken: this.currentUserIdToken,
-        date: this.datePipe.transform(this.days[appointment.day], 'dd-MM-yyyy'),
+        date: this.datePipe.transform(this.days[appointment.day], 'yyyy-MM-dd'),
         houseNumber: appointment.houseNumber // current houseNumber on that spot
       };
 

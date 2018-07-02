@@ -1,23 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-laundry-schema',
   templateUrl: './laundry-schema.component.html',
-  styleUrls: ['./laundry-schema.component.css']
+  styleUrls: ['./laundry-schema.component.css'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LaundrySchemaComponent implements OnInit {
-
-  currentTab = 0;
+export class LaundrySchemaComponent {
 
   constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-  whichTab(val) {
-    console.log(val);
-    this.currentTab = val.index;
   }
 
 }

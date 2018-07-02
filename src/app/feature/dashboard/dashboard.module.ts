@@ -14,7 +14,8 @@ import { ChangePasswordComponent } from './settings/change-password/change-passw
 import { SetFavouriteLaundryRoomComponent } from './settings/set-favourite-laundry-room/set-favourite-laundry-room.component';
 import { DeleteAccountComponent } from './settings/delete-account/delete-account.component';
 import { MessageComponent } from './notification-board/message/message.component';
-import {DatePipe} from '@angular/common';
+import { DatePipe } from '@angular/common';
+import { SchemaService } from './schema-service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {DatePipe} from '@angular/common';
   ],
   providers: [
     DatePipe,
+    SchemaService,
   ]
 })
 export class DashboardModule {

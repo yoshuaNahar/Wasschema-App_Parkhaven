@@ -1,36 +1,28 @@
 <h1>Week 11 - Sunday 18 March 2018</h1>
 
-<mat-tab-group (selectedTabChange)="whichTab($event)" class="demo-tab-group">
+<mat-tab-group class="demo-tab-group">
   <mat-tab label="Room A">
-    <div *ngIf="currentTab === 0">
-      <app-table [room]="'A'"
-                 [machine]="['A1', 'A2']"
-                 [machineType]="'Laundrymachine'"></app-table>
-      <app-table [room]="'A'"
-                 [machine]="['A3', 'A4']"
-                 [machineType]="'Dryer'"></app-table>
-    </div>
+    <app-table [room]="'A'"
+               [machine]="['A1', 'A2']"
+               [machineType]="'Laundrymachine'"></app-table>
+    <app-table [room]="'A'"
+               [machine]="['A3', 'A4']"
+               [machineType]="'Dryer'"></app-table>
   </mat-tab>
   <mat-tab label="Room B">
-    <div *ngIf="currentTab === 1">
-      <app-table [room]="'B'"
-                 [machine]="['B1', 'B2']"
-                 [machineType]="'Laundrymachine'"></app-table>
-      <app-table [room]="'B'"
-                 [machine]="['B3', 'B4']"
-                 [machineType]="'Dryer'"></app-table>
-    </div>
+    <app-table [room]="'B'"
+               [machine]="['B1', 'B2']"
+               [machineType]="'Laundrymachine'"></app-table>
+    <app-table [room]="'B'"
+               [machine]="['B3', 'B4']"
+               [machineType]="'Dryer'"></app-table>
   </mat-tab>
   <mat-tab label="Room C">
-    <!-- this workaround makes sure that the component is destroyed and loaded again -->
-    <!-- https://stackoverflow.com/questions/46902829/how-can-i-load-components-added-in-tab-using-angular4 -->
-    <div *ngIf="currentTab === 2">
-      <app-table [room]="'C'"
-                 [machine]="['C1', 'C2']"
-                 [machineType]="'Laundrymachine'"></app-table>
-      <app-table [room]="'C'"
-                 [machine]="['C3', 'C4']"
-                 [machineType]="'Dryer'"></app-table>
-    </div>
+    <app-table [room]="'C'"
+               [machine]="['C1', 'C2']"
+               [machineType]="'Laundrymachine'"></app-table>
+    <app-table [room]="'C'"
+               [machine]="['C3', 'C4']"
+               [machineType]="'Dryer'"></app-table>
   </mat-tab>
 </mat-tab-group>
