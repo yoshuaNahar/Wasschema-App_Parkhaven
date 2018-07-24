@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {RegistrationDetails} from '../models/RegistrationDetails';
+import {RegistrationDetails} from '../../features/auth/models/RegistrationDetails';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';

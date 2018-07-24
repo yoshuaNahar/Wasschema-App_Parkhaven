@@ -5,7 +5,7 @@ import { DashboardComponent } from './dashboard.component';
 import { NotificationBoardComponent } from './notification-board/notification-board.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
-import { AuthGuard } from '../../core/services/auth-guard.service';
+import { AuthGuard } from '../services/auth-guard.service';
 
 const routes: Routes = [
   {

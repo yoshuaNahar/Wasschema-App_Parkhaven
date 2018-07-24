@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RegistrationDetails} from '../models/RegistrationDetails';
-import {RegistrationService} from '../services/auth.service';
+import {RegistrationService} from '../../../core/services/auth.service';
 import {MatSnackBar} from '@angular/material';
 import {Router} from '@angular/router';
 import {AngularFireAuth} from 'angularfire2/auth';

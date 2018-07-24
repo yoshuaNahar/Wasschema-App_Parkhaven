@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { LoginComponent } from './login/login.component';
-import { RegistrationComponent } from './registration/registration.component';
+import { LoginComponent } from '../features/auth/login/login.component';
+import { RegistrationComponent } from '../features/auth/registration/registration.component';
 import { RegistrationService } from './services/auth.service';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ForgotPasswordComponent } from '../features/auth/forgot-password/forgot-password.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { AngularFireModule } from 'angularfire2';
@@ -28,7 +28,9 @@ import { AppointmentService } from './services/appointment.service';
   ],
   exports: [],
   providers: [
-    RegistrationService, AuthGuard, AppointmentService,
+    RegistrationService,
+    AuthGuard,
+    AppointmentService,
   ]
 })
 export class CoreModule {
