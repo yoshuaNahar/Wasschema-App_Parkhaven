@@ -6,6 +6,7 @@ import { AppointmentService } from '../../../../core/services/appointment.servic
 import { AngularFireAuth } from 'angularfire2/auth';
 import { DatePipe } from '@angular/common';
 import { SchemaService } from '../../schema-service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -18,9 +19,9 @@ export class TableComponent implements OnInit, AfterViewInit {
   static TIMES = ['05:30', '07:00', '08:30', '10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:30', '22:00', '23:30'];
   static DAYS = TableComponent.setDates();
 
-  @Input() room;
-  @Input('machine') machineNames: string[];
-  @Input() machineType;
+  room;
+  machineNames: string[];
+  machineType;
 
   schema;
   machines;
@@ -48,12 +49,19 @@ export class TableComponent implements OnInit, AfterViewInit {
               private datePipe: DatePipe,
               public snackBar: MatSnackBar,
               private schemaService: SchemaService,
-              private cdr: ChangeDetectorRef) {
+              private cdr: ChangeDetectorRef,
+              private route: ActivatedRoute) {
     this.days = TableComponent.DAYS;
     this.times = TableComponent.TIMES;
   }
 
   ngOnInit() {
+    console.log(this.route.snapshot.params['id']);
+    this.room = this.route.snapshot.params['id'];
+    // TODO: table.component should have all 4 machines
+    this.machineNames = ['A1', 'A2'];
+    this.machineType = 'Laundrymachine';
+
     this.schemaService.schemaUpdated.subscribe(value => {
       this.schema = value;
       this.machines = [];
@@ -77,6 +85,7 @@ export class TableComponent implements OnInit, AfterViewInit {
       }
       this.machines.push(machine);
 
+      console.log('this.machines');
       console.log(this.machines);
     });
 

@@ -8,6 +8,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class LaundrySchemaComponent {
 
+  rooms = [{id: 'A', name: 'Room A'}, {id: 'B', name: 'Room B'}, {id: 'C', name: 'Room C'}];
+
   constructor() {
   }
 
