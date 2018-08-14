@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { SettingsService } from '../settings.service';
 
 @Component({
   selector: 'app-delete-account',
@@ -12,20 +11,13 @@ export class DeleteAccountComponent implements OnInit {
 
   deleteAccountForm;
 
-  currentUser;
-
   constructor(private formBuilder: FormBuilder,
-              private afAuth: AngularFireAuth,
-              private router: Router) {
+              private userSettingsService: SettingsService) {
   }
 
   ngOnInit() {
     this.deleteAccountForm = this.formBuilder.group({
       currentPassword: ['', Validators.required],
-    });
-
-    this.afAuth.auth.onAuthStateChanged(user => {
-      this.currentUser = user;
     });
   }
 
@@ -34,14 +26,7 @@ export class DeleteAccountComponent implements OnInit {
     const currentPassword = this.deleteAccountForm.value.currentPassword;
     console.log(currentPassword);
 
-    this.afAuth.auth.signInWithEmailAndPassword(this.currentUser.email, currentPassword).then(value => {
-      console.log('email + password correct', value);
-
-      this.afAuth.auth.currentUser.delete().then(() => {
-        console.log('account deleted!');
-        this.router.navigate(['/login']);
-      });
-    });
+    this.userSettingsService.deleteAccount();
   }
 
 }

@@ -1,0 +1,46 @@
+<main>
+  <mat-chip-list *ngIf="machineMetaData.length === 2">
+    <mat-chip disabled class="left_taken">{{machineMetaData[0].type}} {{machineMetaData[0].name}}</mat-chip>
+    <mat-chip disabled class="right_taken">{{machineMetaData[1].type}} {{machineMetaData[1].name}}</mat-chip>
+  </mat-chip-list>
+
+  <div class="schema">
+    <table class="primary" *ngIf="machines">
+      <tr>
+        <td>
+          <table>
+            <thead><tr><td class="time">Time</td></tr></thead>
+            <tbody><tr *ngFor="let time of times"><td class="time">{{time}}</td></tr></tbody>
+          </table>
+        </td>
+        <td *ngFor="let day of days; let dayIndex = index">
+          <table>
+            <thead><tr><td>{{day | date: 'EEEE'}}</td></tr></thead>
+            <tbody>
+              <tr *ngFor="let time of times; let timeIndex = index"><td>
+                <app-appointment-button
+                  [isPositionedLeft]="true"
+                  [appointment]="{
+                      room: room,
+                      machineMetaData: machineMetaData[0],
+                      day: {index: dayIndex, value: day},
+                      time: {index: timeIndex, value: time},
+                      houseNumber: machines['A1'][day][timeIndex]}">
+                </app-appointment-button>
+                <app-appointment-button
+                  [isPositionedLeft]="false"
+                  [appointment]="{
+                      room: room,
+                      machineMetaData: machineMetaData[1],
+                      day: {index: dayIndex, value: day},
+                      time: {index: timeIndex, value: time},
+                      houseNumber: machines['A2'][day][timeIndex]}">
+                </app-appointment-button>
+              </td></tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </div>
+</main>

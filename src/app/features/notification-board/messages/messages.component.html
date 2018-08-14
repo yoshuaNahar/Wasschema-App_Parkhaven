@@ -1,0 +1,20 @@
+<div class="messages">
+  <div class="message" *ngFor="let message of messages">
+    <div class="message_title">
+      <h3>{{message.title}}</h3>
+      <div class="icon_actions">
+        <button mat-icon-button>
+          <mat-icon>done</mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="currentUser && message.houseNumber === currentUser.displayName"
+                (click)="removeMessage(message)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="message_content">{{message.content}}</div>
+    <p class="message_meta">{{message.timestamp}} | 01-10-2018 | 08:11</p>
+    <mat-divider class="mat_margins"></mat-divider>
+  </div>
+</div>

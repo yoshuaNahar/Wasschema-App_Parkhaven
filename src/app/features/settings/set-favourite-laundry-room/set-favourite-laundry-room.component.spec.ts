@@ -8,7 +8,7 @@ describe('SetFavouriteLaundryRoomComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SetFavouriteLaundryRoomComponent ]
+      declarations: [SetFavouriteLaundryRoomComponent]
     })
     .compileComponents();
   }));

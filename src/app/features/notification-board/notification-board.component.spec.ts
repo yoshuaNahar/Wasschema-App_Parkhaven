@@ -8,7 +8,7 @@ describe('NotificationBoardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NotificationBoardComponent ]
+      declarations: [NotificationBoardComponent]
     })
     .compileComponents();
   }));

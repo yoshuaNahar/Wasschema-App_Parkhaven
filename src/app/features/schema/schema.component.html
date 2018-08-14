@@ -1,0 +1,11 @@
+<h1>Week 11 - Sunday 18 March 2018</h1>
+
+<nav mat-tab-nav-bar class="demo-tab-group">
+  <a mat-tab-link
+     *ngFor="let room of rooms"
+     [routerLink]="['/room', room.id]">
+    {{room.name}}
+  </a>
+</nav>
+
+<router-outlet></router-outlet>

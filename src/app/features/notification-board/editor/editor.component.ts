@@ -1,8 +1,8 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
-import {Message} from '../notification-board.component';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {AngularFireAuth} from 'angularfire2/auth';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-editor',
@@ -14,28 +14,31 @@ export class EditorComponent implements OnInit {
   title = '';
   content = '';
 
-  options2 = {placeholder: 'Title', toolbar: false, toolbarTips: false, status: false};
+  titleOptions = {
+    placeholder: 'Title',
+    toolbar: false,
+    toolbarTips: false,
+    status: false
+  };
 
-  options = {
+  contentOptions = {
     placeholder: 'Type your message here',
     hideIcons: ['side-by-side', 'fullscreen']
   };
 
-  @Output() goBackEmitter = new EventEmitter<void>();
-
-  messagesRef;
+  @Output() private goBackEmitter = new EventEmitter<void>();
 
   currentUser;
 
   constructor(private formBuilder: FormBuilder,
-              private afDb: AngularFireDatabase,
-              private afAuth: AngularFireAuth) {
+              private afStore: AngularFirestore,
+              private afAuth: AngularFireAuth,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
     this.afAuth.auth.onAuthStateChanged(user => {
       this.currentUser = user;
-      this.messagesRef = this.afDb.database.ref(`/messages/pending/${this.currentUser.uid}`);
     });
   }
 
@@ -47,8 +50,10 @@ export class EditorComponent implements OnInit {
       timestamp: new Date().toJSON()
     };
 
-    this.messagesRef.push(message).then(value => {
+    this.afStore.collection('pendingMessages').add(message).then(value => {
       console.log(value);
+      this.goBackEvent();
+      this.snackBar.open('Message created.', 'Oke');
     }).catch(error => {
       console.log(error);
     });
@@ -58,4 +63,12 @@ export class EditorComponent implements OnInit {
     this.goBackEmitter.emit();
   }
 
+}
+
+export interface Message {
+  id?;
+  title;
+  content;
+  houseNumber;
+  timestamp;
 }

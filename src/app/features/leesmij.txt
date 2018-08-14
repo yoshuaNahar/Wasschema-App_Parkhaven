@@ -1,5 +1,9 @@
-Place actual features in the feature.module.
-Don't include other stuff here.
+This folder contains features that are independent from the other features.
+You could remove or add a feature, and the app should still work.
 
+In this app all these features are displayed via the router-outlet inside the dashboard component.
+
+
+Technical:
 Each feature can import stuff from the core and shared modules. Never the other way around!
-These features could and should be lazily loaded.
+These features can be lazily loaded.

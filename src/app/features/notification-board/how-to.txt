@@ -1,0 +1,4 @@
+The admin can accept a message with the checkmark icon
+
+
+The original poster or the admin has the trashcan icon to remove it again.

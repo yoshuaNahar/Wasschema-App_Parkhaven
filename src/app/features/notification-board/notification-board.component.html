@@ -4,35 +4,16 @@
       <h2>Notifications board</h2>
     </div>
     <div *ngIf="!isCreateButtonClicked">
-      <div class="messages">
-        <div class="message" *ngFor="let message of messages">
-          <div class="message_title">
-            <h3>{{message.title}}</h3>
-            <div class="icon_actions">
-              <button mat-icon-button>
-                <mat-icon>done</mat-icon>
-              </button>
-              <button mat-icon-button
-                      *ngIf="message.houseNumber == currentUserHouseNumber"
-                      (click)="removeMessage(message.key)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </div>
-          <div class="message_content">{{message.content}}</div>
-          <p class="message_meta">{{message.timestamp}} | 01-10-2018 | 08:11</p>
-          <mat-divider class="mat_margins"></mat-divider>
-        </div>
-      </div>
+      <app-messages></app-messages>
       <div class="action">
         <button mat-raised-button
                 color="primary"
-                (click)="toggleMessages()">Create
+                (click)="toggleBetweenMessagesAndEditor()">Create
         </button>
       </div>
     </div>
     <div *ngIf="isCreateButtonClicked">
-      <app-editor (goBackEmitter)="toggleMessages()"></app-editor>
+      <app-editor (goBackEmitter)="toggleBetweenMessagesAndEditor()"></app-editor>
     </div>
   </div>
 </main>

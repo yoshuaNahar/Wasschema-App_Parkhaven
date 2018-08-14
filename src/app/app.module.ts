@@ -4,7 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { DashboardModule } from './core/dashboard/dashboard.module';
+import { DashboardModule } from './dashboard/dashboard.module';
+import { AuthModule } from './auth/auth.module';
+import { NotFoundModule } from './not-found/not-found.module';
 
 @NgModule({
   declarations: [
@@ -13,9 +15,12 @@ import { DashboardModule } from './core/dashboard/dashboard.module';
   imports: [
     BrowserModule,
     // Custom modules here,
+    AppRoutingModule,
     CoreModule,
     DashboardModule,
-    AppRoutingModule,
+    AuthModule,
+    // not found module contains a wildcard route, which has to be the last route
+    NotFoundModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

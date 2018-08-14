@@ -1,2 +1,6 @@
 Add components, directives and pipes here that will be used by other components.
+
+The shared module will be imported inside feature modules, because you can't have directives
+in more than one place.
+
 Don't place services here.

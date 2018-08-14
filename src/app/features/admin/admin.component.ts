@@ -1,44 +1,47 @@
-import {Component, OnInit} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore, DocumentChangeAction, } from 'angularfire2/firestore';
+import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
 
   users = [];
-  keys = [];
+  private usersSubscription: Subscription;
 
-  constructor(private afDb: AngularFireDatabase) {
+  constructor(private afStore: AngularFirestore) {
   }
 
   ngOnInit() {
-    this.afDb.database.ref('/users').once('value', houseNumbersSnapshot => {
-      const users = [];
-      const usersKeys = [];
-
-      houseNumbersSnapshot.forEach(houseNumberSnapshot => {
-        console.log(houseNumberSnapshot.forEach(userSnapshot => {
-          users.push(userSnapshot.val());
-          return true;
-        }));
-        usersKeys.push(houseNumberSnapshot.key);
-        return false;
-      });
-
+    this.usersSubscription = this.afStore.collection('users').snapshotChanges().pipe(
+      map((docArray: DocumentChangeAction<object>[]) => {
+        return docArray.map(doc => {
+          return {
+            id: doc.payload.doc.id,
+            ...doc.payload.doc.data()
+          };
+        });
+      })).subscribe(users => {
+      console.log('users', users);
       this.users = users;
-      this.keys = usersKeys;
-    });
+    })
   }
 
-  delete(houseNumber) {
-    this.afDb.database.ref(`/users/${houseNumber}`).remove().then(value => {
+  ngOnDestroy(): void {
+    this.usersSubscription.unsubscribe();
+  }
+
+  delete(user) {
+    this.afStore.collection('users').doc(user.id).delete().then(value => {
       console.log(value);
-    }).catch(error => {
-      console.log(error);
-    })
+      this.afStore.collection('houseNumbers').doc(user.houseNumber).update({
+        user: null
+      });
+    });
   }
 
 }

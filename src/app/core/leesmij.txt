@@ -1,4 +1,6 @@
-Add components and services that are needed for the app to function correctly.
-The core.module will be imported inside the App.Module.
+Provide services that are required for the app to function correctly.
+Preferably don't declare components. Only if they are used inside the app component.
 
-The core.module will not be lazily loaded.
+The core module needs to be imported inside the app module.
+
+The core  module should never be lazily loaded.

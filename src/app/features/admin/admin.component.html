@@ -1,6 +1,4 @@
 <main>
-  <!--<app-notification-board></app-notification-board>-->
-
   <div id="users">
     <h2>Users</h2>
     <table>
@@ -20,11 +18,12 @@
           {{user.email}}
         </td>
         <td>
-          {{keys[index]}}
+          {{user.houseNumber}}
         </td>
         <td>
           <button mat-button
-                  (click)="delete(keys[index])">Delete</button>
+                  (click)="delete(user)">Delete
+          </button>
         </td>
       </tr>
     </table>

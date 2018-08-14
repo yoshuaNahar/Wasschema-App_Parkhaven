@@ -1,28 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {AngularFireDatabase} from 'angularfire2/database';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {AngularFireAuth} from 'angularfire2/auth';
-import {MatSnackBar} from '@angular/material';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { SettingsService } from '../settings.service';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-set-favourite-laundry-room',
   templateUrl: './set-favourite-laundry-room.component.html',
   styleUrls: ['./set-favourite-laundry-room.component.css']
 })
-export class SetFavouriteLaundryRoomComponent implements OnInit {
+export class SetFavouriteLaundryRoomComponent implements OnInit, OnDestroy {
 
   setFavouriteLaundryRoomForm: FormGroup;
 
-  favouriteRoomRef;
-
-  currentUser;
-
   favouriteLaundryRoom;
+  private favouriteLaundryRoomSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
-              private afAuth: AngularFireAuth,
-              private afDb: AngularFireDatabase,
-              public snackBar: MatSnackBar) {
+              private userSettingsService: SettingsService) {
   }
 
   ngOnInit() {
@@ -30,30 +24,23 @@ export class SetFavouriteLaundryRoomComponent implements OnInit {
       favouriteLaundryRoom: ['']
     });
 
-    this.afAuth.auth.onAuthStateChanged(user => {
-      this.currentUser = user;
-      this.favouriteRoomRef = this.afDb.database.ref(`/users/${this.currentUser.displayName}/${this.currentUser.uid}/favouriteRoom`);
+    this.favouriteLaundryRoomSubscription =
+      this.userSettingsService.fetchFavouriteLaundryRoom().subscribe(user => {
+        console.log(user);
+        this.favouriteLaundryRoom = user.favouriteRoom;
 
-      this.favouriteRoomRef.once('value', favouriteLaundryRoom_ => {
-        this.favouriteLaundryRoom = favouriteLaundryRoom_.val();
-        console.log(this.favouriteLaundryRoom);
+        console.log('this.favouriteLaundryRoom', this.favouriteLaundryRoom);
       });
-    });
+  }
+
+  ngOnDestroy() {
+    this.favouriteLaundryRoomSubscription.unsubscribe();
   }
 
   setFavouriteLaundryRoom() {
-    console.log(this.setFavouriteLaundryRoomForm);
     const favouriteLaundryRoom = this.setFavouriteLaundryRoomForm.value.favouriteLaundryRoom;
-    console.log(favouriteLaundryRoom);
 
-    this.favouriteRoomRef.set(favouriteLaundryRoom)
-      .then(value => {
-        console.log('favLaundryRoomSet', value);
-        this.snackBar.open('Favourite laundry room set', 'Oke', {
-          duration: 5000,
-          verticalPosition: 'top'
-        });
-      });
+    this.userSettingsService.setFavouriteLaundryRoom(favouriteLaundryRoom);
   }
 
 }

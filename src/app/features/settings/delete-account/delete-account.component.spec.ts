@@ -8,7 +8,7 @@ describe('DeleteAccountComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeleteAccountComponent ]
+      declarations: [DeleteAccountComponent]
     })
     .compileComponents();
   }));

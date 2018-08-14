@@ -1,36 +1,26 @@
 import { NgModule } from '@angular/core';
-import { LoginComponent } from '../features/auth/login/login.component';
-import { RegistrationComponent } from '../features/auth/registration/registration.component';
-import { RegistrationService } from './services/auth.service';
-import { ForgotPasswordComponent } from '../features/auth/forgot-password/forgot-password.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../../environments/environment';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthGuard } from './services/auth-guard.service';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AppointmentService } from './services/appointment.service';
+import { AuthService } from '../auth/auth.service';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    RegistrationComponent,
-    ForgotPasswordComponent,
-  ],
+  declarations: [],
   imports: [
     SharedModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
   ],
   exports: [],
   providers: [
-    RegistrationService,
-    AuthGuard,
-    AppointmentService,
+    AuthService,
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 4000, position: 'top'}}
   ]
 })
 export class CoreModule {
