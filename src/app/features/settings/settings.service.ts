@@ -39,14 +39,14 @@ export class SettingsService {
   fetchFavouriteLaundryRoom() {
     const currentUser = this.authService.getCurrentSignedInUser();
 
-    return this.afStore.collection('users').doc(currentUser.displayName).valueChanges();
+    return this.afStore.collection('publicUsersData').doc(currentUser.displayName).valueChanges();
   }
 
   setFavouriteLaundryRoom(laundryRoom) {
     console.log('laundryRoomSet:', laundryRoom);
     const currentUser = this.authService.getCurrentSignedInUser();
 
-    this.afStore.collection('users').doc(currentUser.displayName).update({
+    this.afStore.collection('publicUsersData').doc(currentUser.displayName).update({
       favouriteRoom: laundryRoom
     }).then(() => {
       this.snackBar.open('Favourite laundry room set.', 'Oke');

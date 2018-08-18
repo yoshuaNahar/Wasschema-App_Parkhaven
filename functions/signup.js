@@ -1,32 +1,59 @@
+/*
+ * Steps:
+ * 1. Check that the houseNumber isn't already used.
+ * 2. Add the user from the request to the backend.
+ * 3. Send an email to the email address to accept.
+ */
+
+// request.body: {
+//   firstName,
+//   lastName,
+//   email,
+//   password,
+//   houseNumber
+// }
+
+/*
+{
+  [fbUser.uid]: {
+    admin: false,
+    name: `${user.firstName} ${user.lastName}`
+  },
+  counters: {dryer: 0, laundrymachine: 0}
+}
+ */
+
 exports.handler = function (request, response, admin) {
   const user = request.body;
 
   console.log("user ", user);
 
-  admin.database().ref('/users').child(user.houseNumber)
-  .once("value").then(houseNumber => {
-    houseNumber = houseNumber.val();
-    console.log('houseNumber ', houseNumber);
-
-    if (houseNumber !== "") {
+  admin.firestore().collection('/users').doc(
+    user.houseNumber).get().then(userData => {
+    const userDb = userData.data();
+    console.log('userDb, If undefined create a null doc with that housenumber',
+      userDb);
+    const userExists = Object.keys(userDb).length !== 0; // object that is this: { }
+    if (userExists) {
       response.status(400).send("User with this housenumber already exists!");
     } else {
+      user.displayName = user.houseNumber; // I do this so that the displayName is also set when to user is created
       admin.auth().createUser(user)
       .then(fbUser => {
         console.log("Successfully created new user: ", fbUser.uid);
 
-        admin.database().ref('/users').child(user.houseNumber).set(
+        admin.firestore().collection('/users').doc(user.houseNumber).set(
           {
-            [fbUser.uid]: {
-              email: user.email,
-              admin: false,
-              created: new Date().toJSON(),
-              favouriteRoom: 'A',
-              name: `${user.firstName} ${user.lastName}`
-            },
-            counters: { Dryer: 0, Laundrymachine: 0 }
+            admin: false,
+            name: `${user.firstName} ${user.lastName}`,
+            counters: {dryer: 0, laundrymachine: 0}
           }
         );
+
+        admin.firestore().collection('/publicUsersData').doc(
+          user.houseNumber).set({
+          favouriteRoom: 'A',
+        });
 
         response.status(200).send();
       })
@@ -37,4 +64,3 @@ exports.handler = function (request, response, admin) {
     }
   });
 };
-

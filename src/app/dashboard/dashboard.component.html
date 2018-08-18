@@ -39,13 +39,15 @@
               <mat-icon id="notification">priority_high</mat-icon>
             </a>
           </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item>
-            <a routerLinkActive="active_link"
-               routerLink="/admin"
-               (click)="closeSideNav()">
-              Admin</a>
-          </mat-list-item>
+          <div *ngIf="user && user.admin">
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <a routerLinkActive="active_link"
+                 routerLink="/admin"
+                 (click)="closeSideNav()">
+                Admin</a>
+            </mat-list-item>
+          </div>
         </mat-list>
       </nav>
     </mat-sidenav>

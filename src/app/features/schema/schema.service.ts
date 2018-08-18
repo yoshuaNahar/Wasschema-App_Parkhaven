@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Appointment } from './schema.component';
 import { MatSnackBar } from '@angular/material';
 import { DatePipe } from '@angular/common';
@@ -17,11 +17,15 @@ export class SchemaService {
   }
 
   roomDocument(room) {
-    return this.afStore.collection('rooms').doc(room);
+    return this.afStore.collection('rooms', ref => ref.limit(2)).doc(room);
   }
 
   days() {
-    return this.afStore.collection('rooms').doc('metadata');
+    return this.afStore.collection('roomsMetadata').doc('days');
+  }
+
+  machineMetaData(room) {
+    return this.afStore.collection('roomsMetadata').doc(room);
   }
 
   removeAppointment(appointment: Appointment) {
@@ -35,20 +39,16 @@ export class SchemaService {
       this.http.put('http://localhost:5000/fir-531f4/us-central1/removeAppointment', {
         appointment: appointment,
         jwt: token
-      }).subscribe(value => {
-        console.log(value);
-        this.snackBar.open('Appointment removed!', 'Oke', {
-          duration: 5000,
-          verticalPosition: 'top'
-        });
+      }).subscribe((response: { message }) => {
+        console.log('response', response);
+        this.snackBar.open(response.message, 'Oke');
+      }, (err: HttpErrorResponse) => {
+        console.log('err', err);
       });
     });
   }
 
   addAppointment(appointment: Appointment) {
-    // TODO: I added day object, so in firebase functions I also need to add the day.value.
-    // appointment.day = this.datePipe.transform(appointment.day.value, 'yyyy-MM-dd');
-
     console.log(`appointment ${appointment.houseNumber} ${appointment.day.value} ${appointment.time.value}`);
 
     const currentUser = this.authService.getCurrentSignedInUser();
@@ -59,12 +59,11 @@ export class SchemaService {
       this.http.put('http://localhost:5000/fir-531f4/us-central1/addAppointment', {
         appointment: appointment,
         jwt: token
-      }).subscribe(value => {
-        console.log(value);
-        this.snackBar.open('Appointment placed!', 'Oke', {
-          duration: 5000,
-          verticalPosition: 'top'
-        });
+      }).subscribe((response: { message }) => {
+        console.log('response', response);
+        this.snackBar.open(response.message, 'Oke');
+      }, (err: HttpErrorResponse) => {
+        console.log('err', err);
       });
     });
   }

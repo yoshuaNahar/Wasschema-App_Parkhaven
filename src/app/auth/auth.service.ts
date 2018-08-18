@@ -5,11 +5,14 @@ import { RegistrationDetails } from './RegistrationDetails';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Injectable()
 export class AuthService {
 
+  // In firestore users/user I removed created and email field because they already exists on the currentUser and currentUser.metadata
   constructor(private afAuth: AngularFireAuth,
+              private afStore: AngularFirestore,
               private router: Router,
               private http: HttpClient,
               private snackBar: MatSnackBar) {
@@ -34,7 +37,6 @@ export class AuthService {
       headers: {'Content-Type': 'application/json'}
     }).subscribe(value => {
       console.log('value ', value);
-      this.afAuth.auth.currentUser.updateProfile({displayName: user.houseNumber, photoURL: null});
       this.router.navigate(['/login']);
     }, error => {
       console.log('error', error);
@@ -46,15 +48,21 @@ export class AuthService {
     // send email to user account
     // navigate to login page
     // show notification that email is send
-    this.afAuth.auth.sendPasswordResetEmail(email).then(() =>
-      this.router.navigate(['/login']).then(() =>
-        this.snackBar.open(`Email sent to ${email}`, 'Oke')));
+    this.afAuth.auth.sendPasswordResetEmail(email).then(() => {
+      this.router.navigate(['/login']).then(() => {
+        this.snackBar.open(`Email sent to ${email}`, 'Oke');
+      });
+    });
   }
 
   logout() {
     this.afAuth.auth.signOut().then(() => {
       this.router.navigate(['/login']);
-    })
+    });
+  }
+
+  getUserInformation() {
+    return this.afStore.collection('users').doc(this.afAuth.auth.currentUser.displayName);
   }
 
   isUserLoggedIn() {

@@ -37,9 +37,9 @@ export class RoomComponent implements OnInit, AfterViewInit {
     this.room = this.route.snapshot.params['id'];
 
     // TODO: days can be done once, and machineMetadata each route.params change
-    this.schemaService.days().valueChanges().subscribe((metadata: {days, machines}) => {
-      this.days = metadata.days;
-      this.machineMetaData = metadata.machines;
+    this.schemaService.days().valueChanges().subscribe((days: {currentWeek}) => {
+      this.days = days.currentWeek;
+      console.log('this.days', this.days);
     });
 
     // This is the most important part. Based on the route (room id) the specific firebase path
@@ -49,10 +49,10 @@ export class RoomComponent implements OnInit, AfterViewInit {
       this.schemaService.roomDocument(room.id).valueChanges().subscribe(docData => {
         this.machines = docData;
         console.log(this.machines); // A1 { 2018-08-01: object with 14 elements, 2018-08-02: ... }
+      });
 
-        // for (let key in machinesData) {
-        //   this.machines.push(machinesData[key]);
-        // }
+      this.schemaService.machineMetaData(room.id).valueChanges().subscribe((machineMetadata: {machines}) => {
+        this.machineMetaData = machineMetadata.machines;
       });
     });
   }

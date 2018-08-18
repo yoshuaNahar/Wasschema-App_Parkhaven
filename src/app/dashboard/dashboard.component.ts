@@ -4,6 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { MatDrawer } from '@angular/material';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,21 +16,18 @@ export class DashboardComponent implements OnInit {
   sideNavMode;
   sideNavOpened;
 
+  user;
+
   private isMobile: boolean; // xs
 
   @ViewChild(MatDrawer) private sideNav: MatDrawer;
 
   constructor(private router: Router,
-              private afAuth: AngularFireAuth,
-              private observableMedia: ObservableMedia,
-              private fbStore: AngularFirestore) {
+              private authService: AuthService,
+              private observableMedia: ObservableMedia) {
   }
 
   ngOnInit() {
-    this.fbStore.collection('rooms').doc('A').valueChanges().subscribe(asd => {
-      console.log(asd);
-    });
-
     this.observableMedia.subscribe((media: MediaChange) => {
       if (media.mqAlias === 'xs') {
         this.isMobile = true;
@@ -41,6 +39,11 @@ export class DashboardComponent implements OnInit {
         this.sideNavOpened = true;
       }
     });
+
+    this.authService.getUserInformation().valueChanges().subscribe((user: {admin}) => {
+      this.user = user;
+      console.log(this.user);
+    });
   }
 
   closeSideNav() {
@@ -50,9 +53,7 @@ export class DashboardComponent implements OnInit {
   }
 
   logout() {
-    this.afAuth.auth.signOut().then(() => {
-      this.router.navigate(['/login']);
-    });
+    this.authService.logout();
   }
 
 }

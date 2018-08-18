@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { AngularFireModule } from 'angularfire2';
 import { environment } from '../../environments/environment';
-import { AngularFireAuthModule } from 'angularfire2/auth';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
@@ -14,7 +13,6 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     SharedModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
     AngularFirestoreModule,
   ],
   exports: [],

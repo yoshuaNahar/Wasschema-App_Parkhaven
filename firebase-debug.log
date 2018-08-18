@@ -1,0 +1,38 @@
+[debug] [2018-08-17T11:30:37.067Z] ----------------------------------------------------------------------
+[debug] [2018-08-17T11:30:37.070Z] Command:       /home/yoshua/.nvm/versions/node/v6.11.5/bin/node /home/yoshua/.nvm/versions/node/v6.11.5/bin/firebase serve --only functions
+[debug] [2018-08-17T11:30:37.071Z] CLI Version:   4.0.1
+[debug] [2018-08-17T11:30:37.071Z] Platform:      linux
+[debug] [2018-08-17T11:30:37.071Z] Node Version:  v6.11.5
+[debug] [2018-08-17T11:30:37.071Z] Time:          Fri Aug 17 2018 13:30:37 GMT+0200 (CEST)
+[debug] [2018-08-17T11:30:37.071Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-08-17T11:30:37.089Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-08-17T11:30:37.090Z] > authorizing via signed-in user
+[debug] [2018-08-17T11:30:37.093Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-531f4  
+  
+ Fri Aug 17 2018 13:30:37 GMT+0200 (CEST)
+[debug] [2018-08-17T11:30:37.692Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-17T11:30:37.694Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-531f4/tokens  
+  
+ Fri Aug 17 2018 13:30:37 GMT+0200 (CEST)
+[debug] [2018-08-17T11:30:38.240Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-17T11:30:38.242Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-531f4  
+  
+ Fri Aug 17 2018 13:30:38 GMT+0200 (CEST)
+[debug] [2018-08-17T11:30:38.993Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-08-17T11:30:40.062Z] Fetching environment
+[debug] [2018-08-17T11:30:40.066Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/932886716822:getServerAppConfig  
+  
+ Fri Aug 17 2018 13:30:40 GMT+0200 (CEST)
+[debug] [2018-08-17T11:30:40.486Z] <<< HTTP RESPONSE 200
+[debug] [2018-08-17T11:30:40.487Z] Starting @google-cloud/functions-emulator
+[debug] [2018-08-17T11:30:42.552Z] Parsing function triggers
+[info] ✔  functions: helloWorld: http://localhost:5000/fir-531f4/us-central1/helloWorld
+[info] ✔  functions: addAppointment: http://localhost:5000/fir-531f4/us-central1/addAppointment
+[info] ✔  functions: removeAppointment: http://localhost:5000/fir-531f4/us-central1/removeAppointment
+[info] ✔  functions: signup: http://localhost:5000/fir-531f4/us-central1/signup
+[info] ✔  functions: removeOldDates: http://localhost:5000/fir-531f4/us-central1/removeOldDates

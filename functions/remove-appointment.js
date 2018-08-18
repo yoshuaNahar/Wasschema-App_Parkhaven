@@ -51,8 +51,7 @@ exports.handler = function (request, response, admin) {
           {[`${appointment.machineMetaData.name}.${appointment.day.value}.${appointment.time.index}`]: '-'});
 
         if (currentlyPlacedHouseNumber === signedInUserHouseNumber) {
-          return Promise.resolve(
-            'Appointment spot was of the current user and is removed');
+          return Promise.resolve();
         } else {
           return Promise.reject('Spot not from the current user');
         }
@@ -74,15 +73,15 @@ exports.handler = function (request, response, admin) {
           transactionRef.update(userCounterRef,
             {[`counters.${appointment.machineMetaData.type}`]: counter - 1});
           if (isRemovable) {
-            return Promise.resolve('counter removed');
+            response.status(200).send({message: 'Appointment removed!'});
           } else {
             return Promise.reject('counter lower than 0?');
           }
           console.log('Appointment removed!');
-          return response.status(200).send();
         });
       }).catch(err => {
-        return response.status(207).send('Not your appointment to remove!');
+        response.status(207).send(
+          {message: 'Not your appointment to remove!'});
       });
     });
   });

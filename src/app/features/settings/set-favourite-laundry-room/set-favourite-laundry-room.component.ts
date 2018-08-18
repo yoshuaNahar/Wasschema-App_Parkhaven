@@ -25,7 +25,7 @@ export class SetFavouriteLaundryRoomComponent implements OnInit, OnDestroy {
     });
 
     this.favouriteLaundryRoomSubscription =
-      this.userSettingsService.fetchFavouriteLaundryRoom().subscribe(user => {
+      this.userSettingsService.fetchFavouriteLaundryRoom().subscribe((user: {favouriteRoom}) => {
         console.log(user);
         this.favouriteLaundryRoom = user.favouriteRoom;
 

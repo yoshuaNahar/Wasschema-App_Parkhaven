@@ -38,9 +38,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   delete(user) {
     this.afStore.collection('users').doc(user.id).delete().then(value => {
       console.log(value);
-      this.afStore.collection('houseNumbers').doc(user.houseNumber).update({
-        user: null
-      });
+      this.afStore.collection('houseNumbers').doc(user.houseNumber).update({});
+      this.afStore.collection('publicUsersData').doc(user.houseNumber).update({favouriteRoom: null});
     });
   }
 

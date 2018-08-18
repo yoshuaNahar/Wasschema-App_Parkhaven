@@ -55,7 +55,7 @@ exports.handler = function (request, response, admin) {
         transactionRef.update(userCounterRef,
           {[`counters.${appointment.machineMetaData.type}`]: counter + 1});
         if (isAbleToWash) {
-          return Promise.resolve('counter placed');
+          return Promise.resolve();
         } else {
           return Promise.reject('no more counters');
         }
@@ -76,21 +76,18 @@ exports.handler = function (request, response, admin) {
             {[`${appointment.machineMetaData.name}.${appointment.day.value}.${appointment.time.index}`]: signedInUserHouseNumber});
 
           if (oldHouseNumber === '-') {
-            return Promise.resolve('Appointment spot available and placed');
+            console.log('Appointment spot available and placed', result);
+            response.status(200).send({message: 'Appointment placed!'});
           } else {
-            return Promise.reject('Spot already taken, so reject promise');
+            console.log('Spot already taken, so reject promise');
+            response.status(207).send({message: 'Spot already taken!'});
           }
         });
-      }).then(result => {
-        console.log('Appointment placed!', result);
-        return response.status(200).send();
-      }).catch(err => {
-        return response.status(207).send('Spot already taken!');
       });
     }).catch(error => {
       console.log('error', error);
       console.log('No appointments left!');
-      response.status(207).send('No appointments left!');
-    })
+      response.status(207).send({message: 'No appointments left!'});
+    });
   });
 };

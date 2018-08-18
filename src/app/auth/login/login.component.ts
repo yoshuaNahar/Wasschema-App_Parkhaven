@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from '../auth.service';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,10 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) {
+              private authService: AuthService,
+
+              private afStore: AngularFirestore,
+              private afAuth: AngularFireAuth) {
   }
 
   ngOnInit() {
@@ -34,6 +38,15 @@ export class LoginComponent implements OnInit {
     console.log(username + ' - ' + password + ' - ' + rememberMe);
 
     this.authService.login(username, password);
+  }
+
+
+  demoTestUsersCollectionSecurityRules() {
+    this.afAuth.auth.signInWithEmailAndPassword('tmp2@tmp2.tmp2', 'tmp2tmp2');
+    this.afStore.collection('users').doc('558').valueChanges().subscribe(user => {
+      console.log('user', user);
+      console.log(this.afAuth.auth.currentUser);
+    });
   }
 
 }
