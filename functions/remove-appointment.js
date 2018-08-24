@@ -2,87 +2,100 @@
  * Steps:
  * 1. Verify authenticated user with verifyIdToken
  * 2. Get authenticated user's houseNumber
- * 3. Check if the spot to remove has the same houseNumber
- * 4. Remove the houseNumber from that spot
- * 5. Decrement counter
+ * 3. Check if appointment is for nextWeek or this week
+ * 4. Check if the spot to remove has the same houseNumber
+ * 5. Remove the houseNumber from that spot
+ * 6. Decrement counter
  */
 
 // request.body: {
 //   appointment: {
-//     room: 'A',
-//     machineMetaData: {
-//       name: 'A1',
-//       type: 'Laundrymachine'
+//     machineInfo: {
+//       id: 'A1'
+//       room: { id: 'A', name: 'Room A' }
+//       type: 'laundrymachine'
 //     },
-//     date: {
-//       index: 0,
-//       date: '2018-07-01'
-//     },
-//     time: {
-//       index: 12,
-//       value: 18:00
-//     }
+//     day: { index: 0, value: '2018-07-01' }
+//     time: { index: 0, value: 'xx-xx' }
+//     houseNumber: '230'
 //   },
 //   jwt: 'jwt'
 // }
-exports.handler = function (request, response, admin) {
+
+const admin = require('firebase-admin');
+const appUtil = require('./appointment-util');
+
+exports.handler = function (request, response) {
   console.log('request.body', request.body);
   const appointment = request.body.appointment;
   const jwtToken = request.body.jwt;
+  let signedInUserHouseNumber;
 
   admin.auth().verifyIdToken(jwtToken).then(decodedIdToken => {
     const signedInUserUid = decodedIdToken.uid;
     console.log('signedInUserUid', signedInUserUid);
 
-    return admin.auth().getUser(signedInUserUid); // What happens if this fails? I think the last catch is for the
+    return admin.auth().getUser(signedInUserUid);
   }).then(userRecord => {
-    const signedInUserHouseNumber = userRecord.displayName;
+    signedInUserHouseNumber = userRecord.displayName;
     console.log('signedInUserHouseNumber', signedInUserHouseNumber);
 
-    const roomsRef = admin.firestore().collection('rooms').doc(
-      appointment.room);
-
-    admin.firestore().runTransaction(transactionRef => {
-      return transactionRef.get(roomsRef).then(doc => {
-        const houseNumberData = doc.data(); // {'A1': {'2018-08-01': {'0': '-', ...}, ...}, ...}
-
-        const currentlyPlacedHouseNumber = houseNumberData[appointment.machineMetaData.name][appointment.day.value][appointment.time.index];
-        transactionRef.update(roomsRef,
-          {[`${appointment.machineMetaData.name}.${appointment.day.value}.${appointment.time.index}`]: '-'});
-
-        if (currentlyPlacedHouseNumber === signedInUserHouseNumber) {
-          return Promise.resolve();
-        } else {
-          return Promise.reject('Spot not from the current user');
-        }
-      });
-    }).then(result => {
-      // appointment reset succesfully
-      const userCounterRef = admin.firestore().collection('users').doc(
-        signedInUserHouseNumber);
-
-      admin.firestore().runTransaction(transactionRef => {
-        return transactionRef.get(userCounterRef).then(doc => {
-          const userData = doc.data(); // counters: {dryers: 0, laundrymachine: 0}
-          console.log('userData', userData);
-          const counter = userData.counters[appointment.machineMetaData.type];
-
-          console.log('counter', counter);
-
-          const isRemovable = counter > 0;
-          transactionRef.update(userCounterRef,
-            {[`counters.${appointment.machineMetaData.type}`]: counter - 1});
-          if (isRemovable) {
-            response.status(200).send({message: 'Appointment removed!'});
-          } else {
-            return Promise.reject('counter lower than 0?');
-          }
-          console.log('Appointment removed!');
-        });
-      }).catch(err => {
-        response.status(207).send(
-          {message: 'Not your appointment to remove!'});
-      });
+    return admin.firestore().collection('days').get();
+  }).then(querySnapshot => {
+    const dayDocument = querySnapshot.docs.map(doc => {
+      return {
+        id: doc.id,
+        isCurrentWeek: doc.data().isCurrentWeek,
+      };
+    }).find(doc => {
+      return doc.id === appointment.day.value;
     });
+    console.log('dayDocument', dayDocument);
+    const counterType = appUtil.setCorrectCounterType(dayDocument, appointment);
+    console.log('counterType', counterType);
+
+    return admin.firestore().runTransaction(transaction => {
+      return transaction.getAll(
+        appUtil.userRef(signedInUserHouseNumber),
+        appUtil.appointmentRef(appointment))
+        .then(docs => {
+          const userDoc = docs[0];
+          const appointmentDoc = docs[1];
+
+          const userData = userDoc.data(); // counters: {dryers: 0, laundrymachine: 0, nextWeekDryer: 0, nextWeekLaundrymachine: 0}
+          console.log('userData', userData);
+          const counter = userData.counters[counterType];
+          console.log('counter', counter);
+          const isAbleToRemoveCounter = counter > 0;
+
+          if (!isAbleToRemoveCounter) {
+            response.status(207).send({message: 'No appointments to remove!'});
+            return Promise.resolve();
+          }
+          if (!appointmentDoc.exists) {
+            response.status(207).send({message: 'Appointment doesn\'t exist!'});
+            return Promise.resolve();
+          }
+          if (appointmentDoc.data().houseNumber !== signedInUserHouseNumber) {
+            response.status(207).send({
+              message: 'You can\'t remove someone else\'s appointment'
+            });
+            return Promise.resolve();
+          }
+
+          transaction.update(appUtil.userRef(signedInUserHouseNumber),
+            {[`counters.${counterType}`]: counter - 1});
+
+          admin.firestore().collection('appointments')
+            .doc(
+              `${appointment.day.value}_${appointment.time.index}_${appointment.machineInfo.room.id}_${appointment.machineInfo.id}`)
+            .delete();
+
+          response.status(200).send({message: 'Appointment removed!'});
+          return Promise.resolve();
+        });
+    });
+  }).catch(error => {
+    console.log(error);
   });
 };

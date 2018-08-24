@@ -25,10 +25,8 @@ export class EditorComponent implements OnInit {
     placeholder: 'Type your message here',
     hideIcons: ['side-by-side', 'fullscreen']
   };
-
-  @Output() private goBackEmitter = new EventEmitter<void>();
-
   currentUser;
+  @Output() private goBackEmitter = new EventEmitter<void>();
 
   constructor(private formBuilder: FormBuilder,
               private afStore: AngularFirestore,

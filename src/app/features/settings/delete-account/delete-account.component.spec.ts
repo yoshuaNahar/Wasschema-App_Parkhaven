@@ -10,7 +10,7 @@ describe('DeleteAccountComponent', () => {
     TestBed.configureTestingModule({
       declarations: [DeleteAccountComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

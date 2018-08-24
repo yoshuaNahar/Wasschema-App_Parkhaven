@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Appointment } from '../../schema.component';
 import { AuthService } from '../../../../auth/auth.service';
-import { SchemaService } from '../../schema.service';
+import { Appointment, SchemaService } from '../../schema.service';
 
 @Component({
   selector: 'app-appointment-button',
@@ -51,13 +50,6 @@ export class AppointmentButtonComponent implements OnInit, OnChanges {
     this.checkFields();
   }
 
-  private checkFields() {
-    // - means empty spot
-    this.isEmpty = this.appointment.houseNumber === '-';
-    // time passed
-    this.isInThePast = AppointmentButtonComponent.checkIfIsInThePast(this.appointment);
-  }
-
   makeOrRemoveAppointment() {
     console.log('this.isEmpty', this.isEmpty);
 
@@ -66,5 +58,12 @@ export class AppointmentButtonComponent implements OnInit, OnChanges {
     } else {
       this.schemaService.removeAppointment(this.appointment);
     }
+  }
+
+  private checkFields() {
+    // - means empty spot
+    this.isEmpty = this.appointment.houseNumber === '-';
+    // time passed
+    this.isInThePast = AppointmentButtonComponent.checkIfIsInThePast(this.appointment);
   }
 }

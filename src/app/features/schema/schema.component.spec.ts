@@ -10,7 +10,7 @@ describe('LaundrySchemaComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SchemaComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

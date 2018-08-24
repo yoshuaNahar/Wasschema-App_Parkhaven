@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from '../auth.service';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -17,7 +15,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-
               private afStore: AngularFirestore,
               private afAuth: AngularFireAuth) {
   }

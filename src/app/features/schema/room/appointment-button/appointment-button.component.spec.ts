@@ -10,7 +10,7 @@ describe('AppointmentButtonComponent', () => {
     TestBed.configureTestingModule({
       declarations: [AppointmentButtonComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,10 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 import { MatDrawer } from '@angular/material';
-import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthService } from '../auth/auth.service';
+import { SchemaService } from '../features/schema/schema.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +23,8 @@ export class DashboardComponent implements OnInit {
 
   constructor(private router: Router,
               private authService: AuthService,
-              private observableMedia: ObservableMedia) {
+              private observableMedia: ObservableMedia,
+              private schemaService: SchemaService) {
   }
 
   ngOnInit() {
@@ -40,10 +40,17 @@ export class DashboardComponent implements OnInit {
       }
     });
 
-    this.authService.getUserInformation().valueChanges().subscribe((user: {admin}) => {
+    this.authService.fetchUserInformation().valueChanges().subscribe((user: { admin }) => {
       this.user = user;
       console.log(this.user);
     });
+
+    // This is needed at the type that the schemaComponent starts.
+    // This is the best place after the login
+    this.schemaService.onInitFetchMachinesInfo();
+
+    // Otherwise the response is later than the params observable
+    this.schemaService.onInitFetchDays();
   }
 
   closeSideNav() {

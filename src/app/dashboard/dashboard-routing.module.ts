@@ -6,7 +6,7 @@ import { NotificationBoardComponent } from '../features/notification-board/notif
 import { SettingsComponent } from '../features/settings/settings.component';
 import { AdminComponent } from '../features/admin/admin.component';
 import { SchemaComponent } from '../features/schema/schema.component';
-import { RoomComponent } from '../features/schema/table/room.component';
+import { RoomComponent } from '../features/schema/room/room.component';
 
 const routes: Routes = [
   {

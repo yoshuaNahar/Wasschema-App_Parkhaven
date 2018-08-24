@@ -20,10 +20,10 @@ export class AuthService {
 
   login(email: string, password: string) {
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
-    .then(loginData => {
-      console.log('logged in ', loginData);
-      this.router.navigate(['/']);
-    }).catch(error => {
+      .then(loginData => {
+        console.log('logged in ', loginData);
+        this.router.navigate(['/']);
+      }).catch(error => {
       console.log(error);
       this.snackBar.open('Incorrect email or password', 'Oke');
     });
@@ -61,7 +61,7 @@ export class AuthService {
     });
   }
 
-  getUserInformation() {
+  fetchUserInformation() {
     return this.afStore.collection('users').doc(this.afAuth.auth.currentUser.displayName);
   }
 

@@ -10,7 +10,7 @@ describe('NotificationBoardComponent', () => {
     TestBed.configureTestingModule({
       declarations: [NotificationBoardComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

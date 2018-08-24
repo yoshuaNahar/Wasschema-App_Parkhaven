@@ -10,7 +10,7 @@ describe('SetFavouriteLaundryRoomComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SetFavouriteLaundryRoomComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

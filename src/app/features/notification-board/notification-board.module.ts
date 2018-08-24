@@ -18,8 +18,7 @@ import { SIMPLEMDE_CONFIG, SimplemdeModule } from 'ng2-simplemde';
       useValue: {}
     }),
   ],
-  providers: [
-  ]
+  providers: []
 })
 export class NotificationBoardModule {
 }

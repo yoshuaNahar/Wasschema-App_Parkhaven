@@ -1,27 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { RoomInfo, SchemaService } from './schema.service';
 
 @Component({
   selector: 'app-schema',
   templateUrl: './schema.component.html',
   styleUrls: ['./schema.component.css'],
 })
-export class SchemaComponent {
+export class SchemaComponent implements OnInit {
 
-  rooms = [
-    {id: 'A', name: 'Room A'},
-    {id: 'B', name: 'Room B'},
-    {id: 'C', name: 'Room C'}
-  ];
+  rooms: RoomInfo[];
 
-  constructor() {
+  constructor(private schemaService: SchemaService) {
   }
 
-}
+  ngOnInit(): void {
+    this.rooms = this.schemaService.roomsInfo;
+  }
 
-export interface Appointment {
-  room;
-  machineMetaData: { name, type };
-  day;
-  time: { index, value };
-  houseNumber;
 }
