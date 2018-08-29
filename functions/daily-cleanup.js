@@ -3,7 +3,6 @@
 
 const admin = require('firebase-admin');
 
-// TODO: this should be refactored. It will be difficult to understand in the future.
 exports.handler = function (request, response) {
   let docToSetIsDisplayableToFalse;
   let docToSetIsDisplayableToTrue;
@@ -40,6 +39,3 @@ exports.handler = function (request, response) {
     response.status(200).send('Remove old dates logic comes here!');
   });
 };
-
-// get all with isDisplayable + next which isn't
-// remove isDisplayable from first and add it to the next one

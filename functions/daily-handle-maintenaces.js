@@ -1,7 +1,26 @@
+// Daily + When the admin adds a maintenance
+
+/*
+ * Steps:
+ * 1. Get all the maintenances
+ * 2. Remove maintenances which have already passed
+ * 3. Of each user which has an appointment on a date that is marked,
+ *    give them their counter back.
+ * 4. Mark the dates where the maintenaces are active as not usable
+ */
+
 const admin = require('firebase-admin');
+const appUtil = require('appointment-util');
+
+const maintenacesRef = admin.firestore().collection('maintenances');
+const appointmentsRef = admin.firestore().collection('appointments');
+const usersRef = admin.firestore().collection('users');
+const batch = admin.firestore().batch();
+
+const maintenances = [];
 
 exports.handler = function (request, response) {
-  admin.firestore().collection('maintenances').get().then(querySnapshot => {
+  maintenacesRef.get().then(querySnapshot => {
     querySnapshot.forEach(doc => {
       const maintenance = {
         id: doc.id,
@@ -13,25 +32,67 @@ exports.handler = function (request, response) {
         endingTime: doc.data().endingTime,
         reason: doc.data().reason
       };
-
       console.log('maintenance', maintenance);
 
-      if (isPassed(new Date(maintenance.endingDate), new Date())) {
-        admin.firestore().collection('maintenances')
-          .doc(maintenance.id).delete();
-        console.log('deleted maintenance', maintenance.id);
-      } else {
+      const endingDate = new Date(maintenance.endingDate);
+      const today = new Date();
 
-        maintenance.machines.forEach(machine => {
-          admin.firestore().collection('maintenances').doc(
-            maintenance.room).get().then(doc => {
-            console.log('doc.data()', doc.data());
-            const roomData = doc.data();
+      if (isPassed(endingDate, today)) {
+        maintenacesRef.doc(maintenance.id)
+          .delete();
+        console.firefirlog('deleted maintenance', maintenance.id);
+      } else {
+        maintenance.push(maintenance);
+
+        admin.firestore().collection('days').get().then(querySnapshot => {
+          const days = querySnapshot.docs.map(doc => {
+            return {
+              id: doc.id,
+              isCurrentWeek: doc.data().isCurrentWeek,
+            };
+          });
+
+          // TODO: 3. Remove all the appointments that are currently in the time of the maintenace
+          maintenance.machines.forEach(machine => {
+            console.log('machine', machine);
+            admin.firestore().collection('machinesInfo').doc(machine).get
+            appointmentsRef
+              .where('date', '>=', maintenance.startingDate)
+              .where('date', '<=', maintenance.endingDate)
+              .where('time', '>=', maintenance.startingTime)
+              .where('time', '<=', maintenance.endingTime)
+              .where('machine', '==', machine).get().then(querySnapshot => {
+              querySnapshot.docs.forEach(doc => {
+                const appointment = {id: doc.id, data: doc.data()};
+
+                const dayOfThisAppointment = days.find(day => {
+                  return day.id === appointment.data.day;
+                });
+
+                const counterType = appUtil.setCorrectCounterType(dayDocument, appointment);
+                const userDoc = usersRef.doc(appointment.houseNumber);
+                // ALSO NEED TO GET THIS USER
+                batch.update(userDoc, {counters: {}})
+
+                const appointmentDoc = appointmentsRef.doc(appointment.id);
+                batch.delete(appointmentDoc);
+              });
+            });
+
+            var group1Ref = db.collection("chatroom").doc("group1");
+            batch.set(group1Ref, {msg: "Hello, from Admin!"});
+
+            var newUserRef = db.collection("users").doc("newuser");
+            batch.update(newUserRef, {"lastSignedIn": new Date()});
+
+            var removedAdminRef = db.collection("admin").doc("otheruser");
+            batch.delete(removedAdminRef);
 
             const datesAndTimes = calculateDateTimes(maintenance);
             console.log('datesAndTimes', datesAndTimes);
 
             for (let dt of datesAndTimes) {
+
               const houseNumber = roomData[machine][dt.date][dt.time];
               console.log('dt, houseNumber', dt, houseNumber);
               if (houseNumber !== '-' || houseNumber !== '--') {
@@ -47,7 +108,8 @@ exports.handler = function (request, response) {
                   houseNumber).get().then(doc => {
                   const user = doc.data();
 
-                  admin.firestore().collection('users').doc(houseNumber).update(
+                  // TODO: Use batch writes here.
+                  usersRef.doc(houseNumber).update(
                     {
                       [`${machine}.${dt.date}.${dt.time}`]: '--'
                     });
@@ -64,9 +126,9 @@ exports.handler = function (request, response) {
               // else continue
             }
           });
-        });
+        }
       }
-    });
+    );
   }).then(() => {
     response.status(200).send('OK');
   });
