@@ -6,7 +6,7 @@ main {
   justify-content: center;
   align-items: center;
 
-  /* only for login, registration and forgotPassword */
+  /* only for login, registration, forgotPassword and pageNotFound*/
   background: #2c3e50;
 }
 

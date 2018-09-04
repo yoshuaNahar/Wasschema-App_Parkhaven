@@ -10,7 +10,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 @Injectable()
 export class AuthService {
 
-  // In firestore users/user I removed created and email field because they already exists on the currentUser and currentUser.metadata
+  // In firestore users/userData I removed created and email field because they already exists on the currentUser and currentUser.metadata
   constructor(private afAuth: AngularFireAuth,
               private afStore: AngularFirestore,
               private router: Router,
@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   /*
-   * I need to do a housenumber check before I allow the user's profile to be saved
+   * I need to do a housenumber check before I allow the userData's profile to be saved
    */
   register(user: RegistrationDetails) {
     this.http.post(`${environment.firebaseUrl}/signup`, user, {
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   forgotPassword(email: string) {
-    // send email to user account
+    // send email to userData account
     // navigate to login page
     // show notification that email is send
     this.afAuth.auth.sendPasswordResetEmail(email).then(() => {

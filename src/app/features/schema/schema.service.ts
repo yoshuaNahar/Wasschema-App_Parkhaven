@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
 import { DatePipe } from '@angular/common';
@@ -23,7 +23,7 @@ export class SchemaService {
   // This contains an array of the days to display
   // isDisplayable starts from the current day + 7
   days: { id, isCurrentWeek, isDisplayable }[];
-  daysChanged = new Subject<string[]>();
+  daysChanged = new Subject<any[]>();
 
   constructor(private http: HttpClient,
               private authService: AuthService,
@@ -49,7 +49,7 @@ export class SchemaService {
   onInitFetchDays() {
     this.afStore.collection('days').snapshotChanges().pipe(
       map(documentChangeAction => {
-        return documentChangeAction.map(doc => {
+        return documentChangeAction.map((doc:any) => {
           return {
             id: doc.payload.doc.id,
             isCurrentWeek: doc.payload.doc.data().isCurrentWeek,

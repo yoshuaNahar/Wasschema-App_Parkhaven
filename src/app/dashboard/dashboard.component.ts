@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
-import { MatDrawer } from '@angular/material';
+import {  MatSidenav } from '@angular/material';
 import { AuthService } from '../auth/auth.service';
 import { SchemaService } from '../features/schema/schema.service';
+import { SettingsService } from '../features/settings/settings.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,16 +16,18 @@ export class DashboardComponent implements OnInit {
   sideNavMode;
   sideNavOpened;
 
-  user;
+  userData;
+  loggedInUser;
 
   private isMobile: boolean; // xs
 
-  @ViewChild(MatDrawer) private sideNav: MatDrawer;
+  @ViewChild(MatSidenav) private sideNav: MatSidenav;
 
   constructor(private router: Router,
               private authService: AuthService,
               private observableMedia: ObservableMedia,
-              private schemaService: SchemaService) {
+              private schemaService: SchemaService,
+              private settingsService: SettingsService) {
   }
 
   ngOnInit() {
@@ -40,9 +43,17 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+    this.loggedInUser = this.authService.getCurrentSignedInUser();
+
     this.authService.fetchUserInformation().valueChanges().subscribe((user: { admin }) => {
-      this.user = user;
-      console.log(this.user);
+      this.userData = user;
+      console.log(this.userData);
+
+      // TODO: I should let this wait on every other subscription in here, maybe use RXJS pipe and switchmap?
+      this.settingsService.fetchFavouriteLaundryRoom().subscribe((userInfo:any) => {
+        console.log('fethingFavouriteRoom and navigating: {}', userInfo);
+        this.router.navigate(['room', userInfo.favouriteRoom]);
+      });
     });
 
     // This is needed at the type that the schemaComponent starts.

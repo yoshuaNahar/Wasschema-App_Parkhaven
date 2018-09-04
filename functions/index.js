@@ -70,9 +70,8 @@ exports.dailyCleanUp = functions.https.onRequest((request, response) => {
   });
 });
 
-exports.handleMaintenaces = functions.https.onRequest(
-  (request, response) => {
-    return cors(request, response, () => {
-      dailyHandleMaintenacesFunction.handler(request, response);
-    });
+exports.handleMaintenaces = functions.https.onRequest((request, response) => {
+  return cors(request, response, () => {
+    dailyHandleMaintenacesFunction.handler(request, response);
   });
+});

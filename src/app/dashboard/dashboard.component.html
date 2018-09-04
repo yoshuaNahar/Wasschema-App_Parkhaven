@@ -1,13 +1,15 @@
 <main>
   <header class="mat-elevation-z6">
-    <mat-toolbar color="primary">
+    <mat-toolbar ngClass.lt-sm="toolbar_sm" color="primary">
       <button mat-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <a routerLink="/"><span>Was Schema</span></a>
-      <span class="fill-remaining-space"></span>
-      <span id="logged_in_as_text">Logged in as: yosh.nahar@gmail.com</span>
-      <button mat-button (click)="logout()">Logout</button>
+      <img ngClass.lt-sm="parkhaven_img_sm" ngClass.gt-xs="parkhaven_img"
+           src="./../../assets/parkhaven-logo.png"/>
+      <a fxHide.lt-md routerLink="/"><span>Wasschema</span></a>
+      <span fxHide.lt-sm class="fill-remaining-space"></span>
+      <span fxHide.lt-sm id="logged_in_as_text">Logged in as: {{loggedInUser.displayName}}</span>
+      <button fxHide.lt-sm mat-button (click)="logout()">Logout</button>
     </mat-toolbar>
   </header>
 
@@ -39,7 +41,7 @@
               <mat-icon id="notification">priority_high</mat-icon>
             </a>
           </mat-list-item>
-          <div *ngIf="user && user.admin">
+          <div *ngIf="userData && userData.admin">
             <mat-divider></mat-divider>
             <mat-list-item>
               <a routerLinkActive="active_link"
@@ -48,8 +50,20 @@
                 Admin</a>
             </mat-list-item>
           </div>
+          <div fxHide.gt-xs>
+            <mat-divider></mat-divider>
+            <mat-list-item>
+              <a routerLinkActive="active_link"
+                 (click)="logout()">
+                Logout
+              </a>
+            </mat-list-item>
+          </div>
         </mat-list>
       </nav>
+      <div fxHide.gt-xs>
+        <span class="logged_in_as_text_sm">Logged in as: yosh.nahar@gmail.com</span>
+      </div>
     </mat-sidenav>
 
     <div class="router_outlet_margin_top">

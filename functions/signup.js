@@ -1,7 +1,7 @@
 /*
  * Steps:
  * 1. Check that the houseNumber isn't already used.
- * 2. Add the user from the request to the backend.
+ * 2. Add the userData from the request to the backend.
  * 3. Send an email to the email address to accept.
  */
 
@@ -17,7 +17,7 @@
 {
   [fbUser.uid]: {
     admin: false,
-    name: `${user.firstName} ${user.lastName}`
+    name: `${userData.firstName} ${userData.lastName}`
   },
   counters: {dryer: 0, laundrymachine: 0}
 }
@@ -40,10 +40,10 @@ exports.handler = function (request, response) {
       return Promise.reject();
     }
 
-    user.displayName = user.houseNumber; // I do this so that the displayName is also set when to user is created
+    user.displayName = user.houseNumber; // I do this so that the displayName is also set when to userData is created
     return admin.auth().createUser(user);
   }).then(fbUser => {
-    console.log("Successfully created new user: ", fbUser.uid);
+    console.log("Successfully created new userData: ", fbUser.uid);
 
     appUtil.userRef(user.houseNumber).set({
       admin: false,
@@ -60,7 +60,7 @@ exports.handler = function (request, response) {
 
     response.status(200).send();
   }).catch(error => {
-    console.log("Error creating new user: ", error);
+    console.log("Error creating new userData: ", error);
     response.status(400).send("User with this email already exists!");
   });
 };

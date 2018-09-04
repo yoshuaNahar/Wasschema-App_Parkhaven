@@ -2,7 +2,7 @@
 // days collection: - Update isCurrentWeek
 //                  - Remove previousWeek
 //                  - Create new nextWeek
-// users collection: - Of each user, set nextWeekCounters to 0 and move the values of nextWeekCounters to the currentWeek
+// users collection: - Of each userData, set nextWeekCounters to 0 and move the values of nextWeekCounters to the currentWeek
 
 const admin = require('firebase-admin');
 

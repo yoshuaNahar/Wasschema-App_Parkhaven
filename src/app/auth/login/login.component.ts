@@ -37,12 +37,12 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password);
   }
 
-
   demoTestUsersCollectionSecurityRules() {
-    this.afAuth.auth.signInWithEmailAndPassword('tmp2@tmp2.tmp2', 'tmp2tmp2');
-    this.afStore.collection('users').doc('558').valueChanges().subscribe(user => {
-      console.log('user', user);
-      console.log(this.afAuth.auth.currentUser);
+    this.afAuth.auth.signInWithEmailAndPassword('yosh.nahar@gmail.com', 'compaq').then(() => {
+      this.afStore.collection('users').doc('401').valueChanges().subscribe(user => {
+        console.log('user', user);
+        console.log(this.afAuth.auth.currentUser);
+      });
     });
   }
 

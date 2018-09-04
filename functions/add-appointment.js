@@ -1,9 +1,9 @@
 /*
  * Steps:
- * 1. Verify authenticated user with verifyIdToken
- * 2. Get authenticated user's houseNumber
+ * 1. Verify authenticated userData with verifyIdToken
+ * 2. Get authenticated userData's houseNumber
  * 3. Check if appointment is for nextWeek or this week
- * 4. Check if the user's counter is valid (less than 3)
+ * 4. Check if the userData's counter is valid (less than 3)
  * 5. Check if spot is free when placing an appointment
  * 6. Increment counter
  * 7. Add appointment

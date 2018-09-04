@@ -14,6 +14,7 @@ import {
   MatSnackBarModule,
   MatTabsModule,
   MatToolbarModule,
+  MatBottomSheetModule,
 } from '@angular/material';
 
 @NgModule({
@@ -33,6 +34,7 @@ import {
     MatChipsModule,
     MatPaginatorModule,
     MatSnackBarModule,
+    MatBottomSheetModule,
   ],
   declarations: []
 })

@@ -35,7 +35,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    // If the user leaves the tab open for more than a day.. I will just have a please refresh notification
+    // If the userData leaves the tab open for more than a day.. I will just have a please refresh notification
     this.days = this.schemaService.days;
     this.daysChangedSubscription = this.schemaService.daysChanged.subscribe(days => {
       this.days = days;
@@ -53,14 +53,14 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.schemaService.fetchMachinesData(this.roomId, this.days[0].id, this.days[6].id).stateChanges()
         .subscribe((documentChangeAction) => {
-          documentChangeAction.forEach(doc => {
+          documentChangeAction.forEach((doc:any) => {
             console.log(doc);
             const appointment = doc.payload.doc.data();
             if (doc.type === 'added') { // the first pull is always added
               this.machines[appointment.machine][appointment.date][appointment.time] = appointment.houseNumber;
               console.log('appointment added', appointment);
             } else { // doc.type === 'removed'
-              this.machines[appointment.machine][appointment.date][appointment.time] = '-';
+              this.machines[appointment.machine][appointment.date][appointment.time] = '';
               console.log('appointment removed', appointment);
             }
           });
@@ -83,7 +83,7 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
       for (let day of this.days) {
         const dayArray = [];
         for (let time = 0; time < 13; time++) {
-          dayArray.push('-');
+          dayArray.push('');
         }
         machine[day.id] = dayArray;
       }

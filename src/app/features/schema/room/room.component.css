@@ -1,69 +1,84 @@
-/* doesn'time increase the width, but adds a scrollbar */
 div.schema {
   overflow-x: scroll;
   overflow-y: hidden;
 }
 
-table#primary {
-  text-align: left;
+div.schema > table {
+  margin-bottom: 12px;
+}
+
+table {
   border-spacing: 0;
-  width: 100%;
 }
 
-#primary tr:nth-child(even) {
-  background-color: #f1f1f1;
+tr:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+tr:nth-child(odd) > td.appointment_cell {
+  border-top: 1px solid #efefef;
 }
 
-#primary td, #primary th {
-  padding: 10px 10px;
-  font-family: Roboto, sans-serif;
+/* unset border and background-color for the time and day headers */
+thead> tr:nth-child(1) {
+  background-color: #fafafa;
+}
+thead > tr:nth-child(1) > td {
+  border-top: unset;
 }
 
-tbody {
-  position: relative;
+/* each time column */
+td.time_column {
+  min-width: 70px;
+  padding: 0;
 }
 
-td {
-  min-width: 148px;
+thead td.time_cell {
+  padding: 6px 15px;
+  height: 19px; /* same height as the day cells */
 }
 
-/* otherwise the box-shadow below is visible */
-tr, td {
-  height: 25px;
+td.time_cell {
+  padding: 6px 15px;
+  height: 25px /* same height as appointment cell*/
 }
 
-tr > td:nth-child(2), tr > th:nth-child(2) {
-  margin-left: 80px;
-  padding-left: 100px;
+td.time_column > table {
+  min-height: 506px; /* same height as the day columns */
 }
 
-tr > td.time, tr > th:first-child {
+/* each day header */
+td.day_column_header {
+  padding: 6px 12px;
+}
+
+/* each day column */
+td.day_column {
+  min-width: 172px; /* (74px per appointment slot x 2) + (12px padding x 2) */
+  padding: 0;
+}
+
+td.day_column:first-of-type > table {
+  margin-left: 95px;
+  width: max-content;
+}
+
+/* each day cell */
+td.appointment_cell {
+  padding: 6px 12px;
+}
+
+/* floating time column */
+td.time_column {
   box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, .2), 0 0 0 0 rgba(0, 0, 0, .14), 0 0 0 0 rgba(0, 0, 0, .12);
-}
-
-/* give background color otherwise transparent */
-tr > th:first-child {
   background-color: #fafafa;
-}
-
-/* give background color otherwise transparent */
-tr:nth-child(odd) > td.time {
-  background-color: #fafafa;
-}
-
-/* give background color otherwise transparent */
-tr:nth-child(even) > td.time {
-  background-color: #f1f1f1;
-}
-
-tr:last-child > td.time {
-  box-shadow: 4px 3px 8px 0 rgba(0, 0, 0, .2), 0 0 0 0 rgba(0, 0, 0, .14), 0 0 0 0 rgba(0, 0, 0, .12);
-}
-
-td.time {
-  min-width: 60px;
   z-index: 1;
   position: absolute;
+}
+
+/* move first column away from floating time column */
+td.day_column:nth-child(2) > table {
+  margin-left: 72px;
+  width: max-content;
 }
 
 /* needed for focus line when clicking on mat-chip*/

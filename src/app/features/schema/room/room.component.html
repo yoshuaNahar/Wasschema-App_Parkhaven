@@ -11,17 +11,17 @@
   <div class="schema">
     <table class="primary">
       <tr>
-        <td>
+        <td class="time_column">
           <table>
-            <thead><tr><td class="time">Time</td></tr></thead>
-            <tbody><tr *ngFor="let time of times"><td class="time">{{time}}</td></tr></tbody>
+            <thead><tr><td class="time_cell">Time</td></tr></thead>
+            <tbody><tr *ngFor="let time of times"><td class="time_cell">{{time}}</td></tr></tbody>
           </table>
         </td>
-        <td *ngFor="let day of days; let dayIndex = index">
+        <td class="day_column" *ngFor="let day of days; let dayIndex = index">
           <table>
-            <thead><tr><td>{{day.id | date: 'EEEE'}}</td></tr></thead>
+            <thead><tr><td class="day_column_header">{{day.id | date: 'EEEE'}}</td></tr></thead>
             <tbody>
-              <tr *ngFor="let time of times; let timeIndex = index"><td>
+              <tr *ngFor="let time of times; let timeIndex = index"><td class="appointment_cell">
                 <app-appointment-button
                   [isPositionedLeft]="true"
                   [appointment]="{

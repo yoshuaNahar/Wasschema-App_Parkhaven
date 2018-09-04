@@ -1,7 +1,7 @@
 /*
  * Steps:
- * 1. Verify authenticated user with verifyIdToken
- * 2. Get authenticated user's houseNumber
+ * 1. Verify authenticated userData with verifyIdToken
+ * 2. Get authenticated userData's houseNumber
  * 3. Check if appointment is for nextWeek or this week
  * 4. Check if the spot to remove has the same houseNumber
  * 5. Remove the houseNumber from that spot

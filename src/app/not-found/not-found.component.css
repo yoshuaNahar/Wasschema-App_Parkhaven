@@ -1,0 +1,36 @@
+main {
+  background: #2c3e50;
+  color: #fff;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+.container {
+  width: fit-content;
+  margin: auto;
+}
+
+._404 {
+  font-size: 155px;
+}
+
+._1 {
+  letter-spacing: 10px;
+  font-size: 4em;
+  line-height: 80%;
+}
+
+._2 {
+}
+
+.btn {
+  background-color: rgb(255, 255, 255);
+  display: inline-block;
+  width: 100%;
+  padding: 5px;
+  font-size: 25px;
+  color: #2c3e50;
+  text-decoration: none;
+}

@@ -62,7 +62,7 @@ export class AppointmentButtonComponent implements OnInit, OnChanges {
 
   private checkFields() {
     // - means empty spot
-    this.isEmpty = this.appointment.houseNumber === '-';
+    this.isEmpty = this.appointment.houseNumber === '';
     // time passed
     this.isInThePast = AppointmentButtonComponent.checkIfIsInThePast(this.appointment);
   }

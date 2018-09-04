@@ -15,7 +15,7 @@ header {
 
 header a {
   text-decoration-line: none;
-  margin-left: 15px;
+  margin-left: 16px;
 }
 
 header span {
@@ -82,14 +82,34 @@ mat-list-item a:hover {
   margin-top: 25px;
 }
 
+/* media query classes done with ng flex */
+.parkhaven_img_sm {
+  height: 55px;
+  margin-right: 16px;
+}
+
+.parkhaven_img {
+  height: 55px;
+  margin: 0 16px;
+}
+
+.toolbar_sm {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 8px;
+}
+
+.logged_in_as_text_sm {
+  margin: 0 34px;
+  padding: 0 22px;
+  position: absolute;
+  bottom: 6px;
+}
+
 /* media queries */
 
-@media (min-width: 610px) {
-
-  .router_outlet_margin_top {
-    margin: 25px 5px 0;
-  }
-
+.router_outlet_margin_top {
+  margin: 24px 6px 0;
 }
 
 @media (max-width: 610px) {
@@ -98,11 +118,6 @@ mat-list-item a:hover {
     order: 4;
     align-self: flex-end;
     margin: -30px 20px 0 auto;
-  }
-
-  mat-toolbar {
-    flex-wrap: wrap;
-    height: 80px;
   }
 
 }
