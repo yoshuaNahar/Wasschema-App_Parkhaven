@@ -7,7 +7,6 @@ import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AuthModule } from './auth/auth.module';
 import { NotFoundModule } from './not-found/not-found.module';
-import { CounterSheetComponent } from './features/schema/schema.component';
 
 @NgModule({
   declarations: [

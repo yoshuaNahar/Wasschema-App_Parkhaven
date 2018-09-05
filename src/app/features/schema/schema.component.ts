@@ -23,18 +23,11 @@ export class SchemaComponent implements OnInit {
 
     this.authService.fetchUserInformation().valueChanges().subscribe((userData: any) => {
       this.counterData = userData.counter;
-    })
+    });
   }
 
   getCounters() {
-    this.bottomSheet.open(CounterSheetComponent, {
-      data: {
-        laundryMachineCounter: this.counterData.laundrymachine,
-        dryerCounter: this.counterData.dryer,
-        nextWeekLaundryMachineCounter: this.counterData.nextWeekLaundrymachine,
-        nextWeekDryerCounter: this.counterData.nextWeekDryer
-      }
-    });
+    this.bottomSheet.open(CounterSheetComponent, {data: this.counterData});
   }
 
 }
@@ -45,16 +38,16 @@ export class SchemaComponent implements OnInit {
     <mat-nav-list>
       <a mat-list-item>
         <span mat-line>This week:</span>
-        <span mat-line>Laundrymachine counter: {data.laundrymachine}</span>
-        <span mat-line>Dryer counter: {data.dryer}</span>
+        <span mat-line>Laundrymachine counter: {{counter.laundrymachine}}</span>
+        <span mat-line>Dryer counter: {{counter.dryer}}</span>
       </a>
-  
+
       <a mat-list-item>
         <span mat-line>Next week</span>
-        <span mat-line>Laundrymachine counter: {data.nextWeekLaundrymachine}</span>
-        <span mat-line>Dryer counter: {data.nextWeekDryer}</span>
+        <span mat-line>Laundrymachine counter: {{counter.nextWeekLaundrymachine}}</span>
+        <span mat-line>Dryer counter: {{counter.nextWeekDryer}}</span>
       </a>
-  </mat-nav-list>`
+    </mat-nav-list>`
 })
 export class CounterSheetComponent {
 
