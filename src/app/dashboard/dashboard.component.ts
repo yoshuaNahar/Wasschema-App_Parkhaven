@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
-import {  MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material';
 import { AuthService } from '../auth/auth.service';
 import { SchemaService } from '../features/schema/schema.service';
 import { SettingsService } from '../features/settings/settings.service';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -45,23 +47,50 @@ export class DashboardComponent implements OnInit {
 
     this.loggedInUser = this.authService.getCurrentSignedInUser();
 
-    this.authService.fetchUserInformation().valueChanges().subscribe((user: { admin }) => {
-      this.userData = user;
+    combineLatest(
+      this.authService.fetchUserInformation().valueChanges(),
+      this.schemaService.onInitFetchMachinesInfo(),
+      // still an observable, but short processing
+      this.schemaService.onInitFetchDays().pipe(
+        map(documentChangeAction => {
+          return documentChangeAction.map((doc: any) => {
+            return {
+              id: doc.payload.doc.id,
+              isCurrentWeek: doc.payload.doc.data().isCurrentWeek,
+              isDisplayable: doc.payload.doc.data().isDisplayable
+            };
+          }).filter(day => day.isDisplayable);
+        }))
+    ).subscribe(resultArray => {
+
+      // The first forkJoin Observable ==
+      this.userData = resultArray[0]; // admin field
       console.log(this.userData);
 
-      // TODO: I should let this wait on every other subscription in here, maybe use RXJS pipe and switchmap?
-      this.settingsService.fetchFavouriteLaundryRoom().subscribe((userInfo:any) => {
+      // The second forkJoin Observable ==
+      // This is needed at the time that the schemaComponent starts.
+      // This is the best place after the login
+      resultArray[1].forEach(doc => {
+        const data = doc.data();
+
+        this.schemaService.machinesInfo.push({
+          id: doc.id,
+          type: data.type,
+          room: data.room
+        });
+      });
+
+      // The third forkJoin Observable ==
+      this.schemaService.days = resultArray[2];
+      console.log(this.schemaService.days);
+      this.schemaService.daysChanged.next([...this.schemaService.days]);
+
+      // This will be finished in the end
+      this.settingsService.fetchFavouriteLaundryRoom().subscribe((userInfo: any) => {
         console.log('fethingFavouriteRoom and navigating: {}', userInfo);
         this.router.navigate(['room', userInfo.favouriteRoom]);
       });
-    });
-
-    // This is needed at the type that the schemaComponent starts.
-    // This is the best place after the login
-    this.schemaService.onInitFetchMachinesInfo();
-
-    // Otherwise the response is later than the params observable
-    this.schemaService.onInitFetchDays();
+    }, err => {console.log(err)});
   }
 
   closeSideNav() {

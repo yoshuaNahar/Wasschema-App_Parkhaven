@@ -22,18 +22,14 @@ export class SchemaComponent implements OnInit {
     this.rooms = this.schemaService.roomsInfo;
 
     this.authService.fetchUserInformation().valueChanges().subscribe((userData: any) => {
-      this.counterData = userData.counter;
-    })
+      this.counterData = userData.counters;
+      console.log('this.counterData', this.counterData);
+    });
   }
 
   getCounters() {
     this.bottomSheet.open(CounterSheetComponent, {
-      data: {
-        laundryMachineCounter: this.counterData.laundrymachine,
-        dryerCounter: this.counterData.dryer,
-        nextWeekLaundryMachineCounter: this.counterData.nextWeekLaundrymachine,
-        nextWeekDryerCounter: this.counterData.nextWeekDryer
-      }
+      data: {counter: this.counterData}
     });
   }
 
@@ -44,21 +40,21 @@ export class SchemaComponent implements OnInit {
   template: `
     <mat-nav-list>
       <a mat-list-item>
-        <span mat-line>This week:</span>
-        <span mat-line>Laundrymachine counter: {data.laundrymachine}</span>
-        <span mat-line>Dryer counter: {data.dryer}</span>
+        <span mat-line>Remaining this week:</span>
+        <span mat-line>Laundry machine appointments: {{3 - data.counter.laundrymachine}}</span>
+        <span mat-line>Dryer appointments: {{3 - data.counter.dryer}}</span>
       </a>
-  
+
       <a mat-list-item>
-        <span mat-line>Next week</span>
-        <span mat-line>Laundrymachine counter: {data.nextWeekLaundrymachine}</span>
-        <span mat-line>Dryer counter: {data.nextWeekDryer}</span>
+        <span mat-line>Remaining next week:</span>
+        <span mat-line>Laundry machine appointments: {{3 - data.counter.nextWeekLaundrymachine}}</span>
+        <span mat-line>Dryer appointments: {{3 - data.counter.nextWeekDryer}}</span>
       </a>
-  </mat-nav-list>`
+    </mat-nav-list>`
 })
 export class CounterSheetComponent {
 
-  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public counter: any) {
+  constructor(@Inject(MAT_BOTTOM_SHEET_DATA) public data: any) {
   }
 
 }

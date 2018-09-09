@@ -33,34 +33,11 @@ export class SchemaService {
   }
 
   onInitFetchMachinesInfo() {
-    this.afStore.firestore.app.firestore().collection('machinesInfo').get().then(querySnapshot => {
-      querySnapshot.forEach(doc => {
-        const data = doc.data();
-
-        this.machinesInfo.push({
-          id: doc.id,
-          type: data.type,
-          room: data.room
-        });
-      });
-    });
+    return this.afStore.firestore.app.firestore().collection('machinesInfo').get();
   }
 
   onInitFetchDays() {
-    this.afStore.collection('days').snapshotChanges().pipe(
-      map(documentChangeAction => {
-        return documentChangeAction.map((doc:any) => {
-          return {
-            id: doc.payload.doc.id,
-            isCurrentWeek: doc.payload.doc.data().isCurrentWeek,
-            isDisplayable: doc.payload.doc.data().isDisplayable
-          };
-        }).filter(day => day.isDisplayable);
-      })).subscribe(days => {
-      console.log(days);
-      this.days = days;
-      this.daysChanged.next([...this.days]);
-    });
+    return this.afStore.collection('days').snapshotChanges();
   }
 
   fetchMachinesData(room, startingDate, endingDate) {

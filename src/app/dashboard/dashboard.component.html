@@ -8,7 +8,7 @@
            src="./../../assets/parkhaven-logo.png"/>
       <a fxHide.lt-md routerLink="/"><span>Wasschema</span></a>
       <span fxHide.lt-sm class="fill-remaining-space"></span>
-      <span fxHide.lt-sm id="logged_in_as_text">Logged in as: {{loggedInUser.displayName}}</span>
+      <span fxHide.lt-sm id="logged_in_as_text">Logged in as: {{loggedInUser.email}}</span>
       <button fxHide.lt-sm mat-button (click)="logout()">Logout</button>
     </mat-toolbar>
   </header>
@@ -21,10 +21,10 @@
       <nav>
         <mat-list>
           <mat-list-item>
-            <a routerLinkActive="active_link"
-               [routerLinkActiveOptions]="{exact: true}"
+            <a routerLinkActive #rla="routerLinkActive"
                routerLink="/"
-               (click)="closeSideNav()">Schema</a>
+               (click)="closeSideNav()"
+               [class.active_link]="rla.isActive">Schema</a>
           </mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item>
@@ -62,7 +62,7 @@
         </mat-list>
       </nav>
       <div fxHide.gt-xs>
-        <span class="logged_in_as_text_sm">Logged in as: yosh.nahar@gmail.com</span>
+        <span class="logged_in_as_text_sm">Logged in as: {{loggedInUser.email}}</span>
       </div>
     </mat-sidenav>
 

@@ -2,6 +2,23 @@
   color: #2c3e50;
 }
 
+.week_and_counter_bar {
+  display: flex;
+  justify-content: space-between;
+}
+
 h1 {
   font-size: 20px;
+}
+
+@media (max-width: 610px) {
+
+  h1 {
+    font-size: 16px;
+  }
+
+  .week_and_counter_bar {
+    margin-top: -16px;
+  }
+
 }

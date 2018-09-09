@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { MachineInfo, SchemaService } from '../schema.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-room',
@@ -44,27 +45,26 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // This is the most important part. Based on the route (room id) the specific firebase path
     // is selected schema/room.id
-    this.route.params.subscribe(room => {
-      this.roomId = room.id;
+    this.route.params.pipe(switchMap(roomParams => {
+      this.roomId = roomParams.id;
       console.log('this.roomId', this.roomId);
       this.currentRoomMachinesInfo = this.getCurrentRoomMachinesInfo(this.schemaService.machinesInfo);
 
       this.machines = this.createEmptyMachinesArray();
 
-      this.schemaService.fetchMachinesData(this.roomId, this.days[0].id, this.days[6].id).stateChanges()
-        .subscribe((documentChangeAction) => {
-          documentChangeAction.forEach((doc:any) => {
-            console.log(doc);
-            const appointment = doc.payload.doc.data();
-            if (doc.type === 'added') { // the first pull is always added
-              this.machines[appointment.machine][appointment.date][appointment.time] = appointment.houseNumber;
-              console.log('appointment added', appointment);
-            } else { // doc.type === 'removed'
-              this.machines[appointment.machine][appointment.date][appointment.time] = '';
-              console.log('appointment removed', appointment);
-            }
-          });
-        });
+      return this.schemaService.fetchMachinesData(this.roomId, this.days[0].id, this.days[6].id).stateChanges();
+    })).subscribe((documentChangeAction) => {
+      documentChangeAction.forEach((doc: any) => {
+        console.log(doc);
+        const appointment = doc.payload.doc.data();
+        if (doc.type === 'added') { // the first pull is always added
+          this.machines[appointment.machine][appointment.date][appointment.time] = appointment.houseNumber;
+          console.log('appointment added', appointment);
+        } else { // doc.type === 'removed'
+          this.machines[appointment.machine][appointment.date][appointment.time] = '';
+          console.log('appointment removed', appointment);
+        }
+      });
     });
   }
 
@@ -94,6 +94,14 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getCurrentRoomMachinesInfo(machinesInfo: MachineInfo[]) {
     return machinesInfo.filter(machine => machine.room.id === this.roomId);
+  }
+
+  public readableType(type: string) {
+    if (type === 'laundrymachine') {
+      return 'Laundry machine';
+    } else {
+      return 'Dryer';
+    }
   }
 
 }

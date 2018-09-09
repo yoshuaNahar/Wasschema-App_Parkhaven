@@ -1,0 +1,73 @@
+[debug] [2018-09-08T13:35:32.395Z] ----------------------------------------------------------------------
+[debug] [2018-09-08T13:35:32.399Z] Command:       /home/yoshua/.nvm/versions/node/v10.5.0/bin/node /home/yoshua/.nvm/versions/node/v10.5.0/bin/firebase serve --only functions
+[debug] [2018-09-08T13:35:32.400Z] CLI Version:   4.2.1
+[debug] [2018-09-08T13:35:32.400Z] Platform:      linux
+[debug] [2018-09-08T13:35:32.400Z] Node Version:  v10.5.0
+[debug] [2018-09-08T13:35:32.404Z] Time:          Sat Sep 08 2018 15:35:32 GMT+0200 (Central European Summer Time)
+[debug] [2018-09-08T13:35:32.404Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-09-08T13:35:32.423Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-09-08T13:35:32.423Z] > authorizing via signed-in user
+[debug] [2018-09-08T13:35:32.426Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-09-08T13:35:32.427Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+
+[debug] [2018-09-08T13:35:32.587Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T13:35:32.600Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-531f4  
+ 
+[debug] [2018-09-08T13:35:33.208Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T13:35:33.210Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-531f4  
+ 
+[debug] [2018-09-08T13:35:33.967Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-09-08T13:35:35.881Z] Fetching environment
+[debug] [2018-09-08T13:35:35.889Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/932886716822:getServerAppConfig  
+ 
+[debug] [2018-09-08T13:35:36.087Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T13:35:36.087Z] Starting @google-cloud/functions-emulator
+[debug] [2018-09-08T13:35:39.641Z] Parsing function triggers
+[info] ✔  functions: helloWorld: http://localhost:5000/fir-531f4/us-central1/helloWorld
+[info] ✔  functions: addAppointment: http://localhost:5000/fir-531f4/us-central1/addAppointment
+[info] ✔  functions: removeAppointment: http://localhost:5000/fir-531f4/us-central1/removeAppointment
+[info] ✔  functions: weeklyCleanUp: http://localhost:5000/fir-531f4/us-central1/weeklyCleanUp
+[warn] ⚠  functions: Error from emulator. [object Object]
+[debug] [2018-09-08T13:35:46.686Z] 
+[info] ✔  functions: handleMaintenaces: http://localhost:5000/fir-531f4/us-central1/handleMaintenaces
+[debug] [2018-09-09T11:31:00.336Z] ----------------------------------------------------------------------
+[debug] [2018-09-09T11:31:00.356Z] Command:       /home/yoshua/.nvm/versions/node/v10.5.0/bin/node /home/yoshua/.nvm/versions/node/v10.5.0/bin/firebase serve --only functions
+[debug] [2018-09-09T11:31:00.357Z] CLI Version:   4.2.1
+[debug] [2018-09-09T11:31:00.357Z] Platform:      linux
+[debug] [2018-09-09T11:31:00.357Z] Node Version:  v10.5.0
+[debug] [2018-09-09T11:31:00.364Z] Time:          Sun Sep 09 2018 13:31:00 GMT+0200 (Central European Summer Time)
+[debug] [2018-09-09T11:31:00.365Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-09-09T11:31:00.409Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-09-09T11:31:00.409Z] > authorizing via signed-in user
+[debug] [2018-09-09T11:31:00.417Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-09-09T11:31:00.417Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+
+[debug] [2018-09-09T11:31:00.613Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-09T11:31:00.622Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-531f4  
+ 
+[debug] [2018-09-09T11:31:01.203Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-09T11:31:01.205Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-531f4  
+ 
+[debug] [2018-09-09T11:31:01.409Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/yoshua/Development/GitHub/Wasschema-App_Parkhaven'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-09-09T11:31:03.513Z] Fetching environment
+[debug] [2018-09-09T11:31:03.517Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/932886716822:getServerAppConfig  
+ 
+[debug] [2018-09-09T11:31:03.770Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-09T11:31:03.771Z] Starting @google-cloud/functions-emulator
+[debug] [2018-09-09T11:31:06.310Z] Parsing function triggers
+[info] ✔  functions: removeAppointment: http://localhost:5000/fir-531f4/us-central1/removeAppointment
+[info] ✔  functions: signup: http://localhost:5000/fir-531f4/us-central1/signup
+[warn] ⚠  functions: Error from emulator. [object Object]
+[debug] [2018-09-09T11:31:14.573Z] 
+[info] ✔  functions: dailyCleanUp: http://localhost:5000/fir-531f4/us-central1/dailyCleanUp
+[info] ✔  functions: helloWorld: http://localhost:5000/fir-531f4/us-central1/helloWorld
