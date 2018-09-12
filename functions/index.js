@@ -75,3 +75,65 @@ exports.handleMaintenaces = functions.https.onRequest((request, response) => {
     dailyHandleMaintenacesFunction.handler(request, response);
   });
 });
+
+const http = require('http');
+// const https = require('https'); on the server
+exports.demo2 = functions.https.onRequest((request, response) => {
+  admin.firestore().collection('pushTokens').doc(
+    'eGeRSeqkKgE:APA91bHSlej04rH8JJL_AeWETOn7KVmeFo6NG9pkPWr__jpIldDbwRr_BeUjA0863TxNiXIyCG56vbPRH0ZF1wMk5_44j7gTbhPEtoLqDMsaE3BmyRT-YCCmhFME9M_Tv67NM-b4mC8I')
+    .get().then(snap => {
+    const newToken = snap.id;
+    console.log('newToken', newToken);
+
+    admin.messaging().subscribeToTopic(newToken,
+      '/topics/appointmentIn30Minutes')
+      .then(mtmr => {
+        console.log('mtmr.errors', mtmr.errors);
+        console.log('mtmr', mtmr);
+      });
+
+    response.status(200).send('OK');
+  });
+});
+
+exports.addClientTokenToTopic = functions.firestore.document(
+  'pushTokens/{tokenId}')
+  .onCreate((snapshot, context) => {
+    console.log('I was here');
+
+    const newToken = snapshot.id;
+
+    admin.messaging().subscribeToTopic(newToken,
+      '/topics/appointmentIn30Minutes')
+      .then(mtmr => {
+        console.log(mtmr.errors);
+      });
+  });
+
+// post applicationToken to topic
+// https://iid.googleapis.com/iid/v1/nKctODamlM4:CKrh_PC8kIb7O...clJONHoA/rel/topics/movies
+//   Content - Type:application / json
+//   Authorization:key = AIzaSyZ-1u...0GBYzPu7Udno5aA
+
+// Get authorizationToken
+// const scopes = 'https://www.googleapis.com/auth/firebase.messaging';
+// function getAccessToken() {
+//   return new Promise(function(resolve, reject) {
+//     var key = require('./fir-531f4-firebase-adminsdk-gcqo4-a8dd830b56.json');
+//     var jwtClient = new google.auth.JWT(
+//       key.client_email,
+//       null,
+//       key.private_key,
+//       scopes,
+//       null
+//     );
+//     jwtClient.authorize(function(err, tokens) {
+//       if (err) {
+//         reject(err);
+//         return;
+//       }
+//       resolve(tokens.access_token);
+//     });
+//   });
+// }
+
