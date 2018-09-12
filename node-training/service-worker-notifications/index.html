@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Demo</title>
-  <!--<link rel="manifest" href="./manifest.json">-->
-
+  <link rel="manifest" href="./manifest.json">
 </head>
 <body>
-Download npm --install -g http-server
 
+Run this index.html with http-server
 
 <script src="https://www.gstatic.com/firebasejs/5.4.2/firebase.js"></script>
 <script>
@@ -22,32 +21,46 @@ Download npm --install -g http-server
     messagingSenderId: "932886716822"
   };
   firebase.initializeApp(config);
-</script>
-<script>
+
   // Retrieve Firebase Messaging object.
   const messaging = firebase.messaging();
+
+  // Add the public key generated from the console here.
   messaging.usePublicVapidKey(
     "BApTsn3OqzuBCvL0OR-Zuwrenm6YhB18Vo3UDZ4QD4mYjKmhRQUsej8gfhWCM-7bb8g5BsDk3-6WDNuo6RvkraU");
+
   messaging.requestPermission().then(() => {
     console.log('Notification permission granted.');
-    // TODO(developer): Retrieve an Instance ID token for use with FCM.
+    // Retrieve an Instance ID token for use with FCM.
     return messaging.getToken();
   }).then(token => {
     console.log('messaging.getToken()', token);
 
     if (token) {
-      sendTokenToServer(token);
-      updateUIForPushEnabled(token);
+
     } else {
       // Show permission request.
       console.log('No Instance ID token available. Request permission to generate one.');
       // Show permission UI.
-      updateUIForPushPermissionRequired();
-      setTokenSentToServer(false);
+
     }
   }).catch(err => {
     console.error('Unable to get permission to notify.', err);
   });
+
+  messaging.onMessage(payload => {
+    console.log('onMessage:', payload);
+  });
+
+  messaging.onTokenRefresh(function () {
+    messaging.getToken().then(function (refreshedToken) {
+      console.log('Token refreshed.', refreshedToken);
+    }).catch(function (err) {
+      console.log('Unable to retrieve refreshed token ', err);
+    });
+  });
+
+
 </script>
 </body>
 </html>

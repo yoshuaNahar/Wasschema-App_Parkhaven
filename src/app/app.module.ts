@@ -7,8 +7,6 @@ import { CoreModule } from './core/core.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AuthModule } from './auth/auth.module';
 import { NotFoundModule } from './not-found/not-found.module';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,7 +21,8 @@ import { environment } from '../environments/environment';
     AuthModule,
     // not found module contains a wildcard route, which has to be the last route
     NotFoundModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    // this was done with ng turn_app_into_pwa
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]

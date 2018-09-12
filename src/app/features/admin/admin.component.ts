@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore, DocumentChangeAction, } from 'angularfire2/firestore';
+import { AngularFirestore, DocumentChangeAction, } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
 

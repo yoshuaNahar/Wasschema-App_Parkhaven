@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore, DocumentChangeAction } from 'angularfire2/firestore';
 import { map } from 'rxjs/operators';
 import { Message } from '../editor/editor.component';
 import { MatSnackBar } from '@angular/material';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-messages',
