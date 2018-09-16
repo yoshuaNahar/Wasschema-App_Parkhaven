@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { HttpClient } from '@angular/common/http';
-import { RegistrationDetails } from './RegistrationDetails';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
@@ -10,7 +9,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 @Injectable()
 export class AuthService {
 
-  // In firestore users/userData I removed created and email field because they already exists on the currentUser and currentUser.metadata
   constructor(private afAuth: AngularFireAuth,
               private afStore: AngularFirestore,
               private router: Router,
@@ -25,39 +23,40 @@ export class AuthService {
         this.router.navigate(['/']);
       }).catch(error => {
       console.log(error);
-      this.snackBar.open('Incorrect email or password', 'Oke');
+      this.snackBar.open('Incorrect email or password.', 'OK');
     });
   }
 
-  /*
-   * I need to do a housenumber check before I allow the userData's profile to be saved
-   */
-  register(user: RegistrationDetails) {
+  rememberMe() {
+    // https://firebase.google.com/docs/auth/web/auth-state-persistence
+    return this.afAuth.auth.setPersistence('local');
+  }
+
+  register(user) {
     this.http.post(`${environment.firebaseUrl}/signup`, user, {
       headers: {'Content-Type': 'application/json'}
-    }).subscribe(value => {
-      console.log('value ', value);
-      this.router.navigate(['/login']);
+    }).subscribe(() => {
+      this.router.navigate(['/login']).then(() => {
+        this.snackBar.open('Sign Up was successful.', 'OK');
+      });
     }, error => {
-      console.log('error', error);
-      this.snackBar.open(error.error, 'Oke');
+      this.snackBar.open(error.error, 'OK');
     });
   }
 
   forgotPassword(email: string) {
-    // send email to userData account
-    // navigate to login page
-    // show notification that email is send
     this.afAuth.auth.sendPasswordResetEmail(email).then(() => {
-      this.router.navigate(['/login']).then(() => {
-        this.snackBar.open(`Email sent to ${email}`, 'Oke');
-      });
+      return this.router.navigate(['/login']);
+    }).then(() => {
+      this.snackBar.open(`An email was sent to ${email}.`, 'OK');
+    }).catch(error => {
+      this.snackBar.open(error.message, 'OK');
     });
   }
 
   logout() {
     this.afAuth.auth.signOut().then(() => {
-      this.router.navigate(['/login']);
+      return this.router.navigate(['/login']);
     });
   }
 

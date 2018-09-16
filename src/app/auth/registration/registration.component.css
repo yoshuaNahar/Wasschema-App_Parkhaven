@@ -45,6 +45,10 @@ mat-form-field {
   width: 100%;
 }
 
+div#action {
+  margin-top: 16px;
+}
+
 div#action > button {
   width: 100%;
 }

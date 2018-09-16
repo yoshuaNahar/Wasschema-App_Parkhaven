@@ -7,6 +7,7 @@ import { SettingsModule } from '../features/settings/settings.module';
 import { NotificationBoardModule } from '../features/notification-board/notification-board.module';
 import { AdminModule } from '../features/admin/admin.module';
 import { DashboardComponent } from './dashboard.component';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,8 @@ import { DashboardComponent } from './dashboard.component';
     SettingsModule,
     NotificationBoardModule,
     AdminModule,
+
+    AngularFireMessagingModule
   ],
   providers: [
     DatePipe,

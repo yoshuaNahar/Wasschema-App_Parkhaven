@@ -6,6 +6,7 @@ import { SettingsComponent } from './settings.component';
 import { SetFavouriteLaundryRoomComponent } from './set-favourite-laundry-room/set-favourite-laundry-room.component';
 import { SettingsService } from './settings.service';
 import { PushNotificationsComponent } from './push-notifications/push-notifications.component';
+import { PushNotificationsService } from './push-notifications/push-notifications.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PushNotificationsComponent } from './push-notifications/push-notificati
     SharedModule,
   ],
   providers: [
-    SettingsService
+    SettingsService,
+    PushNotificationsService
   ]
 })
 export class SettingsModule {

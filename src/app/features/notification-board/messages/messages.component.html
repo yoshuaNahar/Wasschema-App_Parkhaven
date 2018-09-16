@@ -1,20 +1,41 @@
 <div class="messages">
+  <div class="message" *ngFor="let pendingMessage of pendingMessages">
+    <div class="message_title">
+      <h3>{{pendingMessage.title}} | NEEDS TO BE ACCEPTED</h3>
+      <div class="icon_actions">
+        <button mat-icon-button
+                (click)="acceptMessage(pendingMessage)">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button mat-icon-button
+                (click)="removeMessage(pendingMessage)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="message_content">{{pendingMessage.content}}</div>
+    <p class="message_meta">
+      {{pad(pendingMessage.created.getDate())}}-{{pad(pendingMessage.created.getMonth() +
+      1)}}-{{pendingMessage.created.getFullYear()}} |
+      {{pad(pendingMessage.created.getHours())}}:{{pad(pendingMessage.created.getMinutes())}}</p>
+    <mat-divider class="mat_margins"></mat-divider>
+  </div>
   <div class="message" *ngFor="let message of messages">
     <div class="message_title">
       <h3>{{message.title}}</h3>
       <div class="icon_actions">
-        <button mat-icon-button>
-          <mat-icon>done</mat-icon>
-        </button>
         <button mat-icon-button
-                *ngIf="currentUser && message.houseNumber === currentUser.displayName"
+                *ngIf="userData && (message.houseNumber === currentUser.displayName || userData.isAdmin)"
                 (click)="removeMessage(message)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
     <div class="message_content">{{message.content}}</div>
-    <p class="message_meta">{{message.timestamp}} | 01-10-2018 | 08:11</p>
+    <p class="message_meta">
+      {{pad(message.activated.getDate())}}-{{pad(message.activated.getMonth() +
+      1)}}-{{message.activated.getFullYear()}} |
+      {{pad(message.activated.getHours())}}:{{pad(message.activated.getMinutes())}}</p>
     <mat-divider class="mat_margins"></mat-divider>
   </div>
 </div>

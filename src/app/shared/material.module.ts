@@ -15,6 +15,7 @@ import {
   MatTabsModule,
   MatToolbarModule,
   MatBottomSheetModule,
+  MatSlideToggleModule,
 } from '@angular/material';
 
 @NgModule({
@@ -35,6 +36,7 @@ import {
     MatPaginatorModule,
     MatSnackBarModule,
     MatBottomSheetModule,
+    MatSlideToggleModule
   ],
   declarations: []
 })

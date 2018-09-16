@@ -4,21 +4,17 @@
     <table>
       <tr>
         <th>Id</th>
-        <th>Name</th>
         <th>Email</th>
-        <th>Housenumber</th>
+        <th>House Number</th>
         <th>Action</th>
       </tr>
       <tr *ngFor="let user of users; let index = index">
         <td>{{index + 1}}</td>
         <td>
-          {{user.name}}
-        </td>
-        <td>
           {{user.email}}
         </td>
         <td>
-          {{user.houseNumber}}
+          {{user.id}}
         </td>
         <td>
           <button mat-button

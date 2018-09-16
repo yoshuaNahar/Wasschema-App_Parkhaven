@@ -21,8 +21,6 @@ import { NotFoundModule } from './not-found/not-found.module';
     AuthModule,
     // not found module contains a wildcard route, which has to be the last route
     NotFoundModule,
-    // this was done with ng turn_app_into_pwa
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]

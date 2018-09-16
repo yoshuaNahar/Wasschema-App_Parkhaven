@@ -15,19 +15,16 @@
         <mat-form-field>
           <input matInput
                  placeholder="Email"
-                 name="email"
                  type="email"
                  formControlName="email"/>
         </mat-form-field>
         <mat-form-field>
           <input matInput
                  placeholder="Password"
-                 name="password"
                  type="password"
                  formControlName="password"/>
         </mat-form-field>
-        <mat-checkbox name="rememberMe"
-                      formControlName="rememberMe">
+        <mat-checkbox formControlName="rememberMe">
           Remember Me?
         </mat-checkbox>
       </mat-card-content>
@@ -35,7 +32,7 @@
       <div id="action">
         <button mat-raised-button
                 color="primary"
-                type="submit">Login
+                type="submit">Log In
         </button>
       </div>
 
@@ -47,7 +44,6 @@
       </div>
     </form>
     <button routerLink="/">Home</button>
-    <button (click)="demoTestUsersCollectionSecurityRules()">Click</button>
   </mat-card>
 
 </main>

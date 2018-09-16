@@ -1,6 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators
+} from '@angular/forms';
 import { SettingsService } from '../settings.service';
+import { ErrorStateMatcher } from '@angular/material';
 
 @Component({
   selector: 'app-change-password',
@@ -11,22 +19,49 @@ export class ChangePasswordComponent implements OnInit {
 
   changePasswordForm: FormGroup;
 
+  errorStateMatcher = new MyErrorStateMatcher();
+
   constructor(private formBuilder: FormBuilder,
               private userSettingsService: SettingsService) {
   }
 
   ngOnInit() {
-    // TODO: Add the 6 letters minimum validator
     this.changePasswordForm = this.formBuilder.group({
-      newPassword: ['', Validators.required],
-    });
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: [''],
+    }, {validator: ChangePasswordComponent.identicalValidator});
   }
 
   changePassword() {
-    console.log(this.changePasswordForm);
-    const newPassword = this.changePasswordForm.value.newPassword;
+    const passwords = this.changePasswordForm.value;
 
-    this.userSettingsService.changePassword(newPassword);
+    if (passwords.newPassword === passwords.confirmPassword) {
+      this.userSettingsService.changePassword(passwords.newPassword);
+    }
+  }
+
+  static identicalValidator(group: FormGroup) {
+    if (group.get('newPassword').value !== group.get('confirmPassword').value) {
+      return {identical: true};
+    }
+    return null;
+  }
+
+  get newPassword() {
+    return this.changePasswordForm.get('newPassword');
+  }
+
+  get confirmPassword() {
+    return this.changePasswordForm.get('confirmPassword');
+  }
+
+}
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    // true means show error
+    return control && control.parent && control.dirty && control.parent.invalid;
   }
 
 }

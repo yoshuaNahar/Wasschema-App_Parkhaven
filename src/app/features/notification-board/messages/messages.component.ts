@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { flatMap, map } from 'rxjs/operators';
 import { Message } from '../editor/editor.component';
 import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-messages',
@@ -14,13 +14,21 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class MessagesComponent implements OnInit, OnDestroy {
 
   messages: Message[];
+  pendingMessages: Message[];
+
   messagesSubscription: Subscription;
+  pendingMessagesSubscription: Subscription;
 
   currentUser;
+  userData;
 
   constructor(private afStore: AngularFirestore,
-              private afAuth: AngularFireAuth,
+              private authService: AuthService,
               private snackBar: MatSnackBar) {
+  }
+
+  pad(n) {
+    return (n < 10) ? ("0" + n) : n;
   }
 
   ngOnInit() {
@@ -31,26 +39,68 @@ export class MessagesComponent implements OnInit, OnDestroy {
             id: doc.payload.doc.id,
             ...doc.payload.doc.data() as Message
           };
+        }).map(doc => {
+          doc.activated = doc.activated.toDate();
+          doc.pending = false;
+          return doc;
         });
-      })).subscribe(messages => {
+      })).subscribe((messages: any) => {
       this.messages = messages;
     });
 
-    this.afAuth.auth.onAuthStateChanged(user => {
-      this.currentUser = user;
+    this.pendingMessagesSubscription = this.authService.fetchUserInformation().get().pipe(
+      flatMap((userInfoDoc) => {
+        this.userData = userInfoDoc.data();
+        return this.afStore.collection('pendingMessages').snapshotChanges();
+      }),
+      map((docArray: DocumentChangeAction<Message>[]) => {
+        return docArray.map(doc => {
+          return {
+            id: doc.payload.doc.id,
+            ...doc.payload.doc.data() as Message
+          };
+        }).map(doc => {
+          doc.created = doc.created.toDate();
+          doc.pending = true;
+          return doc;
+        });
+      })
+    ).subscribe(pendingMessages => {
+      this.pendingMessages = pendingMessages;
     });
+
+    this.currentUser = this.authService.getCurrentSignedInUser();
   }
 
   ngOnDestroy(): void {
     this.messagesSubscription.unsubscribe();
+    this.pendingMessagesSubscription.unsubscribe();
   }
 
   removeMessage(message) {
-    console.log(message);
+    let collRef;
+    if (message.pending) {
+      collRef = this.afStore.collection('pendingMessages');
+    } else {
+      collRef = this.afStore.collection('activeMessages');
+    }
 
-    this.afStore.collection('activeMessages').doc(message.id).delete().then(() => {
-      this.snackBar.open('Message deleted.', 'Oke');
+    collRef.doc(message.id).delete().then(() => {
+      this.snackBar.open('Message deleted.', 'OK');
     }).catch(error => {
+      console.log(error);
+    });
+  }
+
+  acceptMessage(message) {
+    message.activated = new Date();
+
+    Promise.all([
+      this.afStore.collection('activeMessages').doc(message.id).set(message),
+      this.afStore.collection('pendingMessages').doc(message.id).delete()])
+      .then(() => {
+        this.snackBar.open('Message accepted.', 'OK');
+      }).catch(error => {
       console.log(error);
     });
   }

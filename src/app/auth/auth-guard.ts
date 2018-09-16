@@ -8,7 +8,6 @@ export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService,
               private router: Router,
               private snackBar: MatSnackBar) {
-
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
@@ -16,12 +15,10 @@ export class AuthGuard implements CanActivate {
       return true;
     } else {
       this.router.navigate(['login']).then(() => {
-        this.snackBar.open('Not logged in!', 'Oke');
+        this.snackBar.open('Your session has expired.', 'OK');
       });
       return false;
     }
-    // this.authService.login('yosh.nahar@gmail.com', 'compaq');
-    // return true;
   }
 
 }

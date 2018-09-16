@@ -11,4 +11,5 @@ const config = {
 };
 
 firebase.initializeApp(config);
-firebase.messaging(); // Everything here is needed for a push notification to shown or sent to the messaging.onMessage subscription
+firebase.messaging();
+// Everything above is needed for a push notification to shown or sent to the messaging.onMessage subscription

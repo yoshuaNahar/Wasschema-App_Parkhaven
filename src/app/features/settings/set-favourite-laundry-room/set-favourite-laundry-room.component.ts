@@ -11,8 +11,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class SetFavouriteLaundryRoomComponent implements OnInit, OnDestroy {
 
   setFavouriteLaundryRoomForm: FormGroup;
-
   favouriteLaundryRoom;
+
   private favouriteLaundryRoomSubscription: Subscription;
 
   constructor(private formBuilder: FormBuilder,
@@ -25,9 +25,10 @@ export class SetFavouriteLaundryRoomComponent implements OnInit, OnDestroy {
     });
 
     this.favouriteLaundryRoomSubscription =
-      this.userSettingsService.fetchFavouriteLaundryRoom().subscribe((user: { favouriteRoom }) => {
-        console.log(user);
-        this.favouriteLaundryRoom = user.favouriteRoom;
+      this.userSettingsService.fetchFavouriteLaundryRoom().subscribe((userInfoDoc: any) => {
+        const userInfo = userInfoDoc.data();
+        console.log(userInfo);
+        this.favouriteLaundryRoom = userInfo.favouriteRoom;
 
         console.log('this.favouriteLaundryRoom', this.favouriteLaundryRoom);
       });

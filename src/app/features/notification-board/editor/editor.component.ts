@@ -3,6 +3,8 @@ import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-editor',
@@ -25,19 +27,19 @@ export class EditorComponent implements OnInit {
     placeholder: 'Type your message here',
     hideIcons: ['side-by-side', 'fullscreen']
   };
+
   currentUser;
+
   @Output() private goBackEmitter = new EventEmitter<void>();
 
   constructor(private formBuilder: FormBuilder,
               private afStore: AngularFirestore,
-              private afAuth: AngularFireAuth,
+              private authService: AuthService,
               private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
-    this.afAuth.auth.onAuthStateChanged(user => {
-      this.currentUser = user;
-    });
+      this.currentUser = this.authService.getCurrentSignedInUser();
   }
 
   createMessage() {
@@ -45,13 +47,13 @@ export class EditorComponent implements OnInit {
       title: this.title,
       content: this.content,
       houseNumber: this.currentUser.displayName,
-      timestamp: new Date().toJSON()
+      created: new Date()
     };
 
     this.afStore.collection('pendingMessages').add(message).then(value => {
       console.log(value);
       this.goBackEvent();
-      this.snackBar.open('Message created.', 'Oke');
+      this.snackBar.open('Message created.', 'OK');
     }).catch(error => {
       console.log(error);
     });
@@ -68,5 +70,7 @@ export interface Message {
   title;
   content;
   houseNumber;
-  timestamp;
+  activated?;
+  created?;
+  pending?;
 }

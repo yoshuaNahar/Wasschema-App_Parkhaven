@@ -9,23 +9,13 @@ import { SettingsService } from '../settings.service';
 })
 export class DeleteAccountComponent implements OnInit {
 
-  deleteAccountForm;
-
-  constructor(private formBuilder: FormBuilder,
-              private userSettingsService: SettingsService) {
+  constructor(private userSettingsService: SettingsService) {
   }
 
   ngOnInit() {
-    this.deleteAccountForm = this.formBuilder.group({
-      currentPassword: ['', Validators.required],
-    });
   }
 
   deleteAccount() {
-    console.log(this.deleteAccountForm);
-    const currentPassword = this.deleteAccountForm.value.currentPassword;
-    console.log(currentPassword);
-
     this.userSettingsService.deleteAccount();
   }
 

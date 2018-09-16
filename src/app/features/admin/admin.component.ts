@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore, DocumentChangeAction, } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { MatSnackBar } from '@angular/material';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-admin',
@@ -13,7 +16,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   users = [];
   private usersSubscription: Subscription;
 
-  constructor(private afStore: AngularFirestore) {
+  constructor(private afStore: AngularFirestore,
+              private authService: AuthService,
+              private http: HttpClient,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
@@ -24,9 +30,10 @@ export class AdminComponent implements OnInit, OnDestroy {
             id: doc.payload.doc.id,
             ...doc.payload.doc.data()
           };
+        }).filter((user: any) => {
+          return user.email; // if user.email is defined, an account exists.
         });
       })).subscribe(users => {
-      console.log('users', users);
       this.users = users;
     })
   }
@@ -36,10 +43,17 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   delete(user) {
-    this.afStore.collection('users').doc(user.id).delete().then(value => {
-      console.log(value);
-      this.afStore.collection('houseNumbers').doc(user.houseNumber).update({});
-      this.afStore.collection('publicUsersData').doc(user.houseNumber).update({favouriteRoom: null});
+    const currentUser = this.authService.getCurrentSignedInUser();
+
+    currentUser.getIdToken(true).then(token => {
+      return this.http.put('http://localhost:5000/fir-531f4/us-central1/deleteUser', {
+        userToDelete: user,
+        jwt: token
+      }).toPromise();
+    }).then((response: any) => {
+      this.snackBar.open(response.message, 'OK');
+    }).catch((httpErrorResponse: HttpErrorResponse) => {
+      this.snackBar.open(httpErrorResponse.error.message, 'OK');
     });
   }
 

@@ -14,13 +14,10 @@ export class SettingsService {
   }
 
   changePassword(newPassword) {
-    console.log('change password to:', newPassword);
-
     this.authService.getCurrentSignedInUser().updatePassword(newPassword).then(() => {
-      this.snackBar.open('Password was successfully changed.', 'Oke');
+      this.snackBar.open('Password was changed successfully.', 'OK');
     }).catch(error => {
-      console.log('password not changed', error);
-      this.snackBar.open('Weak password. Try a longer password.', 'Oke');
+      this.snackBar.open(error.message, 'OK');
     });
   }
 
@@ -28,10 +25,11 @@ export class SettingsService {
     const currentUser = this.authService.getCurrentSignedInUser();
 
     currentUser.delete().then(() => {
-      console.log('account deleted!');
-      this.afStore.collection('users').doc(currentUser.displayName).delete();
+      this.afStore.collection('users').doc(currentUser.displayName).set({});
+      this.afStore.collection('publicUsersInfo').doc(currentUser.displayName).delete();
+
       this.router.navigate(['/login']).then(() => {
-        this.snackBar.open('Account was successfully deleted.', 'Oke');
+        this.snackBar.open('Account was deleted successfully.', 'OK');
       });
     });
   }
@@ -39,7 +37,7 @@ export class SettingsService {
   fetchFavouriteLaundryRoom() {
     const currentUser = this.authService.getCurrentSignedInUser();
 
-    return this.afStore.collection('publicUsersInfo').doc(currentUser.displayName).valueChanges();
+    return this.afStore.collection('publicUsersInfo').doc(currentUser.displayName).get();
   }
 
   setFavouriteLaundryRoom(laundryRoom) {
@@ -49,7 +47,7 @@ export class SettingsService {
     this.afStore.collection('publicUsersInfo').doc(currentUser.displayName).update({
       favouriteRoom: laundryRoom
     }).then(() => {
-      this.snackBar.open('Favourite laundry room set.', 'Oke');
+      this.snackBar.open('Favourite laundry room set.', 'OK');
     });
   }
 
