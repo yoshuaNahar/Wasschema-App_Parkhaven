@@ -25,23 +25,22 @@
   border-radius: 0 4px 4px 0;
 }
 
-/* TODO: These colors should be loaded dynamically!
-   except empty and unavailable */
-.left_taken {
-  background-color: #D1B854;
-}
+/* These colors should be loaded dynamically. I used css variables set in the styles.css */
+/*.left_taken {*/
+  /*background-color:  var(--laundryMachine1);*/
+/*}*/
 
-.right_taken {
-  background-color: #5C9E93;
-}
+/*.right_taken {*/
+  /*background-color:  var(--laundryMachine2);*/
+/*}*/
 
-.left_taken_dryer1 {
-  background-color: #D5C67A;
-}
+/*.left_taken_dryer1 {*/
+  /*background-color:  var(--dryer1);*/
+/*}*/
 
-.right_taken_dryer2 {
-  background-color: #5B8699;
-}
+/*.right_taken_dryer2 {*/
+  /*background-color:  var(--dryer2);*/
+/*}*/
 
 .empty {
   background-color: #d3dde0;

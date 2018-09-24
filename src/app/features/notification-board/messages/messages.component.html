@@ -14,10 +14,7 @@
       </div>
     </div>
     <div class="message_content">{{pendingMessage.content}}</div>
-    <p class="message_meta">
-      {{pad(pendingMessage.created.getDate())}}-{{pad(pendingMessage.created.getMonth() +
-      1)}}-{{pendingMessage.created.getFullYear()}} |
-      {{pad(pendingMessage.created.getHours())}}:{{pad(pendingMessage.created.getMinutes())}}</p>
+    <p class="message_meta">{{pendingMessage.created | date:'dd-MM-yyyy | hh:mm'}}</p>
     <mat-divider class="mat_margins"></mat-divider>
   </div>
   <div class="message" *ngFor="let message of messages">
@@ -25,17 +22,14 @@
       <h3>{{message.title}}</h3>
       <div class="icon_actions">
         <button mat-icon-button
-                *ngIf="userData && (message.houseNumber === currentUser.displayName || userData.isAdmin)"
+                *ngIf="userData && (message.houseNumber === currentUser.displayName || userData.admin)"
                 (click)="removeMessage(message)">
           <mat-icon>delete</mat-icon>
         </button>
       </div>
     </div>
     <div class="message_content">{{message.content}}</div>
-    <p class="message_meta">
-      {{pad(message.activated.getDate())}}-{{pad(message.activated.getMonth() +
-      1)}}-{{message.activated.getFullYear()}} |
-      {{pad(message.activated.getHours())}}:{{pad(message.activated.getMinutes())}}</p>
+    <p class="message_meta">{{message.activated | date:'dd-MM-yyyy | hh:mm'}}</p>
     <mat-divider class="mat_margins"></mat-divider>
   </div>
 </div>

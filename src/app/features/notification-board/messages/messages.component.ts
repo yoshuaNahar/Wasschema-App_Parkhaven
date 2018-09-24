@@ -5,6 +5,8 @@ import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AngularFirestore, DocumentChangeAction } from '@angular/fire/firestore';
 import { AuthService } from '../../../auth/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-messages',
@@ -24,11 +26,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
 
   constructor(private afStore: AngularFirestore,
               private authService: AuthService,
+              private http: HttpClient,
               private snackBar: MatSnackBar) {
-  }
-
-  pad(n) {
-    return (n < 10) ? ("0" + n) : n;
   }
 
   ngOnInit() {
@@ -39,7 +38,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
             id: doc.payload.doc.id,
             ...doc.payload.doc.data() as Message
           };
-        }).map(doc => {
+        }).map((doc: any) => {
           doc.activated = doc.activated.toDate();
           doc.pending = false;
           return doc;
@@ -95,13 +94,20 @@ export class MessagesComponent implements OnInit, OnDestroy {
   acceptMessage(message) {
     message.activated = new Date();
 
-    Promise.all([
-      this.afStore.collection('activeMessages').doc(message.id).set(message),
-      this.afStore.collection('pendingMessages').doc(message.id).delete()])
-      .then(() => {
+    const currentUser = this.authService.getCurrentSignedInUser();
+
+    currentUser.getIdToken(true).then(token => {
+      return Promise.all([
+        this.afStore.collection('activeMessages').doc(message.id).set(message),
+        this.afStore.collection('pendingMessages').doc(message.id).delete(),
+        this.http.put(`${environment.firebaseUrl}/setNewNotification`, {
+          jwt: token
+        }).toPromise()
+      ]).then(() => {
         this.snackBar.open('Message accepted.', 'OK');
       }).catch(error => {
-      console.log(error);
+        console.log(error);
+      });
     });
   }
 

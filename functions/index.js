@@ -10,6 +10,7 @@ const dailyCleanUpFunction = require('./daily-cleanup');
 const dailyHandleMaintenacesFunction = require('./daily-handle-maintenaces');
 const sendNotificationsPerAppointmentFunction =
   require('./send-notifications-per-appointment');
+const setNewNotificationFunction = require('./set-new-notification');
 
 const cors = require('cors')({
   origin: true
@@ -49,72 +50,60 @@ exports.deleteUser = functions.https.onRequest((request, response) => {
   });
 });
 
-// exports.weeklyCleanUp = functions.https.onRequest((request, response) => {
-//   return cors(request, response, () => {
-//     weeklyCleanUpFunction.handler(request, response);
-//   });
-// });
-//
-// exports.dailyCleanUp = functions.https.onRequest((request, response) => {
-//   return cors(request, response, () => {
-//     dailyCleanUpFunction.handler(request, response);
-//   });
-// });
-//
-// exports.handleMaintenaces = functions.https.onRequest((request, response) => {
-//   return cors(request, response, () => {
-//     dailyHandleMaintenacesFunction.handler(request, response);
-//   });
-// });
-//
-// exports.sendNotificationsPerAppointment = functions.https
-//   .onRequest((request, response) => {
-//     return cors(request, response, () => {
-//       sendNotificationsPerAppointmentFunction.handler(request, response);
-//     });
-//   });
-//
-// // const https = require('https'); on the server
-// exports.demo2 = functions.https.onRequest((request, response) => {
-//   admin.firestore().collection('pushTokens').doc(
-//     'eGeRSeqkKgE:APA91bHSlej04rH8JJL_AeWETOn7KVmeFo6NG9pkPWr__jpIldDbwRr_BeUjA0863TxNiXIyCG56vbPRH0ZF1wMk5_44j7gTbhPEtoLqDMsaE3BmyRT-YCCmhFME9M_Tv67NM-b4mC8I')
-//     .get().then(snap => {
-//     const newToken = snap.id;
-//     console.log('newToken', newToken);
-//
-//     admin.messaging().subscribeToTopic(newToken,
-//       '/topics/appointmentIn30Minutes')
-//       .then(mtmr => {
-//         console.log('mtmr.errors', mtmr.errors);
-//         console.log('mtmr', mtmr);
-//       });
-//
-//     response.status(200).send('OK');
-//   });
-// });
-//
-// exports.addClientTokenToTopic = functions.firestore.document(
-//   'pushTokens/{tokenId}')
-//   .onCreate((snapshot, context) => {
-//     const newToken = snapshot.data().token;
-//     console.log('newToken', newToken);
-//
-//     admin.messaging().subscribeToTopic(newToken,
-//       '/topics/appointmentIn30Minutes')
-//       .then(mtmr => {
-//         console.log(mtmr);
-//       });
-//   });
-//
-// exports.removeClientTokenToTopic = functions.firestore.document(
-//   'pushTokens/{tokenId}')
-//   .onDelete((snapshot, context) => {
-//     const newToken = snapshot.data().token;
-//     console.log('tokenToDelete', newToken);
-//
-//     admin.messaging().unsubscribeFromTopic(newToken,
-//       '/topics/appointmentIn30Minutes')
-//       .then(mtmr => {
-//         console.log(mtmr);
-//       });
-//   });
+exports.weeklyCleanUp = functions.https.onRequest((request, response) => {
+  return cors(request, response, () => {
+    weeklyCleanUpFunction.handler(request, response);
+  });
+});
+
+exports.dailyCleanUp = functions.https.onRequest((request, response) => {
+  return cors(request, response, () => {
+    dailyCleanUpFunction.handler(request, response);
+  });
+});
+
+exports.handleMaintenaces = functions.https.onRequest((request, response) => {
+  return cors(request, response, () => {
+    dailyHandleMaintenacesFunction.handler(request, response);
+  });
+});
+
+exports.setNewNotification = functions.https.onRequest((request, response) => {
+  return cors(request, response, () => {
+    setNewNotificationFunction.handler(request, response);
+  });
+});
+
+
+exports.sendNotificationsPerAppointment = functions.https
+  .onRequest((request, response) => {
+    return cors(request, response, () => {
+      sendNotificationsPerAppointmentFunction.handler(request, response);
+    });
+  });
+
+exports.addClientTokenToTopic = functions.firestore.document(
+  'pushTokens/{tokenId}')
+  .onCreate((snapshot, context) => {
+    const newToken = snapshot.data().token;
+    console.log('newToken', newToken);
+
+    admin.messaging().subscribeToTopic(newToken,
+      '/topics/appointmentIn30Minutes')
+      .then(mtmr => {
+        console.log(mtmr);
+      });
+  });
+
+exports.removeClientTokenToTopic = functions.firestore.document(
+  'pushTokens/{tokenId}')
+  .onDelete((snapshot, context) => {
+    const newToken = snapshot.data().token;
+    console.log('tokenToDelete', newToken);
+
+    admin.messaging().unsubscribeFromTopic(newToken,
+      '/topics/appointmentIn30Minutes')
+      .then(mtmr => {
+        console.log(mtmr);
+      });
+  });

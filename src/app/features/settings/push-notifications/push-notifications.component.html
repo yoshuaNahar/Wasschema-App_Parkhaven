@@ -3,8 +3,18 @@
     <h2>Enable notifications</h2>
   </div>
   <div class="messages">
-    <mat-slide-toggle color="primary" (change)="changeOccured($event)">
+    <mat-slide-toggle color="primary"
+                      [checked]="checked"
+                      [disabled]="notificationsBlocked"
+                      (change)="changeOccurred($event)">
       <span class="enable_wrap">Receive notifications 30 minutes before appointments</span>
     </mat-slide-toggle>
+
+    <button mat-raised-button
+            color="primary"
+            [disabled]="pushTokenAvailable === false"
+            (click)="notificationExample()">
+      Example!
+    </button>
   </div>
 </div>

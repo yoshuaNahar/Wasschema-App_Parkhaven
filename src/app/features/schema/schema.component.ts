@@ -1,19 +1,29 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { RoomInfo, SchemaService } from './schema.service';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { SettingsService } from '../settings/settings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-schema',
   templateUrl: './schema.component.html',
   styleUrls: ['./schema.component.css'],
 })
-export class SchemaComponent implements OnInit {
+export class SchemaComponent implements OnInit, OnDestroy {
 
   rooms: RoomInfo[];
   counterData;
 
-  constructor(private schemaService: SchemaService,
+  currentDate;
+
+  private fetchUserInformationSubscription: Subscription;
+  private fetchFavouriteLaundryRoomSubscription: Subscription;
+
+  constructor(private router: Router,
+              private schemaService: SchemaService,
+              private settingsService: SettingsService,
               private authService: AuthService,
               private bottomSheet: MatBottomSheet) {
   }
@@ -21,10 +31,25 @@ export class SchemaComponent implements OnInit {
   ngOnInit(): void {
     this.rooms = this.schemaService.roomsInfo;
 
-    this.authService.fetchUserInformation().valueChanges().subscribe((userData: any) => {
-      this.counterData = userData.counters;
-      console.log('this.counterData', this.counterData);
-    });
+    this.fetchFavouriteLaundryRoomSubscription = this.settingsService.fetchPublicUserInfoRoom()
+      .subscribe((userInfoDoc: any) => {
+        const userInfo = userInfoDoc.data();
+        console.log('fethingFavouriteRoom and navigating: {}', userInfo);
+        this.router.navigate([`room/${userInfo.favouriteRoom}`]);
+      });
+
+    this.fetchUserInformationSubscription =
+      this.authService.fetchUserInformation().valueChanges().subscribe((userData: any) => {
+        this.counterData = userData.counters;
+        console.log('this.counterData', this.counterData);
+      });
+
+    this.currentDate = new Date();
+  }
+
+  ngOnDestroy(): void {
+    this.fetchUserInformationSubscription.unsubscribe();
+    this.fetchFavouriteLaundryRoomSubscription.unsubscribe();
   }
 
   getCounters() {
@@ -47,7 +72,8 @@ export class SchemaComponent implements OnInit {
 
       <a mat-list-item>
         <span mat-line>Remaining next week:</span>
-        <span mat-line>Laundry machine appointments: {{3 - data.counter.nextWeekLaundrymachine}}</span>
+        <span mat-line>Laundry machine appointments: {{3
+        - data.counter.nextWeekLaundrymachine}}</span>
         <span mat-line>Dryer appointments: {{3 - data.counter.nextWeekDryer}}</span>
       </a>
     </mat-nav-list>`

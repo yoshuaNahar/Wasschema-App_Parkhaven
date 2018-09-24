@@ -22,7 +22,8 @@ import { NotFoundModule } from './not-found/not-found.module';
     // not found module contains a wildcard route, which has to be the last route
     NotFoundModule,
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

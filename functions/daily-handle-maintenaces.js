@@ -92,37 +92,41 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
           // appointments arent from specific times, so I need to check the
           // starting and ending time of maintenances
           const appointment = {id: doc.id, data: doc.data()};
-          if ((appointment.date === maintenance.startingDate &&
-            appointment.time < maintenance.startingTime) ||
-            (appointment.date === maintenance.endingDate) &&
-            (appointment.time > maintenance.endingTime)) {
+          if ((appointment.data.date === maintenance.startingDate &&
+            appointment.data.time < maintenance.startingTime) ||
+            (appointment.data.date === maintenance.endingDate) &&
+            (appointment.data.time > maintenance.endingTime) ||
+            appointment.data.houseNumber === undefined) {
             return;
           }
 
-          appointment.machineInfo = machinesInfo.find(machine => {
+          appointment.data.machineInfo = machinesInfo.find(machine => {
             return machine.id === appointment.data.machine;
           });
           console.log('appointment', appointment);
 
           const dayOfThisAppointment = days.find(day => {
-            return day.id === appointment.data.day;
+            return day.id === appointment.data.date;
           });
           console.log('dayOfThisAppointment', dayOfThisAppointment);
 
           const counterType = appUtil
-            .setCorrectCounterType(dayOfThisAppointment, appointment);
+            .setCorrectCounterType(dayOfThisAppointment, appointment.data);
           console.log('counterType', counterType);
 
           const userPromise = admin.firestore().collection('users')
-            .doc(appointment.houseNumber).get()
+            .doc(appointment.data.houseNumber).get()
             .then(doc => {
-              const user = {id: appointment.houseNumber, data: doc.data()};
+              const user = {id: appointment.data.houseNumber, data: doc.data()};
               console.log('user', user);
               admin.firestore().collection('users').doc(user.id).update(
-                {counters: {counterType: user.data.counters[counterType] - 1}});
+                {
+                  ['counters.' + counterType]: user.data.counters[counterType]
+                  + 1
+                });
 
-              admin.firestore().collection('appointments').doc(
-                appointment.id).delete();
+              admin.firestore().collection('appointments').doc(appointment.id)
+                .delete();
               return Promise.resolve();
             });
           userPromises.push(userPromise);
@@ -135,12 +139,13 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
         dates.forEach(date => {
           console.log('date', date);
           batch.set(admin.firestore().collection('appointments')
-            .doc(`${date.date}_${date.time}_${maintenance.room}_${machine}`), {
-            date: date.date,
-            time: date.time,
-            machine: machine,
-            room: maintenance.room
-          });
+              .doc(`${date.date}_${date.time}_${maintenance.room}_${machine}`),
+            {
+              date: date.date,
+              time: date.time,
+              machine: machine,
+              room: maintenance.room
+            });
         });
       });
     functionPromises.push(functionPromise);

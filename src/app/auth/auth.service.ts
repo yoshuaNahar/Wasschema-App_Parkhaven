@@ -5,25 +5,31 @@ import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { LoaderService } from '../shared/loader/loader.service';
 
 @Injectable()
 export class AuthService {
 
   constructor(private afAuth: AngularFireAuth,
               private afStore: AngularFirestore,
+              private loaderService: LoaderService,
               private router: Router,
               private http: HttpClient,
               private snackBar: MatSnackBar) {
   }
 
   login(email: string, password: string) {
+    this.loaderService.show();
+
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then(loginData => {
         console.log('logged in ', loginData);
         this.router.navigate(['/']);
+        this.loaderService.hide();
       }).catch(error => {
       console.log(error);
       this.snackBar.open('Incorrect email or password.', 'OK');
+      this.loaderService.hide();
     });
   }
 
@@ -33,6 +39,8 @@ export class AuthService {
   }
 
   register(user) {
+    this.loaderService.show();
+
     this.http.post(`${environment.firebaseUrl}/signup`, user, {
       headers: {'Content-Type': 'application/json'}
     }).subscribe(() => {
@@ -41,16 +49,23 @@ export class AuthService {
       });
     }, error => {
       this.snackBar.open(error.error, 'OK');
+      this.loaderService.hide();
+    }, () => {
+      this.loaderService.hide();
     });
   }
 
   forgotPassword(email: string) {
+    this.loaderService.show();
+
     this.afAuth.auth.sendPasswordResetEmail(email).then(() => {
       return this.router.navigate(['/login']);
     }).then(() => {
       this.snackBar.open(`An email was sent to ${email}.`, 'OK');
+      this.loaderService.hide();
     }).catch(error => {
       this.snackBar.open(error.message, 'OK');
+      this.loaderService.hide();
     });
   }
 
@@ -62,10 +77,6 @@ export class AuthService {
 
   fetchUserInformation() {
     return this.afStore.collection('users').doc(this.afAuth.auth.currentUser.displayName);
-  }
-
-  isUserLoggedIn() {
-    return this.afAuth.auth.currentUser != null;
   }
 
   getCurrentSignedInUser() {

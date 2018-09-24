@@ -47,8 +47,6 @@ div.day_column {
   display: flex;
   flex-direction: column;
   flex-grow: 1; /* grows with the available space */
-
-  z-index: -1; /* to work well with the box-shadow */
 }
 
 /* each day cell */
@@ -61,6 +59,7 @@ div.time_column {
   box-shadow: 4px 4px 8px 0 rgba(0, 0, 0, .2), 0 0 0 0 rgba(0, 0, 0, .14), 0 0 0 0 rgba(0, 0, 0, .12);
   background-color: #fafafa;
   z-index: 1;
+  position: relative;
   float: left;
 }
 
@@ -71,21 +70,4 @@ mat-chip-list:focus {
 
 mat-chip-list ::ng-deep div {
   margin: 10px 0;
-}
-
-/* needed for the chips */
-.left_taken {
-  background-color: #D1B854;
-}
-
-.right_taken {
-  background-color: #5C9E93;
-}
-
-.left_taken_dryer1 {
-  background-color: #D5C67A;
-}
-
-.right_taken_dryer2 {
-  background-color: #5B8699;
 }

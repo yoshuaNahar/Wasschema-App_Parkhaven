@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { DatePipe, TitleCasePipe } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { MachineInfo, SchemaService } from '../schema.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { switchMap } from 'rxjs/operators';
+import { LoaderService } from '../../../shared/loader/loader.service';
 
 @Component({
   selector: 'app-room',
@@ -12,9 +12,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./room.component.css'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
-
-  static TIMES = ['05:30', '07:00', '08:30', '10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00', '20:30', '22:00', '23:30'];
+export class RoomComponent implements OnInit, OnDestroy {
 
   days = [];
   times = [];
@@ -26,28 +24,31 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
   machines = {};
 
   private daysChangedSubscription: Subscription;
+  private megaSubscription: Subscription;
 
   constructor(private authService: AuthService,
               private schemaService: SchemaService,
-              private datePipe: DatePipe,
-              private capitalizeFirst: TitleCasePipe,
+              private loaderService: LoaderService,
               private route: ActivatedRoute) {
-    this.times = RoomComponent.TIMES;
   }
 
   ngOnInit() {
+    this.loaderService.show();
+
+    this.times = this.schemaService.times;
+
     // If the userData leaves the tab open for more than a day.. I will just have a please refresh notification
     this.days = this.schemaService.days;
     this.daysChangedSubscription = this.schemaService.daysChanged.subscribe(days => {
       this.days = days;
-      console.log(this.days);
+      console.log('days', this.days);
     });
 
     // This is the most important part. Based on the route (room id) the specific firebase path
     // is selected schema/room.id
-    this.route.params.pipe(switchMap(roomParams => {
+    this.megaSubscription = this.route.params.pipe(switchMap(roomParams => {
       this.roomId = roomParams.id;
-      console.log('this.roomId', this.roomId);
+      console.log('roomId', this.roomId);
       this.currentRoomMachinesInfo = this.getCurrentRoomMachinesInfo(this.schemaService.machinesInfo);
 
       this.machines = this.createEmptyMachinesArray();
@@ -55,25 +56,24 @@ export class RoomComponent implements OnInit, AfterViewInit, OnDestroy {
       return this.schemaService.fetchMachinesData(this.roomId, this.days[0].id, this.days[6].id).stateChanges();
     })).subscribe((documentChangeAction) => {
       documentChangeAction.forEach((doc: any) => {
-        console.log(doc);
+        // console.log(doc);
         const appointment = doc.payload.doc.data();
-        if (doc.type === 'added') { // the first pull is always added
+        if (doc.type === 'added') { // the first pull always has doc.type = added
           this.machines[appointment.machine][appointment.date][appointment.time] = appointment.houseNumber;
-          console.log('appointment added', appointment);
+          // console.log('appointment added', appointment);
         } else { // doc.type === 'removed'
           this.machines[appointment.machine][appointment.date][appointment.time] = '';
-          console.log('appointment removed', appointment);
+          // console.log('appointment removed', appointment);
         }
       });
-    });
-  }
 
-  ngAfterViewInit(): void {
-    // this.cdr.detach();
+      this.loaderService.hide();
+    });
   }
 
   ngOnDestroy(): void {
     this.daysChangedSubscription.unsubscribe();
+    this.megaSubscription.unsubscribe();
   }
 
   private createEmptyMachinesArray() {

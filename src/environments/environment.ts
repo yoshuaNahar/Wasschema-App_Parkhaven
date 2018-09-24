@@ -13,5 +13,6 @@ export const environment = {
     storageBucket: 'fir-531f4.appspot.com',
     messagingSenderId: '932886716822'
   },
-  firebaseUrl: 'http://localhost:5000/fir-531f4/us-central1'
+  // firebaseUrl: 'http://localhost:5000/fir-531f4/us-central1'
+  firebaseUrl: 'https://us-central1-fir-531f4.cloudfunctions.net'
 };

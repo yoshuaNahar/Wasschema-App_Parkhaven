@@ -8,10 +8,14 @@ import { NotificationBoardModule } from '../features/notification-board/notifica
 import { AdminModule } from '../features/admin/admin.module';
 import { DashboardComponent } from './dashboard.component';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { DashboardService } from './dashboard.service';
+import { LoaderComponent } from '../shared/loader/loader.component';
+import { LoaderService } from '../shared/loader/loader.service';
 
 @NgModule({
   declarations: [
     DashboardComponent,
+    LoaderComponent,
   ],
   imports: [
     SharedModule,
@@ -23,7 +27,12 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
     AngularFireMessagingModule
   ],
+  exports: [
+    LoaderComponent,
+  ],
   providers: [
+    DashboardService,
+    LoaderService,
     DatePipe,
     TitleCasePipe,
   ]

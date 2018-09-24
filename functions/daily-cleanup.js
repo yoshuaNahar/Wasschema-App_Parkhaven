@@ -15,6 +15,11 @@ exports.handler = function (request, response) {
       previousDoc = currentDoc;
       currentDoc = doc.data();
 
+      // entire current week visible
+      if (previousDoc === null && currentDoc.isDisplayable) {
+        docToSetIsDisplayableToFalse = {id: doc.id, doc: currentDoc};
+      }
+
       if (previousDoc === null) {
         return;
       }

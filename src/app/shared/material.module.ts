@@ -16,6 +16,8 @@ import {
   MatToolbarModule,
   MatBottomSheetModule,
   MatSlideToggleModule,
+  MatProgressBarModule,
+  MatSelectModule,
 } from '@angular/material';
 
 @NgModule({
@@ -36,9 +38,11 @@ import {
     MatPaginatorModule,
     MatSnackBarModule,
     MatBottomSheetModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatProgressBarModule,
+    MatSelectModule,
   ],
-  declarations: []
+  declarations: [],
 })
 export class MaterialModule {
 }

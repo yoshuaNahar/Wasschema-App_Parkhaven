@@ -11,4 +11,59 @@ body {
   padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 16px;
+
+  /* for the progress bar */
+  overflow-y: hidden;
+}
+
+/* Coundn't find a good way to change css dynamically. I tried Angular renderer and css variables. */
+/* roomC */
+.roomA_Laundrymachine mat-chip.left_taken, .roomA_Laundrymachine button.left_taken {
+  background-color: #6A8FA5;
+}
+
+.roomA_Laundrymachine mat-chip.right_taken, .roomA_Laundrymachine button.right_taken {
+  background-color: #AB8E5A;
+}
+
+.roomA_Dryer mat-chip.left_taken, .roomA_Dryer button.left_taken {
+  background-color: #18BC9C;
+}
+
+.roomA_Dryer mat-chip.right_taken, .roomA_Dryer button.right_taken {
+  background-color: #E74C3C;
+}
+
+/* roomB */
+.roomB_Laundrymachine mat-chip.left_taken, .roomB_Laundrymachine button.left_taken {
+  background-color: #69d2e7;
+}
+
+.roomB_Laundrymachine mat-chip.right_taken, .roomB_Laundrymachine button.right_taken {
+  background-color: #f39c12;
+}
+
+.roomB_Dryer mat-chip.left_taken, .roomB_Dryer button.left_taken {
+  background-color: #588c73;
+}
+
+.roomB_Dryer mat-chip.right_taken, .roomB_Dryer button.right_taken {
+  background-color: #f2ae72;
+}
+
+/* room C */
+.roomC_Laundrymachine mat-chip.left_taken, .roomC_Laundrymachine button.left_taken {
+  background-color: #24a8ac;
+}
+
+.roomC_Laundrymachine mat-chip.right_taken, .roomC_Laundrymachine button.right_taken {
+  background-color: #9b539c;
+}
+
+.roomC_Dryer mat-chip.left_taken, .roomC_Dryer button.left_taken {
+  background-color: #ffa200;
+}
+
+.roomC_Dryer mat-chip.right_taken, .roomC_Dryer button.right_taken {
+  background-color: #eb65a0;
 }

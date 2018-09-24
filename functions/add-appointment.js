@@ -58,8 +58,10 @@ exports.handler = function (request, response) {
     console.log('counterType', counterType);
 
     return admin.firestore().runTransaction(transaction => {
-      return transaction.getAll(appUtil.userRef(signedInUserHouseNumber),
-        appUtil.appointmentRef(appointment))
+      return transaction.getAll(
+        appUtil.userRef(signedInUserHouseNumber),
+        appUtil.appointmentRef(appointment)
+      )
         .then(docs => {
           const userDoc = docs[0];
           const appointmentDoc = docs[1];
@@ -84,10 +86,10 @@ exports.handler = function (request, response) {
           transaction.update(appUtil.userRef(signedInUserHouseNumber),
             {[`counters.${counterType}`]: counter + 1});
 
-          admin.firestore().collection('appointments')
-            .doc(
-              `${appointment.day.value}_${appointment.time.index}_${appointment.machineInfo.room.id}_${appointment.machineInfo.id}`)
-            .set({
+          transaction.set(
+            admin.firestore().collection('appointments').doc(
+              `${appointment.day.value}_${appointment.time.index}_${appointment.machineInfo.room.id}_${appointment.machineInfo.id}`),
+            {
               houseNumber: signedInUserHouseNumber,
               room: appointment.machineInfo.room.id,
               machine: appointment.machineInfo.id,

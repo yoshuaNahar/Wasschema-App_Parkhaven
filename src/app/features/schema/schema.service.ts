@@ -1,11 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material';
-import { DatePipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
+import { environment } from '../../../environments/environment';
+import { LoaderService } from '../../shared/loader/loader.service';
 
 @Injectable()
 export class SchemaService {
@@ -15,6 +15,10 @@ export class SchemaService {
     {id: 'B', name: 'Room B'},
     {id: 'C', name: 'Room C'}
   ];
+
+  times = ['05:30', '07:00', '08:30', '10:00', '11:30', '13:00', '14:30', '16:00', '17:30', '19:00',
+    '20:30', '22:00', '23:30'];
+
 
   // I need this data in firestore because I will need to confirm that the appointment is a wash or
   // dry appointment when placing it.
@@ -27,9 +31,9 @@ export class SchemaService {
 
   constructor(private http: HttpClient,
               private authService: AuthService,
+              private loadingService: LoaderService,
               private afStore: AngularFirestore,
-              private snackBar: MatSnackBar,
-              private datePipe: DatePipe) {
+              private snackBar: MatSnackBar) {
   }
 
   onInitFetchMachinesInfo() {
@@ -51,41 +55,39 @@ export class SchemaService {
   }
 
   removeAppointment(appointment: Appointment) {
-    console.log(`appointment ${appointment.houseNumber} ${appointment.day} ${appointment.time.value}`);
+    this.loadingService.show();
 
     const currentUser = this.authService.getCurrentSignedInUser();
-    console.log(currentUser);
 
     currentUser.getIdToken(true).then(token => {
-      console.log(token);
-      this.http.put('http://localhost:5000/fir-531f4/us-central1/removeAppointment', {
+      this.http.put(`${environment.firebaseUrl}/removeAppointment`, {
         appointment: appointment,
         jwt: token
       }).subscribe((response: { message }) => {
-        console.log('response', response);
-        this.snackBar.open(response.message, 'Oke');
+        this.snackBar.open(response.message, 'OK');
       }, (err: HttpErrorResponse) => {
         console.log('err', err);
+      }, () => {
+        this.loadingService.hide();
       });
     });
   }
 
   addAppointment(appointment: Appointment) {
-    console.log(`appointment ${appointment.houseNumber} ${appointment.day.value} ${appointment.time.value}`);
+    this.loadingService.show();
 
     const currentUser = this.authService.getCurrentSignedInUser();
-    console.log(currentUser);
 
     currentUser.getIdToken(true).then(token => {
-      console.log(token);
-      this.http.put('http://localhost:5000/fir-531f4/us-central1/addAppointment', {
+      this.http.put(`${environment.firebaseUrl}/addAppointment`, {
         appointment: appointment,
         jwt: token
       }).subscribe((response: { message }) => {
-        console.log('response', response);
-        this.snackBar.open(response.message, 'Oke');
+        this.snackBar.open(response.message, 'OK');
       }, (err: HttpErrorResponse) => {
         console.log('err', err);
+      }, () => {
+        this.loadingService.hide();
       });
     });
   }
@@ -108,4 +110,5 @@ export interface MachineInfo {
   id: string;
   room: RoomInfo;
   type: string;
+  color: string;
 }

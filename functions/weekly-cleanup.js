@@ -3,14 +3,16 @@
 //                  - Remove previousWeek
 //                  - Create new nextWeek
 // users collection: - Of each userData, set nextWeekCounters to 0 and move the values of nextWeekCounters to the currentWeek
-
+// appointments collection: - Remove appointments with dates that are removed
 const admin = require('firebase-admin');
 
-// TODO: this is not tested. test it tomorrow
 exports.handler = function (request, response) {
   let daysToRemove = [];
   let daysChangeIsCurrentWeek = [];
   let lastDay;
+
+  const appointmentsCollection = admin.firestore().collection('appointments');
+  const daysCollection = admin.firestore().collection('days');
 
   admin.firestore().collection('days').get().then(querySnapshot => {
     querySnapshot.docs.forEach(doc => {
@@ -26,7 +28,6 @@ exports.handler = function (request, response) {
     });
 
     const batch = admin.firestore().batch();
-    const daysCollection = admin.firestore().collection('days');
 
     daysToRemove.forEach(day => {
       batch.delete(daysCollection.doc(day.id));
@@ -34,9 +35,7 @@ exports.handler = function (request, response) {
 
     daysChangeIsCurrentWeek.forEach(day => {
       batch.update(daysCollection.doc(day.id), {
-        isCurrentWeek: true,
-        isDisplayable: true // You don't actually have to do this,
-        // since on the sunday night all the days of next week will already have this on isDisplayable: true
+        isCurrentWeek: true
       });
     });
 
@@ -66,7 +65,10 @@ exports.handler = function (request, response) {
     const users = [];
 
     querySnapshot.forEach(userDoc => {
-      users.push({id: userDoc.id, data: userDoc.data()});
+      const accountExists = Object.keys(userDoc.data()).length > 0; // object that is not this: { }
+      if (accountExists) {
+        users.push({id: userDoc.id, data: userDoc.data()});
+      }
     });
 
     users.forEach(user => {
@@ -78,6 +80,22 @@ exports.handler = function (request, response) {
           nextWeekLaundrymachine: 0
         }
       });
+    });
+
+    return batch.commit();
+  }).then(() => {
+    // Remove old appointments
+    const lastDateIndex = 6;
+    const lastDate = daysToRemove[lastDateIndex];
+    console.log('lastDate', lastDate);
+
+    return appointmentsCollection.where("date", "<=", lastDate.id).get();
+  }).then(appointmentQueries => {
+    const batch = admin.firestore().batch();
+
+    appointmentQueries.forEach(doc => {
+      console.log('doc', doc.id);
+      batch.delete(appointmentsCollection.doc(doc.id));
     });
 
     return batch.commit();

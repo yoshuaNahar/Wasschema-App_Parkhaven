@@ -13,6 +13,10 @@ export class SettingsService {
               private snackBar: MatSnackBar) {
   }
 
+  // I removed the ability to delete users because that is the task of the admin.
+  // I couldn't give the user update permission to change his user doc to an empty
+  // object, because he could otherwise change the counters.
+
   changePassword(newPassword) {
     this.authService.getCurrentSignedInUser().updatePassword(newPassword).then(() => {
       this.snackBar.open('Password was changed successfully.', 'OK');
@@ -21,20 +25,7 @@ export class SettingsService {
     });
   }
 
-  deleteAccount() {
-    const currentUser = this.authService.getCurrentSignedInUser();
-
-    currentUser.delete().then(() => {
-      this.afStore.collection('users').doc(currentUser.displayName).set({});
-      this.afStore.collection('publicUsersInfo').doc(currentUser.displayName).delete();
-
-      this.router.navigate(['/login']).then(() => {
-        this.snackBar.open('Account was deleted successfully.', 'OK');
-      });
-    });
-  }
-
-  fetchFavouriteLaundryRoom() {
+  fetchPublicUserInfoRoom() {
     const currentUser = this.authService.getCurrentSignedInUser();
 
     return this.afStore.collection('publicUsersInfo').doc(currentUser.displayName).get();

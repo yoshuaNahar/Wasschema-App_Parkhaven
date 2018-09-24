@@ -1,43 +1,97 @@
 <main>
-  <mat-chip-list>
-    <mat-chip disabled class="left_taken">
-      {{readableType(currentRoomMachinesInfo[0].type)}} {{currentRoomMachinesInfo[0].id}}
-    </mat-chip>
-    <mat-chip disabled class="right_taken">
-      {{readableType(currentRoomMachinesInfo[1].type)}} {{currentRoomMachinesInfo[1].id}}
-    </mat-chip>
-  </mat-chip-list>
+  <div [class.roomA_Laundrymachine]="roomId === 'A'"
+       [class.roomB_Laundrymachine]="roomId === 'B'"
+       [class.roomC_Laundrymachine]="roomId === 'C'">
+    <mat-chip-list>
+      <mat-chip disabled class="left_taken">
+        {{readableType(currentRoomMachinesInfo[0].type)}} {{currentRoomMachinesInfo[0].id}}
+      </mat-chip>
+      <mat-chip disabled class="right_taken">
+        {{readableType(currentRoomMachinesInfo[1].type)}} {{currentRoomMachinesInfo[1].id}}
+      </mat-chip>
+    </mat-chip-list>
 
-  <div class="schema">
-    <!-- I do this so that I don't have to put position absolute -->
-    <div class="time_column">
-      <div class="head">
-        <div class="time_column_header">Time</div>
-      </div>
-      <div *ngFor="let time of times" class="time_cell">{{time}}</div>
-    </div>
-    <div class="laundry_table">
-      <div class="day_column" *ngFor="let day of days; let dayIndex = index">
+    <div class="schema">
+      <!-- I do this so that I don't have to put position absolute -->
+      <div class="time_column">
         <div class="head">
-          <div class="day_column_header">{{day.id | date: 'EEEE'}}</div>
+          <div class="time_column_header">Time</div>
         </div>
-        <div *ngFor="let time of times; let timeIndex = index" class="appointment_cell">
-          <app-appointment-button
-            [isPositionedLeft]="true"
-            [appointment]="{
+        <div *ngFor="let time of times" class="time_cell">{{time}}</div>
+      </div>
+      <div class="laundry_table">
+        <div class="day_column" *ngFor="let day of days; let dayIndex = index">
+          <div class="head">
+            <div class="day_column_header">{{day.id | date: 'EEEE'}}</div>
+          </div>
+          <div *ngFor="let time of times; let timeIndex = index" class="appointment_cell">
+            <app-appointment-button
+              [isPositionedLeft]="true"
+              [appointment]="{
                       machineInfo: currentRoomMachinesInfo[0],
                       day: {index: dayIndex, value: day.id},
                       time: {index: timeIndex, value: time},
                       houseNumber: machines[currentRoomMachinesInfo[0].id][day.id][timeIndex]}">
-          </app-appointment-button>
-          <app-appointment-button
-            [isPositionedLeft]="false"
-            [appointment]="{
+            </app-appointment-button>
+            <app-appointment-button
+              [isPositionedLeft]="false"
+              [appointment]="{
                       machineInfo: currentRoomMachinesInfo[1],
                       day: {index: dayIndex, value: day.id},
                       time: {index: timeIndex, value: time},
                       houseNumber: machines[currentRoomMachinesInfo[1].id][day.id][timeIndex]}">
-          </app-appointment-button>
+            </app-appointment-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!---------------------- DRYERS ---------------------->
+
+  <div [class.roomA_Dryer]="roomId === 'A'"
+       [class.roomB_Dryer]="roomId === 'B'"
+       [class.roomC_Dryer]="roomId === 'C'">
+    <mat-chip-list>
+      <mat-chip disabled class="left_taken">
+        {{readableType(currentRoomMachinesInfo[2].type)}} {{currentRoomMachinesInfo[2].id}}
+      </mat-chip>
+      <mat-chip disabled class="right_taken">
+        {{readableType(currentRoomMachinesInfo[3].type)}} {{currentRoomMachinesInfo[3].id}}
+      </mat-chip>
+    </mat-chip-list>
+
+    <div class="schema">
+      <!-- I do this so that I don't have to put position absolute -->
+      <div class="time_column">
+        <div class="head">
+          <div class="time_column_header">Time</div>
+        </div>
+        <div *ngFor="let time of times" class="time_cell">{{time}}</div>
+      </div>
+      <div class="laundry_table">
+        <div class="day_column" *ngFor="let day of days; let dayIndex = index">
+          <div class="head">
+            <div class="day_column_header">{{day.id | date: 'EEEE'}}</div>
+          </div>
+          <div *ngFor="let time of times; let timeIndex = index" class="appointment_cell">
+            <app-appointment-button
+              [isPositionedLeft]="true"
+              [appointment]="{
+                      machineInfo: currentRoomMachinesInfo[2],
+                      day: {index: dayIndex, value: day.id},
+                      time: {index: timeIndex, value: time},
+                      houseNumber: machines[currentRoomMachinesInfo[2].id][day.id][timeIndex]}">
+            </app-appointment-button>
+            <app-appointment-button
+              [isPositionedLeft]="false"
+              [appointment]="{
+                      machineInfo: currentRoomMachinesInfo[3],
+                      day: {index: dayIndex, value: day.id},
+                      time: {index: timeIndex, value: time},
+                      houseNumber: machines[currentRoomMachinesInfo[3].id][day.id][timeIndex]}">
+            </app-appointment-button>
+          </div>
         </div>
       </div>
     </div>

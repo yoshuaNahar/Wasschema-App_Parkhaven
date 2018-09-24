@@ -57,7 +57,8 @@ exports.handler = function (request, response) {
     return admin.firestore().runTransaction(transaction => {
       return transaction.getAll(
         appUtil.userRef(signedInUserHouseNumber),
-        appUtil.appointmentRef(appointment))
+        appUtil.appointmentRef(appointment)
+      )
         .then(docs => {
           const userDoc = docs[0];
           const appointmentDoc = docs[1];
@@ -86,10 +87,9 @@ exports.handler = function (request, response) {
           transaction.update(appUtil.userRef(signedInUserHouseNumber),
             {[`counters.${counterType}`]: counter - 1});
 
-          admin.firestore().collection('appointments')
-            .doc(
-              `${appointment.day.value}_${appointment.time.index}_${appointment.machineInfo.room.id}_${appointment.machineInfo.id}`)
-            .delete();
+          transaction.delete(admin.firestore().collection('appointments').doc(
+            `${appointment.day.value}_${appointment.time.index}_${appointment.machineInfo.room.id}_${appointment.machineInfo.id}`)
+          );
 
           response.status(200).send({message: 'Appointment removed!'});
           return Promise.resolve();

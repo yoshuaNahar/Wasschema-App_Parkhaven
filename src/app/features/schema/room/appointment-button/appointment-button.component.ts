@@ -22,7 +22,6 @@ export class AppointmentButtonComponent implements OnInit, OnChanges {
   }
 
   private static checkIfIsInThePast(currentAppointment: Appointment) {
-    console.log(currentAppointment.day.index);
     if (currentAppointment.day.index !== 0) {
       return false;
     }

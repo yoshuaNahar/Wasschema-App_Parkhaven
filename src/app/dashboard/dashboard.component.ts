@@ -1,14 +1,15 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLinkActive } from '@angular/router';
 import { MediaChange, ObservableMedia } from '@angular/flex-layout';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav, MatSnackBar } from '@angular/material';
 import { AuthService } from '../auth/auth.service';
 import { SchemaService } from '../features/schema/schema.service';
 import { SettingsService } from '../features/settings/settings.service';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PushNotificationsService } from '../features/settings/push-notifications/push-notifications.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { DashboardService } from './dashboard.service';
+import { AngularFireMessaging } from '@angular/fire/messaging';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,34 +28,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSidenav) private sideNav: MatSidenav;
 
+  @ViewChild("rla") private rla: RouterLinkActive;
+
+  schemaRouterLinkActive;
+
+  // If a new notification has been added to the notification board
+  isNewNotificationAvailable: boolean = false;
+
   private megaSubscription: Subscription;
-  private randomSubscription: Subscription;
   private observableMediaSubscription: Subscription;
+  private messagingSubscription: Subscription;
+  private newMessageInNotificationBoardSubscription: Subscription;
 
   constructor(private router: Router,
               private authService: AuthService,
               private observableMedia: ObservableMedia,
               private schemaService: SchemaService,
               private settingsService: SettingsService,
-              private pushService: PushNotificationsService) {
+              private dashboardService: DashboardService,
+              private afMessaging: AngularFireMessaging,
+              private snackBar: MatSnackBar) {
+    // bad practice, but put this in the ngOnInit and it won't fire the first time...
+    this.setSchemaRouterLinkActiveWhenOnARoom();
   }
 
   ngOnInit() {
-    this.observableMediaSubscription = this.observableMedia.subscribe((media: MediaChange) => {
-      if (media.mqAlias === 'xs') {
-        this.isMobile = true;
-        this.sideNavMode = 'over';
-        this.sideNavOpened = false;
-      } else {
-        this.isMobile = false;
-        this.sideNavMode = 'side';
-        this.sideNavOpened = true;
-      }
-    });
+    this.screenHandler();
 
     this.loggedInUser = this.authService.getCurrentSignedInUser();
 
-    // this.pushService.listen(); // listen to push notifications
+    this.messagingSubscription = this.afMessaging.messages.subscribe((message: any) => {
+      this.snackBar.open(message.data.text, 'OK', {duration: 30000});
+    }, () => {
+      // swallow error when notifications blocked
+    });
 
     this.megaSubscription = combineLatest(
       this.authService.fetchUserInformation().valueChanges(),
@@ -85,7 +92,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.schemaService.machinesInfo.push({
           id: doc.id,
           type: data.type,
-          room: data.room
+          room: data.room,
+          color: data.color
         });
       });
 
@@ -93,23 +101,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.schemaService.days = resultArray[2];
       console.log(this.schemaService.days);
       this.schemaService.daysChanged.next([...this.schemaService.days]);
+    }, err => {
+      console.log(err)
+    });
 
-      // This will be finished in the end
-      this.randomSubscription = this.settingsService.fetchFavouriteLaundryRoom().subscribe((userInfoDoc: any) => {
-        const userInfo = userInfoDoc.data();
-        console.log('fethingFavouriteRoom and navigating: {}', userInfo);
-        if (userInfo.favouriteRoom !== null) { // TODO: remove this if after development. Everyone will have a favouriteRoom by default.
-          this.router.navigate(['room', userInfo.favouriteRoom]);
+    this.newMessageInNotificationBoardSubscription = this.settingsService.fetchPublicUserInfoRoom()
+      .subscribe((userDataDoc: any) => {
+        const userData = userDataDoc.data();
+        if (userData.isNewNotificationAvailable) {
+          this.isNewNotificationAvailable = userData.isNewNotificationAvailable;
         }
       });
-    }, err => {console.log(err)});
   }
 
   ngOnDestroy(): void {
     this.megaSubscription.unsubscribe();
-    this.randomSubscription.unsubscribe();
     this.observableMediaSubscription.unsubscribe();
-    this.schemaService.daysChanged.unsubscribe();
+    this.messagingSubscription.unsubscribe();
+    this.newMessageInNotificationBoardSubscription.unsubscribe();
   }
 
   closeSideNav() {
@@ -120,6 +129,44 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.logout();
+  }
+
+  private setSchemaRouterLinkActiveWhenOnARoom() {
+    this.router.events.subscribe(ev => {
+      if (ev instanceof NavigationEnd) {
+        if (ev.url.startsWith('/room/') || ev.url === '/') {
+          this.schemaRouterLinkActive = true;
+        }
+      } else {
+        this.schemaRouterLinkActive = false;
+      }
+    });
+  }
+
+  private screenHandler() {
+    this.isMobile = this.dashboardService.dashboardScreen.isMobile;
+    this.sideNavMode = this.dashboardService.dashboardScreen.sideNavMode;
+    this.sideNavOpened = this.dashboardService.dashboardScreen.sideNavOpened;
+
+    // If you log off and log back in without reloading, this does not run. Only when you change
+    // The screen size. That is why I do the workaround with the dashboardService
+    this.observableMediaSubscription = this.observableMedia.subscribe((media: MediaChange) => {
+      if (media.mqAlias === 'xs') {
+        this.isMobile = true;
+        this.sideNavMode = 'over';
+        this.sideNavOpened = false
+      } else {
+        this.isMobile = false;
+        this.sideNavMode = 'side';
+        this.sideNavOpened = true;
+      }
+    });
+
+    this.dashboardService.dashboardScreen = {
+      isMobile: this.isMobile,
+      sideNavMode: this.sideNavMode,
+      sideNavOpened: this.sideNavOpened
+    };
   }
 
 }

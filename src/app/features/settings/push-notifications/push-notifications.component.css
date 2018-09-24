@@ -6,10 +6,13 @@
 }
 
 .messages {
-  height: 60px;
   padding-top: 30px;
 }
 
 .enable_wrap {
   white-space: normal;
+}
+
+.messages > button {
+  margin: 24px 0 16px 0;
 }

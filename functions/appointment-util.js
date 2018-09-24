@@ -27,5 +27,3 @@ module.exports.setCorrectCounterType = (dayDocument, appointment) => {
 
   return appointment.machineInfo.type;
 };
-
-// TODO: I could reuse this again, since I use it to add and remove an appointment

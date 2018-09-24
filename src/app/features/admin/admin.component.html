@@ -24,4 +24,71 @@
       </tr>
     </table>
   </div>
+  <div id="maintenances" class="mat-elevation-z4">
+    <div class="title">
+      <h2>Maintenance</h2>
+    </div>
+    <form [formGroup]="addMaintenanceForm"
+          (ngSubmit)="addMaintenance()">
+      <div class="message">
+        <mat-form-field>
+          <input matInput
+                 type="date"
+                 formControlName="startDate"
+                 placeholder="Start date"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Starting time"
+                      formControlName="startTime">
+            <mat-option matInput *ngFor="let time of times; let timeIndex = index" [value]="timeIndex">
+              {{time}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput
+                 type="date"
+                 formControlName="endDate"
+                 placeholder="End date"/>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="End time"
+                      formControlName="endTime">
+            <mat-option matInput *ngFor="let time of times; let timeIndex = index" [value]="timeIndex">
+              {{time}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select (selectionChange)="setMachinesForRoom($event)"
+                      placeholder="Room"
+                      formControlName="room">
+            <mat-option matInput *ngFor="let room of rooms" [value]="room.id">
+              {{room.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-selection-list (selectionChange)="selectMachine($event)">
+          <mat-list-option *ngFor="let machine of machines" [value]="machine.id">Machine {{machine.id}}</mat-list-option>
+        </mat-selection-list>
+
+        <p>
+          Add a message in the notification board why the maintenance was added.
+        </p>
+        <p>
+          The maintenance will only be activated at 12am. It is not possible to remove a maintenance
+          once it is placed.
+        </p>
+      </div>
+      <div class="action">
+        <button mat-raised-button
+                color="primary"
+                type="submit">Add maintenance
+        </button>
+      </div>
+    </form>
+  </div>
 </main>
