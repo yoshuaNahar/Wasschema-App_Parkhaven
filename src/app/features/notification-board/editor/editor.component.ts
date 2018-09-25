@@ -2,8 +2,6 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFireAuth } from '@angular/fire/auth';
-import * as firebase from 'firebase';
 import { AuthService } from '../../../auth/auth.service';
 
 @Component({
@@ -39,7 +37,7 @@ export class EditorComponent implements OnInit {
   }
 
   ngOnInit() {
-      this.currentUser = this.authService.getCurrentSignedInUser();
+    this.currentUser = this.authService.getCurrentSignedInUser();
   }
 
   createMessage() {

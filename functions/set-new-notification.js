@@ -48,7 +48,7 @@ exports.handler = function (request, response) {
       }
     });
   }).then(() => {
-    response.sendStatus(200);
+    response.status(200).send({message: 'Appointment removed!'});
   }).catch(err => {
     console.log('err', err);
     response.sendStatus(200);
