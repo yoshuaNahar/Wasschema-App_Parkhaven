@@ -79,7 +79,7 @@ mat-list-item a:hover {
 /* other */
 
 .router_outlet_margin_top {
-  margin-top: 25px;
+  margin-top: 24px;
 }
 
 /* media query classes done with ng flex */

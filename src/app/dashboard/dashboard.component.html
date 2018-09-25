@@ -23,7 +23,7 @@
           <mat-list-item>
             <a routerLinkActive #rla="routerLinkActive"
                routerLink="/"
-               [class.active_link]= "schemaRouterLinkActive"
+               [class.active_link]="schemaRouterLinkActive"
                (click)="closeSideNav()">Schema</a>
           </mat-list-item>
           <mat-divider></mat-divider>
@@ -39,7 +39,8 @@
                (click)="closeSideNav(); isNewNotificationAvailable = false">
               Notifications Board
               <mat-icon *ngIf="isNewNotificationAvailable"
-                        id="notification">priority_high</mat-icon>
+                        id="notification">priority_high
+              </mat-icon>
             </a>
           </mat-list-item>
           <div *ngIf="userData && userData.admin">
@@ -67,8 +68,10 @@
       </div>
     </mat-sidenav>
 
-    <div class="router_outlet_margin_top">
-      <router-outlet></router-outlet>
-    </div>
+    <mat-sidenav-content>
+      <div class="router_outlet_margin_top">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
   </mat-sidenav-container>
 </main>

@@ -74,6 +74,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.daysChangedSubscription.unsubscribe();
     this.megaSubscription.unsubscribe();
+
+    this.loaderService.hide();
   }
 
   private createEmptyMachinesArray() {

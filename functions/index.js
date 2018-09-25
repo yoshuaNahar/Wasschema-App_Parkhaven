@@ -74,7 +74,6 @@ exports.setNewNotification = functions.https.onRequest((request, response) => {
   });
 });
 
-
 exports.sendNotificationsPerAppointment = functions.https
   .onRequest((request, response) => {
     return cors(request, response, () => {
