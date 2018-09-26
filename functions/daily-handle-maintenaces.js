@@ -52,7 +52,7 @@ exports.handler = function (request, response) {
         endingTime: doc.data().endingTime,
         reason: doc.data().reason
       };
-      console.log('maintenance', maintenance);
+      // console.log('maintenance', maintenance);
 
       const endingDate = new Date(maintenance.endingDate);
       const today = new Date();
@@ -60,7 +60,7 @@ exports.handler = function (request, response) {
       if (isPassed(endingDate, today)) {
         batch.delete(admin.firestore().collection('maintenances')
           .doc(maintenance.id));
-        console.log('deleted maintenance', maintenance.id);
+        // console.log('deleted maintenance', maintenance.id);
       } else {
         functionPromises
           .push(getAppointmentsInTheMaintenanceTime(maintenance, batch));
@@ -77,8 +77,6 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
   const functionPromises = [];
 
   maintenance.machines.forEach(machine => {
-    console.log('machine', machine);
-
     const functionPromise = admin.firestore().collection('appointments')
       .where('date', '>=', maintenance.startingDate)
       .where('date', '<=', maintenance.endingDate)
@@ -103,22 +101,22 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
           appointment.data.machineInfo = machinesInfo.find(machine => {
             return machine.id === appointment.data.machine;
           });
-          console.log('appointment', appointment);
+          // console.log('appointment', appointment);
 
           const dayOfThisAppointment = days.find(day => {
             return day.id === appointment.data.date;
           });
-          console.log('dayOfThisAppointment', dayOfThisAppointment);
+          // console.log('dayOfThisAppointment', dayOfThisAppointment);
 
           const counterType = appUtil
             .setCorrectCounterType(dayOfThisAppointment, appointment.data);
-          console.log('counterType', counterType);
+          // console.log('counterType', counterType);
 
           const userPromise = admin.firestore().collection('users')
             .doc(appointment.data.houseNumber).get()
             .then(doc => {
               const user = {id: appointment.data.houseNumber, data: doc.data()};
-              console.log('user', user);
+              // console.log('user', user);
               admin.firestore().collection('users').doc(user.id).update(
                 {
                   ['counters.' + counterType]: user.data.counters[counterType]
@@ -137,7 +135,7 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
         // add all the appointments with actual maintenance message
         const dates = calculateDateTimes(maintenance);
         dates.forEach(date => {
-          console.log('date', date);
+          // console.log('date', date);
           batch.set(admin.firestore().collection('appointments')
               .doc(`${date.date}_${date.time}_${maintenance.room}_${machine}`),
             {
@@ -149,8 +147,9 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
         });
       });
     functionPromises.push(functionPromise);
-    // end of maintenance machines for loop
+
   });
+
   return Promise.all(functionPromises);
 }
 
@@ -164,10 +163,8 @@ function calculateDateTimes(maintenance) {
 
   while (true) {
     for (let i = startingTime; i < 13; i++) {
-      console.log(currentDate, i);
+      // console.log(currentDate, i);
       if (sameDate(currentDate, endDate)) {
-        console.log('here');
-        console.log(i, maintenance.endingTime);
         if (i > maintenance.endingTime) {
           return datesAndTimes;
         }

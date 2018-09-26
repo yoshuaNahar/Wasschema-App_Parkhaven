@@ -23,7 +23,6 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   machines = {};
 
-  private daysChangedSubscription: Subscription;
   private megaSubscription: Subscription;
 
   constructor(private authService: AuthService,
@@ -37,12 +36,8 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     this.times = this.schemaService.times;
 
-    // If the userData leaves the tab open for more than a day.. I will just have a please refresh notification
+    // TODO: If the userData leaves the tab open for more than a day.. I will just have a please refresh notification
     this.days = this.schemaService.days;
-    this.daysChangedSubscription = this.schemaService.daysChanged.subscribe(days => {
-      this.days = days;
-      console.log('days', this.days);
-    });
 
     // This is the most important part. Based on the route (room id) the specific firebase path
     // is selected schema/room.id
@@ -72,7 +67,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.daysChangedSubscription.unsubscribe();
     this.megaSubscription.unsubscribe();
 
     this.loaderService.hide();
@@ -80,9 +74,9 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   private createEmptyMachinesArray() {
     const machines = {};
-    for (let machinesInfo of this.currentRoomMachinesInfo) {
+    for (const machinesInfo of this.currentRoomMachinesInfo) {
       const machine = {};
-      for (let day of this.days) {
+      for (const day of this.days) {
         const dayArray = [];
         for (let time = 0; time < 13; time++) {
           dayArray.push('');

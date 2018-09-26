@@ -17,10 +17,8 @@ module.exports.setCorrectCounterType = (dayDocument, appointment) => {
 
   if (!dayDocument.isCurrentWeek) {
     if (appointment.machineInfo.type === 'laundrymachine') {
-      console.log('here2', appointment.machineInfo.type);
       return 'nextWeekLaundrymachine';
     } else if (appointment.machineInfo.type === 'dryer') {
-      console.log('here3', appointment.machineInfo.type);
       return 'nextWeekDryer';
     }
   }

@@ -14,11 +14,11 @@ exports.handler = function (request, response) {
   const requestBody = request.body;
   admin.auth().verifyIdToken(requestBody.jwt).then(decodedIdToken => {
     const signedInUserUid = decodedIdToken.uid;
-    console.log('signedInUserUid', signedInUserUid);
+    // console.log('signedInUserUid', signedInUserUid);
 
     return admin.firestore().collection('admins').doc(signedInUserUid).get();
   }).then(adminDoc => {
-    console.log('adminDoc.data()', adminDoc.data());
+    // console.log('adminDoc.data()', adminDoc.data());
     if (adminDoc.data() === undefined) {
       throw Error();
     }
@@ -43,14 +43,14 @@ exports.handler = function (request, response) {
       newNotificationTopic);
   }).then(result => {
     return admin.messaging().sendToTopic(newNotificationTopic, {
-      data: {
-        text: 'A new message has been added to the notification board.'
+      notification: {
+        title: 'Wasschema - Message alert!',
+        body: 'A new message has been added to the notification board.'
       }
     });
   }).then(() => {
     response.status(200).send({message: 'Appointment removed!'});
   }).catch(err => {
-    console.log('err', err);
-    response.sendStatus(200);
+    response.status(400).send({message: err.message});
   });
 };

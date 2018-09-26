@@ -58,7 +58,6 @@ exports.handler = function (request, response) {
 
     response.status(200).send();
   }).catch(error => {
-    console.log('error', error);
     response.status(400).send(error.message);
   });
 };

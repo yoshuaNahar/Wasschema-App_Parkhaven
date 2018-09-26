@@ -1,21 +1,12 @@
-# Compiled files
-/target/
-
 # IntelliJ files
 \.idea/
 *.iml
 
-# Db properties
-src/main/resources/production.properties
-
-# Used for SQL generation
-/src/main/java/nl/parkhaven/wasschema/SQLQuery.java
-allHouseNumbersAbleToMakeAccount.txt
+# Private key
+functions/fir-531f4-firebase-adminsdk-gcqo4-a8dd830b56.json
 
 node_modules
-*/node_modules
 
 dist/
-public/
 
 .firebase/

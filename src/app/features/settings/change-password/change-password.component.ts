@@ -25,6 +25,13 @@ export class ChangePasswordComponent implements OnInit {
               private userSettingsService: SettingsService) {
   }
 
+  static identicalValidator(group: FormGroup) {
+    if (group.get('newPassword').value !== group.get('confirmPassword').value) {
+      return {identical: true};
+    }
+    return null;
+  }
+
   ngOnInit() {
     this.changePasswordForm = this.formBuilder.group({
       newPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -38,13 +45,6 @@ export class ChangePasswordComponent implements OnInit {
     if (passwords.newPassword === passwords.confirmPassword) {
       this.userSettingsService.changePassword(passwords.newPassword);
     }
-  }
-
-  static identicalValidator(group: FormGroup) {
-    if (group.get('newPassword').value !== group.get('confirmPassword').value) {
-      return {identical: true};
-    }
-    return null;
   }
 
   get newPassword() {

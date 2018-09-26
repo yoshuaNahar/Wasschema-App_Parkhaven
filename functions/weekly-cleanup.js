@@ -45,7 +45,7 @@ exports.handler = function (request, response) {
     const daysToCreate = [];
     for (let i = 0; i < 7; i++) {
       lastDayDate.setDate(lastDayDate.getDate() + 1);
-      console.log('forLoop', lastDayDate);
+      // console.log('forLoop', lastDayDate);
       daysToCreate.push(getYearMonthDayString(lastDayDate));
     }
 
@@ -87,7 +87,7 @@ exports.handler = function (request, response) {
     // Remove old appointments
     const lastDateIndex = 6;
     const lastDate = daysToRemove[lastDateIndex];
-    console.log('lastDate', lastDate);
+    // console.log('lastDate', lastDate);
 
     return appointmentsCollection.where("date", "<=", lastDate.id).get();
   }).then(appointmentQueries => {
@@ -102,7 +102,7 @@ exports.handler = function (request, response) {
   }).then(() => {
     response.status(200).send('Remove old dates logic comes here!');
   }).catch(error => {
-    console.log(error);
+    response.status(400).send({message: error.message});
   });
 };
 

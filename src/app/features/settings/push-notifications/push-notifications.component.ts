@@ -68,7 +68,7 @@ export class PushNotificationsComponent implements OnInit, OnDestroy {
 
             this.messagesSubscription = this.afMessaging.messages.subscribe((message: any) => {
               console.log('message', message);
-              this.snackBar.open(message.data.text, 'OK', {duration: 30000});
+              this.snackBar.open(message.notification.body, 'OK', {duration: 30000});
             });
             this.pushTokenAvailable = true;
           },

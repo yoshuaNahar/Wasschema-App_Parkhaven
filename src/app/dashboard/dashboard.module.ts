@@ -7,7 +7,6 @@ import { SettingsModule } from '../features/settings/settings.module';
 import { NotificationBoardModule } from '../features/notification-board/notification-board.module';
 import { AdminModule } from '../features/admin/admin.module';
 import { DashboardComponent } from './dashboard.component';
-import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { DashboardService } from './dashboard.service';
 import { LoaderComponent } from '../shared/loader/loader.component';
 import { LoaderService } from '../shared/loader/loader.service';
@@ -23,9 +22,7 @@ import { LoaderService } from '../shared/loader/loader.service';
     SchemaModule,
     SettingsModule,
     NotificationBoardModule,
-    AdminModule,
-
-    AngularFireMessagingModule
+    AdminModule
   ],
   exports: [
     LoaderComponent,

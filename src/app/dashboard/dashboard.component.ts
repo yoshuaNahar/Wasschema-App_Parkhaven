@@ -28,12 +28,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSidenav) private sideNav: MatSidenav;
 
-  @ViewChild("rla") private rla: RouterLinkActive;
+  @ViewChild('rla') private rla: RouterLinkActive;
 
   schemaRouterLinkActive;
 
   // If a new notification has been added to the notification board
-  isNewNotificationAvailable: boolean = false;
+  isNewNotificationAvailable = false;
 
   private megaSubscription: Subscription;
   private observableMediaSubscription: Subscription;
@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.loggedInUser = this.authService.getCurrentSignedInUser();
 
     this.messagingSubscription = this.afMessaging.messages.subscribe((message: any) => {
-      this.snackBar.open(message.data.text, 'OK', {duration: 30000});
+      this.snackBar.open(message.notification.body, 'OK', {duration: 30000});
     }, () => {
       // swallow error when notifications blocked
     });
@@ -102,7 +102,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       console.log(this.schemaService.days);
       this.schemaService.daysChanged.next([...this.schemaService.days]);
     }, err => {
-      console.log(err)
+      console.log(err);
     });
 
     this.newMessageInNotificationBoardSubscription = this.settingsService.fetchPublicUserInfoRoom()
@@ -154,7 +154,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       if (media.mqAlias === 'xs') {
         this.isMobile = true;
         this.sideNavMode = 'over';
-        this.sideNavOpened = false
+        this.sideNavOpened = false;
       } else {
         this.isMobile = false;
         this.sideNavMode = 'side';

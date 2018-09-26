@@ -50,8 +50,6 @@ export class AppointmentButtonComponent implements OnInit, OnChanges {
   }
 
   makeOrRemoveAppointment() {
-    console.log('this.isEmpty', this.isEmpty);
-
     if (this.isEmpty) {
       this.schemaService.addAppointment(this.appointment);
     } else {

@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 })
 export class LoaderComponent implements OnInit, OnDestroy {
 
-  show: boolean = false;
+  show = false;
   loaderStateSubscription: Subscription;
 
   constructor(private loaderService: LoaderService) { }

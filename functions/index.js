@@ -80,29 +80,3 @@ exports.sendNotificationsPerAppointment = functions.https
       sendNotificationsPerAppointmentFunction.handler(request, response);
     });
   });
-
-exports.addClientTokenToTopic = functions.firestore.document(
-  'pushTokens/{tokenId}')
-  .onCreate((snapshot, context) => {
-    const newToken = snapshot.data().token;
-    console.log('newToken', newToken);
-
-    admin.messaging().subscribeToTopic(newToken,
-      '/topics/appointmentIn30Minutes')
-      .then(mtmr => {
-        console.log(mtmr);
-      });
-  });
-
-exports.removeClientTokenToTopic = functions.firestore.document(
-  'pushTokens/{tokenId}')
-  .onDelete((snapshot, context) => {
-    const newToken = snapshot.data().token;
-    console.log('tokenToDelete', newToken);
-
-    admin.messaging().unsubscribeFromTopic(newToken,
-      '/topics/appointmentIn30Minutes')
-      .then(mtmr => {
-        console.log(mtmr);
-      });
-  });

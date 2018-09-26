@@ -26,19 +26,19 @@ const admin = require('firebase-admin');
 const appUtil = require('./appointment-util');
 
 exports.handler = function (request, response) {
-  console.log('request.body', request.body);
+  // console.log('request.body', request.body);
   const appointment = request.body.appointment;
   const jwtToken = request.body.jwt;
   let signedInUserHouseNumber;
 
   admin.auth().verifyIdToken(jwtToken).then(decodedIdToken => {
     const signedInUserUid = decodedIdToken.uid;
-    console.log('signedInUserUid', signedInUserUid);
+    // console.log('signedInUserUid', signedInUserUid);
 
     return admin.auth().getUser(signedInUserUid);
   }).then(userRecord => {
     signedInUserHouseNumber = userRecord.displayName;
-    console.log('signedInUserHouseNumber', signedInUserHouseNumber);
+    // console.log('signedInUserHouseNumber', signedInUserHouseNumber);
 
     return admin.firestore().collection('days').get();
   }).then(querySnapshot => {
@@ -50,9 +50,9 @@ exports.handler = function (request, response) {
     }).find(doc => {
       return doc.id === appointment.day.value;
     });
-    console.log('dayDocument', dayDocument);
+    // console.log('dayDocument', dayDocument);
     const counterType = appUtil.setCorrectCounterType(dayDocument, appointment);
-    console.log('counterType', counterType);
+    // console.log('counterType', counterType);
 
     return admin.firestore().runTransaction(transaction => {
       return transaction.getAll(
@@ -64,9 +64,9 @@ exports.handler = function (request, response) {
           const appointmentDoc = docs[1];
 
           const userData = userDoc.data(); // counters: {dryers: 0, laundrymachine: 0, nextWeekDryer: 0, nextWeekLaundrymachine: 0}
-          console.log('userData', userData);
+          // console.log('userData', userData);
           const counter = userData.counters[counterType];
-          console.log('counter', counter);
+          // console.log('counter', counter);
           const isAbleToRemoveCounter = counter > 0;
 
           if (!isAbleToRemoveCounter) {
@@ -97,5 +97,6 @@ exports.handler = function (request, response) {
     });
   }).catch(error => {
     console.log(error);
+    response.status(400).send({message: 'error'});
   });
 };

@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 @NgModule({
   declarations: [],
@@ -14,6 +15,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    AngularFireMessagingModule
   ],
   exports: [],
   providers: [

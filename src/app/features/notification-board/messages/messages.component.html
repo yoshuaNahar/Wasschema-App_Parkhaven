@@ -22,7 +22,7 @@
       <h3>{{message.title}}</h3>
       <div class="icon_actions">
         <button mat-icon-button
-                *ngIf="userData && (message.houseNumber === currentUser.displayName || userData.admin)"
+                *ngIf="userData && (message.houseNumber === currentUser.displayName || userData.isAdmin)"
                 (click)="removeMessage(message)">
           <mat-icon>delete</mat-icon>
         </button>
