@@ -11,6 +11,7 @@ const dailyHandleMaintenacesFunction = require('./daily-handle-maintenaces');
 const sendNotificationsPerAppointmentFunction =
   require('./send-notifications-per-appointment');
 const setNewNotificationFunction = require('./set-new-notification');
+const sendSingleNotificationFunction = require('./send-single-notification');
 
 const cors = require('cors')({
   origin: true
@@ -78,5 +79,12 @@ exports.sendNotificationsPerAppointment = functions.https
   .onRequest((request, response) => {
     return cors(request, response, () => {
       sendNotificationsPerAppointmentFunction.handler(request, response);
+    });
+  });
+
+exports.sendSingleNotification = functions.https
+  .onRequest((request, response) => {
+    return cors(request, response, () => {
+      sendSingleNotificationFunction.handler(request, response);
     });
   });

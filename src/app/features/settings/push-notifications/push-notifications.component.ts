@@ -5,6 +5,8 @@ import { AuthService } from '../../../auth/auth.service';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { mergeMapTo, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-push-notifications',
@@ -13,9 +15,9 @@ import { MatSnackBar } from '@angular/material';
 })
 export class PushNotificationsComponent implements OnInit, OnDestroy {
 
-  checked = false;
-  notificationsBlocked = false;
-  pushTokenAvailable = false;
+  notificationsEnabled = false;
+  permissionDenied = false;
+  permissionGranted = false;
 
   private getTokenSubscription: Subscription;
   private requestPermissionSubscription: Subscription;
@@ -24,22 +26,33 @@ export class PushNotificationsComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthService,
               private afMessaging: AngularFireMessaging,
               private afFire: AngularFirestore,
+              private http: HttpClient,
               private snackBar: MatSnackBar) {
   }
 
   ngOnInit() {
-    this.afMessaging.getToken.subscribe(token => {
-      this.afFire.collection('pushTokens')
-        .doc(this.authService.getCurrentSignedInUser().displayName).get().subscribe(tokenDoc => {
-        this.checked = tokenDoc.exists;
-        if (this.checked) {
-          this.pushTokenAvailable = true;
-        }
+    const notification: any = Notification;
+
+    if (notification.permission === 'default') {
+      this.notificationsEnabled = false;
+      this.permissionDenied = false;
+      this.permissionGranted = false;
+    } else if (notification.permission === 'granted') {
+      // Check if tokens are similar, refresh token in db
+      this.afMessaging.getToken.subscribe(token => {
+        this.afFire.collection('pushTokens')
+          .doc(this.authService.getCurrentSignedInUser().displayName).set({token: token})
+          .then(() => {
+            this.notificationsEnabled = true;
+            this.permissionDenied = false;
+            this.permissionGranted = true;
+          });
       });
-    }, () => { // error logic if blocked
-      this.checked = false;
-      this.notificationsBlocked = true;
-    });
+    } else { // denied
+      this.notificationsEnabled = false;
+      this.permissionDenied = true;
+      this.permissionGranted = false;
+    }
   }
 
   ngOnDestroy() {
@@ -70,12 +83,12 @@ export class PushNotificationsComponent implements OnInit, OnDestroy {
               console.log('message', message);
               this.snackBar.open(message.notification.body, 'OK', {duration: 30000});
             });
-            this.pushTokenAvailable = true;
+            this.permissionGranted = true;
           },
           error => {
             console.log('error', error);
-            this.checked = false;
-            this.notificationsBlocked = true;
+            this.notificationsEnabled = false;
+            this.permissionDenied = true;
             this.snackBar.open('You denied receiving notifications. ' +
               'To allow it manually, press the icon next to the url.', 'OK', {duration: 30000});
           });
@@ -88,14 +101,24 @@ export class PushNotificationsComponent implements OnInit, OnDestroy {
           this.messagesSubscription.unsubscribe();
         }
         console.log('token deleted', isDeleted);
-        this.pushTokenAvailable = false;
+        this.permissionGranted = false;
         this.snackBar.open('You disabled notifications.', 'OK');
       });
     }
   }
 
   notificationExample() {
-    new Notification('This is an example of a notification that you will receive.');
+    const currentUser = this.authService.getCurrentSignedInUser();
+
+    currentUser.getIdToken(true).then(token => {
+      this.http.post(`${environment.firebaseUrl}/sendSingleNotification`, {
+        jwt: token
+      }).subscribe(() => {
+        new Notification('Wasschema - Demo notification!', {
+          body: 'This is an example of a notification that you will receive.'
+        });
+      });
+    });
   }
 
 }

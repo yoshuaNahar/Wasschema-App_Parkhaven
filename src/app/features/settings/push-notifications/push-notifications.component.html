@@ -4,15 +4,15 @@
   </div>
   <div class="messages">
     <mat-slide-toggle color="primary"
-                      [checked]="checked"
-                      [disabled]="notificationsBlocked"
+                      [checked]="notificationsEnabled"
+                      [disabled]="permissionDenied"
                       (change)="changeOccurred($event)">
       <span class="enable_wrap">Receive notifications 30 minutes before appointments</span>
     </mat-slide-toggle>
 
     <button mat-raised-button
             color="primary"
-            [disabled]="pushTokenAvailable === false"
+            [disabled]="permissionGranted === false"
             (click)="notificationExample()">
       Example!
     </button>

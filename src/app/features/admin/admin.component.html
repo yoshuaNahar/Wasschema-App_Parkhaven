@@ -1,29 +1,4 @@
 <main>
-  <div id="users">
-    <h2>Users</h2>
-    <table>
-      <tr>
-        <th>Id</th>
-        <th>Email</th>
-        <th>House Number</th>
-        <th>Action</th>
-      </tr>
-      <tr *ngFor="let user of users; let index = index">
-        <td>{{index + 1}}</td>
-        <td>
-          {{user.email}}
-        </td>
-        <td>
-          {{user.id}}
-        </td>
-        <td>
-          <button mat-button
-                  (click)="delete(user)">Delete
-          </button>
-        </td>
-      </tr>
-    </table>
-  </div>
   <div id="maintenances" class="mat-elevation-z4">
     <div class="title">
       <h2>Maintenance</h2>
@@ -90,5 +65,31 @@
         </button>
       </div>
     </form>
+  </div>
+
+  <div id="users">
+    <h2>Users</h2>
+    <table>
+      <tr>
+        <th>Id</th>
+        <th>Email</th>
+        <th>House Number</th>
+        <th>Action</th>
+      </tr>
+      <tr *ngFor="let user of users; let index = index">
+        <td>{{index + 1}}</td>
+        <td>
+          {{user.email}}
+        </td>
+        <td>
+          {{user.id}}
+        </td>
+        <td>
+          <button mat-button
+                  (click)="delete(user)">Delete
+          </button>
+        </td>
+      </tr>
+    </table>
   </div>
 </main>
