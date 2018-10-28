@@ -25,3 +25,17 @@ module.exports.setCorrectCounterType = (dayDocument, appointment) => {
 
   return appointment.machineInfo.type;
 };
+
+module.exports.getYearMonthDayString = (date) => {
+  let day = date.getDate();
+  day = day < 10 ? '0' + day : day;
+  let month = date.getMonth() + 1;
+  month = month < 10 ? '0' + month : month;
+  const year = date.getFullYear();
+
+  return `${year}-${month}-${day}`;
+};
+
+module.exports.addPadding = (number) => {
+  return number < 10 ? '0' + number : '' + number; // ('' + month) for string result
+};

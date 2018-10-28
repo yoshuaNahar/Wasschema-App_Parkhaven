@@ -41,7 +41,7 @@ div.day_column_header {
 
 /* each day column */
 div.day_column {
-  min-width: 172px; /* (74px per appointment slot x 2) + (12px padding x 2) */
+  min-width: 173px; /* (74px per appointment slot x 2) + (12px padding x 2) */
   padding: 0;
 
   display: flex;
@@ -70,4 +70,8 @@ mat-chip-list:focus {
 
 mat-chip-list ::ng-deep div {
   margin: 10px 0;
+}
+
+.nextWeekBorder {
+  border-left: 1px dotted #C8C8C8;
 }

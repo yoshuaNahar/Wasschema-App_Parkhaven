@@ -166,8 +166,8 @@ function calculateDateTimes(maintenance) {
       // console.log(currentDate, i);
 
       const dateAsString = currentDate.getFullYear() + '-'
-        + addPadding(currentDate.getMonth() + 1) + "-"
-        + addPadding(currentDate.getDate());
+        + appUtil.addPadding(currentDate.getMonth() + 1) + "-"
+        + appUtil.addPadding(currentDate.getDate());
       datesAndTimes.push({date: dateAsString, time: i});
 
       if (sameDate(currentDate, endDate)) {
@@ -199,8 +199,4 @@ function isPassed(d1, d2) {
   return d1.getFullYear() <= d2.getFullYear() &&
     d1.getMonth() <= d2.getMonth() &&
     d1.getDate() < d2.getDate();
-}
-
-function addPadding(number) {
-  return number < 10 ? '0' + number : '' + number; // ('' + month) for string result
 }

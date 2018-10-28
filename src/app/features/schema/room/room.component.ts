@@ -41,6 +41,12 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     // TODO: If the userData leaves the tab open for more than a day.. I will just have a please refresh notification
     this.days = this.schemaService.days;
+    for (let day of this.days) {
+      if (!day.isCurrentWeek) {
+        day.isStartNextWeek = true;
+        break;
+      }
+    }
 
     // This is the most important part. Based on the route (room id) the specific firebase path
     // is selected schema/room.id

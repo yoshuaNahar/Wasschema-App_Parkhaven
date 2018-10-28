@@ -22,14 +22,19 @@ export class AppointmentButtonComponent implements OnInit, OnChanges {
   }
 
   private static checkIfIsInThePast(currentAppointment: Appointment) {
-    if (currentAppointment.day.index !== 0) {
+    if (currentAppointment.day.index !== 0 || currentAppointment.time.index === 12) {
       return false;
     }
 
     const now = new Date();
 
     const timeOfAppointment = new Date(Date.parse('1/1/1970 ' + currentAppointment.time.value));
-    const deadlineToPlaceAppointment = new Date(now.getTime() + (10 * 60000)); // plus 5min
+    const deadlineToPlaceAppointment = new Date(now.getTime() + (10 * 60000)); // plus 10min
+
+    // If it is between 00:00 and 02:00 that night
+    if (deadlineToPlaceAppointment.getHours() < 3) {
+      return true;
+    }
 
     const parsedTimeOfAppointment = Date.parse('1/1/1970 ' + timeOfAppointment.getHours() + ':' + timeOfAppointment.getMinutes());
     const parsedDeadlineToPlaceAppointment =

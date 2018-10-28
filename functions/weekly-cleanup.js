@@ -5,12 +5,12 @@
 // users collection: - Of each userData, set nextWeekCounters to 0 and move the values of nextWeekCounters to the currentWeek
 // appointments collection: - Remove appointments with dates that are removed
 const admin = require('firebase-admin');
+const appUtil = require('./appointment-util');
 
 exports.handler = function (request, response) {
   let daysToRemove = [];
   let daysChangeIsCurrentWeek = [];
   let lastDay;
-
   const appointmentsCollection = admin.firestore().collection('appointments');
   const daysCollection = admin.firestore().collection('days');
 
@@ -46,7 +46,7 @@ exports.handler = function (request, response) {
     for (let i = 0; i < 7; i++) {
       lastDayDate.setDate(lastDayDate.getDate() + 1);
       // console.log('forLoop', lastDayDate);
-      daysToCreate.push(getYearMonthDayString(lastDayDate));
+      daysToCreate.push(appUtil.getYearMonthDayString(lastDayDate));
     }
 
     daysToCreate.forEach(dayString => {
@@ -105,13 +105,3 @@ exports.handler = function (request, response) {
     response.status(400).send({message: error.message});
   });
 };
-
-function getYearMonthDayString(date) {
-  let day = date.getDate();
-  day = day < 10 ? '0' + day : day;
-  let month = date.getMonth() + 1;
-  month = month < 10 ? '0' + month : month;
-  const year = date.getFullYear();
-
-  return `${year}-${month}-${day}`;
-}

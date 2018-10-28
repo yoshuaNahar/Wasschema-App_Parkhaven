@@ -24,7 +24,9 @@
           <div class="head">
             <div class="day_column_header">{{day.id | date: 'EEEE'}}</div>
           </div>
-          <div *ngFor="let time of times; let timeIndex = index" class="appointment_cell">
+          <div *ngFor="let time of times; let timeIndex = index"
+               class="appointment_cell"
+               [ngClass]="{'nextWeekBorder': day.isStartNextWeek}">
             <app-appointment-button
               [isPositionedLeft]="true"
               [appointment]="{
@@ -74,7 +76,9 @@
           <div class="head">
             <div class="day_column_header">{{day.id | date: 'EEEE'}}</div>
           </div>
-          <div *ngFor="let time of dryerTimes; let timeIndex = index" class="appointment_cell">
+          <div *ngFor="let time of dryerTimes; let timeIndex = index"
+               class="appointment_cell"
+               [ngClass]="{'nextWeekBorder': day.isStartNextWeek}">
             <app-appointment-button
               [isPositionedLeft]="true"
               [appointment]="{

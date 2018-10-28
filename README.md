@@ -28,3 +28,5 @@ Tools used:
 - Deploy: 
   - firebase deploy --only hosting
   - cd functions && firebase deploy --only functions
+
+TODO: also provide details of cronjobs

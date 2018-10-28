@@ -31,6 +31,23 @@ exports.handler = function (request, response) {
   const jwtToken = request.body.jwt;
   let signedInUserHouseNumber;
 
+  // Handle removing appointments in the past
+  const now = new Date();
+  const nowDateString = appUtil.getYearMonthDayString(now);
+
+  // handle days
+  if (appointment.day.value < nowDateString) {
+    return response.status(400).send({message: 'Appointment is in the past'});
+    // handle same day + time
+  } else if (appointment.day.value === nowDateString) {
+    now.setTime(now.getTime + (10 * 60000)); // now + 10 minutes
+    const nowTimeString = appUtil.addPadding(now.getHours()) + ':'
+      + appUtil.addPadding(now.getMinutes());
+    if (appointment.time.value < nowTimeString) {
+      return response.status(400).send({message: 'Appointment is in the past'});
+    }
+  }
+
   admin.auth().verifyIdToken(jwtToken).then(decodedIdToken => {
     const signedInUserUid = decodedIdToken.uid;
     // console.log('signedInUserUid', signedInUserUid);
@@ -51,7 +68,8 @@ exports.handler = function (request, response) {
       return doc.id === appointment.day.value;
     });
     // console.log('dayDocument', dayDocument);
-    const counterType = appUtil.setCorrectCounterType(dayDocument, appointment);
+    const counterType = appUtil.setCorrectCounterType(dayDocument,
+      appointment);
     // console.log('counterType', counterType);
 
     return admin.firestore().runTransaction(transaction => {
@@ -70,11 +88,13 @@ exports.handler = function (request, response) {
           const isAbleToRemoveCounter = counter > 0;
 
           if (!isAbleToRemoveCounter) {
-            response.status(207).send({message: 'No appointments to remove!'});
+            response.status(207).send(
+              {message: 'No appointments to remove!'});
             return Promise.resolve();
           }
           if (!appointmentDoc.exists) {
-            response.status(207).send({message: 'Appointment doesn\'t exist!'});
+            response.status(207).send(
+              {message: 'Appointment doesn\'t exist!'});
             return Promise.resolve();
           }
           if (appointmentDoc.data().houseNumber !== signedInUserHouseNumber) {
