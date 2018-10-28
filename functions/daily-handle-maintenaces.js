@@ -15,8 +15,6 @@ let days;
 let machinesInfo;
 
 exports.handler = function (request, response) {
-  const batch = admin.firestore().batch();
-
   // get all days data
   admin.firestore().collection('days').get().then(querySnapshot => {
     days = querySnapshot.docs.map(doc => {
@@ -46,40 +44,40 @@ exports.handler = function (request, response) {
         id: doc.id,
         room: doc.data().room,
         machines: doc.data().machines,
-        startingDate: doc.data().startingDate,
-        startingTime: doc.data().startingTime,
-        endingDate: doc.data().endingDate,
-        endingTime: doc.data().endingTime,
+        startDate: doc.data().startDate,
+        startTime: doc.data().startTime,
+        endDate: doc.data().endDate,
+        endTime: doc.data().endTime,
         reason: doc.data().reason
       };
       // console.log('maintenance', maintenance);
 
-      const endingDate = new Date(maintenance.endingDate);
+      const endingDate = new Date(maintenance.endDate);
       const today = new Date();
 
       if (isPassed(endingDate, today)) {
-        batch.delete(admin.firestore().collection('maintenances')
-          .doc(maintenance.id));
+        admin.firestore().collection('maintenances').doc(maintenance.id)
+          .delete();
         // console.log('deleted maintenance', maintenance.id);
       } else {
-        functionPromises
-          .push(getAppointmentsInTheMaintenanceTime(maintenance, batch));
+        functionPromises.push(getAppointmentsInTheMaintenanceTime(maintenance));
       }
     });
     return Promise.all(functionPromises);
   }).then(() => {
-    batch.commit();
     response.status(200).send('OK');
   });
 };
 
-function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
+function getAppointmentsInTheMaintenanceTime(maintenance) {
   const functionPromises = [];
 
   maintenance.machines.forEach(machine => {
+    const batch = admin.firestore().batch();
+
     const functionPromise = admin.firestore().collection('appointments')
-      .where('date', '>=', maintenance.startingDate)
-      .where('date', '<=', maintenance.endingDate)
+      .where('date', '>=', maintenance.startDate)
+      .where('date', '<=', maintenance.endDate)
       .where('machine', '==', machine)
       .get()
       .then(querySnapshot => {
@@ -90,10 +88,10 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
           // appointments arent from specific times, so I need to check the
           // starting and ending time of maintenances
           const appointment = {id: doc.id, data: doc.data()};
-          if ((appointment.data.date === maintenance.startingDate &&
-            appointment.data.time < maintenance.startingTime) ||
-            (appointment.data.date === maintenance.endingDate) &&
-            (appointment.data.time > maintenance.endingTime) ||
+          if ((appointment.data.date === maintenance.startDate &&
+            appointment.data.time < maintenance.startTime) ||
+            (appointment.data.date === maintenance.endDate) &&
+            (appointment.data.time > maintenance.endTime) ||
             appointment.data.houseNumber === undefined) {
             return;
           }
@@ -120,11 +118,12 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
               admin.firestore().collection('users').doc(user.id).update(
                 {
                   ['counters.' + counterType]: user.data.counters[counterType]
-                  + 1
+                  - 1
                 });
 
               admin.firestore().collection('appointments').doc(appointment.id)
                 .delete();
+
               return Promise.resolve();
             });
           userPromises.push(userPromise);
@@ -145,9 +144,10 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
               room: maintenance.room
             });
         });
+        return batch.commit();
       });
-    functionPromises.push(functionPromise);
 
+    functionPromises.push(functionPromise);
   });
 
   return Promise.all(functionPromises);
@@ -156,24 +156,25 @@ function getAppointmentsInTheMaintenanceTime(maintenance, batch) {
 function calculateDateTimes(maintenance) {
   const datesAndTimes = [];
 
-  const currentDate = new Date(maintenance.startingDate);
-  const endDate = new Date(maintenance.endingDate);
+  const currentDate = new Date(maintenance.startDate);
+  const endDate = new Date(maintenance.endDate);
 
-  let startingTime = maintenance.startingTime;
+  let startingTime = maintenance.startTime;
 
   while (true) {
     for (let i = startingTime; i < 13; i++) {
       // console.log(currentDate, i);
+
+      const dateAsString = currentDate.getFullYear() + '-'
+        + addPadding(currentDate.getMonth() + 1) + "-"
+        + addPadding(currentDate.getDate());
+      datesAndTimes.push({date: dateAsString, time: i});
+
       if (sameDate(currentDate, endDate)) {
-        if (i > maintenance.endingTime) {
+        if (i >= maintenance.endTime) {
           return datesAndTimes;
         }
       }
-
-      const dateAsString = currentDate.getFullYear() + '-'
-        + getMonth(currentDate)
-        + "-" + currentDate.getDate();
-      datesAndTimes.push({date: dateAsString, time: i})
     }
     startingTime = 0; // only the first day should the starting time not be 0;
     currentDate.setDate(currentDate.getDate() + 1);
@@ -187,20 +188,19 @@ function sameDate(d1, d2) {
 }
 
 function isPassed(d1, d2) {
-  console.log(d1);
-  console.log(d2);
-  console.log(d1.getFullYear());
-  console.log(d2.getFullYear());
-  console.log(d1.getMonth());
-  console.log(d2.getMonth());
-  console.log(d1.getDate());
-  console.log(d2.getDate());
+  // console.log(d1);
+  // console.log(d2);
+  // console.log(d1.getFullYear());
+  // console.log(d2.getFullYear());
+  // console.log(d1.getMonth());
+  // console.log(d2.getMonth());
+  // console.log(d1.getDate());
+  // console.log(d2.getDate());
   return d1.getFullYear() <= d2.getFullYear() &&
     d1.getMonth() <= d2.getMonth() &&
     d1.getDate() < d2.getDate();
 }
 
-function getMonth(date) {
-  const month = date.getMonth() + 1;
-  return month < 10 ? '0' + month : '' + month; // ('' + month) for string result
+function addPadding(number) {
+  return number < 10 ? '0' + number : '' + number; // ('' + month) for string result
 }

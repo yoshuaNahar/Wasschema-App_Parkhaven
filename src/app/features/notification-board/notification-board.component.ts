@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-notification-board',
@@ -9,10 +11,14 @@ export class NotificationBoardComponent implements OnInit {
 
   isCreateButtonClicked: boolean;
 
-  constructor() {
+  constructor(private afStore: AngularFirestore,
+              private authService: AuthService) {
   }
 
   ngOnInit() {
+    const houseNumber = this.authService.getCurrentSignedInUser().displayName;
+
+    this.afStore.collection('publicUsersInfo').doc(houseNumber).update({isNewNotificationAvailable: false});
   }
 
   toggleBetweenMessagesAndEditor() {

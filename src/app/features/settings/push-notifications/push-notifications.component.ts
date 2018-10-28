@@ -6,7 +6,6 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { mergeMapTo, switchMap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-push-notifications',
@@ -79,10 +78,10 @@ export class PushNotificationsComponent implements OnInit, OnDestroy {
             // show snackBar that you will get notifications
             this.snackBar.open('You will receive notifications 30 minutes before your appointments.', 'OK');
 
-            this.messagesSubscription = this.afMessaging.messages.subscribe((message: any) => {
-              console.log('message', message);
-              this.snackBar.open(message.notification.body, 'OK', {duration: 30000});
-            });
+            // this.messagesSubscription = this.afMessaging.messages.subscribe((message: any) => {
+            //   console.log('message', message);
+            //   this.snackBar.open(message.notification.body, 'OK', {duration: 30000});
+            // });
             this.permissionGranted = true;
           },
           error => {
@@ -105,20 +104,6 @@ export class PushNotificationsComponent implements OnInit, OnDestroy {
         this.snackBar.open('You disabled notifications.', 'OK');
       });
     }
-  }
-
-  notificationExample() {
-    const currentUser = this.authService.getCurrentSignedInUser();
-
-    currentUser.getIdToken(true).then(token => {
-      this.http.post(`${environment.firebaseUrl}/sendSingleNotification`, {
-        jwt: token
-      }).subscribe(() => {
-        new Notification('Wasschema - Demo notification!', {
-          body: 'This is an example of a notification that you will receive.'
-        });
-      });
-    });
   }
 
 }

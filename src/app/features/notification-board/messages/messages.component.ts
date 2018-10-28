@@ -100,7 +100,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
       return Promise.all([
         this.afStore.collection('activeMessages').doc(message.id).set(message),
         this.afStore.collection('pendingMessages').doc(message.id).delete(),
-        this.http.put(`${environment.firebaseUrl}/setNewNotification`, {
+        // this.http.put(`${environment.firebaseUrl}/setNewNotificationBoardMessage`, {
+        this.http.put(`https://us-central1-fir-531f4.cloudfunctions.net/setNewNotificationBoardMessage`, {
           jwt: token
         }).toPromise()
       ]).then(() => {

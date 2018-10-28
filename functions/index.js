@@ -10,8 +10,8 @@ const dailyCleanUpFunction = require('./daily-cleanup');
 const dailyHandleMaintenacesFunction = require('./daily-handle-maintenaces');
 const sendNotificationsPerAppointmentFunction =
   require('./send-notifications-per-appointment');
-const setNewNotificationFunction = require('./set-new-notification');
-const sendSingleNotificationFunction = require('./send-single-notification');
+const setNewNotificationBoardMessageFunction =
+  require('./set-new-notification-board-message');
 
 const cors = require('cors')({
   origin: true
@@ -69,9 +69,9 @@ exports.handleMaintenaces = functions.https.onRequest((request, response) => {
   });
 });
 
-exports.setNewNotification = functions.https.onRequest((request, response) => {
+exports.setNewNotificationBoardMessage = functions.https.onRequest((request, response) => {
   return cors(request, response, () => {
-    setNewNotificationFunction.handler(request, response);
+    setNewNotificationBoardMessageFunction.handler(request, response);
   });
 });
 
@@ -79,12 +79,5 @@ exports.sendNotificationsPerAppointment = functions.https
   .onRequest((request, response) => {
     return cors(request, response, () => {
       sendNotificationsPerAppointmentFunction.handler(request, response);
-    });
-  });
-
-exports.sendSingleNotification = functions.https
-  .onRequest((request, response) => {
-    return cors(request, response, () => {
-      sendSingleNotificationFunction.handler(request, response);
     });
   });

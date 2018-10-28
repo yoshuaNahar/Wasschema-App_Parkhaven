@@ -46,22 +46,19 @@ export class AdminComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.times = this.schemaService.times;
     this.rooms = this.schemaService.roomsInfo;
-    this.allMachines = this.schemaService.machinesInfo.slice(0);
 
-    if (this.allMachines.length === 0) {
-      this.schemaService.onInitFetchMachinesInfo().then(machinesQuery => {
-        machinesQuery.forEach(doc => {
-          const data = doc.data();
+    this.schemaService.onInitFetchMachinesInfo().then(machinesQuery => {
+      machinesQuery.forEach(doc => {
+        const data = doc.data();
 
-          this.allMachines.push({
-            id: doc.id,
-            type: data.type,
-            room: data.room,
-            color: data.color
-          });
+        this.allMachines.push({
+          id: doc.id,
+          type: data.type,
+          room: data.room,
+          color: data.color
         });
       });
-    }
+    });
 
     this.usersSubscription = this.afStore.collection('users').snapshotChanges().pipe(
       map((docArray: DocumentChangeAction<object>[]) => {

@@ -29,7 +29,6 @@ export class AppointmentButtonComponent implements OnInit, OnChanges {
     const now = new Date();
 
     const timeOfAppointment = new Date(Date.parse('1/1/1970 ' + currentAppointment.time.value));
-
     const deadlineToPlaceAppointment = new Date(now.getTime() + (10 * 60000)); // plus 5min
 
     const parsedTimeOfAppointment = Date.parse('1/1/1970 ' + timeOfAppointment.getHours() + ':' + timeOfAppointment.getMinutes());

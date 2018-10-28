@@ -16,6 +16,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   days = [];
   times = [];
+  dryerTimes;
 
   roomId: string;
 
@@ -35,6 +36,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.loaderService.show();
 
     this.times = this.schemaService.times;
+    this.dryerTimes = this.times.slice(1);
+    this.dryerTimes.push('01:00');
 
     // TODO: If the userData leaves the tab open for more than a day.. I will just have a please refresh notification
     this.days = this.schemaService.days;

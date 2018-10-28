@@ -9,6 +9,7 @@
 const admin = require('firebase-admin');
 const times = ['05:30', '07:00', '08:30', '10:00', '11:30', '13:00', '14:30',
   '16:00', '17:30', '19:00', '20:30', '22:00', '23:30'];
+// There is no notification for the last dryer at 01:00
 
 const topic = '/topics/appointmentIn30Minutes';
 
@@ -28,17 +29,26 @@ exports.handler = function (request, response) {
   // console.log('appointmentTimeIndex', appointmentTimeIndex);
 
   const pushTokenPromise = admin.firestore().collection('pushTokens').get();
-  const nextAppointmentsPromise = admin.firestore().collection('appointments')
+  const nextLaundryAppointmentsPromise = admin.firestore().collection(
+    'appointments')
     .where('time', '==', appointmentTimeIndex)
+    .where('date', '==', getYearMonthDay(currentDate))
+    .get();
+  const nextDryerAppointmentsPromise = admin.firestore().collection(
+    'appointments')
+    .where('time', '==', appointmentTimeIndex - 1)
     .where('date', '==', getYearMonthDay(currentDate))
     .get();
 
   const pushTokensToSubscribeToNextTopic = [];
 
-  Promise.all([pushTokenPromise, nextAppointmentsPromise])
+  Promise.all([pushTokenPromise,
+    nextLaundryAppointmentsPromise,
+    nextDryerAppointmentsPromise])
     .then(values => {
       const pushTokenQuerySnapshot = values[0];
-      const appointmentsQuerySnapshot = values[1];
+      const laundryAppointmentsQuerySnapshot = values[1];
+      const dryerAppointmentsQuerySnapshot = values[2];
 
       pushTokenQuerySnapshot.forEach(pushTokenQueryDoc => {
         const pushTokenHouseNumber = pushTokenQueryDoc.id;
@@ -46,14 +56,29 @@ exports.handler = function (request, response) {
 
         // console.log('pushTokenHouseNumber + pushToken', pushTokenHouseNumber, pushToken);
 
-        appointmentsQuerySnapshot.forEach(appQueryDoc => {
-          const appData = appQueryDoc.data();
-          // console.log('appData', appData);
-          // if true, then the user in the next appointment has a pushToken, so wants to receive notifications
-          if (pushTokenHouseNumber === appData.houseNumber) {
-            pushTokensToSubscribeToNextTopic.push(pushToken);
-          }
-        });
+        laundryAppointmentsQuerySnapshot.docs
+          .filter(doc => doc.get('machine').includes('1') ||
+            doc.get('machine').includes('2'))
+          .forEach(appQueryDoc => {
+            const appData = appQueryDoc.data();
+            // console.log('appData', appData);
+            // if true, then the user in the next appointment has a pushToken, so wants to receive notifications
+            if (pushTokenHouseNumber === appData.houseNumber) {
+              pushTokensToSubscribeToNextTopic.push(pushToken);
+            }
+          });
+
+        dryerAppointmentsQuerySnapshot.docs
+          .filter(doc => doc.get('machine').includes('3') ||
+            doc.get('machine').includes('4'))
+          .forEach(appQueryDoc => {
+            const appData = appQueryDoc.data();
+            // console.log('appData', appData);
+            // if true, then the user in the next appointment has a pushToken, so wants to receive notifications
+            if (pushTokenHouseNumber === appData.houseNumber) {
+              pushTokensToSubscribeToNextTopic.push(pushToken);
+            }
+          });
       });
 
       // console.log('pushTokensToSubscribeToNextTopic', pushTokensToSubscribeToNextTopic);
@@ -78,7 +103,11 @@ exports.handler = function (request, response) {
       response.sendStatus(200);
     })
     .catch(error => {
-      response.status(400).send({message: error.message});
+      if (error.code === 'messaging/invalid-argument') {
+        response.status(200).send({message: 'No appointments'});
+      } else {
+        response.status(400).send({message: error.message});
+      }
     });
 };
 
@@ -87,9 +116,9 @@ function currentDateWithTime(timeString) {
 
   const date = new Date();
 
-  date.setHours(hourAndTimeStringArray[0]);
-  date.setMinutes(hourAndTimeStringArray[1]);
-  // console.log(date.toJSON()); // isoTime uses UTC timezone
+  date.setUTCHours(hourAndTimeStringArray[0] - 2); // Because the times are in CET
+  date.setUTCMinutes(hourAndTimeStringArray[1]);
+  // console.log('date.toISOString()', date.toISOString());
 
   return date;
 }
