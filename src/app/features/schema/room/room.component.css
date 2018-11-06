@@ -37,6 +37,8 @@ div.time_cell {
 /* each day header */
 div.day_column_header {
   padding: 6px 12px;
+  display: flex;
+  justify-content: center;
 }
 
 /* each day column */
@@ -52,6 +54,8 @@ div.day_column {
 /* each day cell */
 div.appointment_cell {
   padding: 6px 12px;
+  display: flex;
+  justify-content: center;
 }
 
 /* floating time column */
