@@ -3,10 +3,10 @@
        [class.roomB_Laundrymachine]="roomId === 'B'"
        [class.roomC_Laundrymachine]="roomId === 'C'">
     <mat-chip-list>
-      <mat-chip disabled class="left_taken">
+      <mat-chip class="left_taken">
         {{readableType(currentRoomMachinesInfo[0].type)}} {{currentRoomMachinesInfo[0].id}}
       </mat-chip>
-      <mat-chip disabled class="right_taken">
+      <mat-chip class="right_taken">
         {{readableType(currentRoomMachinesInfo[1].type)}} {{currentRoomMachinesInfo[1].id}}
       </mat-chip>
     </mat-chip-list>
@@ -55,10 +55,10 @@
        [class.roomB_Dryer]="roomId === 'B'"
        [class.roomC_Dryer]="roomId === 'C'">
     <mat-chip-list>
-      <mat-chip disabled class="left_taken">
+      <mat-chip class="left_taken">
         {{readableType(currentRoomMachinesInfo[2].type)}} {{currentRoomMachinesInfo[2].id}}
       </mat-chip>
-      <mat-chip disabled class="right_taken">
+      <mat-chip class="right_taken">
         {{readableType(currentRoomMachinesInfo[3].type)}} {{currentRoomMachinesInfo[3].id}}
       </mat-chip>
     </mat-chip-list>

@@ -11,6 +11,13 @@ h1 {
   font-size: 20px;
 }
 
+/* roomA roomB roomC same color + gray background */
+.mat-tab-link {
+  opacity: 1;
+  background-color: #f2f2f2;
+}
+
+
 @media (max-width: 610px) {
 
   h1 {
@@ -19,6 +26,7 @@ h1 {
 
   .week_and_counter_bar {
     margin-top: -16px;
+    margin-bottom: 8px;
   }
 
 }

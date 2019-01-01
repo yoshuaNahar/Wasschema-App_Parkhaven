@@ -58,6 +58,6 @@
   },
   "dependenciesComments": {
     "webpack-dev-server": "peerDep",
-    "ajv": "peerDep - JSON-Schema Validator for validation of API data"
+    "ajv": "peerDep | JSON-Schema Validator for validation of API data"
   }
 }

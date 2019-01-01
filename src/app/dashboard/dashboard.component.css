@@ -34,13 +34,13 @@ span#logged_in_as_text {
 
 /* side navigation */
 
-.sidenav_style {
+.mat_sidenav {
   width: 325px;
   /* need to ng::deep this, color is not trickling down to child element */
   background-color: #fafafa;
 }
 
-.sidenav_style > nav {
+.sidenav {
   margin: 25px 15px;
   padding: 10px 25px 15px;
   background: #f2f2f2;
@@ -55,6 +55,11 @@ mat-list-item a {
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+/* There is a 1px border at the side-nav */
+.mat-drawer-side {
+  border-right: none;
 }
 
 /* otherwise yellow border on mobile */

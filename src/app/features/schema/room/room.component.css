@@ -68,6 +68,10 @@ div.time_column {
 }
 
 /* needed for focus line when clicking on mat-chip*/
+mat-chip {
+  font-size: 12px;
+}
+
 mat-chip-list:focus {
   outline: none;
 }
