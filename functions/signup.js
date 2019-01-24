@@ -54,7 +54,7 @@ exports.handler = function (request, response) {
     });
 
     admin.firestore().collection('/publicUsersInfo').doc(user.houseNumber)
-      .set({favouriteRoom: 'A',});
+      .set({favouriteRoom: 'A', isNewNotificationAvailable: false});
 
     response.status(200).send();
   }).catch(error => {
