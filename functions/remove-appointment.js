@@ -32,7 +32,7 @@ exports.handler = function (request, response) {
   let signedInUserHouseNumber;
 
   // Handle removing appointments in the past
-  const now = new Date();
+  let now = new Date();
   const nowDateString = appUtil.getYearMonthDayString(now);
 
   // handle days
@@ -40,11 +40,13 @@ exports.handler = function (request, response) {
     return response.status(400).send({message: 'Appointment is in the past'});
     // handle same day + time
   } else if (appointment.day.value === nowDateString) {
-    now.setTime(now.getTime + (10 * 60000)); // now + 10 minutes
+    now.setTime(now.getTime() + (10 * 60000)); // now + 10 minutes
     const nowTimeString = appUtil.addPadding(now.getHours()) + ':'
       + appUtil.addPadding(now.getMinutes());
     if (appointment.time.value < nowTimeString) {
-      return response.status(400).send({message: 'Appointment is in the past'});
+      if (appointment.time.value !== '01:00') { // the 01:00 is the next day actually
+        return response.status(400).send({message: 'Appointment is in the past'});
+      }
     }
   }
 
