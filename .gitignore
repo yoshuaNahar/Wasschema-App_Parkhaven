@@ -3,7 +3,7 @@
 *.iml
 
 # Private key
-functions/fir-531f4-firebase-adminsdk-gcqo4-a8dd830b56.json
+functions/fir-531f4-firebase-adminsdk-*.json
 
 node_modules
 
