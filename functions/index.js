@@ -18,11 +18,11 @@ const cors = require('cors')({
 });
 
 const serviceAccount =
-  require("./fir-531f4-firebase-adminsdk-gcqo4-a8dd830b56");
+  require("./parkhaven-457c4-firebase-adminsdk-lu45m-931ed255aa");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://fir-531f4.firebaseio.com'
+  databaseURL: 'https://parkhaven-457c4.firebaseio.com'
 });
 
 admin.firestore().settings({timestampsInSnapshots: true});
