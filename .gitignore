@@ -4,6 +4,8 @@
 
 # Private key
 functions/*-firebase-adminsdk-*.json
+firebase-messaging-sw.js
+environment.prod.ts
 
 node_modules
 

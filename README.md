@@ -35,3 +35,7 @@ so I moved to Spring. The first version of the app was build with
 JSP, Servlets and Spring JDBC. When realizing that Servlets are embarrassingly
 old I updated the app to use Spring MVC. The latest version was made in Angular and Firebase
 to test the latest development tools out there.
+
+#### Note
+Create your own environment & firebase-messaging-sw files when pulling.
+ 
