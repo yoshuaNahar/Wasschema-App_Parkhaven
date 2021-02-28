@@ -1,5 +1,9 @@
+'use strict';
+
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+admin.initializeApp();
+admin.firestore().settings({timestampsInSnapshots: true});
 
 const signUpFunction = require('./signup');
 const addAppointmentFunction = require('./add-appointment');
@@ -17,15 +21,13 @@ const cors = require('cors')({
   origin: true
 });
 
-const serviceAccount =
-  require("./parkhaven-457c4-firebase-adminsdk-lu45m-931ed255aa");
+// const serviceAccount =
+//   require("./parkhaven-457c4-firebase-adminsdk-lu45m-931ed255aa");
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://parkhaven-457c4.firebaseio.com'
-});
-
-admin.firestore().settings({timestampsInSnapshots: true});
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: 'https://parkhaven-457c4.firebaseio.com'
+// });
 
 exports.signup = functions.https.onRequest((request, response) => {
   return cors(request, response, () => {

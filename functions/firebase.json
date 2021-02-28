@@ -1,5 +1,8 @@
 {
   "functions": {
-    "source": "./"
+    "source": "./",
+    "engines": {
+      "node": "12"
+    }
   }
 }
