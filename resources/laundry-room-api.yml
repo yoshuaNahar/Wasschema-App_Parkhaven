@@ -1,0 +1,126 @@
+openapi: 3.0.3
+info:
+  title: Woongebouw Parkhaven's Laundry Room
+  description: The laundry room API for 'Woongebouw Parkhaven'.
+  version: 0.0.1
+paths:
+  /laundryRooms:
+    get:
+      description: Returns all laundry room.
+      responses:
+        200:
+          description: A list of laundry rooms.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                example: [A, B, C]
+        500:
+          description: ""
+  /laundryMachines:
+    get:
+      description: Returns all laundry machines.
+      responses:
+        200:
+          description: A list of laundry machines.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    laundryRoom:
+                      type: string
+                    laundryMachine:
+                      type: string
+                example: [
+                  {laundryRoom: A, laundryMachine: A1},
+                  {laundryRoom: A, laundryMachine: A2},
+                  ...
+                ]
+        500:
+          description: Server error
+  /appointments/{laundryRoom}:
+    get:
+      description: Returns all appointments from the laundry room.
+      parameters:
+      - name: laundryRoom
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: A list of appointments.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/appointment"
+        500:
+          description: Server error
+  /appointments/{laundryRoom}/{laundryMachine}:
+    post:
+      description: "Add or remove an appointment for the luandry machine in the laundry room in a specific timeslot. <br>
+      <b>TODO: The jwt header map has to be included!!!</b>"
+      parameters:
+      - name: laundryRoom
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: laundryMachine
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Timeslot information and room number.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/appointment"
+        required: true
+      responses:
+        200:
+          description: Appointment is added or removed.
+        401:
+          description: Requesting to remove an appointment from someone else is not allowed.
+        403:
+          description: The maximum number of appointments for the week has been reached.
+        409:
+          description: Requesting to add an appointment on a timeslot that is already taken.
+        500:
+          description: Server error
+components:
+  schemas:
+    appointment:
+      type: object
+      properties:
+        time:
+          type: string
+          example: 05:30
+        day:
+          type: number
+          maxLength: 1
+          maximum: 7
+          example: 1
+        week:
+          type: number
+          maxLength: 2
+          maximum: 52
+          example: 1
+        houseNumber:
+          type: string
+          maxLength: 4
+          example: 230B
+      required:
+      - time
+      - day
+      - week
+      - houseNumber
+      additionalProperties: false
